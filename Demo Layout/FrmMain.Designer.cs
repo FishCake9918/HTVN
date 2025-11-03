@@ -361,10 +361,11 @@
             button2.Name = "button2";
             button2.Size = new Size(339, 57);
             button2.TabIndex = 1;
-            button2.Text = "Quản lý giao dịch";
+            button2.Text = " giao dịch";
             button2.TextAlign = ContentAlignment.MiddleRight;
             button2.TextImageRelation = TextImageRelation.ImageBeforeText;
             button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // button1
             // 
