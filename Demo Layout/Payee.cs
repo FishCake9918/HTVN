@@ -10,17 +10,11 @@ using System.Windows.Forms;
 
 namespace Demo_Layout
 {
-    public partial class form_quậy : Form
+    public partial class Payee : Form
     {
-        public form_quậy()
+        public Payee()
         {
             InitializeComponent();
         }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("cút ra");
-        }
     }
 }
-Chó NHật Nam
