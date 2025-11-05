@@ -4,6 +4,7 @@ namespace Demo_Layout
     {
         public FrmMain()
         {
+            
             InitializeComponent();
         }
 
