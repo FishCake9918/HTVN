@@ -5,8 +5,8 @@ namespace Demo_Layout
 {
     public partial class QuanLyTaiKhoan : Form
     {
-        private string tenDangNhap = "nguyenvana";
-        private string email = "nguyenvana@example.com";
+        private string tenDangNhap = "bichtramxinhdep";
+        private string email = "bichtramxinhdep@gmail.com";
 
         public QuanLyTaiKhoan()
         {
@@ -16,7 +16,7 @@ namespace Demo_Layout
 
         private void NapThongTinTaiKhoan()
         {
-            lblTenNguoiDung.Text = "Nguyễn Văn A";
+            lblTenNguoiDung.Text = "Trần Bích Trâm";
             lblTenDangNhap.Text = "Tên đăng nhập: " + tenDangNhap;
             lblEmail.Text = "Email: " + email;
         }

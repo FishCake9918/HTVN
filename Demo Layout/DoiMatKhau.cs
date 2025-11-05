@@ -38,7 +38,7 @@ namespace Demo_Layout
                 return;
             }
 
-            // Giả lập xác thực mật khẩu cũ (thực tế nên gọi từ DB hoặc service)
+            // Giả lập xác thực mật khẩu cũ 
             MatKhauMoi = txtMatKhauMoi.Text;
             this.DialogResult = DialogResult.OK;
             this.Close();
