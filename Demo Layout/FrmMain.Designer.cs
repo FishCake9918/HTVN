@@ -30,13 +30,12 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
             panel1 = new Panel();
-            label1 = new Label();
-            panel2 = new Panel();
-            textBox1 = new TextBox();
-            pictureBox1 = new PictureBox();
             panel3 = new Panel();
-            button7 = new Button();
             button8 = new Button();
+            button7 = new Button();
+            panel2 = new Panel();
+            label2 = new Label();
+            label1 = new Label();
             panel4 = new Panel();
             button1 = new Button();
             button2 = new Button();
@@ -69,10 +68,7 @@
             documentationToolStripMenuItem = new ToolStripMenuItem();
             keyboardShortcutsToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1 = new MenuStrip();
-            label2 = new Label();
             panel1.SuspendLayout();
-            panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
@@ -95,46 +91,6 @@
             panel1.Size = new Size(1175, 168);
             panel1.TabIndex = 0;
             // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(192, 74);
-            label1.Name = "label1";
-            label1.Size = new Size(0, 20);
-            label1.TabIndex = 0;
-            // 
-            // panel2
-            // 
-            panel2.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            panel2.Controls.Add(pictureBox1);
-            panel2.Controls.Add(textBox1);
-            panel2.Location = new Point(0, 129);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(697, 39);
-            panel2.TabIndex = 3;
-            // 
-            // textBox1
-            // 
-            textBox1.Dock = DockStyle.Right;
-            textBox1.Font = new Font("Verdana", 16.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox1.Location = new Point(59, 0);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(638, 40);
-            textBox1.TabIndex = 2;
-            textBox1.TextChanged += textBox1_TextChanged;
-            // 
-            // pictureBox1
-            // 
-            pictureBox1.Dock = DockStyle.Left;
-            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(0, 0);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(47, 39);
-            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox1.TabIndex = 3;
-            pictureBox1.TabStop = false;
-            pictureBox1.Click += pictureBox1_Click_1;
-            // 
             // panel3
             // 
             panel3.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
@@ -144,6 +100,18 @@
             panel3.Name = "panel3";
             panel3.Size = new Size(192, 39);
             panel3.TabIndex = 5;
+            // 
+            // button8
+            // 
+            button8.Image = (Image)resources.GetObject("button8.Image");
+            button8.Location = new Point(8, -1);
+            button8.Name = "button8";
+            button8.Size = new Size(78, 41);
+            button8.TabIndex = 7;
+            button8.Text = "Thêm";
+            button8.TextAlign = ContentAlignment.MiddleLeft;
+            button8.TextImageRelation = TextImageRelation.ImageBeforeText;
+            button8.UseVisualStyleBackColor = true;
             // 
             // button7
             // 
@@ -157,17 +125,34 @@
             button7.UseVisualStyleBackColor = true;
             button7.Click += button7_Click;
             // 
-            // button8
+            // panel2
             // 
-            button8.Image = (Image)resources.GetObject("button8.Image");
-            button8.Location = new Point(8, -1);
-            button8.Name = "button8";
-            button8.Size = new Size(78, 41);
-            button8.TabIndex = 7;
-            button8.Text = "Thêm";
-            button8.TextAlign = ContentAlignment.MiddleLeft;
-            button8.TextImageRelation = TextImageRelation.ImageBeforeText;
-            button8.UseVisualStyleBackColor = true;
+            panel2.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            panel2.Location = new Point(0, 129);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(697, 39);
+            panel2.TabIndex = 3;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Dock = DockStyle.Top;
+            label2.Font = new Font("Cambria", 36F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label2.Location = new Point(0, 0);
+            label2.Name = "label2";
+            label2.Size = new Size(325, 70);
+            label2.TabIndex = 1;
+            label2.Text = "[Tên form]";
+            label2.TextAlign = ContentAlignment.MiddleLeft;
+            label2.Click += label2_Click;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(192, 74);
+            label1.Name = "label1";
+            label1.Size = new Size(0, 20);
+            label1.TabIndex = 0;
             // 
             // panel4
             // 
@@ -411,24 +396,24 @@
             // đăngNhậpToolStripMenuItem
             // 
             đăngNhậpToolStripMenuItem.Name = "đăngNhậpToolStripMenuItem";
-            đăngNhậpToolStripMenuItem.Size = new Size(224, 26);
+            đăngNhậpToolStripMenuItem.Size = new Size(147, 26);
             đăngNhậpToolStripMenuItem.Text = "Sign in";
             // 
             // đăngXuấtToolStripMenuItem
             // 
             đăngXuấtToolStripMenuItem.Name = "đăngXuấtToolStripMenuItem";
-            đăngXuấtToolStripMenuItem.Size = new Size(224, 26);
+            đăngXuấtToolStripMenuItem.Size = new Size(147, 26);
             đăngXuấtToolStripMenuItem.Text = "Sign out";
             // 
             // toolStripMenuItem1
             // 
             toolStripMenuItem1.Name = "toolStripMenuItem1";
-            toolStripMenuItem1.Size = new Size(221, 6);
+            toolStripMenuItem1.Size = new Size(144, 6);
             // 
             // thoátToolStripMenuItem
             // 
             thoátToolStripMenuItem.Name = "thoátToolStripMenuItem";
-            thoátToolStripMenuItem.Size = new Size(224, 26);
+            thoátToolStripMenuItem.Size = new Size(147, 26);
             thoátToolStripMenuItem.Text = "Exit";
             // 
             // toolsToolStripMenuItem
@@ -441,13 +426,13 @@
             // findSchedulesToolStripMenuItem
             // 
             findSchedulesToolStripMenuItem.Name = "findSchedulesToolStripMenuItem";
-            findSchedulesToolStripMenuItem.Size = new Size(224, 26);
+            findSchedulesToolStripMenuItem.Size = new Size(190, 26);
             findSchedulesToolStripMenuItem.Text = "Find Schedules";
             // 
             // minimizeToolStripMenuItem
             // 
             minimizeToolStripMenuItem.Name = "minimizeToolStripMenuItem";
-            minimizeToolStripMenuItem.Size = new Size(224, 26);
+            minimizeToolStripMenuItem.Size = new Size(190, 26);
             minimizeToolStripMenuItem.Text = "Minimize";
             // 
             // helpToolStripMenuItem
@@ -460,13 +445,13 @@
             // documentationToolStripMenuItem
             // 
             documentationToolStripMenuItem.Name = "documentationToolStripMenuItem";
-            documentationToolStripMenuItem.Size = new Size(224, 26);
+            documentationToolStripMenuItem.Size = new Size(221, 26);
             documentationToolStripMenuItem.Text = "Documentation";
             // 
             // keyboardShortcutsToolStripMenuItem
             // 
             keyboardShortcutsToolStripMenuItem.Name = "keyboardShortcutsToolStripMenuItem";
-            keyboardShortcutsToolStripMenuItem.Size = new Size(224, 26);
+            keyboardShortcutsToolStripMenuItem.Size = new Size(221, 26);
             keyboardShortcutsToolStripMenuItem.Text = "Keyboard Shortcuts";
             // 
             // menuStrip1
@@ -478,19 +463,6 @@
             menuStrip1.Size = new Size(1518, 28);
             menuStrip1.TabIndex = 0;
             menuStrip1.Text = "menuStrip1";
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Dock = DockStyle.Top;
-            label2.Font = new Font("Cambria", 36F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.Location = new Point(0, 0);
-            label2.Name = "label2";
-            label2.Size = new Size(325, 70);
-            label2.TabIndex = 1;
-            label2.Text = "[Tên form]";
-            label2.TextAlign = ContentAlignment.MiddleLeft;
-            label2.Click += label2_Click;
             // 
             // FrmMain
             // 
@@ -510,9 +482,6 @@
             Text = "Form1";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
-            panel2.ResumeLayout(false);
-            panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             panel3.ResumeLayout(false);
             splitContainer1.Panel1.ResumeLayout(false);
             splitContainer1.Panel2.ResumeLayout(false);
@@ -533,8 +502,6 @@
         private Button button8;
         private Button button7;
         private Panel panel2;
-        private PictureBox pictureBox1;
-        private TextBox textBox1;
         private Label label2;
         private Label label1;
         private Panel panel4;
