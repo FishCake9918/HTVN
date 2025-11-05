@@ -45,13 +45,14 @@
             documentationToolStripMenuItem = new ToolStripMenuItem();
             keyboardShortcutsToolStripMenuItem = new ToolStripMenuItem();
             toolStrip1 = new ToolStrip();
-            toolStripButton1 = new ToolStripButton();
+            toolStripLabel1 = new ToolStripLabel();
+            toolStripProgressBar1 = new ToolStripProgressBar();
             toolStripButton2 = new ToolStripButton();
+            toolStripButton1 = new ToolStripButton();
             toolStripButton3 = new ToolStripButton();
             toolStripButton4 = new ToolStripButton();
             toolStripButton5 = new ToolStripButton();
             toolStripSeparator2 = new ToolStripSeparator();
-            toolStripLabel1 = new ToolStripLabel();
             splitContainer1 = new SplitContainer();
             button6 = new Button();
             button5 = new Button();
@@ -69,7 +70,6 @@
             textBox1 = new TextBox();
             label2 = new Label();
             label1 = new Label();
-            toolStripProgressBar1 = new ToolStripProgressBar();
             menuStrip1.SuspendLayout();
             toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
@@ -192,13 +192,19 @@
             toolStrip1.TabIndex = 1;
             toolStrip1.Text = "toolStrip1";
             // 
-            // toolStripButton1
+            // toolStripLabel1
             // 
-            toolStripButton1.Image = (Image)resources.GetObject("toolStripButton1.Image");
-            toolStripButton1.ImageTransparentColor = Color.Magenta;
-            toolStripButton1.Name = "toolStripButton1";
-            toolStripButton1.Size = new Size(188, 54);
-            toolStripButton1.Text = "Thêm giao dịch";
+            toolStripLabel1.Alignment = ToolStripItemAlignment.Right;
+            toolStripLabel1.Name = "toolStripLabel1";
+            toolStripLabel1.Size = new Size(228, 54);
+            toolStripLabel1.Text = "Chào bạn [Tên người dùng]";
+            // 
+            // toolStripProgressBar1
+            // 
+            toolStripProgressBar1.Alignment = ToolStripItemAlignment.Right;
+            toolStripProgressBar1.AutoSize = false;
+            toolStripProgressBar1.Name = "toolStripProgressBar1";
+            toolStripProgressBar1.Size = new Size(125, 38);
             // 
             // toolStripButton2
             // 
@@ -207,6 +213,14 @@
             toolStripButton2.Name = "toolStripButton2";
             toolStripButton2.Size = new Size(279, 54);
             toolStripButton2.Text = "Thêm tài khoản thanh toán";
+            // 
+            // toolStripButton1
+            // 
+            toolStripButton1.Image = (Image)resources.GetObject("toolStripButton1.Image");
+            toolStripButton1.ImageTransparentColor = Color.Magenta;
+            toolStripButton1.Name = "toolStripButton1";
+            toolStripButton1.Size = new Size(188, 54);
+            toolStripButton1.Text = "Thêm giao dịch";
             // 
             // toolStripButton3
             // 
@@ -236,13 +250,6 @@
             // 
             toolStripSeparator2.Name = "toolStripSeparator2";
             toolStripSeparator2.Size = new Size(6, 59);
-            // 
-            // toolStripLabel1
-            // 
-            toolStripLabel1.Alignment = ToolStripItemAlignment.Right;
-            toolStripLabel1.Name = "toolStripLabel1";
-            toolStripLabel1.Size = new Size(228, 54);
-            toolStripLabel1.Text = "Chào bạn [Tên người dùng]";
             // 
             // splitContainer1
             // 
@@ -482,13 +489,6 @@
             label1.Name = "label1";
             label1.Size = new Size(0, 25);
             label1.TabIndex = 0;
-            // 
-            // toolStripProgressBar1
-            // 
-            toolStripProgressBar1.Alignment = ToolStripItemAlignment.Right;
-            toolStripProgressBar1.AutoSize = false;
-            toolStripProgressBar1.Name = "toolStripProgressBar1";
-            toolStripProgressBar1.Size = new Size(125, 38);
             // 
             // FrmMain
             // 
