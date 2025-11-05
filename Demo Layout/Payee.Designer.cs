@@ -117,6 +117,7 @@
             btnThemPayee.Text = "Thêm";
             btnThemPayee.TextAlign = ContentAlignment.MiddleRight;
             btnThemPayee.UseVisualStyleBackColor = true;
+            btnThemPayee.Click += btnThemPayee_Click;
             // 
             // btnSuaPayee
             // 
@@ -129,6 +130,7 @@
             btnSuaPayee.Text = "Sửa";
             btnSuaPayee.TextAlign = ContentAlignment.MiddleRight;
             btnSuaPayee.UseVisualStyleBackColor = true;
+            btnSuaPayee.Click += btnSuaPayee_Click;
             // 
             // btnXoaPayee
             // 
@@ -141,6 +143,7 @@
             btnXoaPayee.Text = "Xóa";
             btnXoaPayee.TextAlign = ContentAlignment.MiddleRight;
             btnXoaPayee.UseVisualStyleBackColor = true;
+            btnXoaPayee.Click += btnXoaPayee_Click;
             // 
             // btnTraCuu
             // 
@@ -153,6 +156,7 @@
             btnTraCuu.Text = "Tra cứu";
             btnTraCuu.TextAlign = ContentAlignment.MiddleRight;
             btnTraCuu.UseVisualStyleBackColor = true;
+            btnTraCuu.Click += btnTraCuu_Click;
             // 
             // Payee
             // 
