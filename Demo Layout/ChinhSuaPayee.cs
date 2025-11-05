@@ -10,12 +10,11 @@ using System.Windows.Forms;
 
 namespace Demo_Layout
 {
-    public partial class Payee : Form
+    public partial class ChinhSuaPayee : Form
     {
-        public Payee()
+        public ChinhSuaPayee()
         {
             InitializeComponent();
         }
-
     }
 }
