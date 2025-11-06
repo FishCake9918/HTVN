@@ -6,5 +6,11 @@ namespace Demo_Layout
         {
             InitializeComponent();
         }
+
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+            FormThemTaiKhoan form = new FormThemTaiKhoan();
+            form.ShowDialog();
+        }
     }
 }

@@ -88,8 +88,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { menu1ToolStripMenuItem, editToolStripMenuItem, toolsToolStripMenuItem, helpToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Padding = new Padding(8, 2, 0, 2);
-            menuStrip1.Size = new Size(1890, 33);
+            menuStrip1.Size = new Size(1515, 28);
             menuStrip1.TabIndex = 0;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -97,87 +96,87 @@
             // 
             menu1ToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { đăngNhậpToolStripMenuItem, đăngXuấtToolStripMenuItem, toolStripMenuItem1, thoátToolStripMenuItem });
             menu1ToolStripMenuItem.Name = "menu1ToolStripMenuItem";
-            menu1ToolStripMenuItem.Size = new Size(93, 29);
+            menu1ToolStripMenuItem.Size = new Size(77, 24);
             menu1ToolStripMenuItem.Text = "Account";
             // 
             // đăngNhậpToolStripMenuItem
             // 
             đăngNhậpToolStripMenuItem.Name = "đăngNhậpToolStripMenuItem";
-            đăngNhậpToolStripMenuItem.Size = new Size(181, 34);
+            đăngNhậpToolStripMenuItem.Size = new Size(147, 26);
             đăngNhậpToolStripMenuItem.Text = "Sign in";
             // 
             // đăngXuấtToolStripMenuItem
             // 
             đăngXuấtToolStripMenuItem.Name = "đăngXuấtToolStripMenuItem";
-            đăngXuấtToolStripMenuItem.Size = new Size(181, 34);
+            đăngXuấtToolStripMenuItem.Size = new Size(147, 26);
             đăngXuấtToolStripMenuItem.Text = "Sign out";
             // 
             // toolStripMenuItem1
             // 
             toolStripMenuItem1.Name = "toolStripMenuItem1";
-            toolStripMenuItem1.Size = new Size(178, 6);
+            toolStripMenuItem1.Size = new Size(144, 6);
             // 
             // thoátToolStripMenuItem
             // 
             thoátToolStripMenuItem.Name = "thoátToolStripMenuItem";
-            thoátToolStripMenuItem.Size = new Size(181, 34);
+            thoátToolStripMenuItem.Size = new Size(147, 26);
             thoátToolStripMenuItem.Text = "Exit";
             // 
             // editToolStripMenuItem
             // 
             editToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { undoToolStripMenuItem, redoToolStripMenuItem });
             editToolStripMenuItem.Name = "editToolStripMenuItem";
-            editToolStripMenuItem.Size = new Size(63, 29);
+            editToolStripMenuItem.Size = new Size(53, 24);
             editToolStripMenuItem.Text = "Edit ";
             // 
             // undoToolStripMenuItem
             // 
             undoToolStripMenuItem.Name = "undoToolStripMenuItem";
-            undoToolStripMenuItem.Size = new Size(163, 34);
+            undoToolStripMenuItem.Size = new Size(132, 26);
             undoToolStripMenuItem.Text = "Undo ";
             // 
             // redoToolStripMenuItem
             // 
             redoToolStripMenuItem.Name = "redoToolStripMenuItem";
-            redoToolStripMenuItem.Size = new Size(163, 34);
+            redoToolStripMenuItem.Size = new Size(132, 26);
             redoToolStripMenuItem.Text = "Redo";
             // 
             // toolsToolStripMenuItem
             // 
             toolsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { findSchedulesToolStripMenuItem, minimizeToolStripMenuItem });
             toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            toolsToolStripMenuItem.Size = new Size(69, 29);
+            toolsToolStripMenuItem.Size = new Size(58, 24);
             toolsToolStripMenuItem.Text = "Tools";
             // 
             // findSchedulesToolStripMenuItem
             // 
             findSchedulesToolStripMenuItem.Name = "findSchedulesToolStripMenuItem";
-            findSchedulesToolStripMenuItem.Size = new Size(232, 34);
+            findSchedulesToolStripMenuItem.Size = new Size(190, 26);
             findSchedulesToolStripMenuItem.Text = "Find Schedules";
             // 
             // minimizeToolStripMenuItem
             // 
             minimizeToolStripMenuItem.Name = "minimizeToolStripMenuItem";
-            minimizeToolStripMenuItem.Size = new Size(232, 34);
+            minimizeToolStripMenuItem.Size = new Size(190, 26);
             minimizeToolStripMenuItem.Text = "Minimize";
             // 
             // helpToolStripMenuItem
             // 
             helpToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { documentationToolStripMenuItem, keyboardShortcutsToolStripMenuItem });
             helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            helpToolStripMenuItem.Size = new Size(70, 29);
+            helpToolStripMenuItem.Size = new Size(59, 24);
             helpToolStripMenuItem.Text = "Help ";
             // 
             // documentationToolStripMenuItem
             // 
             documentationToolStripMenuItem.Name = "documentationToolStripMenuItem";
-            documentationToolStripMenuItem.Size = new Size(270, 34);
+            documentationToolStripMenuItem.Size = new Size(221, 26);
             documentationToolStripMenuItem.Text = "Documentation";
             // 
             // keyboardShortcutsToolStripMenuItem
             // 
             keyboardShortcutsToolStripMenuItem.Name = "keyboardShortcutsToolStripMenuItem";
-            keyboardShortcutsToolStripMenuItem.Size = new Size(270, 34);
+            keyboardShortcutsToolStripMenuItem.Size = new Size(221, 26);
             keyboardShortcutsToolStripMenuItem.Text = "Keyboard Shortcuts";
             // 
             // toolStrip1
@@ -185,9 +184,9 @@
             toolStrip1.ImageScalingSize = new Size(50, 50);
             toolStrip1.ImeMode = ImeMode.On;
             toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripLabel1, toolStripProgressBar1, toolStripButton2, toolStripButton1, toolStripButton3, toolStripButton4, toolStripButton5, toolStripSeparator2 });
-            toolStrip1.Location = new Point(0, 33);
+            toolStrip1.Location = new Point(0, 28);
             toolStrip1.Name = "toolStrip1";
-            toolStrip1.Size = new Size(1890, 59);
+            toolStrip1.Size = new Size(1515, 57);
             toolStrip1.Stretch = true;
             toolStrip1.TabIndex = 1;
             toolStrip1.Text = "toolStrip1";
@@ -196,7 +195,7 @@
             // 
             toolStripLabel1.Alignment = ToolStripItemAlignment.Right;
             toolStripLabel1.Name = "toolStripLabel1";
-            toolStripLabel1.Size = new Size(228, 54);
+            toolStripLabel1.Size = new Size(190, 54);
             toolStripLabel1.Text = "Chào bạn [Tên người dùng]";
             // 
             // toolStripProgressBar1
@@ -204,22 +203,23 @@
             toolStripProgressBar1.Alignment = ToolStripItemAlignment.Right;
             toolStripProgressBar1.AutoSize = false;
             toolStripProgressBar1.Name = "toolStripProgressBar1";
-            toolStripProgressBar1.Size = new Size(125, 38);
+            toolStripProgressBar1.Size = new Size(100, 30);
             // 
             // toolStripButton2
             // 
             toolStripButton2.Image = (Image)resources.GetObject("toolStripButton2.Image");
             toolStripButton2.ImageTransparentColor = Color.Magenta;
             toolStripButton2.Name = "toolStripButton2";
-            toolStripButton2.Size = new Size(279, 54);
+            toolStripButton2.Size = new Size(240, 54);
             toolStripButton2.Text = "Thêm tài khoản thanh toán";
+            toolStripButton2.Click += toolStripButton2_Click;
             // 
             // toolStripButton1
             // 
             toolStripButton1.Image = (Image)resources.GetObject("toolStripButton1.Image");
             toolStripButton1.ImageTransparentColor = Color.Magenta;
             toolStripButton1.Name = "toolStripButton1";
-            toolStripButton1.Size = new Size(188, 54);
+            toolStripButton1.Size = new Size(166, 54);
             toolStripButton1.Text = "Thêm giao dịch";
             // 
             // toolStripButton3
@@ -227,7 +227,7 @@
             toolStripButton3.Image = (Image)resources.GetObject("toolStripButton3.Image");
             toolStripButton3.ImageTransparentColor = Color.Magenta;
             toolStripButton3.Name = "toolStripButton3";
-            toolStripButton3.Size = new Size(162, 54);
+            toolStripButton3.Size = new Size(142, 54);
             toolStripButton3.Text = "Thêm nhóm";
             // 
             // toolStripButton4
@@ -235,7 +235,7 @@
             toolStripButton4.Image = (Image)resources.GetObject("toolStripButton4.Image");
             toolStripButton4.ImageTransparentColor = Color.Magenta;
             toolStripButton4.Name = "toolStripButton4";
-            toolStripButton4.Size = new Size(195, 54);
+            toolStripButton4.Size = new Size(170, 54);
             toolStripButton4.Text = "Thêm ngân sách";
             // 
             // toolStripButton5
@@ -243,20 +243,19 @@
             toolStripButton5.Image = (Image)resources.GetObject("toolStripButton5.Image");
             toolStripButton5.ImageTransparentColor = Color.Magenta;
             toolStripButton5.Name = "toolStripButton5";
-            toolStripButton5.Size = new Size(164, 54);
+            toolStripButton5.Size = new Size(146, 54);
             toolStripButton5.Text = "Tạo báo cáo";
             // 
             // toolStripSeparator2
             // 
             toolStripSeparator2.Name = "toolStripSeparator2";
-            toolStripSeparator2.Size = new Size(6, 59);
+            toolStripSeparator2.Size = new Size(6, 57);
             // 
             // splitContainer1
             // 
             splitContainer1.Dock = DockStyle.Fill;
             splitContainer1.IsSplitterFixed = true;
-            splitContainer1.Location = new Point(0, 92);
-            splitContainer1.Margin = new Padding(4);
+            splitContainer1.Location = new Point(0, 85);
             splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -275,9 +274,8 @@
             splitContainer1.Panel2.BackColor = Color.FromArgb(255, 255, 192);
             splitContainer1.Panel2.Controls.Add(panel4);
             splitContainer1.Panel2.Controls.Add(panel1);
-            splitContainer1.Size = new Size(1890, 914);
-            splitContainer1.SplitterDistance = 418;
-            splitContainer1.SplitterWidth = 5;
+            splitContainer1.Size = new Size(1515, 720);
+            splitContainer1.SplitterDistance = 335;
             splitContainer1.TabIndex = 2;
             // 
             // button6
@@ -286,10 +284,9 @@
             button6.Font = new Font("Courier New", 13.8F, FontStyle.Bold);
             button6.Image = (Image)resources.GetObject("button6.Image");
             button6.ImageAlign = ContentAlignment.MiddleLeft;
-            button6.Location = new Point(0, 355);
-            button6.Margin = new Padding(4);
+            button6.Location = new Point(0, 285);
             button6.Name = "button6";
-            button6.Size = new Size(418, 71);
+            button6.Size = new Size(335, 57);
             button6.TabIndex = 5;
             button6.Text = "Tài khoản thanh toán";
             button6.TextAlign = ContentAlignment.MiddleRight;
@@ -302,10 +299,9 @@
             button5.Font = new Font("Courier New", 13.8F, FontStyle.Bold);
             button5.Image = (Image)resources.GetObject("button5.Image");
             button5.ImageAlign = ContentAlignment.MiddleLeft;
-            button5.Location = new Point(0, 284);
-            button5.Margin = new Padding(4);
+            button5.Location = new Point(0, 228);
             button5.Name = "button5";
-            button5.Size = new Size(418, 71);
+            button5.Size = new Size(335, 57);
             button5.TabIndex = 4;
             button5.Text = "Đối tượng giao dịch";
             button5.TextAlign = ContentAlignment.MiddleRight;
@@ -318,10 +314,9 @@
             button4.Font = new Font("Courier New", 13.8F, FontStyle.Bold);
             button4.Image = (Image)resources.GetObject("button4.Image");
             button4.ImageAlign = ContentAlignment.MiddleLeft;
-            button4.Location = new Point(0, 213);
-            button4.Margin = new Padding(4);
+            button4.Location = new Point(0, 171);
             button4.Name = "button4";
-            button4.Size = new Size(418, 71);
+            button4.Size = new Size(335, 57);
             button4.TabIndex = 3;
             button4.Text = "Danh mục chi tiêu";
             button4.TextAlign = ContentAlignment.MiddleRight;
@@ -334,10 +329,9 @@
             button3.Font = new Font("Courier New", 13.8F, FontStyle.Bold);
             button3.Image = (Image)resources.GetObject("button3.Image");
             button3.ImageAlign = ContentAlignment.MiddleLeft;
-            button3.Location = new Point(0, 142);
-            button3.Margin = new Padding(4);
+            button3.Location = new Point(0, 114);
             button3.Name = "button3";
-            button3.Size = new Size(418, 71);
+            button3.Size = new Size(335, 57);
             button3.TabIndex = 2;
             button3.Text = "Lập ngân sách";
             button3.TextAlign = ContentAlignment.MiddleRight;
@@ -350,10 +344,9 @@
             button2.Font = new Font("Courier New", 13.8F, FontStyle.Bold);
             button2.Image = (Image)resources.GetObject("button2.Image");
             button2.ImageAlign = ContentAlignment.MiddleLeft;
-            button2.Location = new Point(0, 71);
-            button2.Margin = new Padding(4);
+            button2.Location = new Point(0, 57);
             button2.Name = "button2";
-            button2.Size = new Size(418, 71);
+            button2.Size = new Size(335, 57);
             button2.TabIndex = 1;
             button2.Text = "Quản lý giao dịch";
             button2.TextAlign = ContentAlignment.MiddleRight;
@@ -367,9 +360,8 @@
             button1.Image = (Image)resources.GetObject("button1.Image");
             button1.ImageAlign = ContentAlignment.MiddleLeft;
             button1.Location = new Point(0, 0);
-            button1.Margin = new Padding(4);
             button1.Name = "button1";
-            button1.Size = new Size(418, 71);
+            button1.Size = new Size(335, 57);
             button1.TabIndex = 0;
             button1.Text = "Báo cáo ";
             button1.TextAlign = ContentAlignment.MiddleRight;
@@ -380,10 +372,9 @@
             // 
             panel4.BackColor = Color.FromArgb(255, 128, 128);
             panel4.Dock = DockStyle.Top;
-            panel4.Location = new Point(0, 210);
-            panel4.Margin = new Padding(4);
+            panel4.Location = new Point(0, 168);
             panel4.Name = "panel4";
-            panel4.Size = new Size(1467, 20);
+            panel4.Size = new Size(1176, 16);
             panel4.TabIndex = 1;
             // 
             // panel1
@@ -395,9 +386,8 @@
             panel1.Controls.Add(label1);
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 0);
-            panel1.Margin = new Padding(4);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1467, 210);
+            panel1.Size = new Size(1176, 168);
             panel1.TabIndex = 0;
             // 
             // panel3
@@ -405,19 +395,17 @@
             panel3.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             panel3.Controls.Add(button8);
             panel3.Controls.Add(button7);
-            panel3.Location = new Point(1227, 161);
-            panel3.Margin = new Padding(4);
+            panel3.Location = new Point(984, 129);
             panel3.Name = "panel3";
-            panel3.Size = new Size(240, 49);
+            panel3.Size = new Size(192, 39);
             panel3.TabIndex = 5;
             // 
             // button8
             // 
             button8.Image = (Image)resources.GetObject("button8.Image");
-            button8.Location = new Point(10, -1);
-            button8.Margin = new Padding(4);
+            button8.Location = new Point(8, -1);
             button8.Name = "button8";
-            button8.Size = new Size(98, 51);
+            button8.Size = new Size(78, 41);
             button8.TabIndex = 7;
             button8.Text = "Thêm";
             button8.TextAlign = ContentAlignment.MiddleLeft;
@@ -428,10 +416,9 @@
             // 
             button7.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             button7.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            button7.Location = new Point(141, -1);
-            button7.Margin = new Padding(4);
+            button7.Location = new Point(113, -1);
             button7.Name = "button7";
-            button7.Size = new Size(99, 50);
+            button7.Size = new Size(79, 40);
             button7.TabIndex = 4;
             button7.Text = "CRUD";
             button7.UseVisualStyleBackColor = true;
@@ -441,19 +428,17 @@
             panel2.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             panel2.Controls.Add(pictureBox1);
             panel2.Controls.Add(textBox1);
-            panel2.Location = new Point(0, 161);
-            panel2.Margin = new Padding(4);
+            panel2.Location = new Point(0, 129);
             panel2.Name = "panel2";
-            panel2.Size = new Size(871, 49);
+            panel2.Size = new Size(697, 39);
             panel2.TabIndex = 3;
             // 
             // pictureBox1
             // 
             pictureBox1.Dock = DockStyle.Left;
             pictureBox1.Location = new Point(0, 0);
-            pictureBox1.Margin = new Padding(4);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(59, 49);
+            pictureBox1.Size = new Size(47, 39);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 3;
             pictureBox1.TabStop = false;
@@ -462,10 +447,9 @@
             // 
             textBox1.Dock = DockStyle.Right;
             textBox1.Font = new Font("Verdana", 16.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox1.Location = new Point(75, 0);
-            textBox1.Margin = new Padding(4);
+            textBox1.Location = new Point(59, 0);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(796, 47);
+            textBox1.Size = new Size(638, 40);
             textBox1.TabIndex = 2;
             // 
             // label2
@@ -474,9 +458,8 @@
             label2.Dock = DockStyle.Top;
             label2.Font = new Font("Cambria", 36F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label2.Location = new Point(0, 0);
-            label2.Margin = new Padding(4, 0, 4, 0);
             label2.Name = "label2";
-            label2.Size = new Size(387, 84);
+            label2.Size = new Size(325, 70);
             label2.TabIndex = 1;
             label2.Text = "[Tên form]";
             label2.TextAlign = ContentAlignment.MiddleLeft;
@@ -484,26 +467,24 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(240, 92);
-            label1.Margin = new Padding(4, 0, 4, 0);
+            label1.Location = new Point(192, 74);
             label1.Name = "label1";
-            label1.Size = new Size(0, 25);
+            label1.Size = new Size(0, 20);
             label1.TabIndex = 0;
             // 
             // FrmMain
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1890, 1006);
+            ClientSize = new Size(1515, 805);
             Controls.Add(splitContainer1);
             Controls.Add(toolStrip1);
             Controls.Add(menuStrip1);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MainMenuStrip = menuStrip1;
-            Margin = new Padding(4);
             MaximizeBox = false;
-            MaximumSize = new Size(1912, 1062);
-            MinimumSize = new Size(1912, 1014);
+            MaximumSize = new Size(1533, 859);
+            MinimumSize = new Size(1533, 821);
             Name = "FrmMain";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Trang chủ";
