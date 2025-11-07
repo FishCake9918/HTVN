@@ -1,6 +1,6 @@
 ﻿namespace Demo_Layout
 {
-    partial class FrmMain
+    partial class Admin
     {
         /// <summary>
         ///  Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Admin));
             menuStrip1 = new MenuStrip();
             accountToolStripMenuItem = new ToolStripMenuItem();
             signInToolStripMenuItem = new ToolStripMenuItem();
@@ -58,15 +58,10 @@
             toolStripButton6 = new ToolStripButton();
             toolStripButton7 = new ToolStripButton();
             toolStripButton2 = new ToolStripButton();
-            toolStripButton1 = new ToolStripButton();
-            toolStripButton3 = new ToolStripButton();
             toolStripSeparator2 = new ToolStripSeparator();
             toolStripLabel2 = new ToolStripLabel();
             toolStripProgressBar1 = new ToolStripProgressBar();
             pnlMenu = new Panel();
-            button6 = new Button();
-            button5 = new Button();
-            button4 = new Button();
             button3 = new Button();
             button2 = new Button();
             button1 = new Button();
@@ -240,7 +235,7 @@
             toolStrip1.BackColor = SystemColors.InactiveBorder;
             toolStrip1.ImageScalingSize = new Size(50, 50);
             toolStrip1.ImeMode = ImeMode.On;
-            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripLabel1, toolStripButton6, toolStripButton7, toolStripButton2, toolStripButton1, toolStripButton3, toolStripSeparator2, toolStripLabel2, toolStripProgressBar1 });
+            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripLabel1, toolStripButton6, toolStripButton7, toolStripButton2, toolStripSeparator2, toolStripLabel2, toolStripProgressBar1 });
             toolStrip1.Location = new Point(0, 33);
             toolStrip1.Name = "toolStrip1";
             toolStrip1.Size = new Size(1514, 59);
@@ -258,8 +253,8 @@
             toolStripButton6.Image = (Image)resources.GetObject("toolStripButton6.Image");
             toolStripButton6.ImageTransparentColor = Color.Magenta;
             toolStripButton6.Name = "toolStripButton6";
-            toolStripButton6.Size = new Size(279, 54);
-            toolStripButton6.Text = "Thêm tài khoản thanh toán";
+            toolStripButton6.Size = new Size(184, 54);
+            toolStripButton6.Text = "Tạo thông báo";
             // 
             // toolStripButton7
             // 
@@ -267,31 +262,15 @@
             toolStripButton7.ImageTransparentColor = Color.Magenta;
             toolStripButton7.Name = "toolStripButton7";
             toolStripButton7.Size = new Size(188, 54);
-            toolStripButton7.Text = "Thêm giao dịch";
+            toolStripButton7.Text = "Thêm tài khoản";
             // 
             // toolStripButton2
             // 
             toolStripButton2.Image = (Image)resources.GetObject("toolStripButton2.Image");
             toolStripButton2.ImageTransparentColor = Color.Magenta;
             toolStripButton2.Name = "toolStripButton2";
-            toolStripButton2.Size = new Size(162, 54);
-            toolStripButton2.Text = "Thêm nhóm";
-            // 
-            // toolStripButton1
-            // 
-            toolStripButton1.Image = (Image)resources.GetObject("toolStripButton1.Image");
-            toolStripButton1.ImageTransparentColor = Color.Magenta;
-            toolStripButton1.Name = "toolStripButton1";
-            toolStripButton1.Size = new Size(195, 54);
-            toolStripButton1.Text = "Thêm ngân sách";
-            // 
-            // toolStripButton3
-            // 
-            toolStripButton3.Image = (Image)resources.GetObject("toolStripButton3.Image");
-            toolStripButton3.ImageTransparentColor = Color.Magenta;
-            toolStripButton3.Name = "toolStripButton3";
-            toolStripButton3.Size = new Size(164, 54);
-            toolStripButton3.Text = "Tạo báo cáo";
+            toolStripButton2.Size = new Size(184, 54);
+            toolStripButton2.Text = "Tạo thông báo";
             // 
             // toolStripSeparator2
             // 
@@ -302,8 +281,8 @@
             // 
             toolStripLabel2.Alignment = ToolStripItemAlignment.Right;
             toolStripLabel2.Name = "toolStripLabel2";
-            toolStripLabel2.Size = new Size(257, 54);
-            toolStripLabel2.Text = "👤Chào bạn, [Tên người dùng]";
+            toolStripLabel2.Size = new Size(216, 54);
+            toolStripLabel2.Text = "👑Chào bạn, [Tên Admin]";
             // 
             // toolStripProgressBar1
             // 
@@ -315,9 +294,6 @@
             // 
             pnlMenu.AutoScroll = true;
             pnlMenu.BackColor = SystemColors.ActiveCaption;
-            pnlMenu.Controls.Add(button6);
-            pnlMenu.Controls.Add(button5);
-            pnlMenu.Controls.Add(button4);
             pnlMenu.Controls.Add(button3);
             pnlMenu.Controls.Add(button2);
             pnlMenu.Controls.Add(button1);
@@ -327,54 +303,6 @@
             pnlMenu.Name = "pnlMenu";
             pnlMenu.Size = new Size(367, 716);
             pnlMenu.TabIndex = 2;
-            // 
-            // button6
-            // 
-            button6.Dock = DockStyle.Top;
-            button6.Font = new Font("Courier New", 13F, FontStyle.Bold);
-            button6.Image = (Image)resources.GetObject("button6.Image");
-            button6.ImageAlign = ContentAlignment.MiddleLeft;
-            button6.Location = new Point(0, 355);
-            button6.Margin = new Padding(4);
-            button6.Name = "button6";
-            button6.Size = new Size(367, 71);
-            button6.TabIndex = 5;
-            button6.Text = "Tài khoản thanh toán";
-            button6.TextAlign = ContentAlignment.MiddleRight;
-            button6.TextImageRelation = TextImageRelation.ImageBeforeText;
-            button6.UseVisualStyleBackColor = true;
-            // 
-            // button5
-            // 
-            button5.Dock = DockStyle.Top;
-            button5.Font = new Font("Courier New", 13F, FontStyle.Bold);
-            button5.Image = (Image)resources.GetObject("button5.Image");
-            button5.ImageAlign = ContentAlignment.MiddleLeft;
-            button5.Location = new Point(0, 284);
-            button5.Margin = new Padding(4);
-            button5.Name = "button5";
-            button5.Size = new Size(367, 71);
-            button5.TabIndex = 4;
-            button5.Text = "Đối tượng giao dịch";
-            button5.TextAlign = ContentAlignment.MiddleRight;
-            button5.TextImageRelation = TextImageRelation.ImageBeforeText;
-            button5.UseVisualStyleBackColor = true;
-            // 
-            // button4
-            // 
-            button4.Dock = DockStyle.Top;
-            button4.Font = new Font("Courier New", 13F, FontStyle.Bold);
-            button4.Image = (Image)resources.GetObject("button4.Image");
-            button4.ImageAlign = ContentAlignment.MiddleLeft;
-            button4.Location = new Point(0, 213);
-            button4.Margin = new Padding(4);
-            button4.Name = "button4";
-            button4.Size = new Size(367, 71);
-            button4.TabIndex = 3;
-            button4.Text = "Danh mục chi tiêu";
-            button4.TextAlign = ContentAlignment.MiddleRight;
-            button4.TextImageRelation = TextImageRelation.ImageBeforeText;
-            button4.UseVisualStyleBackColor = true;
             // 
             // button3
             // 
@@ -387,7 +315,7 @@
             button3.Name = "button3";
             button3.Size = new Size(367, 71);
             button3.TabIndex = 2;
-            button3.Text = "Lập ngân sách";
+            button3.Text = "Quản lý thông báo";
             button3.TextAlign = ContentAlignment.MiddleRight;
             button3.TextImageRelation = TextImageRelation.ImageBeforeText;
             button3.UseVisualStyleBackColor = true;
@@ -403,7 +331,7 @@
             button2.Name = "button2";
             button2.Size = new Size(367, 71);
             button2.TabIndex = 1;
-            button2.Text = "Quản lý giao dịch";
+            button2.Text = "Quản lý tài khoản";
             button2.TextAlign = ContentAlignment.MiddleRight;
             button2.TextImageRelation = TextImageRelation.ImageBeforeText;
             button2.UseVisualStyleBackColor = true;
@@ -419,7 +347,7 @@
             button1.Name = "button1";
             button1.Size = new Size(367, 71);
             button1.TabIndex = 0;
-            button1.Text = "Báo cáo ";
+            button1.Text = "Báo cáo thống kê";
             button1.TextImageRelation = TextImageRelation.ImageBeforeText;
             button1.UseVisualStyleBackColor = true;
             // 
@@ -472,7 +400,6 @@
             // 
             // button8
             // 
-            button8.Image = (Image)resources.GetObject("button8.Image");
             button8.Location = new Point(10, -1);
             button8.Margin = new Padding(4);
             button8.Name = "button8";
@@ -549,7 +476,7 @@
             label1.Size = new Size(0, 25);
             label1.TabIndex = 0;
             // 
-            // FrmMain
+            // Admin
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -564,7 +491,7 @@
             MaximizeBox = false;
             MaximumSize = new Size(1536, 864);
             MinimumSize = new Size(1536, 864);
-            Name = "FrmMain";
+            Name = "Admin";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Trang chủ";
             menuStrip1.ResumeLayout(false);
@@ -587,9 +514,7 @@
 
         private MenuStrip menuStrip1;
         private ToolStrip toolStrip1;
-        private ToolStripButton toolStripButton1;
         private ToolStripButton toolStripButton2;
-        private ToolStripButton toolStripButton3;
         private ToolStripSeparator toolStripSeparator2;
         private Panel pnlMenu;
         private Panel pnlContent;
@@ -601,9 +526,6 @@
         private Panel panel2;
         private PictureBox pictureBox1;
         private Button button7;
-        private Button button6;
-        private Button button5;
-        private Button button4;
         private Button button3;
         private Button button2;
         private Panel panel3;
