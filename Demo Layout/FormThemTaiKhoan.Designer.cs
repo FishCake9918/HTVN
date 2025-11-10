@@ -28,87 +28,103 @@
         /// </summary>
         private void InitializeComponent()
         {
-            label1 = new Label();
-            label2 = new Label();
-            textBox1 = new TextBox();
-            textBox2 = new TextBox();
-            checkBox1 = new CheckBox();
-            button1 = new Button();
-            button2 = new Button();
+            lbTenTaiKhoan = new Label();
+            lbSoDu = new Label();
+            tbTenTaiKhoan = new TextBox();
+            txSoDu = new TextBox();
+            btTaoTaiKhoan = new Button();
+            btQuayLai = new Button();
+            lbLoaiTaiKhoan = new Label();
+            cbLoaiTaiKhoan = new ComboBox();
             SuspendLayout();
             // 
-            // label1
+            // lbTenTaiKhoan
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(21, 41);
-            label1.Name = "label1";
-            label1.Size = new Size(97, 20);
-            label1.TabIndex = 0;
-            label1.Text = "Tên tài khoản";
+            lbTenTaiKhoan.AutoSize = true;
+            lbTenTaiKhoan.Font = new Font("Segoe UI", 12F);
+            lbTenTaiKhoan.Location = new Point(7, 37);
+            lbTenTaiKhoan.Name = "lbTenTaiKhoan";
+            lbTenTaiKhoan.Size = new Size(127, 28);
+            lbTenTaiKhoan.TabIndex = 0;
+            lbTenTaiKhoan.Text = "Tên tài khoản";
             // 
-            // label2
+            // lbSoDu
             // 
-            label2.AutoSize = true;
-            label2.Location = new Point(70, 108);
-            label2.Name = "label2";
-            label2.Size = new Size(48, 20);
-            label2.TabIndex = 1;
-            label2.Text = "Số dư";
+            lbSoDu.AutoSize = true;
+            lbSoDu.Font = new Font("Segoe UI", 12F);
+            lbSoDu.Location = new Point(12, 141);
+            lbSoDu.Name = "lbSoDu";
+            lbSoDu.Size = new Size(64, 28);
+            lbSoDu.TabIndex = 1;
+            lbSoDu.Text = "Số dư";
             // 
-            // textBox1
+            // tbTenTaiKhoan
             // 
-            textBox1.Location = new Point(124, 38);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(321, 27);
-            textBox1.TabIndex = 2;
+            tbTenTaiKhoan.Font = new Font("Segoe UI", 12F);
+            tbTenTaiKhoan.Location = new Point(163, 37);
+            tbTenTaiKhoan.Name = "tbTenTaiKhoan";
+            tbTenTaiKhoan.Size = new Size(321, 34);
+            tbTenTaiKhoan.TabIndex = 2;
             // 
-            // textBox2
+            // txSoDu
             // 
-            textBox2.Location = new Point(124, 101);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(321, 27);
-            textBox2.TabIndex = 3;
+            txSoDu.Font = new Font("Segoe UI", 12F);
+            txSoDu.Location = new Point(163, 135);
+            txSoDu.Name = "txSoDu";
+            txSoDu.Size = new Size(321, 34);
+            txSoDu.TabIndex = 3;
             // 
-            // checkBox1
+            // btTaoTaiKhoan
             // 
-            checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(339, 71);
-            checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(106, 24);
-            checkBox1.TabIndex = 4;
-            checkBox1.Text = "Off-budget";
-            checkBox1.UseVisualStyleBackColor = true;
+            btTaoTaiKhoan.Location = new Point(367, 186);
+            btTaoTaiKhoan.Name = "btTaoTaiKhoan";
+            btTaoTaiKhoan.Size = new Size(94, 40);
+            btTaoTaiKhoan.TabIndex = 5;
+            btTaoTaiKhoan.Text = "Tạo";
+            btTaoTaiKhoan.UseVisualStyleBackColor = true;
             // 
-            // button1
+            // btQuayLai
             // 
-            button1.Location = new Point(351, 147);
-            button1.Name = "button1";
-            button1.Size = new Size(94, 29);
-            button1.TabIndex = 5;
-            button1.Text = "Tạo";
-            button1.UseVisualStyleBackColor = true;
+            btQuayLai.Location = new Point(238, 186);
+            btQuayLai.Name = "btQuayLai";
+            btQuayLai.Size = new Size(107, 40);
+            btQuayLai.TabIndex = 6;
+            btQuayLai.Text = "Quay trở lại";
+            btQuayLai.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // lbLoaiTaiKhoan
             // 
-            button2.Location = new Point(238, 147);
-            button2.Name = "button2";
-            button2.Size = new Size(107, 29);
-            button2.TabIndex = 6;
-            button2.Text = "Quay trở lại";
-            button2.UseVisualStyleBackColor = true;
+            lbLoaiTaiKhoan.AutoSize = true;
+            lbLoaiTaiKhoan.Font = new Font("Segoe UI", 12F);
+            lbLoaiTaiKhoan.Location = new Point(12, 92);
+            lbLoaiTaiKhoan.Name = "lbLoaiTaiKhoan";
+            lbLoaiTaiKhoan.Size = new Size(134, 28);
+            lbLoaiTaiKhoan.TabIndex = 7;
+            lbLoaiTaiKhoan.Text = "Loại tài khoản";
+            // 
+            // cbLoaiTaiKhoan
+            // 
+            cbLoaiTaiKhoan.Font = new Font("Segoe UI", 12F);
+            cbLoaiTaiKhoan.FormattingEnabled = true;
+            cbLoaiTaiKhoan.Location = new Point(163, 84);
+            cbLoaiTaiKhoan.Name = "cbLoaiTaiKhoan";
+            cbLoaiTaiKhoan.Size = new Size(321, 36);
+            cbLoaiTaiKhoan.TabIndex = 8;
             // 
             // FormThemTaiKhoan
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(475, 202);
-            Controls.Add(button2);
-            Controls.Add(button1);
-            Controls.Add(checkBox1);
-            Controls.Add(textBox2);
-            Controls.Add(textBox1);
-            Controls.Add(label2);
-            Controls.Add(label1);
+            BackColor = Color.Honeydew;
+            ClientSize = new Size(515, 258);
+            Controls.Add(cbLoaiTaiKhoan);
+            Controls.Add(lbLoaiTaiKhoan);
+            Controls.Add(btQuayLai);
+            Controls.Add(btTaoTaiKhoan);
+            Controls.Add(txSoDu);
+            Controls.Add(tbTenTaiKhoan);
+            Controls.Add(lbSoDu);
+            Controls.Add(lbTenTaiKhoan);
             Name = "FormThemTaiKhoan";
             Text = "Thêm tài khoản";
             ResumeLayout(false);
@@ -117,12 +133,13 @@
 
         #endregion
 
-        private Label label1;
-        private Label label2;
-        private TextBox textBox1;
-        private TextBox textBox2;
-        private CheckBox checkBox1;
-        private Button button1;
-        private Button button2;
+        private Label lbTenTaiKhoan;
+        private Label lbSoDu;
+        private TextBox tbTenTaiKhoan;
+        private TextBox txSoDu;
+        private Button btTaoTaiKhoan;
+        private Button btQuayLai;
+        private Label lbLoaiTaiKhoan;
+        private ComboBox cbLoaiTaiKhoan;
     }
 }

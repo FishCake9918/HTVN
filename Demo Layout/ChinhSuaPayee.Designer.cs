@@ -31,83 +31,58 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChinhSuaPayee));
             lbPayee = new Label();
             tbPayee = new TextBox();
-            lbHidden = new Label();
-            checkBox1 = new CheckBox();
             lbDanhMuc = new Label();
             cbDanhMuc = new ComboBox();
             btnLuu = new Button();
             btnHuy = new Button();
             lbNote = new Label();
             tbNote = new TextBox();
-            tbURLweb = new TextBox();
-            lbURLweb = new Label();
             SuspendLayout();
             // 
             // lbPayee
             // 
             lbPayee.AutoSize = true;
-            lbPayee.Location = new Point(46, 39);
+            lbPayee.Location = new Point(14, 40);
             lbPayee.Margin = new Padding(5, 0, 5, 0);
             lbPayee.Name = "lbPayee";
-            lbPayee.Size = new Size(197, 26);
+            lbPayee.Size = new Size(219, 31);
             lbPayee.TabIndex = 0;
             lbPayee.Text = "Đối tượng giao dịch";
             // 
             // tbPayee
             // 
-            tbPayee.Location = new Point(253, 31);
-            tbPayee.Margin = new Padding(5, 4, 5, 4);
+            tbPayee.Location = new Point(253, 37);
+            tbPayee.Margin = new Padding(5, 5, 5, 5);
             tbPayee.Name = "tbPayee";
-            tbPayee.Size = new Size(339, 34);
+            tbPayee.Size = new Size(339, 38);
             tbPayee.TabIndex = 1;
-            // 
-            // lbHidden
-            // 
-            lbHidden.AutoSize = true;
-            lbHidden.Location = new Point(46, 98);
-            lbHidden.Margin = new Padding(5, 0, 5, 0);
-            lbHidden.Name = "lbHidden";
-            lbHidden.Size = new Size(79, 26);
-            lbHidden.TabIndex = 2;
-            lbHidden.Text = "Hidden";
-            // 
-            // checkBox1
-            // 
-            checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(253, 94);
-            checkBox1.Margin = new Padding(5, 4, 5, 4);
-            checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(248, 30);
-            checkBox1.TabIndex = 3;
-            checkBox1.Text = "Ẩn đối tượng giao dịch";
-            checkBox1.UseVisualStyleBackColor = true;
             // 
             // lbDanhMuc
             // 
             lbDanhMuc.AutoSize = true;
-            lbDanhMuc.Location = new Point(46, 157);
+            lbDanhMuc.Location = new Point(14, 107);
             lbDanhMuc.Margin = new Padding(5, 0, 5, 0);
             lbDanhMuc.Name = "lbDanhMuc";
-            lbDanhMuc.Size = new Size(108, 26);
+            lbDanhMuc.Size = new Size(118, 31);
             lbDanhMuc.TabIndex = 4;
             lbDanhMuc.Text = "Danh mục";
             // 
             // cbDanhMuc
             // 
             cbDanhMuc.FormattingEnabled = true;
-            cbDanhMuc.Location = new Point(253, 157);
-            cbDanhMuc.Margin = new Padding(5, 4, 5, 4);
+            cbDanhMuc.Location = new Point(141, 107);
+            cbDanhMuc.Margin = new Padding(5, 5, 5, 5);
             cbDanhMuc.Name = "cbDanhMuc";
-            cbDanhMuc.Size = new Size(339, 34);
+            cbDanhMuc.Size = new Size(451, 39);
             cbDanhMuc.TabIndex = 5;
             // 
             // btnLuu
             // 
             btnLuu.BackColor = Color.LightSkyBlue;
-            btnLuu.Location = new Point(141, 344);
-            btnLuu.Margin = new Padding(5, 4, 5, 4);
+            btnLuu.Location = new Point(179, 236);
+            btnLuu.Margin = new Padding(5, 5, 5, 5);
             btnLuu.Name = "btnLuu";
-            btnLuu.Size = new Size(153, 52);
+            btnLuu.Size = new Size(153, 62);
             btnLuu.TabIndex = 6;
             btnLuu.Text = "Lưu";
             btnLuu.UseVisualStyleBackColor = false;
@@ -115,10 +90,10 @@
             // btnHuy
             // 
             btnHuy.BackColor = Color.Red;
-            btnHuy.Location = new Point(407, 344);
-            btnHuy.Margin = new Padding(5, 4, 5, 4);
+            btnHuy.Location = new Point(397, 236);
+            btnHuy.Margin = new Padding(5, 5, 5, 5);
             btnHuy.Name = "btnHuy";
-            btnHuy.Size = new Size(153, 52);
+            btnHuy.Size = new Size(153, 62);
             btnHuy.TabIndex = 7;
             btnHuy.Text = "Hủy";
             btnHuy.UseVisualStyleBackColor = false;
@@ -126,61 +101,39 @@
             // lbNote
             // 
             lbNote.AutoSize = true;
-            lbNote.Location = new Point(46, 282);
+            lbNote.Location = new Point(14, 165);
             lbNote.Margin = new Padding(5, 0, 5, 0);
             lbNote.Name = "lbNote";
-            lbNote.Size = new Size(86, 26);
+            lbNote.Size = new Size(92, 31);
             lbNote.TabIndex = 8;
             lbNote.Text = "Ghi chú";
             // 
             // tbNote
             // 
-            tbNote.Location = new Point(253, 274);
-            tbNote.Margin = new Padding(5, 4, 5, 4);
+            tbNote.Location = new Point(141, 165);
+            tbNote.Margin = new Padding(5, 5, 5, 5);
             tbNote.Name = "tbNote";
-            tbNote.Size = new Size(339, 34);
+            tbNote.Size = new Size(451, 38);
             tbNote.TabIndex = 9;
             // 
-            // tbURLweb
+            // ChinhSuaPayee
             // 
-            tbURLweb.Location = new Point(253, 211);
-            tbURLweb.Margin = new Padding(5, 4, 5, 4);
-            tbURLweb.Name = "tbURLweb";
-            tbURLweb.Size = new Size(339, 34);
-            tbURLweb.TabIndex = 10;
-            // 
-            // lbURLweb
-            // 
-            lbURLweb.AutoSize = true;
-            lbURLweb.Location = new Point(46, 219);
-            lbURLweb.Margin = new Padding(5, 0, 5, 0);
-            lbURLweb.Name = "lbURLweb";
-            lbURLweb.Size = new Size(111, 26);
-            lbURLweb.TabIndex = 11;
-            lbURLweb.Text = "Trang web";
-            // 
-            // ThemPayee
-            // 
-            AutoScaleDimensions = new SizeF(13F, 26F);
+            AutoScaleDimensions = new SizeF(13F, 31F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.ButtonFace;
-            ClientSize = new Size(678, 419);
-            Controls.Add(lbURLweb);
-            Controls.Add(tbURLweb);
+            BackColor = Color.Honeydew;
+            ClientSize = new Size(625, 330);
             Controls.Add(tbNote);
             Controls.Add(lbNote);
             Controls.Add(btnHuy);
             Controls.Add(btnLuu);
             Controls.Add(cbDanhMuc);
             Controls.Add(lbDanhMuc);
-            Controls.Add(checkBox1);
-            Controls.Add(lbHidden);
             Controls.Add(tbPayee);
             Controls.Add(lbPayee);
-            Font = new Font("Times New Roman", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             Icon = (Icon)resources.GetObject("$this.Icon");
-            Margin = new Padding(5, 4, 5, 4);
-            Name = "ThemPayee";
+            Margin = new Padding(5, 5, 5, 5);
+            Name = "ChinhSuaPayee";
             Text = "Chỉnh sửa đối tượng giao dịch";
             ResumeLayout(false);
             PerformLayout();
@@ -190,15 +143,11 @@
 
         private Label lbPayee;
         private TextBox tbPayee;
-        private Label lbHidden;
-        private CheckBox checkBox1;
         private Label lbDanhMuc;
         private ComboBox cbDanhMuc;
         private Button btnLuu;
         private Button btnHuy;
         private Label lbNote;
         private TextBox tbNote;
-        private TextBox tbURLweb;
-        private Label lbURLweb;
     }
 }
