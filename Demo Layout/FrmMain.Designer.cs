@@ -69,16 +69,26 @@
             button7 = new Button();
             button8 = new Button();
             pnlHienThi = new Panel();
+            panel3 = new Panel();
+            pictureBox1 = new PictureBox();
+            button14 = new Button();
+            button13 = new Button();
+            button12 = new Button();
+            button11 = new Button();
+            scThemTaiKhoan = new Button();
+            notifyIcon = new NotifyIcon(components);
             menuStrip1.SuspendLayout();
             pnlMenu.SuspendLayout();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picUserProfile).BeginInit();
             panel2.SuspendLayout();
+            panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // menuStrip1
             // 
-            menuStrip1.BackColor = Color.FromArgb(82, 108, 91);
+            menuStrip1.BackColor = Color.FromArgb(250, 110, 6);
             menuStrip1.Dock = DockStyle.None;
             menuStrip1.Font = new Font("Segoe UI", 9F);
             menuStrip1.ImageScalingSize = new Size(20, 20);
@@ -278,8 +288,9 @@
             button3.Name = "button3";
             button3.Size = new Size(301, 70);
             button3.TabIndex = 2;
-            button3.Text = "  Lập ngân sách";
+            button3.Text = "Ngân sách";
             button3.UseVisualStyleBackColor = false;
+            button3.Click += button3_Click;
             // 
             // button4
             // 
@@ -340,9 +351,9 @@
             pnlMenu.Controls.Add(button2);
             pnlMenu.Controls.Add(button1);
             pnlMenu.Dock = DockStyle.Left;
-            pnlMenu.Location = new Point(0, 34);
+            pnlMenu.Location = new Point(0, 85);
             pnlMenu.Name = "pnlMenu";
-            pnlMenu.Size = new Size(310, 662);
+            pnlMenu.Size = new Size(310, 611);
             pnlMenu.TabIndex = 2;
             // 
             // panel1
@@ -350,7 +361,7 @@
             panel1.BackColor = SystemColors.ActiveBorder;
             panel1.Controls.Add(picUserProfile);
             panel1.Dock = DockStyle.Bottom;
-            panel1.Location = new Point(0, 582);
+            panel1.Location = new Point(0, 531);
             panel1.Name = "panel1";
             panel1.Size = new Size(310, 80);
             panel1.TabIndex = 6;
@@ -369,7 +380,7 @@
             // 
             // panel2
             // 
-            panel2.BackColor = Color.FromArgb(82, 108, 91);
+            panel2.BackColor = Color.FromArgb(250, 110, 6);
             panel2.Controls.Add(menuStrip1);
             panel2.Controls.Add(button9);
             panel2.Controls.Add(button7);
@@ -424,10 +435,121 @@
             // 
             pnlHienThi.BackColor = Color.FromArgb(220, 220, 187);
             pnlHienThi.Dock = DockStyle.Fill;
-            pnlHienThi.Location = new Point(310, 34);
+            pnlHienThi.Location = new Point(310, 85);
             pnlHienThi.Name = "pnlHienThi";
-            pnlHienThi.Size = new Size(922, 662);
+            pnlHienThi.Size = new Size(922, 611);
             pnlHienThi.TabIndex = 3;
+            // 
+            // panel3
+            // 
+            panel3.BackColor = Color.FromArgb(36, 76, 60);
+            panel3.Controls.Add(pictureBox1);
+            panel3.Controls.Add(button14);
+            panel3.Controls.Add(button13);
+            panel3.Controls.Add(button12);
+            panel3.Controls.Add(button11);
+            panel3.Controls.Add(scThemTaiKhoan);
+            panel3.Dock = DockStyle.Top;
+            panel3.Location = new Point(0, 34);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(1232, 51);
+            panel3.TabIndex = 0;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(1180, 6);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(40, 40);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 5;
+            pictureBox1.TabStop = false;
+            // 
+            // button14
+            // 
+            button14.FlatAppearance.BorderSize = 0;
+            button14.FlatStyle = FlatStyle.Flat;
+            button14.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            button14.ForeColor = Color.Cyan;
+            button14.Image = (Image)resources.GetObject("button14.Image");
+            button14.ImageAlign = ContentAlignment.MiddleLeft;
+            button14.Location = new Point(753, 7);
+            button14.Name = "button14";
+            button14.Size = new Size(133, 38);
+            button14.TabIndex = 4;
+            button14.Text = "Tạo báo cáo";
+            button14.TextAlign = ContentAlignment.MiddleRight;
+            button14.UseVisualStyleBackColor = true;
+            // 
+            // button13
+            // 
+            button13.FlatAppearance.BorderSize = 0;
+            button13.FlatStyle = FlatStyle.Flat;
+            button13.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            button13.ForeColor = Color.Cyan;
+            button13.Image = (Image)resources.GetObject("button13.Image");
+            button13.ImageAlign = ContentAlignment.MiddleLeft;
+            button13.Location = new Point(583, 7);
+            button13.Name = "button13";
+            button13.Size = new Size(164, 38);
+            button13.TabIndex = 3;
+            button13.Text = "Thêm ngân sách";
+            button13.TextAlign = ContentAlignment.MiddleRight;
+            button13.UseVisualStyleBackColor = true;
+            // 
+            // button12
+            // 
+            button12.FlatAppearance.BorderSize = 0;
+            button12.FlatStyle = FlatStyle.Flat;
+            button12.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            button12.ForeColor = Color.Cyan;
+            button12.Image = (Image)resources.GetObject("button12.Image");
+            button12.ImageAlign = ContentAlignment.MiddleLeft;
+            button12.Location = new Point(416, 7);
+            button12.Name = "button12";
+            button12.Size = new Size(161, 38);
+            button12.TabIndex = 2;
+            button12.Text = "Thêm đối tượng";
+            button12.TextAlign = ContentAlignment.MiddleRight;
+            button12.UseVisualStyleBackColor = true;
+            // 
+            // button11
+            // 
+            button11.FlatAppearance.BorderSize = 0;
+            button11.FlatStyle = FlatStyle.Flat;
+            button11.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            button11.ForeColor = Color.Cyan;
+            button11.Image = (Image)resources.GetObject("button11.Image");
+            button11.ImageAlign = ContentAlignment.MiddleLeft;
+            button11.Location = new Point(255, 7);
+            button11.Name = "button11";
+            button11.Size = new Size(155, 38);
+            button11.TabIndex = 1;
+            button11.Text = "Thêm giao dịch";
+            button11.TextAlign = ContentAlignment.MiddleRight;
+            button11.UseVisualStyleBackColor = true;
+            // 
+            // scThemTaiKhoan
+            // 
+            scThemTaiKhoan.FlatAppearance.BorderSize = 0;
+            scThemTaiKhoan.FlatStyle = FlatStyle.Flat;
+            scThemTaiKhoan.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            scThemTaiKhoan.ForeColor = Color.Cyan;
+            scThemTaiKhoan.Image = (Image)resources.GetObject("scThemTaiKhoan.Image");
+            scThemTaiKhoan.ImageAlign = ContentAlignment.MiddleLeft;
+            scThemTaiKhoan.Location = new Point(12, 6);
+            scThemTaiKhoan.Name = "scThemTaiKhoan";
+            scThemTaiKhoan.Size = new Size(237, 38);
+            scThemTaiKhoan.TabIndex = 0;
+            scThemTaiKhoan.Text = "Thêm tài khoản thanh toán";
+            scThemTaiKhoan.TextAlign = ContentAlignment.MiddleRight;
+            scThemTaiKhoan.UseVisualStyleBackColor = true;
+            // 
+            // notifyIcon
+            // 
+            notifyIcon.Icon = (Icon)resources.GetObject("notifyIcon.Icon");
+            notifyIcon.Text = "PFMA";
             // 
             // FrmMain
             // 
@@ -436,6 +558,7 @@
             ClientSize = new Size(1232, 696);
             Controls.Add(pnlHienThi);
             Controls.Add(pnlMenu);
+            Controls.Add(panel3);
             Controls.Add(panel2);
             FormBorderStyle = FormBorderStyle.None;
             MainMenuStrip = menuStrip1;
@@ -452,6 +575,8 @@
             ((System.ComponentModel.ISupportInitialize)picUserProfile).EndInit();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
+            panel3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
         }
 
@@ -496,5 +621,13 @@
         private Panel pnlHienThi;
         private Panel panel1;
         private PictureBox picUserProfile;
+        private Panel panel3;
+        private Button button14;
+        private Button button13;
+        private Button button12;
+        private Button button11;
+        private Button scThemTaiKhoan;
+        private NotifyIcon notifyIcon;
+        private PictureBox pictureBox1;
     }
 }

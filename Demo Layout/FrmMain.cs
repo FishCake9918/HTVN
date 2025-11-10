@@ -20,7 +20,7 @@ namespace Demo_Layout
         public FrmMain()
         {
             InitializeComponent();
-         
+
         }
 
         private void button8_Click(object sender, EventArgs e)
@@ -102,5 +102,12 @@ namespace Demo_Layout
             f.Deactivate += (s, ev) => f.Close();
         }
 
+        private void button3_Click(object sender, EventArgs e)
+        {
+            pnlHienThi.Controls.Clear();
+            UserControlNganSach userControlMoi = new UserControlNganSach();
+            userControlMoi.Dock = DockStyle.Fill;
+            pnlHienThi.Controls.Add(userControlMoi);
+        }
     }
 }

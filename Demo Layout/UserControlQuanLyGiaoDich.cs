@@ -34,11 +34,16 @@ namespace Demo_Layout
             if (string.IsNullOrWhiteSpace(txtTimKiem.Text))
             {
                 // Nếu không có chữ nào được điền, khôi phục Placeholder
-                txtTimKiem.Text = "🔍 Tìm kiếm...";
+                txtTimKiem.Text = " Tìm kiếm...";
                 txtTimKiem.ForeColor = Color.Gray; // Đặt lại màu chữ mờ
                 isPlaceholderActive = true;
             }
             // Nếu có chữ, thì giữ nguyên chữ đó và màu Đen.
+        }
+
+        private void btnThem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
