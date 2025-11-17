@@ -10,16 +10,11 @@ using System.Windows.Forms;
 
 namespace Demo_Layout
 {
-    public partial class Admin : Form
+    public partial class UserControlDanhMucChiTieu : UserControl
     {
-        public Admin()
+        public UserControlDanhMucChiTieu()
         {
             InitializeComponent();
-        }
-        private void toolStripButton2_Click(object sender, EventArgs e)
-        {
-            FormThemTaiKhoan form = new FormThemTaiKhoan();
-            form.ShowDialog();
         }
     }
 }

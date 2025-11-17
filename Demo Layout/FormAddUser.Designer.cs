@@ -144,7 +144,7 @@
             Controls.Add(label2);
             Controls.Add(label1);
             Name = "FormAddUser";
-            Text = "Thêm người dùng";
+            Text = ".";
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
             PerformLayout();

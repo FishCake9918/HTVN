@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 namespace Demo_Layout
 {
-    public partial class FrmMain : Form
+    public partial class FrmMainAdmin : Form
     {
         // Cần 2 hằng số (constants) để gọi WinAPI
         public const int WM_NCLBUTTONDOWN = 0xA1;
@@ -17,7 +17,7 @@ namespace Demo_Layout
         public static extern bool ReleaseCapture();
 
         // ... (Các constructor và phương thức khác)
-        public FrmMain()
+        public FrmMainAdmin()
         {
             InitializeComponent();
 
@@ -59,21 +59,21 @@ namespace Demo_Layout
             // this.MaximumSize = Screen.PrimaryScreen.Bounds.Size;
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            pnlHienThi.Controls.Clear();
-            UserControlBaoCao userControlMoi = new UserControlBaoCao();
-            userControlMoi.Dock = DockStyle.Fill;
-            pnlHienThi.Controls.Add(userControlMoi);
-        }
+        //private void button1_Click(object sender, EventArgs e)
+        //{
+        //    pnlHienThi.Controls.Clear();
+        //    UserControlBaoCao userControlMoi = new UserControlBaoCao();
+        //    userControlMoi.Dock = DockStyle.Fill;
+        //    pnlHienThi.Controls.Add(userControlMoi);
+        //}
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            pnlHienThi.Controls.Clear();
-            UserControlQuanLyGiaoDich userControlMoi = new UserControlQuanLyGiaoDich();
-            userControlMoi.Dock = DockStyle.Fill;
-            pnlHienThi.Controls.Add(userControlMoi);
-        }
+        //private void button2_Click(object sender, EventArgs e)
+        //{
+        //    pnlHienThi.Controls.Clear();
+        //    UserControlQuanLyGiaoDich userControlMoi = new UserControlQuanLyGiaoDich();
+        //    userControlMoi.Dock = DockStyle.Fill;
+        //    pnlHienThi.Controls.Add(userControlMoi);
+        //}
 
         private void panel2_MouseDown(object sender, MouseEventArgs e)
         {
@@ -89,6 +89,14 @@ namespace Demo_Layout
             }
         }
         private FormTaiKhoan formTaiKhoan;
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            pnlHienThi.Controls.Clear();
+            UserControlBaoCaoThongKe userControlMoi = new UserControlBaoCaoThongKe();
+            userControlMoi.Dock = DockStyle.Fill;
+            pnlHienThi.Controls.Add(userControlMoi);
+        }
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             FormTaiKhoan f = new FormTaiKhoan();
@@ -102,10 +110,10 @@ namespace Demo_Layout
             f.Deactivate += (s, ev) => f.Close();
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void button2_Click(object sender, EventArgs e)
         {
             pnlHienThi.Controls.Clear();
-            UserControlNganSach userControlMoi = new UserControlNganSach();
+            UserControlQuanLyTaiKhoan userControlMoi = new UserControlQuanLyTaiKhoan();
             userControlMoi.Dock = DockStyle.Fill;
             pnlHienThi.Controls.Add(userControlMoi);
         }
@@ -113,23 +121,7 @@ namespace Demo_Layout
         private void button5_Click(object sender, EventArgs e)
         {
             pnlHienThi.Controls.Clear();
-            UserControlDoiTuongGiaoDich userControlMoi = new UserControlDoiTuongGiaoDich();
-            userControlMoi.Dock = DockStyle.Fill;
-            pnlHienThi.Controls.Add(userControlMoi);
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            pnlHienThi.Controls.Clear();
-            UserControlDanhMucChiTieu userControlMoi = new UserControlDanhMucChiTieu();
-            userControlMoi.Dock = DockStyle.Fill;
-            pnlHienThi.Controls.Add(userControlMoi);
-        }
-
-        private void button6_Click(object sender, EventArgs e)
-        {
-            pnlHienThi.Controls.Clear();
-            UserControlTaiKhoanThanhToan userControlMoi = new UserControlTaiKhoanThanhToan();
+            UserControlQuanLyThongBao userControlMoi = new UserControlQuanLyThongBao();
             userControlMoi.Dock = DockStyle.Fill;
             pnlHienThi.Controls.Add(userControlMoi);
         }
