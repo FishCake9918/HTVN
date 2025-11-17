@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Demo_Layout
+namespace Piggy_Admin
 {
-    public partial class FormThemGiaoDich : Form
+    public partial class UserControlQuanLyTaiKhoan : UserControl
     {
-        public FormThemGiaoDich()
+        public UserControlQuanLyTaiKhoan()
         {
             InitializeComponent();
         }

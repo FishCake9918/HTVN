@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <RootNamespace>Piggy_Admin</RootNamespace>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Krypton.Docking" Version="95.25.10.293" />
+    <PackageReference Include="Krypton.Navigator" Version="95.25.10.293" />
+    <PackageReference Include="Krypton.Ribbon" Version="95.25.10.293" />
+    <PackageReference Include="Krypton.Toolkit" Version="95.25.10.293" />
+    <PackageReference Include="Krypton.Workspace" Version="95.25.10.293" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="FormTaiKhoan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FrmMainAdmin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="UserControlBaoCaoThongKe.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="UserControlQuanLyTaiKhoan.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="UserControlQuanLyThongBao.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+  </ItemGroup>
+
+</Project>

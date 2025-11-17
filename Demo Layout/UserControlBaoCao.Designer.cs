@@ -30,9 +30,9 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserControlBaoCao));
             panel4 = new Panel();
-            label1 = new Label();
             btnXoa = new Button();
             btnThem = new Button();
+            label1 = new Label();
             tableLayoutPanel1 = new TableLayoutPanel();
             panel4.SuspendLayout();
             SuspendLayout();
@@ -48,17 +48,6 @@
             panel4.Name = "panel4";
             panel4.Size = new Size(922, 69);
             panel4.TabIndex = 9;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
-            label1.ForeColor = Color.Cyan;
-            label1.Location = new Point(30, 19);
-            label1.Name = "label1";
-            label1.Size = new Size(136, 37);
-            label1.TabIndex = 0;
-            label1.Text = "BÁO CÁO";
             // 
             // btnXoa
             // 
@@ -93,6 +82,18 @@
             btnThem.Text = "Thêm";
             btnThem.TextAlign = ContentAlignment.MiddleRight;
             btnThem.UseVisualStyleBackColor = true;
+            btnThem.Click += btnThem_Click;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
+            label1.ForeColor = Color.Cyan;
+            label1.Location = new Point(30, 19);
+            label1.Name = "label1";
+            label1.Size = new Size(136, 37);
+            label1.TabIndex = 0;
+            label1.Text = "BÁO CÁO";
             // 
             // tableLayoutPanel1
             // 

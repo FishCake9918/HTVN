@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.13.35825.156
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo Layout", "Demo Layout\Demo Layout.csproj", "{B2C76C5D-E8B3-44AA-94F4-BBAF0F72A580}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Piggy Bank", "Demo Layout\Piggy Bank.csproj", "{B2C76C5D-E8B3-44AA-94F4-BBAF0F72A580}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Piggy Admin", "Piggy Admin\Piggy Admin.csproj", "{6DC5BB5C-75BF-4352-8AF0-12A8F3D34C16}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{B2C76C5D-E8B3-44AA-94F4-BBAF0F72A580}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2C76C5D-E8B3-44AA-94F4-BBAF0F72A580}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B2C76C5D-E8B3-44AA-94F4-BBAF0F72A580}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DC5BB5C-75BF-4352-8AF0-12A8F3D34C16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DC5BB5C-75BF-4352-8AF0-12A8F3D34C16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DC5BB5C-75BF-4352-8AF0-12A8F3D34C16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DC5BB5C-75BF-4352-8AF0-12A8F3D34C16}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

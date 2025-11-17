@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 
-namespace Demo_Layout
+namespace Piggy_Admin
 {
     public partial class FrmMainAdmin : Form
     {
@@ -58,6 +58,22 @@ namespace Demo_Layout
             // bạn có thể dùng thuộc tính Bounds thay thế:
             // this.MaximumSize = Screen.PrimaryScreen.Bounds.Size;
         }
+
+        //private void button1_Click(object sender, EventArgs e)
+        //{
+        //    pnlHienThi.Controls.Clear();
+        //    UserControlBaoCao userControlMoi = new UserControlBaoCao();
+        //    userControlMoi.Dock = DockStyle.Fill;
+        //    pnlHienThi.Controls.Add(userControlMoi);
+        //}
+
+        //private void button2_Click(object sender, EventArgs e)
+        //{
+        //    pnlHienThi.Controls.Clear();
+        //    UserControlQuanLyGiaoDich userControlMoi = new UserControlQuanLyGiaoDich();
+        //    userControlMoi.Dock = DockStyle.Fill;
+        //    pnlHienThi.Controls.Add(userControlMoi);
+        //}
 
         private void panel2_MouseDown(object sender, MouseEventArgs e)
         {

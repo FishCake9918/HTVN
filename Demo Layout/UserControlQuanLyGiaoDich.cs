@@ -43,7 +43,7 @@ namespace Demo_Layout
 
         private void btnThem_Click(object sender, EventArgs e)
         {
-            ChinhSuaPayee chinhSuaPayee = new ChinhSuaPayee();
+            FormThemGiaoDich chinhSuaPayee = new FormThemGiaoDich();
             chinhSuaPayee.Show();
         }
     }

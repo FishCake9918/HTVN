@@ -1,6 +1,6 @@
-﻿namespace Demo_Layout
+﻿namespace Piggy_Admin
 {
-    partial class FormThemGiaoDich
+    partial class FormTaiKhoan
     {
         /// <summary>
         /// Required designer variable.
@@ -30,13 +30,14 @@
         {
             SuspendLayout();
             // 
-            // FormThemGiaoDich
+            // FormTaiKhoan
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
-            Name = "FormThemGiaoDich";
-            Text = "Thêm Giao dịch";
+            ClientSize = new Size(359, 450);
+            FormBorderStyle = FormBorderStyle.None;
+            Name = "FormTaiKhoan";
+            Text = "FormTaiKhoan";
             ResumeLayout(false);
         }
 

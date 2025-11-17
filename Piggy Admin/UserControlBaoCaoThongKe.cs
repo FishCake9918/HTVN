@@ -8,19 +8,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Demo_Layout
+namespace Piggy_Admin
 {
-    public partial class UserControlBaoCao : UserControl
+    public partial class UserControlBaoCaoThongKe : UserControl
     {
-        public UserControlBaoCao()
+        public UserControlBaoCaoThongKe()
         {
             InitializeComponent();
         }
 
         private void btnThem_Click(object sender, EventArgs e)
         {
-            ChinhSuaPayee chinhSuaPayee = new ChinhSuaPayee(null);
-            chinhSuaPayee.ShowDialog();
+
         }
     }
 }
