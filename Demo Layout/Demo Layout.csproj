@@ -15,9 +15,20 @@
     <PackageReference Include="Krypton.Ribbon" Version="95.25.10.293" />
     <PackageReference Include="Krypton.Toolkit" Version="95.25.10.293" />
     <PackageReference Include="Krypton.Workspace" Version="95.25.10.293" />
+    <PackageReference Include="LiveCharts.Core" Version="0.9.8" />
+    <PackageReference Include="LiveCharts.WinForms.NetCore3" Version="0.9.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.22" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.22" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="DanhMucChiTieu\frmDanhMucChiTieu.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="FrmMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -33,10 +44,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="NewFolder\" />
   </ItemGroup>
 
 </Project>

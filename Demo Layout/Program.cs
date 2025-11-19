@@ -1,3 +1,5 @@
+using Demo_Layout.DanhMucChiTieu;
+
 namespace Demo_Layout
 {
     internal static class Program
@@ -8,7 +10,6 @@ namespace Demo_Layout
         [STAThread]
         static void Main()
         {
-
 
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.

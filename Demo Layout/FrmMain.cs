@@ -121,7 +121,7 @@ namespace Demo_Layout
         private void button4_Click(object sender, EventArgs e)
         {
             pnlHienThi.Controls.Clear();
-            UserControlDanhMucChiTieu userControlMoi = new UserControlDanhMucChiTieu();
+            UCDanhMucChiTieu userControlMoi = new UCDanhMucChiTieu();
             userControlMoi.Dock = DockStyle.Fill;
             pnlHienThi.Controls.Add(userControlMoi);
         }
