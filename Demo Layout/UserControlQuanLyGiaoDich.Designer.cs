@@ -39,10 +39,9 @@
             txtTimKiem = new TextBox();
             label1 = new Label();
             panel5 = new Panel();
-            kryptonDataGridView1 = new Krypton.Toolkit.KryptonDataGridView();
-            cot1 = new DataGridViewTextBoxColumn();
             panel6 = new Panel();
             panel1 = new Panel();
+            kryptonDataGridView1 = new DataGridView();
             panel3.SuspendLayout();
             panel4.SuspendLayout();
             panel5.SuspendLayout();
@@ -133,6 +132,7 @@
             btnSua.Text = "Sửa";
             btnSua.TextAlign = ContentAlignment.MiddleRight;
             btnSua.UseVisualStyleBackColor = true;
+            btnSua.Click += btnSua_Click;
             // 
             // btnXoa
             // 
@@ -151,6 +151,7 @@
             btnXoa.Text = "Xoá";
             btnXoa.TextAlign = ContentAlignment.MiddleRight;
             btnXoa.UseVisualStyleBackColor = true;
+            btnXoa.Click += btnXoa_Click;
             // 
             // txtTimKiem
             // 
@@ -161,6 +162,7 @@
             txtTimKiem.Size = new Size(264, 31);
             txtTimKiem.TabIndex = 1;
             txtTimKiem.Text = "  Tìm kiếm...";
+            txtTimKiem.TextChanged += txtTimKiem_TextChanged;
             txtTimKiem.Enter += txtTimKiem_Enter;
             txtTimKiem.Leave += txtTimKiem_Leave;
             // 
@@ -227,6 +229,16 @@
             panel1.Size = new Size(125, 678);
             panel1.TabIndex = 0;
             // 
+            // kryptonDataGridView1
+            // 
+            kryptonDataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            kryptonDataGridView1.Dock = DockStyle.Fill;
+            kryptonDataGridView1.Location = new Point(0, 50);
+            kryptonDataGridView1.Name = "kryptonDataGridView1";
+            kryptonDataGridView1.RowHeadersWidth = 51;
+            kryptonDataGridView1.Size = new Size(722, 442);
+            kryptonDataGridView1.TabIndex = 2;
+            // 
             // UserControlQuanLyGiaoDich
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -258,11 +270,10 @@
         private Panel panel1;
         private TextBox txtTimKiem;
         private Panel panel6;
-        private Krypton.Toolkit.KryptonDataGridView kryptonDataGridView1;
         private Label label2;
         private Button btnSua;
         private Button btnXoa;
         private Button btnThem;
-        private DataGridViewTextBoxColumn cot1;
+        private DataGridView kryptonDataGridView1;
     }
 }
