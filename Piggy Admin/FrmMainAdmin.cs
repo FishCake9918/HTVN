@@ -1,11 +1,15 @@
-﻿using Krypton.Toolkit;
-using System.Windows.Forms;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
+using Data;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 
 namespace Piggy_Admin
 {
     public partial class FrmMainAdmin : Form
     {
+        private readonly IDbContextFactory<QLTCCNContext> _dbFactory;
+        private readonly IServiceProvider _serviceProvider;
+
         // Cần 2 hằng số (constants) để gọi WinAPI
         public const int WM_NCLBUTTONDOWN = 0xA1;
         public const int HT_CAPTION = 0x2;
@@ -16,11 +20,12 @@ namespace Piggy_Admin
         [DllImport("user32.dll")]
         public static extern bool ReleaseCapture();
 
-        // ... (Các constructor và phương thức khác)
-        public FrmMainAdmin()
+        // THAY THẾ CONSTRUCTOR CŨ BẰNG CONSTRUCTOR DÙNG DI:
+        public FrmMainAdmin(IDbContextFactory<QLTCCNContext> dbFactory, IServiceProvider serviceProvider)
         {
             InitializeComponent();
-
+            _dbFactory = dbFactory;
+            _serviceProvider = serviceProvider;
         }
 
         private void button8_Click(object sender, EventArgs e)
@@ -47,73 +52,43 @@ namespace Piggy_Admin
 
         private void FrmMain_Load(object sender, EventArgs e)
         {
-            // Lấy kích thước của màn hình làm việc (Working Area) hiện tại.
-            // Working Area là kích thước màn hình trừ đi Taskbar và các dock bar khác.
             System.Drawing.Rectangle workingArea = Screen.PrimaryScreen.WorkingArea;
-
-            // Đặt thuộc tính MaximumSize của Form bằng với kích thước màn hình làm việc.
             this.MaximumSize = workingArea.Size;
-
-            // Nếu bạn muốn bao gồm cả Taskbar (kích thước đầy đủ của màn hình),
-            // bạn có thể dùng thuộc tính Bounds thay thế:
-            // this.MaximumSize = Screen.PrimaryScreen.Bounds.Size;
         }
-
-        //private void button1_Click(object sender, EventArgs e)
-        //{
-        //    pnlHienThi.Controls.Clear();
-        //    UserControlBaoCao userControlMoi = new UserControlBaoCao();
-        //    userControlMoi.Dock = DockStyle.Fill;
-        //    pnlHienThi.Controls.Add(userControlMoi);
-        //}
-
-        //private void button2_Click(object sender, EventArgs e)
-        //{
-        //    pnlHienThi.Controls.Clear();
-        //    UserControlQuanLyGiaoDich userControlMoi = new UserControlQuanLyGiaoDich();
-        //    userControlMoi.Dock = DockStyle.Fill;
-        //    pnlHienThi.Controls.Add(userControlMoi);
-        //}
 
         private void panel2_MouseDown(object sender, MouseEventArgs e)
         {
-            // Kiểm tra nếu là chuột trái được nhấn
             if (e.Button == MouseButtons.Left)
             {
-                // 1. Giải phóng sự chiếm giữ chuột của Panel
                 ReleaseCapture();
-
-                // 2. Gửi thông báo đến Windows rằng Form này đã nhận được lệnh kéo
-                // 'this.Handle' là tay nắm (handle) của cửa sổ Form hiện tại
                 SendMessage(this.Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
             }
         }
-        private FormTaiKhoan formTaiKhoan;
+        // Đã xóa FormTaiKhoan formTaiKhoan; nếu là khai báo cũ
 
         private void button1_Click(object sender, EventArgs e)
         {
             pnlHienThi.Controls.Clear();
-            UserControlBaoCaoThongKe userControlMoi = new UserControlBaoCaoThongKe();
+            UserControlBaoCaoThongKe userControlMoi = _serviceProvider.GetRequiredService<UserControlBaoCaoThongKe>();
             userControlMoi.Dock = DockStyle.Fill;
             pnlHienThi.Controls.Add(userControlMoi);
         }
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            FormTaiKhoan f = new FormTaiKhoan();
+            FormTaiKhoan f = _serviceProvider.GetRequiredService<FormTaiKhoan>();
+
             Point pos = picUserProfile.PointToScreen(new Point(50, picUserProfile.Height - 500));
             f.StartPosition = FormStartPosition.Manual;
             f.Location = pos;
 
             f.Show();
-
-            // Tự tắt khi click ra ngoài
             f.Deactivate += (s, ev) => f.Close();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             pnlHienThi.Controls.Clear();
-            UserControlQuanLyTaiKhoan userControlMoi = new UserControlQuanLyTaiKhoan();
+            UserControlQuanLyTaiKhoan userControlMoi = _serviceProvider.GetRequiredService<UserControlQuanLyTaiKhoan>();
             userControlMoi.Dock = DockStyle.Fill;
             pnlHienThi.Controls.Add(userControlMoi);
         }
@@ -121,7 +96,7 @@ namespace Piggy_Admin
         private void button5_Click(object sender, EventArgs e)
         {
             pnlHienThi.Controls.Clear();
-            UserControlQuanLyThongBao userControlMoi = new UserControlQuanLyThongBao();
+            UserControlQuanLyThongBao userControlMoi = _serviceProvider.GetRequiredService<UserControlQuanLyThongBao>();
             userControlMoi.Dock = DockStyle.Fill;
             pnlHienThi.Controls.Add(userControlMoi);
         }

@@ -393,7 +393,7 @@
             panel2.Name = "panel2";
             panel2.Size = new Size(1232, 34);
             panel2.TabIndex = 0;
-            panel2.MouseDown += panel2_MouseDown;
+            //panel2.MouseDown += panel2_MouseDown;
             // 
             // button9
             // 
@@ -419,7 +419,7 @@
             button7.Size = new Size(34, 34);
             button7.TabIndex = 0;
             button7.UseVisualStyleBackColor = true;
-            button7.Click += button7_Click;
+           button7.Click += button7_Click;
             // 
             // button8
             // 

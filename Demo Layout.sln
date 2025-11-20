@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Piggy Bank", "Demo Layout\P
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Piggy Admin", "Piggy Admin\Piggy Admin.csproj", "{6DC5BB5C-75BF-4352-8AF0-12A8F3D34C16}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", "{A2952CCE-E4B5-4D32-B353-E622EE5D862A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhanQuyen", "PhanQuyen\PhanQuyen.csproj", "{520E81F5-B1EA-4436-9C11-77466836DC0D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{6DC5BB5C-75BF-4352-8AF0-12A8F3D34C16}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6DC5BB5C-75BF-4352-8AF0-12A8F3D34C16}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6DC5BB5C-75BF-4352-8AF0-12A8F3D34C16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2952CCE-E4B5-4D32-B353-E622EE5D862A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2952CCE-E4B5-4D32-B353-E622EE5D862A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2952CCE-E4B5-4D32-B353-E622EE5D862A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2952CCE-E4B5-4D32-B353-E622EE5D862A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{520E81F5-B1EA-4436-9C11-77466836DC0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{520E81F5-B1EA-4436-9C11-77466836DC0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{520E81F5-B1EA-4436-9C11-77466836DC0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{520E81F5-B1EA-4436-9C11-77466836DC0D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

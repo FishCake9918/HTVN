@@ -7,6 +7,13 @@
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
+        // KHAI BÁO CÁC CONTROLS CÔNG CỘNG (SẼ DÙNG TRONG FILE .CS CHÍNH)
+        public Krypton.Toolkit.KryptonLabel lblTenTaiKhoan;
+        public Krypton.Toolkit.KryptonLabel lblSoDuHienTai;
+        public Krypton.Toolkit.KryptonComboBox cmbTaiKhoanChuyen;
+        public Krypton.Toolkit.KryptonButton btnDong;
+        public Krypton.Toolkit.KryptonButton btnHuy;
+
         /// <summary>
         /// Clean up any resources being used.
         /// </summary>
@@ -28,137 +35,105 @@
         /// </summary>
         private void InitializeComponent()
         {
-            label1 = new Label();
-            textBox1 = new TextBox();
-            label2 = new Label();
-            label3 = new Label();
-            label4 = new Label();
-            textBox2 = new TextBox();
-            label5 = new Label();
-            comboBox1 = new ComboBox();
-            button1 = new Button();
-            button2 = new Button();
-            SuspendLayout();
+            this.lblTenTaiKhoan = new Krypton.Toolkit.KryptonLabel();
+            this.lblSoDuHienTai = new Krypton.Toolkit.KryptonLabel();
+            this.cmbTaiKhoanChuyen = new Krypton.Toolkit.KryptonComboBox();
+            this.btnDong = new Krypton.Toolkit.KryptonButton();
+            this.btnHuy = new Krypton.Toolkit.KryptonButton();
+            Krypton.Toolkit.KryptonLabel label1;
+            Krypton.Toolkit.KryptonLabel label2;
+            Krypton.Toolkit.KryptonLabel label3;
+            ((System.ComponentModel.ISupportInitialize)(this.cmbTaiKhoanChuyen)).BeginInit();
+            this.SuspendLayout();
+
             // 
             // label1
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(24, 28);
+            label1 = new Krypton.Toolkit.KryptonLabel();
+            label1.Location = new System.Drawing.Point(30, 20);
             label1.Name = "label1";
-            label1.Size = new Size(211, 20);
-            label1.TabIndex = 0;
-            label1.Text = "Bạn có chắc chắn muốn đóng: ";
+            label1.Size = new System.Drawing.Size(280, 20);
+            label1.Text = "Bạn có chắc chắn muốn đóng tài khoản:";
             // 
-            // textBox1
+            // lblTenTaiKhoan
             // 
-            textBox1.Location = new Point(231, 25);
-            textBox1.Name = "textBox1";
-            textBox1.ReadOnly = true;
-            textBox1.Size = new Size(125, 27);
-            textBox1.TabIndex = 1;
+            this.lblTenTaiKhoan.Location = new System.Drawing.Point(300, 20);
+            this.lblTenTaiKhoan.Name = "lblTenTaiKhoan";
+            this.lblTenTaiKhoan.Size = new System.Drawing.Size(10, 20);
+            this.lblTenTaiKhoan.Text = "Tên Tài Khoản"; // Placeholder
+            this.lblTenTaiKhoan.StateCommon.ShortText.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             // 
             // label2
             // 
-            label2.AutoSize = true;
-            label2.Location = new Point(24, 55);
+            label2 = new Krypton.Toolkit.KryptonLabel();
+            label2.Location = new System.Drawing.Point(30, 60);
             label2.Name = "label2";
-            label2.Size = new Size(504, 20);
-            label2.TabIndex = 2;
-            label2.Text = "Tài khoản này có các giao dịch, vì vậy chúng tôi không thể xóa vĩnh viễn nó.";
+            label2.Size = new System.Drawing.Size(250, 20);
+            label2.Text = "Tài khoản này hiện có số dư là:";
+            // 
+            // lblSoDuHienTai
+            // 
+            this.lblSoDuHienTai.Location = new System.Drawing.Point(280, 60);
+            this.lblSoDuHienTai.Name = "lblSoDuHienTai";
+            this.lblSoDuHienTai.Size = new System.Drawing.Size(10, 20);
+            this.lblSoDuHienTai.Text = "0 đ"; // Placeholder
+            this.lblSoDuHienTai.StateCommon.ShortText.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.lblSoDuHienTai.StateCommon.ShortText.Color1 = System.Drawing.Color.Red;
             // 
             // label3
             // 
-            label3.AutoSize = true;
-            label3.Location = new Point(362, 32);
+            label3 = new Krypton.Toolkit.KryptonLabel();
+            label3.Location = new System.Drawing.Point(30, 100);
             label3.Name = "label3";
-            label3.Size = new Size(16, 20);
-            label3.TabIndex = 3;
-            label3.Text = "?";
+            label3.Size = new System.Drawing.Size(350, 20);
+            label3.Text = "Chọn tài khoản khác để chuyển số dư này sang:";
             // 
-            // label4
+            // cmbTaiKhoanChuyen
             // 
-            label4.AutoSize = true;
-            label4.Location = new Point(24, 85);
-            label4.Name = "label4";
-            label4.Size = new Size(214, 20);
-            label4.TabIndex = 4;
-            label4.Text = "Tài khoản này hiện có số dư là: ";
+            this.cmbTaiKhoanChuyen.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbTaiKhoanChuyen.DropDownWidth = 370;
+            this.cmbTaiKhoanChuyen.Location = new System.Drawing.Point(30, 130);
+            this.cmbTaiKhoanChuyen.Name = "cmbTaiKhoanChuyen";
+            this.cmbTaiKhoanChuyen.Size = new System.Drawing.Size(370, 21);
+            this.cmbTaiKhoanChuyen.TabIndex = 0;
             // 
-            // textBox2
+            // btnHuy
             // 
-            textBox2.Location = new Point(231, 82);
-            textBox2.Name = "textBox2";
-            textBox2.ReadOnly = true;
-            textBox2.Size = new Size(125, 27);
-            textBox2.TabIndex = 5;
+            this.btnHuy.Location = new System.Drawing.Point(220, 200);
+            this.btnHuy.Name = "btnHuy";
+            this.btnHuy.Size = new System.Drawing.Size(90, 30);
+            this.btnHuy.TabIndex = 1;
+            this.btnHuy.Values.Text = "Hủy";
             // 
-            // label5
+            // btnDong
             // 
-            label5.AutoSize = true;
-            label5.Location = new Point(24, 115);
-            label5.Name = "label5";
-            label5.Size = new Size(532, 20);
-            label5.TabIndex = 6;
-            label5.Text = "Để đóng tài khoản này, hãy chọn một tài khoản khác để chuyển số dư này sang:";
-            // 
-            // comboBox1
-            // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(24, 150);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(532, 28);
-            comboBox1.TabIndex = 7;
-            // 
-            // button1
-            // 
-            button1.Location = new Point(462, 198);
-            button1.Name = "button1";
-            button1.Size = new Size(94, 29);
-            button1.TabIndex = 8;
-            button1.Text = "Đóng";
-            button1.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
-            button2.Location = new Point(362, 198);
-            button2.Name = "button2";
-            button2.Size = new Size(94, 29);
-            button2.TabIndex = 9;
-            button2.Text = "Huỷ";
-            button2.UseVisualStyleBackColor = true;
+            this.btnDong.Location = new System.Drawing.Point(315, 200);
+            this.btnDong.Name = "btnDong";
+            this.btnDong.Size = new System.Drawing.Size(90, 30);
+            this.btnDong.TabIndex = 2;
+            this.btnDong.Values.Text = "Đóng";
             // 
             // FormDongTaiKhoan
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
-            AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(569, 239);
-            Controls.Add(button2);
-            Controls.Add(button1);
-            Controls.Add(comboBox1);
-            Controls.Add(label5);
-            Controls.Add(textBox2);
-            Controls.Add(label4);
-            Controls.Add(label3);
-            Controls.Add(label2);
-            Controls.Add(textBox1);
-            Controls.Add(label1);
-            Name = "FormDongTaiKhoan";
-            Text = "Đóng tài khoản";
-            ResumeLayout(false);
-            PerformLayout();
+            this.ClientSize = new System.Drawing.Size(430, 250);
+            this.ControlBox = true;
+            this.Controls.Add(this.btnDong);
+            this.Controls.Add(this.btnHuy);
+            this.Controls.Add(this.cmbTaiKhoanChuyen);
+            this.Controls.Add(label3);
+            this.Controls.Add(this.lblSoDuHienTai);
+            this.Controls.Add(label2);
+            this.Controls.Add(this.lblTenTaiKhoan);
+            this.Controls.Add(label1);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Name = "FormDongTaiKhoan";
+            this.Text = "Đóng Tài Khoản";
+            ((System.ComponentModel.ISupportInitialize)(this.cmbTaiKhoanChuyen)).EndInit();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
         #endregion
-
-        private Label label1;
-        private TextBox textBox1;
-        private Label label2;
-        private Label label3;
-        private Label label4;
-        private TextBox textBox2;
-        private Label label5;
-        private ComboBox comboBox1;
-        private Button button1;
-        private Button button2;
     }
 }

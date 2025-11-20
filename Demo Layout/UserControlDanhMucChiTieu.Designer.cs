@@ -39,9 +39,8 @@
             panel1 = new Panel();
             panel5 = new Panel();
             panel3 = new Panel();
-            kryptonDataGridView1 = new Krypton.Toolkit.KryptonDataGridView();
+            tvDanhMuc = new Krypton.Toolkit.KryptonTreeView();
             panel4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)kryptonDataGridView1).BeginInit();
             SuspendLayout();
             // 
             // panel4
@@ -74,6 +73,7 @@
             btnSua.Text = "Sửa";
             btnSua.TextAlign = ContentAlignment.MiddleRight;
             btnSua.UseVisualStyleBackColor = true;
+            btnSua.Click += btnSua_Click;
             // 
             // btnXoa
             // 
@@ -91,6 +91,7 @@
             btnXoa.Text = "Xoá";
             btnXoa.TextAlign = ContentAlignment.MiddleRight;
             btnXoa.UseVisualStyleBackColor = true;
+            btnXoa.Click += btnXoa_Click;
             // 
             // btnThem
             // 
@@ -108,13 +109,14 @@
             btnThem.Text = "Thêm";
             btnThem.TextAlign = ContentAlignment.MiddleRight;
             btnThem.UseVisualStyleBackColor = true;
+            btnThem.Click += btnThem_Click;
             // 
             // txtTimKiem
             // 
             txtTimKiem.ForeColor = SystemColors.InactiveCaption;
             txtTimKiem.Location = new Point(335, 23);
             txtTimKiem.Name = "txtTimKiem";
-            txtTimKiem.Size = new Size(212, 27);
+            txtTimKiem.Size = new Size(213, 27);
             txtTimKiem.TabIndex = 1;
             txtTimKiem.Text = "  Tìm kiếm...";
             // 
@@ -165,22 +167,19 @@
             panel3.Size = new Size(722, 50);
             panel3.TabIndex = 13;
             // 
-            // kryptonDataGridView1
+            // tvDanhMuc
             // 
-            kryptonDataGridView1.BorderStyle = BorderStyle.None;
-            kryptonDataGridView1.ColumnHeadersHeight = 36;
-            kryptonDataGridView1.Dock = DockStyle.Fill;
-            kryptonDataGridView1.Location = new Point(100, 119);
-            kryptonDataGridView1.Name = "kryptonDataGridView1";
-            kryptonDataGridView1.RowHeadersWidth = 51;
-            kryptonDataGridView1.Size = new Size(722, 442);
-            kryptonDataGridView1.TabIndex = 14;
+            tvDanhMuc.Dock = DockStyle.Fill;
+            tvDanhMuc.Location = new Point(100, 119);
+            tvDanhMuc.Name = "tvDanhMuc";
+            tvDanhMuc.Size = new Size(722, 442);
+            tvDanhMuc.TabIndex = 14;
             // 
             // UserControlDanhMucChiTieu
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(kryptonDataGridView1);
+            Controls.Add(tvDanhMuc);
             Controls.Add(panel3);
             Controls.Add(panel5);
             Controls.Add(panel1);
@@ -188,9 +187,9 @@
             Controls.Add(panel4);
             Name = "UserControlDanhMucChiTieu";
             Size = new Size(922, 611);
+            Load += UCDanhMucChiTieu_Load;
             panel4.ResumeLayout(false);
             panel4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)kryptonDataGridView1).EndInit();
             ResumeLayout(false);
         }
 
@@ -203,9 +202,9 @@
         private Panel panel1;
         private Panel panel5;
         private Panel panel3;
-        private Krypton.Toolkit.KryptonDataGridView kryptonDataGridView1;
         private Button btnSua;
         private Button btnXoa;
         private Button btnThem;
+        private Krypton.Toolkit.KryptonTreeView tvDanhMuc;
     }
 }
