@@ -144,7 +144,7 @@
             btnThem.Text = "Thêm";
             btnThem.TextAlign = ContentAlignment.MiddleRight;
             btnThem.UseVisualStyleBackColor = true;
-            btnThem.Click += btnThem_Click_1;
+           // btnThem.Click += btnThem_Click_1;
             // 
             // txtTimKiem
             // 

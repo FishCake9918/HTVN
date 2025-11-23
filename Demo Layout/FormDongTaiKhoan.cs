@@ -151,7 +151,7 @@ namespace Demo_Layout
 
                     // Đánh dấu tài khoản đóng
                     taiKhoanDong.SoDuBanDau = 0;
-                    taiKhoanDong.TrangThai = "Đã đóng"; // Đã fix lỗi cú pháp N"string"
+                    taiKhoanDong.TrangThai = "Đóng"; // Đã fix lỗi cú pháp N"string"
 
                     db.SaveChanges();
                     transaction.Commit();

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using Krypton.Toolkit;
-using System.Drawing; // Dùng cho Color
+using System.Drawing;
 
 namespace Demo_Layout
 {
@@ -42,7 +42,6 @@ namespace Demo_Layout
 
         private void UserControlDoiTuongGiaoDich_Load(object sender, EventArgs e)
         {
-            // *FIX: Xóa chữ tìm kiếm ngay khi load*
             txtTimKiem.Text = string.Empty;
             txtTimKiem.ForeColor = Color.Black;
 
@@ -205,11 +204,6 @@ namespace Demo_Layout
                     MessageBox.Show($"Lỗi khi xóa dữ liệu: {errorMessage}", "Lỗi Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-        }
-
-        private void btnThem_Click_1(object sender, EventArgs e)
-        {
-
         }
     }
 }
