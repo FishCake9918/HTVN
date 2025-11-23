@@ -43,6 +43,10 @@
             label6 = new Label();
             btnLuu = new Button();
             button1 = new Button();
+            radThu = new RadioButton();
+            radChi = new RadioButton();
+            cbDanhMuc = new ComboBox();
+            label7 = new Label();
             SuspendLayout();
             // 
             // txtTenGiaoDich
@@ -102,7 +106,7 @@
             // 
             // dtNgayGiaoDich
             // 
-            dtNgayGiaoDich.Location = new Point(400, 136);
+            dtNgayGiaoDich.Location = new Point(400, 129);
             dtNgayGiaoDich.Name = "dtNgayGiaoDich";
             dtNgayGiaoDich.Size = new Size(250, 27);
             dtNgayGiaoDich.TabIndex = 6;
@@ -112,7 +116,7 @@
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             label4.ForeColor = Color.White;
-            label4.Location = new Point(257, 141);
+            label4.Location = new Point(257, 134);
             label4.Name = "label4";
             label4.Size = new Size(141, 20);
             label4.TabIndex = 7;
@@ -183,12 +187,63 @@
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
+            // radThu
+            // 
+            radThu.AutoSize = true;
+            radThu.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            radThu.ForeColor = Color.White;
+            radThu.Location = new Point(244, 229);
+            radThu.Name = "radThu";
+            radThu.Size = new Size(57, 24);
+            radThu.TabIndex = 14;
+            radThu.TabStop = true;
+            radThu.Text = "Thu";
+            radThu.UseVisualStyleBackColor = true;
+            radThu.CheckedChanged += radThu_CheckedChanged;
+            // 
+            // radChi
+            // 
+            radChi.AutoSize = true;
+            radChi.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            radChi.ForeColor = Color.White;
+            radChi.Location = new Point(304, 229);
+            radChi.Name = "radChi";
+            radChi.Size = new Size(52, 24);
+            radChi.TabIndex = 15;
+            radChi.TabStop = true;
+            radChi.Text = "Chi";
+            radChi.UseVisualStyleBackColor = true;
+            radChi.CheckedChanged += radChi_CheckedChanged;
+            // 
+            // cbDanhMuc
+            // 
+            cbDanhMuc.FormattingEnabled = true;
+            cbDanhMuc.Location = new Point(499, 171);
+            cbDanhMuc.Name = "cbDanhMuc";
+            cbDanhMuc.Size = new Size(151, 28);
+            cbDanhMuc.TabIndex = 16;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            label7.ForeColor = Color.White;
+            label7.Location = new Point(358, 174);
+            label7.Name = "label7";
+            label7.Size = new Size(135, 20);
+            label7.TabIndex = 17;
+            label7.Text = "Danh mục chi tiêu";
+            // 
             // FrmThemGiaoDich
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(66, 94, 106);
             ClientSize = new Size(675, 270);
+            Controls.Add(label7);
+            Controls.Add(cbDanhMuc);
+            Controls.Add(radChi);
+            Controls.Add(radThu);
             Controls.Add(button1);
             Controls.Add(btnLuu);
             Controls.Add(label6);
@@ -228,5 +283,9 @@
         private Label label6;
         private Button btnLuu;
         private Button button1;
+        private RadioButton radThu;
+        private RadioButton radChi;
+        private ComboBox cbDanhMuc;
+        private Label label7;
     }
 }

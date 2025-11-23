@@ -79,6 +79,11 @@ namespace Demo_Layout
         {
             AddDataToTreeView();
         }
+
+        private void btnThoat_Click(object sender, EventArgs e)
+        {
+            this.Close(); // Đóng form hiện tại
+        }
     }
 }
 

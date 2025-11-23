@@ -206,5 +206,10 @@ namespace Demo_Layout
                 }
             }
         }
+
+        private void btnThem_Click_1(object sender, EventArgs e)
+        {
+
+        }
     }
 }
