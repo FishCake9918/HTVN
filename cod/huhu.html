@@ -1,0 +1,954 @@
+<!doctype html>
+<html lang="vi">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hệ thống quản lý bán hàng</title>
+  <script src="/_sdk/data_sdk.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+        body {
+            box-sizing: border-box;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        .notification-badge {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .slide-in {
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.2s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+ </head>
+ <body class="h-full min-h-full">
+  <div id="app" class="h-full min-h-full flex flex-col"></div>
+  <script>
+        const defaultConfig = {
+            background_color: "#f8fafc",
+            surface_color: "#ffffff",
+            text_color: "#1e293b",
+            primary_color: "#3b82f6",
+            secondary_color: "#64748b",
+            font_family: "Inter",
+            font_size: 16,
+            system_title: "Hệ thống quản lý bán hàng",
+            company_name: "Công ty TNHH ABC",
+            low_stock_message: "Sản phẩm sắp hết hàng",
+            price_change_message: "Giá sản phẩm đã thay đổi"
+        };
+
+        let currentUser = null;
+        let currentView = 'login';
+        let cart = [];
+        let allOrders = [];
+        let notifications = [];
+        let favoriteProducts = [];
+        
+        const sampleProducts = [
+            { id: 'P001', name: 'Laptop Dell XPS 13', price: 25000000, stock: 15, category: 'Electronics', warehouse: 'Kho Hà Nội', image: '💻' },
+            { id: 'P002', name: 'iPhone 15 Pro', price: 29000000, stock: 8, category: 'Electronics', warehouse: 'Kho HCM', image: '📱' },
+            { id: 'P003', name: 'Samsung Galaxy S24', price: 22000000, stock: 12, category: 'Electronics', warehouse: 'Kho Hà Nội', image: '📱' },
+            { id: 'P004', name: 'MacBook Air M2', price: 28000000, stock: 10, category: 'Electronics', warehouse: 'Kho HCM', image: '💻' },
+            { id: 'P005', name: 'iPad Pro 12.9', price: 26000000, stock: 5, category: 'Electronics', warehouse: 'Kho Đà Nẵng', image: '📱' },
+            { id: 'P006', name: 'AirPods Pro', price: 6000000, stock: 3, category: 'Accessories', warehouse: 'Kho Hà Nội', image: '🎧' },
+            { id: 'P007', name: 'Apple Watch Series 9', price: 10000000, stock: 20, category: 'Accessories', warehouse: 'Kho HCM', image: '⌚' },
+            { id: 'P008', name: 'Sony WH-1000XM5', price: 8000000, stock: 15, category: 'Accessories', warehouse: 'Kho Hà Nội', image: '🎧' }
+        ];
+
+        const dataHandler = {
+            onDataChanged(data) {
+                allOrders = data.filter(item => item.type === 'order');
+                const favorites = data.filter(item => item.type === 'favorite');
+                favoriteProducts = favorites.map(f => f.product_id);
+                
+                checkNotifications();
+                render();
+            }
+        };
+
+        async function initializeApp() {
+            const initResult = await window.dataSdk.init(dataHandler);
+            if (!initResult.isOk) {
+                console.error("Failed to initialize data SDK");
+                return;
+            }
+            
+            if (window.elementSdk) {
+                window.elementSdk.init({
+                    defaultConfig,
+                    onConfigChange,
+                    mapToCapabilities: (config) => ({
+                        recolorables: [
+                            { get: () => config.background_color || defaultConfig.background_color, set: (v) => { config.background_color = v; window.elementSdk.setConfig({ background_color: v }); } },
+                            { get: () => config.surface_color || defaultConfig.surface_color, set: (v) => { config.surface_color = v; window.elementSdk.setConfig({ surface_color: v }); } },
+                            { get: () => config.text_color || defaultConfig.text_color, set: (v) => { config.text_color = v; window.elementSdk.setConfig({ text_color: v }); } },
+                            { get: () => config.primary_color || defaultConfig.primary_color, set: (v) => { config.primary_color = v; window.elementSdk.setConfig({ primary_color: v }); } },
+                            { get: () => config.secondary_color || defaultConfig.secondary_color, set: (v) => { config.secondary_color = v; window.elementSdk.setConfig({ secondary_color: v }); } }
+                        ],
+                        borderables: [],
+                        fontEditable: { get: () => config.font_family || defaultConfig.font_family, set: (v) => { config.font_family = v; window.elementSdk.setConfig({ font_family: v }); } },
+                        fontSizeable: { get: () => config.font_size || defaultConfig.font_size, set: (v) => { config.font_size = v; window.elementSdk.setConfig({ font_size: v }); } }
+                    }),
+                    mapToEditPanelValues: (config) => new Map([
+                        ["system_title", config.system_title || defaultConfig.system_title],
+                        ["company_name", config.company_name || defaultConfig.company_name],
+                        ["low_stock_message", config.low_stock_message || defaultConfig.low_stock_message],
+                        ["price_change_message", config.price_change_message || defaultConfig.price_change_message]
+                    ])
+                });
+            }
+            
+            render();
+        }
+
+        async function onConfigChange(config) {
+            const customFont = config.font_family || defaultConfig.font_family;
+            const baseFontStack = 'system-ui, -apple-system, sans-serif';
+            const baseSize = config.font_size || defaultConfig.font_size;
+            
+            document.body.style.fontFamily = `${customFont}, ${baseFontStack}`;
+            document.body.style.backgroundColor = config.background_color || defaultConfig.background_color;
+            document.body.style.color = config.text_color || defaultConfig.text_color;
+            
+            const allText = document.querySelectorAll('*');
+            allText.forEach(el => {
+                if (el.classList.contains('text-4xl')) el.style.fontSize = `${baseSize * 2}px`;
+                else if (el.classList.contains('text-3xl')) el.style.fontSize = `${baseSize * 1.75}px`;
+                else if (el.classList.contains('text-2xl')) el.style.fontSize = `${baseSize * 1.5}px`;
+                else if (el.classList.contains('text-xl')) el.style.fontSize = `${baseSize * 1.25}px`;
+                else if (el.classList.contains('text-lg')) el.style.fontSize = `${baseSize * 1.125}px`;
+                else if (el.classList.contains('text-sm')) el.style.fontSize = `${baseSize * 0.875}px`;
+                else if (el.classList.contains('text-xs')) el.style.fontSize = `${baseSize * 0.75}px`;
+                else el.style.fontSize = `${baseSize}px`;
+            });
+            
+            const surfaces = document.querySelectorAll('.bg-white');
+            surfaces.forEach(el => el.style.backgroundColor = config.surface_color || defaultConfig.surface_color);
+            
+            const primaryButtons = document.querySelectorAll('.btn-primary');
+            primaryButtons.forEach(el => {
+                el.style.backgroundColor = config.primary_color || defaultConfig.primary_color;
+            });
+            
+            const secondaryButtons = document.querySelectorAll('.btn-secondary');
+            secondaryButtons.forEach(el => {
+                el.style.backgroundColor = config.secondary_color || defaultConfig.secondary_color;
+            });
+        }
+
+        function checkNotifications() {
+            notifications = [];
+            
+            favoriteProducts.forEach(productId => {
+                const product = sampleProducts.find(p => p.id === productId);
+                if (product && product.stock <= 5) {
+                    notifications.push({
+                        id: `stock-${product.id}`,
+                        type: 'low_stock',
+                        productId: product.id,
+                        productName: product.name,
+                        message: `${(window.elementSdk && window.elementSdk.config.low_stock_message) || defaultConfig.low_stock_message}: ${product.name} (còn ${product.stock} sản phẩm)`,
+                        timestamp: new Date().toISOString()
+                    });
+                }
+            });
+        }
+
+        function render() {
+            const config = (window.elementSdk && window.elementSdk.config) || defaultConfig;
+            const app = document.getElementById('app');
+            
+            if (currentView === 'login') {
+                app.innerHTML = renderLogin(config);
+            } else {
+                app.innerHTML = `
+                    <div class="h-full min-h-full flex" style="background-color: ${config.background_color}; font-family: ${config.font_family}, system-ui, -apple-system, sans-serif;">
+                        ${renderSidebar(config)}
+                        <div class="flex-1 flex flex-col h-full min-h-full overflow-hidden">
+                            ${renderHeader(config)}
+                            <main class="flex-1 overflow-auto p-6">
+                                ${renderMainContent(config)}
+                            </main>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            attachEventListeners();
+            if (window.elementSdk) {
+                onConfigChange(config);
+            }
+        }
+
+        function renderLogin(config) {
+            return `
+                <div class="h-full min-h-full flex items-center justify-center p-6" style="background: linear-gradient(135deg, ${config.primary_color}20 0%, ${config.background_color} 100%);">
+                    <div class="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md" style="background-color: ${config.surface_color};">
+                        <div class="text-center mb-8">
+                            <h1 class="text-3xl font-bold mb-2" style="color: ${config.text_color};">${config.system_title}</h1>
+                            <p class="text-sm" style="color: ${config.secondary_color};">${config.company_name}</p>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium mb-2" style="color: ${config.text_color};">Email</label>
+                                <input type="email" id="login-email" placeholder="nhanvien@company.com" 
+                                    class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2" 
+                                    style="border-color: ${config.secondary_color}40; color: ${config.text_color}; background-color: ${config.background_color};">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium mb-2" style="color: ${config.text_color};">Mật khẩu</label>
+                                <input type="password" id="login-password" placeholder="••••••••" 
+                                    class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2" 
+                                    style="border-color: ${config.secondary_color}40; color: ${config.text_color}; background-color: ${config.background_color};">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium mb-2" style="color: ${config.text_color};">Vai trò</label>
+                                <select id="login-role" class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2" 
+                                    style="border-color: ${config.secondary_color}40; color: ${config.text_color}; background-color: ${config.background_color};">
+                                    <option value="sales">Nhân viên bán hàng</option>
+                                    <option value="manager">Quản lý</option>
+                                    <option value="accounting">Kế toán</option>
+                                </select>
+                            </div>
+                            
+                            <button onclick="handleLogin()" class="btn-primary w-full py-3 rounded-lg font-semibold text-white transition-all hover:opacity-90" 
+                                style="background-color: ${config.primary_color};">
+                                Đăng nhập
+                            </button>
+                            
+                            <div class="text-center">
+                                <a href="#" class="text-sm hover:underline" style="color: ${config.primary_color};">Quên mật khẩu?</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderSidebar(config) {
+            const menuItems = [
+                { id: 'dashboard', icon: '📊', label: 'Dashboard', view: 'dashboard' },
+                { id: 'products', icon: '📦', label: 'Sản phẩm', view: 'products' },
+                { id: 'cart', icon: '🛒', label: 'Giỏ hàng', badge: cart.length },
+                { id: 'orders', icon: '📋', label: 'Đơn hàng', badge: allOrders.filter(o => o.status === 'pending').length },
+                { id: 'notifications', icon: '🔔', label: 'Thông báo', badge: notifications.length }
+            ];
+            
+            return `
+                <aside class="w-64 border-r h-full flex flex-col" style="background-color: ${config.surface_color}; border-color: ${config.secondary_color}20;">
+                    <div class="p-6 border-b" style="border-color: ${config.secondary_color}20;">
+                        <h2 class="text-xl font-bold" style="color: ${config.text_color};">Menu</h2>
+                    </div>
+                    <nav class="flex-1 p-4 space-y-2">
+                        ${menuItems.map(item => `
+                            <button onclick="changeView('${item.view || item.id}')" 
+                                class="w-full flex items-center justify-between px-4 py-3 rounded-lg transition-all hover:opacity-80 ${currentView === (item.view || item.id) ? 'btn-primary text-white' : ''}" 
+                                style="${currentView === (item.view || item.id) ? `background-color: ${config.primary_color};` : `color: ${config.text_color};`}">
+                                <span class="flex items-center gap-3">
+                                    <span class="text-xl">${item.icon}</span>
+                                    <span class="font-medium">${item.label}</span>
+                                </span>
+                                ${item.badge ? `<span class="notification-badge px-2 py-1 rounded-full text-xs font-bold text-white" style="background-color: #ef4444;">${item.badge}</span>` : ''}
+                            </button>
+                        `).join('')}
+                    </nav>
+                    <div class="p-4 border-t" style="border-color: ${config.secondary_color}20;">
+                        <button onclick="handleLogout()" class="btn-secondary w-full px-4 py-3 rounded-lg font-medium text-white transition-all hover:opacity-80" 
+                            style="background-color: ${config.secondary_color};">
+                            Đăng xuất
+                        </button>
+                    </div>
+                </aside>
+            `;
+        }
+
+        function renderHeader(config) {
+            return `
+                <header class="border-b px-6 py-4" style="background-color: ${config.surface_color}; border-color: ${config.secondary_color}20;">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h1 class="text-2xl font-bold" style="color: ${config.text_color};">${getViewTitle()}</h1>
+                            <p class="text-sm" style="color: ${config.secondary_color};">Xin chào, ${currentUser?.email || 'Người dùng'}</p>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="text-sm" style="color: ${config.secondary_color};">${new Date().toLocaleDateString('vi-VN')}</span>
+                        </div>
+                    </div>
+                </header>
+            `;
+        }
+
+        function renderMainContent(config) {
+            switch(currentView) {
+                case 'dashboard': return renderDashboard(config);
+                case 'products': return renderProducts(config);
+                case 'cart': return renderCart(config);
+                case 'orders': return renderOrders(config);
+                case 'notifications': return renderNotifications(config);
+                default: return renderDashboard(config);
+            }
+        }
+
+        function renderDashboard(config) {
+            const totalOrders = allOrders.length;
+            const pendingOrders = allOrders.filter(o => o.status === 'pending').length;
+            const completedOrders = allOrders.filter(o => o.status === 'completed').length;
+            const totalRevenue = allOrders.filter(o => o.status === 'completed').reduce((sum, o) => sum + (o.price * o.quantity), 0);
+            
+            return `
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-white rounded-xl shadow-lg p-6" style="background-color: ${config.surface_color};">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-3xl">💰</span>
+                            <span class="text-sm font-medium px-3 py-1 rounded-full" style="background-color: ${config.primary_color}20; color: ${config.primary_color};">Doanh thu</span>
+                        </div>
+                        <h3 class="text-3xl font-bold mb-2" style="color: ${config.text_color};">${totalRevenue.toLocaleString('vi-VN')}đ</h3>
+                        <p class="text-sm" style="color: ${config.secondary_color};">Tổng doanh thu</p>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-lg p-6" style="background-color: ${config.surface_color};">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-3xl">📦</span>
+                            <span class="text-sm font-medium px-3 py-1 rounded-full" style="background-color: ${config.primary_color}20; color: ${config.primary_color};">Đơn hàng</span>
+                        </div>
+                        <h3 class="text-3xl font-bold mb-2" style="color: ${config.text_color};">${totalOrders}</h3>
+                        <p class="text-sm" style="color: ${config.secondary_color};">Tổng đơn hàng</p>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-lg p-6" style="background-color: ${config.surface_color};">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-3xl">⏳</span>
+                            <span class="text-sm font-medium px-3 py-1 rounded-full" style="background-color: #f59e0b20; color: #f59e0b;">Chờ xử lý</span>
+                        </div>
+                        <h3 class="text-3xl font-bold mb-2" style="color: ${config.text_color};">${pendingOrders}</h3>
+                        <p class="text-sm" style="color: ${config.secondary_color};">Đơn chờ duyệt</p>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-lg p-6" style="background-color: ${config.surface_color};">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-3xl">✅</span>
+                            <span class="text-sm font-medium px-3 py-1 rounded-full" style="background-color: #10b98120; color: #10b981;">Hoàn thành</span>
+                        </div>
+                        <h3 class="text-3xl font-bold mb-2" style="color: ${config.text_color};">${completedOrders}</h3>
+                        <p class="text-sm" style="color: ${config.secondary_color};">Đơn hoàn tất</p>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="bg-white rounded-xl shadow-lg p-6" style="background-color: ${config.surface_color};">
+                        <h3 class="text-xl font-bold mb-4" style="color: ${config.text_color};">Đơn hàng gần đây</h3>
+                        <div class="space-y-3">
+                            ${allOrders.slice(-5).reverse().map(order => `
+                                <div class="flex items-center justify-between p-3 rounded-lg" style="background-color: ${config.background_color};">
+                                    <div>
+                                        <p class="font-medium" style="color: ${config.text_color};">${order.product_name}</p>
+                                        <p class="text-sm" style="color: ${config.secondary_color};">${order.customer_name}</p>
+                                    </div>
+                                    <span class="text-sm font-medium px-3 py-1 rounded-full ${getStatusStyle(order.status)}">${getStatusText(order.status)}</span>
+                                </div>
+                            `).join('') || `<p class="text-center py-8" style="color: ${config.secondary_color};">Chưa có đơn hàng nào</p>`}
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-lg p-6" style="background-color: ${config.surface_color};">
+                        <h3 class="text-xl font-bold mb-4" style="color: ${config.text_color};">Thông báo quan trọng</h3>
+                        <div class="space-y-3">
+                            ${notifications.slice(0, 5).map(notif => `
+                                <div class="flex items-start gap-3 p-3 rounded-lg" style="background-color: ${config.background_color};">
+                                    <span class="text-2xl">${notif.type === 'low_stock' ? '⚠️' : '💰'}</span>
+                                    <div class="flex-1">
+                                        <p class="text-sm font-medium" style="color: ${config.text_color};">${notif.message}</p>
+                                        <p class="text-xs mt-1" style="color: ${config.secondary_color};">${new Date(notif.timestamp).toLocaleString('vi-VN')}</p>
+                                    </div>
+                                </div>
+                            `).join('') || `<p class="text-center py-8" style="color: ${config.secondary_color};">Không có thông báo mới</p>`}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderProducts(config) {
+            return `
+                <div class="mb-6">
+                    <input type="text" id="search-products" placeholder="Tìm kiếm sản phẩm..." 
+                        class="w-full px-4 py-3 border rounded-lg" 
+                        style="border-color: ${config.secondary_color}40; color: ${config.text_color}; background-color: ${config.surface_color};"
+                        oninput="filterProducts()">
+                </div>
+                
+                <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    ${sampleProducts.map(product => `
+                        <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow" style="background-color: ${config.surface_color};">
+                            <div class="p-6">
+                                <div class="flex items-start justify-between mb-4">
+                                    <span class="text-5xl">${product.image}</span>
+                                    <button onclick="toggleFavorite('${product.id}')" class="text-2xl transition-transform hover:scale-110">
+                                        ${favoriteProducts.includes(product.id) ? '❤️' : '🤍'}
+                                    </button>
+                                </div>
+                                <h3 class="text-lg font-bold mb-2" style="color: ${config.text_color};">${product.name}</h3>
+                                <p class="text-sm mb-2" style="color: ${config.secondary_color};">Mã: ${product.id}</p>
+                                <div class="flex items-center gap-2 mb-3">
+                                    <span class="text-sm font-medium px-2 py-1 rounded" style="background-color: ${config.primary_color}20; color: ${config.primary_color};">${product.category}</span>
+                                    <span class="text-sm" style="color: ${config.secondary_color};">📍 ${product.warehouse}</span>
+                                </div>
+                                <p class="text-2xl font-bold mb-3" style="color: ${config.primary_color};">${product.price.toLocaleString('vi-VN')}đ</p>
+                                <div class="flex items-center justify-between mb-4">
+                                    <span class="text-sm font-medium" style="color: ${product.stock <= 5 ? '#ef4444' : config.secondary_color};">
+                                        Tồn kho: ${product.stock} ${product.stock <= 5 ? '⚠️' : ''}
+                                    </span>
+                                </div>
+                                <button onclick="addToCart('${product.id}')" class="btn-primary w-full py-3 rounded-lg font-semibold text-white transition-all hover:opacity-90" 
+                                    style="background-color: ${config.primary_color};">
+                                    Thêm vào giỏ hàng
+                                </button>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function renderCart(config) {
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            
+            return `
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="lg:col-span-2">
+                        <div class="bg-white rounded-xl shadow-lg p-6" style="background-color: ${config.surface_color};">
+                            <h3 class="text-xl font-bold mb-6" style="color: ${config.text_color};">Sản phẩm trong giỏ</h3>
+                            ${cart.length === 0 ? `
+                                <div class="text-center py-12">
+                                    <span class="text-6xl mb-4 block">🛒</span>
+                                    <p class="text-lg" style="color: ${config.secondary_color};">Giỏ hàng trống</p>
+                                </div>
+                            ` : `
+                                <div class="space-y-4">
+                                    ${cart.map((item, index) => `
+                                        <div class="flex items-center gap-4 p-4 rounded-lg" style="background-color: ${config.background_color};">
+                                            <span class="text-4xl">${item.image}</span>
+                                            <div class="flex-1">
+                                                <h4 class="font-bold" style="color: ${config.text_color};">${item.name}</h4>
+                                                <p class="text-sm" style="color: ${config.secondary_color};">${item.warehouse}</p>
+                                                <p class="text-lg font-bold mt-1" style="color: ${config.primary_color};">${item.price.toLocaleString('vi-VN')}đ</p>
+                                            </div>
+                                            <div class="flex items-center gap-2">
+                                                <button onclick="updateCartQuantity(${index}, ${item.quantity - 1})" class="w-8 h-8 rounded-lg font-bold text-white" style="background-color: ${config.secondary_color};">-</button>
+                                                <span class="w-12 text-center font-medium" style="color: ${config.text_color};">${item.quantity}</span>
+                                                <button onclick="updateCartQuantity(${index}, ${item.quantity + 1})" class="w-8 h-8 rounded-lg font-bold text-white" style="background-color: ${config.primary_color};">+</button>
+                                            </div>
+                                            <button onclick="removeFromCart(${index})" class="text-2xl hover:scale-110 transition-transform">❌</button>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            `}
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-lg p-6" style="background-color: ${config.surface_color};">
+                        <h3 class="text-xl font-bold mb-6" style="color: ${config.text_color};">Thông tin đơn hàng</h3>
+                        
+                        <div class="space-y-4 mb-6">
+                            <div>
+                                <label class="block text-sm font-medium mb-2" style="color: ${config.text_color};">Tên khách hàng</label>
+                                <input type="text" id="customer-name" placeholder="Nhập tên khách hàng" 
+                                    class="w-full px-4 py-2 border rounded-lg" 
+                                    style="border-color: ${config.secondary_color}40; color: ${config.text_color}; background-color: ${config.background_color};">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium mb-2" style="color: ${config.text_color};">Số điện thoại</label>
+                                <input type="tel" id="customer-phone" placeholder="Nhập số điện thoại" 
+                                    class="w-full px-4 py-2 border rounded-lg" 
+                                    style="border-color: ${config.secondary_color}40; color: ${config.text_color}; background-color: ${config.background_color};">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium mb-2" style="color: ${config.text_color};">Địa chỉ giao hàng</label>
+                                <textarea id="customer-address" placeholder="Nhập địa chỉ" rows="3" 
+                                    class="w-full px-4 py-2 border rounded-lg" 
+                                    style="border-color: ${config.secondary_color}40; color: ${config.text_color}; background-color: ${config.background_color};"></textarea>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium mb-2" style="color: ${config.text_color};">Phương thức thanh toán</label>
+                                <select id="payment-method" class="w-full px-4 py-2 border rounded-lg" 
+                                    style="border-color: ${config.secondary_color}40; color: ${config.text_color}; background-color: ${config.background_color};">
+                                    <option value="cash">Tiền mặt</option>
+                                    <option value="transfer">Chuyển khoản</option>
+                                    <option value="card">Thẻ tín dụng</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="border-t pt-4 mb-4" style="border-color: ${config.secondary_color}20;">
+                            <div class="flex justify-between mb-2">
+                                <span style="color: ${config.secondary_color};">Tạm tính:</span>
+                                <span class="font-medium" style="color: ${config.text_color};">${total.toLocaleString('vi-VN')}đ</span>
+                            </div>
+                            <div class="flex justify-between text-xl font-bold">
+                                <span style="color: ${config.text_color};">Tổng cộng:</span>
+                                <span style="color: ${config.primary_color};">${total.toLocaleString('vi-VN')}đ</span>
+                            </div>
+                        </div>
+                        
+                        <button onclick="checkout()" ${cart.length === 0 ? 'disabled' : ''} 
+                            class="btn-primary w-full py-3 rounded-lg font-semibold text-white transition-all hover:opacity-90 disabled:opacity-50" 
+                            style="background-color: ${config.primary_color};">
+                            Đặt hàng
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderOrders(config) {
+            const ordersByStatus = {
+                pending: allOrders.filter(o => o.status === 'pending'),
+                processing: allOrders.filter(o => o.status === 'processing'),
+                shipping: allOrders.filter(o => o.status === 'shipping'),
+                completed: allOrders.filter(o => o.status === 'completed')
+            };
+            
+            return `
+                <div class="space-y-6">
+                    ${Object.entries(ordersByStatus).map(([status, orders]) => `
+                        <div class="bg-white rounded-xl shadow-lg p-6" style="background-color: ${config.surface_color};">
+                            <h3 class="text-xl font-bold mb-4 flex items-center gap-2" style="color: ${config.text_color};">
+                                ${getStatusIcon(status)} ${getStatusText(status)} (${orders.length})
+                            </h3>
+                            ${orders.length === 0 ? `
+                                <p class="text-center py-8" style="color: ${config.secondary_color};">Không có đơn hàng</p>
+                            ` : `
+                                <div class="space-y-3">
+                                    ${orders.map(order => `
+                                        <div class="p-4 rounded-lg" style="background-color: ${config.background_color};">
+                                            <div class="flex items-start justify-between mb-3">
+                                                <div>
+                                                    <h4 class="font-bold" style="color: ${config.text_color};">${order.product_name}</h4>
+                                                    <p class="text-sm" style="color: ${config.secondary_color};">Mã: ${order.id.slice(0, 8)}</p>
+                                                </div>
+                                                <span class="text-lg font-bold" style="color: ${config.primary_color};">${(order.price * order.quantity).toLocaleString('vi-VN')}đ</span>
+                                            </div>
+                                            <div class="grid grid-cols-2 gap-4 text-sm mb-3">
+                                                <div>
+                                                    <p style="color: ${config.secondary_color};">Khách hàng:</p>
+                                                    <p class="font-medium" style="color: ${config.text_color};">${order.customer_name}</p>
+                                                </div>
+                                                <div>
+                                                    <p style="color: ${config.secondary_color};">SĐT:</p>
+                                                    <p class="font-medium" style="color: ${config.text_color};">${order.customer_phone}</p>
+                                                </div>
+                                                <div>
+                                                    <p style="color: ${config.secondary_color};">Kho xuất:</p>
+                                                    <p class="font-medium" style="color: ${config.text_color};">${order.warehouse}</p>
+                                                </div>
+                                                <div>
+                                                    <p style="color: ${config.secondary_color};">Thanh toán:</p>
+                                                    <p class="font-medium" style="color: ${config.text_color};">${getPaymentMethod(order.payment_method)}</p>
+                                                </div>
+                                            </div>
+                                            ${status === 'pending' ? `
+                                                <div class="flex gap-2">
+                                                    <button onclick="updateOrderStatus('${order.id}', 'processing')" class="flex-1 btn-primary py-2 rounded-lg font-medium text-white" style="background-color: ${config.primary_color};">
+                                                        Xác nhận
+                                                    </button>
+                                                    <button onclick="cancelOrder('${order.id}')" class="flex-1 btn-secondary py-2 rounded-lg font-medium text-white" style="background-color: ${config.secondary_color};">
+                                                        Hủy đơn
+                                                    </button>
+                                                </div>
+                                            ` : status !== 'completed' ? `
+                                                <button onclick="updateOrderStatus('${order.id}', '${getNextStatus(status)}')" class="w-full btn-primary py-2 rounded-lg font-medium text-white" style="background-color: ${config.primary_color};">
+                                                    Chuyển sang ${getStatusText(getNextStatus(status))}
+                                                </button>
+                                            ` : ''}
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            `}
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function renderNotifications(config) {
+            return `
+                <div class="bg-white rounded-xl shadow-lg p-6" style="background-color: ${config.surface_color};">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-xl font-bold" style="color: ${config.text_color};">Tất cả thông báo</h3>
+                        ${notifications.length > 0 ? `
+                            <button onclick="clearNotifications()" class="text-sm font-medium" style="color: ${config.primary_color};">
+                                Xóa tất cả
+                            </button>
+                        ` : ''}
+                    </div>
+                    
+                    ${notifications.length === 0 ? `
+                        <div class="text-center py-12">
+                            <span class="text-6xl mb-4 block">🔔</span>
+                            <p class="text-lg" style="color: ${config.secondary_color};">Không có thông báo mới</p>
+                        </div>
+                    ` : `
+                        <div class="space-y-4">
+                            ${notifications.map((notif, index) => `
+                                <div class="slide-in flex items-start gap-4 p-4 rounded-lg" style="background-color: ${config.background_color};">
+                                    <span class="text-3xl">${notif.type === 'low_stock' ? '⚠️' : '💰'}</span>
+                                    <div class="flex-1">
+                                        <p class="font-medium mb-1" style="color: ${config.text_color};">${notif.message}</p>
+                                        <p class="text-sm" style="color: ${config.secondary_color};">${new Date(notif.timestamp).toLocaleString('vi-VN')}</p>
+                                    </div>
+                                    <button onclick="dismissNotification(${index})" class="text-xl hover:scale-110 transition-transform">❌</button>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `}
+                </div>
+            `;
+        }
+
+        function getViewTitle() {
+            const titles = {
+                dashboard: 'Dashboard',
+                products: 'Danh mục sản phẩm',
+                cart: 'Giỏ hàng',
+                orders: 'Quản lý đơn hàng',
+                notifications: 'Thông báo'
+            };
+            return titles[currentView] || 'Dashboard';
+        }
+
+        function getStatusIcon(status) {
+            const icons = {
+                pending: '⏳',
+                processing: '🔄',
+                shipping: '🚚',
+                completed: '✅',
+                cancelled: '❌'
+            };
+            return icons[status] || '📦';
+        }
+
+        function getStatusText(status) {
+            const texts = {
+                pending: 'Chờ xử lý',
+                processing: 'Đang xử lý',
+                shipping: 'Đang giao hàng',
+                completed: 'Hoàn thành',
+                cancelled: 'Đã hủy'
+            };
+            return texts[status] || status;
+        }
+
+        function getStatusStyle(status) {
+            if (status === 'pending') return 'text-yellow-700' + ' ' + 'bg-yellow-100';
+            if (status === 'processing') return 'text-blue-700' + ' ' + 'bg-blue-100';
+            if (status === 'shipping') return 'text-purple-700' + ' ' + 'bg-purple-100';
+            if (status === 'completed') return 'text-green-700' + ' ' + 'bg-green-100';
+            return 'text-gray-700' + ' ' + 'bg-gray-100';
+        }
+
+        function getPaymentMethod(method) {
+            const methods = {
+                cash: 'Tiền mặt',
+                transfer: 'Chuyển khoản',
+                card: 'Thẻ tín dụng'
+            };
+            return methods[method] || method;
+        }
+
+        function getNextStatus(currentStatus) {
+            const statusFlow = {
+                pending: 'processing',
+                processing: 'shipping',
+                shipping: 'completed'
+            };
+            return statusFlow[currentStatus] || currentStatus;
+        }
+
+        function handleLogin() {
+            const email = document.getElementById('login-email').value;
+            const role = document.getElementById('login-role').value;
+            
+            if (!email) {
+                showToast('Vui lòng nhập email');
+                return;
+            }
+            
+            currentUser = { email, role };
+            currentView = 'dashboard';
+            render();
+        }
+
+        function handleLogout() {
+            currentUser = null;
+            currentView = 'login';
+            cart = [];
+            render();
+        }
+
+        function changeView(view) {
+            currentView = view;
+            render();
+        }
+
+        async function toggleFavorite(productId) {
+            const isFavorite = favoriteProducts.includes(productId);
+            const product = sampleProducts.find(p => p.id === productId);
+            
+            if (isFavorite) {
+                const existingFavorites = allOrders.filter(item => item.type === 'favorite');
+                const favoriteToRemove = existingFavorites.find(f => f.product_id === productId);
+                if (favoriteToRemove) {
+                    const deleteResult = await window.dataSdk.delete(favoriteToRemove);
+                    if (!deleteResult.isOk) {
+                        showToast('Lỗi khi xóa sản phẩm yêu thích');
+                    }
+                }
+            } else {
+                const favoriteData = {
+                    id: `fav-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+                    type: 'favorite',
+                    product_id: productId,
+                    product_name: product.name,
+                    user_email: currentUser?.email || 'user@example.com',
+                    created_at: new Date().toISOString()
+                };
+                
+                const createResult = await window.dataSdk.create(favoriteData);
+                if (!createResult.isOk) {
+                    showToast('Lỗi khi thêm sản phẩm yêu thích');
+                }
+            }
+        }
+
+        function addToCart(productId) {
+            const product = sampleProducts.find(p => p.id === productId);
+            const existingItem = cart.find(item => item.id === productId);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+            
+            showToast(`Đã thêm ${product.name} vào giỏ hàng`);
+            render();
+        }
+
+        function updateCartQuantity(index, newQuantity) {
+            if (newQuantity <= 0) {
+                removeFromCart(index);
+                return;
+            }
+            
+            const product = sampleProducts.find(p => p.id === cart[index].id);
+            if (newQuantity > product.stock) {
+                showToast(`Chỉ còn ${product.stock} sản phẩm trong kho`);
+                return;
+            }
+            
+            cart[index].quantity = newQuantity;
+            render();
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            render();
+        }
+
+        async function checkout() {
+            const customerName = document.getElementById('customer-name').value;
+            const customerPhone = document.getElementById('customer-phone').value;
+            const customerAddress = document.getElementById('customer-address').value;
+            const paymentMethod = document.getElementById('payment-method').value;
+            
+            if (!customerName || !customerPhone || !customerAddress) {
+                showToast('Vui lòng điền đầy đủ thông tin khách hàng');
+                return;
+            }
+            
+            if (cart.length === 0) {
+                showToast('Giỏ hàng trống');
+                return;
+            }
+
+            const currentRecordCount = allOrders.length;
+            if (currentRecordCount >= 999) {
+                showToast('Đã đạt giới hạn 999 đơn hàng. Vui lòng xóa bớt đơn hàng cũ.');
+                return;
+            }
+            
+            for (const item of cart) {
+                const orderData = {
+                    id: `order-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+                    type: 'order',
+                    product_id: item.id,
+                    product_name: item.name,
+                    quantity: item.quantity,
+                    price: item.price,
+                    warehouse: item.warehouse,
+                    customer_name: customerName,
+                    customer_phone: customerPhone,
+                    customer_address: customerAddress,
+                    payment_method: paymentMethod,
+                    status: 'pending',
+                    created_at: new Date().toISOString(),
+                    updated_at: new Date().toISOString(),
+                    user_email: currentUser?.email || 'user@example.com'
+                };
+                
+                const createResult = await window.dataSdk.create(orderData);
+                if (!createResult.isOk) {
+                    showToast('Lỗi khi tạo đơn hàng');
+                    return;
+                }
+            }
+            
+            cart = [];
+            currentView = 'orders';
+            showToast('Đặt hàng thành công!');
+            render();
+        }
+
+        async function updateOrderStatus(orderId, newStatus) {
+            const order = allOrders.find(o => o.id === orderId);
+            if (!order) return;
+            
+            const updatedOrder = {
+                ...order,
+                status: newStatus,
+                updated_at: new Date().toISOString()
+            };
+            
+            const updateResult = await window.dataSdk.update(updatedOrder);
+            if (updateResult.isOk) {
+                showToast(`Đã cập nhật trạng thái đơn hàng: ${getStatusText(newStatus)}`);
+            } else {
+                showToast('Lỗi khi cập nhật trạng thái');
+            }
+        }
+
+        async function cancelOrder(orderId) {
+            const order = allOrders.find(o => o.id === orderId);
+            if (!order) return;
+            
+            const deleteResult = await window.dataSdk.delete(order);
+            if (deleteResult.isOk) {
+                showToast('Đã hủy đơn hàng');
+            } else {
+                showToast('Lỗi khi hủy đơn hàng');
+            }
+        }
+
+        function dismissNotification(index) {
+            notifications.splice(index, 1);
+            render();
+        }
+
+        function clearNotifications() {
+            notifications = [];
+            render();
+        }
+
+        function filterProducts() {
+            const searchTerm = document.getElementById('search-products').value.toLowerCase();
+            const config = (window.elementSdk && window.elementSdk.config) || defaultConfig;
+            const productsGrid = document.getElementById('products-grid');
+            
+            const filteredProducts = sampleProducts.filter(p => 
+                p.name.toLowerCase().includes(searchTerm) || 
+                p.id.toLowerCase().includes(searchTerm) ||
+                p.category.toLowerCase().includes(searchTerm)
+            );
+            
+            productsGrid.innerHTML = filteredProducts.map(product => `
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow fade-in" style="background-color: ${config.surface_color};">
+                    <div class="p-6">
+                        <div class="flex items-start justify-between mb-4">
+                            <span class="text-5xl">${product.image}</span>
+                            <button onclick="toggleFavorite('${product.id}')" class="text-2xl transition-transform hover:scale-110">
+                                ${favoriteProducts.includes(product.id) ? '❤️' : '🤍'}
+                            </button>
+                        </div>
+                        <h3 class="text-lg font-bold mb-2" style="color: ${config.text_color};">${product.name}</h3>
+                        <p class="text-sm mb-2" style="color: ${config.secondary_color};">Mã: ${product.id}</p>
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="text-sm font-medium px-2 py-1 rounded" style="background-color: ${config.primary_color}20; color: ${config.primary_color};">${product.category}</span>
+                            <span class="text-sm" style="color: ${config.secondary_color};">📍 ${product.warehouse}</span>
+                        </div>
+                        <p class="text-2xl font-bold mb-3" style="color: ${config.primary_color};">${product.price.toLocaleString('vi-VN')}đ</p>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-sm font-medium" style="color: ${product.stock <= 5 ? '#ef4444' : config.secondary_color};">
+                                Tồn kho: ${product.stock} ${product.stock <= 5 ? '⚠️' : ''}
+                            </span>
+                        </div>
+                        <button onclick="addToCart('${product.id}')" class="btn-primary w-full py-3 rounded-lg font-semibold text-white transition-all hover:opacity-90" 
+                            style="background-color: ${config.primary_color};">
+                            Thêm vào giỏ hàng
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+            
+            attachEventListeners();
+        }
+
+        function showToast(message) {
+            const config = (window.elementSdk && window.elementSdk.config) || defaultConfig;
+            const toast = document.createElement('div');
+            toast.className = 'fixed bottom-6 right-6 px-6 py-4 rounded-lg shadow-lg text-white font-medium slide-in z-50';
+            toast.style.backgroundColor = config.primary_color;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(100%)';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        function attachEventListeners() {
+        }
+
+        initializeApp();
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a1f329a03970986',t:'MTc2MzcxNzczMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
+

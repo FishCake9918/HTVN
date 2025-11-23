@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Windows.Forms;
 using Microsoft.Extensions.DependencyInjection;
-using Data; // Giả định namespace chứa DbContext và Models (TaiKhoan, VaiTro)
+using Data;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using Demo_Layout; // Cần dùng Form/Namespace của Piggy Bank
-using Piggy_Admin; // Cần dùng Form/Namespace của Piggy Admin
+using Demo_Layout;
+using Piggy_Admin;
 
 
 namespace PhanQuyen
@@ -15,14 +15,27 @@ namespace PhanQuyen
         private readonly IServiceProvider _serviceProvider;
         private readonly IDbContextFactory<QLTCCNContext> _dbFactory;
 
-        private const string ADMIN_ROLE_NAME = "Admin";
-        private const string CUSTOMER_ROLE_NAME = "Customer";
+        private const string ADMIN_ROLE_NAME = "admin";
 
         public LoginForm(IDbContextFactory<QLTCCNContext> dbFactory, IServiceProvider serviceProvider)
         {
             InitializeComponent();
             _dbFactory = dbFactory;
             _serviceProvider = serviceProvider;
+
+            // HOOKUP SỰ KIỆN NÚT ĐĂNG KÝ
+            this.btnDangKyMoi.Click += new EventHandler(this.btnDangKyMoi_Click);
+        }
+
+        // PHƯƠNG THỨC: Mở Form Đăng ký
+        private void btnDangKyMoi_Click(object sender, EventArgs e)
+        {
+            // Lấy Form Đăng ký từ DI Container
+            using (var regForm = _serviceProvider.GetRequiredService<DangKy>())
+            {
+                // Mở form Đăng ký dưới dạng Modal (CenterParent)
+                regForm.ShowDialog(this);
+            }
         }
 
         private void btnDangNhap_Click(object sender, EventArgs e)
@@ -52,18 +65,13 @@ namespace PhanQuyen
                     this.Hide();
 
                     // 2. ĐĂNG KÝ SỰ KIỆN: Khi Form chính mới đóng, ứng dụng sẽ thoát.
-                    // Điều này giữ cho luồng WinForms chạy cho đến khi Form này đóng.
                     mainFormToRun.FormClosed += (s, args) => {
-                        // 3. ĐÓNG FORM LOGIN (giải phóng bộ nhớ) VÀ GỌI APPLICATION.EXIT()
-                        // Application.Exit() sẽ chấm dứt luồng WinForms một cách an toàn.
                         this.Dispose(); // Giải phóng Form Login khỏi bộ nhớ
-                        Application.Exit();
+                        Application.Exit(); // Chấm dứt luồng WinForms
                     };
 
-                    // 4. HIỂN THỊ FORM MỚI
+                    // 3. HIỂN THỊ FORM MỚI
                     mainFormToRun.Show();
-
-                    // Không gọi this.Close() ở đây nữa, vì nó đã được xử lý bằng Application.Exit() khi mainFormToRun đóng.
                 }
             }
             else
@@ -76,6 +84,7 @@ namespace PhanQuyen
         {
             using (var dbContext = _dbFactory.CreateDbContext())
             {
+                // Fix lỗi LINQ: dùng .ToLower() để so sánh Email
                 var taiKhoan = dbContext.Set<TaiKhoan>()
                     .Include(tk => tk.VaiTro)
                     .FirstOrDefault(tk =>

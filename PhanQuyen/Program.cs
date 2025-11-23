@@ -58,6 +58,8 @@ namespace PhanQuyen
                     services.AddTransient<Demo_Layout.FrmMain>();
                     services.AddTransient<Piggy_Admin.UserControlQuanLyThongBao>();
                     services.AddTransient<Piggy_Admin.TaoCapNhatThongBao>();
+                    services.AddTransient <DangKy>();
+                    services.AddTransient<IEmailService, EmailService>();
 
                 });
     }
