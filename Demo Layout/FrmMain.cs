@@ -161,12 +161,12 @@ namespace Demo_Layout
                 {
                     // X giữ nguyên (originalPos.X) -> Không lắc ngang
                     // Y chỉ thay đổi trong khoảng rất nhỏ (-2 đến +2) -> Rung nhẹ
-                    int y = originalPos.Y + rnd.Next(-2, 3);
+                    int y = originalPos.Y + rnd.Next(-4, 5);
 
                     icoPiggy.Location = new Point(originalPos.X, y);
 
                     // Tăng delay lên một chút (40ms) để nhịp rung chậm rãi, nhẹ nhàng hơn
-                    await Task.Delay(40);
+                    await Task.Delay(50);
                 }
             }
             finally
