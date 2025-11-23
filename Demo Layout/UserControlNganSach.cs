@@ -9,7 +9,6 @@ using Krypton.Toolkit;
 
 namespace Demo_Layout
 {
-    // Delegate để mở Form Thêm/Sửa ngân sách
     public delegate void OpenNganSachFormHandler(object sender, int nganSachId);
 
     public partial class UserControlNganSach : UserControl
@@ -19,7 +18,6 @@ namespace Demo_Layout
         private List<NganSachDisplayModel> _fullList = new List<NganSachDisplayModel>();
         private const int MA_NGUOI_DUNG_HIEN_TAI = 1;
 
-        // Sự kiện mở Form Thêm/Sửa
         public event OpenNganSachFormHandler OnOpenEditForm;
 
         // Constructor
@@ -39,8 +37,15 @@ namespace Demo_Layout
 
             ConfigureGridView();
         }
+        private void UserControlNganSach_Load(object sender, EventArgs e)
+        {
+            txtTimKiem.Text = string.Empty;
+            txtTimKiem.ForeColor = Color.Black;
 
+            LoadDanhSach();
+        }
         // --- Cấu hình DataGridView ---
+
         private void ConfigureGridView()
         {
             kryptonDataGridView1.AutoGenerateColumns = false;

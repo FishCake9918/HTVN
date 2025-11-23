@@ -6,8 +6,6 @@
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
-
-        // KHAI BÁO CÁC CONTROLS CÔNG CỘNG (SẼ DÙNG TRONG FILE .CS CHÍNH)
         public Krypton.Toolkit.KryptonLabel lblTenTaiKhoan;
         public Krypton.Toolkit.KryptonLabel lblSoDuHienTai;
         public Krypton.Toolkit.KryptonComboBox cmbTaiKhoanChuyen;

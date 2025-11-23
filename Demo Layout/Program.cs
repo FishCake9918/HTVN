@@ -36,6 +36,12 @@ namespace Demo_Layout
                     services.AddTransient<UserControlDoiTuongGiaoDich>();
                     services.AddTransient<UserControlDanhMucChiTieu>();
                     services.AddTransient<UserControlTaiKhoanThanhToan>();
+                    services.AddTransient<FormDongTaiKhoan>();
+                    services.AddTransient<FormThemTaiKhoanThanhToan>();
+                    services.AddTransient<UserControlDoiTuongGiaoDich>();
+                    services.AddTransient<FrmChinhSuaDoiTuongGiaoDich>();
+                    services.AddTransient<UserControlNganSach>();
+                    services.AddTransient<LapNganSach>();
                 })
                 .Build();
 
