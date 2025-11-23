@@ -60,7 +60,7 @@ namespace PhanQuyen
                     services.AddTransient<Piggy_Admin.TaoCapNhatThongBao>();
                     services.AddTransient <DangKy>();
                     services.AddTransient<IEmailService, EmailService>();
-
+                    services.AddTransient<Demo_Layout.UserControlNganSach>();
                 });
     }
 }
