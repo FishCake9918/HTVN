@@ -31,130 +31,166 @@ namespace PhanQuyen
 
         private void InitializeComponent()
         {
-            this.panelMain = new System.Windows.Forms.Panel();
-            this.btnDangNhap = new System.Windows.Forms.Button();
-            this.txtPassword = new System.Windows.Forms.TextBox();
-            this.lblPassword = new System.Windows.Forms.Label();
-            this.txtUsername = new System.Windows.Forms.TextBox();
-            this.lblUsername = new System.Windows.Forms.Label();
-            this.lblTitle = new System.Windows.Forms.Label();
-            this.btnDangKyMoi = new System.Windows.Forms.Button();
-            this.panelMain.SuspendLayout();
-            this.SuspendLayout();
+            panelMain = new Panel();
+            btnDangKyMoi = new Button();
+            btnDangNhap = new Button();
+            txtPassword = new TextBox();
+            lblPassword = new Label();
+            txtUsername = new TextBox();
+            lblUsername = new Label();
+            lblTitle = new Label();
+            nightControlBox1 = new ReaLTaiizor.Controls.NightControlBox();
+            panelMain.SuspendLayout();
+            SuspendLayout();
             // 
             // panelMain
             // 
-            this.panelMain.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(235)))), ((int)(((byte)(255)))));
-            this.panelMain.Controls.Add(this.btnDangKyMoi); // Đảm bảo nút được thêm vào panel
-            this.panelMain.Controls.Add(this.btnDangNhap);
-            this.panelMain.Controls.Add(this.txtPassword);
-            this.panelMain.Controls.Add(this.lblPassword);
-            this.panelMain.Controls.Add(this.txtUsername);
-            this.panelMain.Controls.Add(this.lblUsername);
-            this.panelMain.Controls.Add(this.lblTitle);
-            this.panelMain.Location = new System.Drawing.Point(50, 50);
-            this.panelMain.Name = "panelMain";
-            this.panelMain.Size = new System.Drawing.Size(400, 450);
-            this.panelMain.TabIndex = 0;
-            // 
-            // btnDangNhap
-            // 
-            this.btnDangNhap.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(105)))), ((int)(((byte)(223)))));
-            this.btnDangNhap.FlatAppearance.BorderSize = 0;
-            this.btnDangNhap.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDangNhap.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this.btnDangNhap.ForeColor = System.Drawing.Color.White;
-            this.btnDangNhap.Location = new System.Drawing.Point(200, 350);
-            this.btnDangNhap.Name = "btnDangNhap";
-            this.btnDangNhap.Size = new System.Drawing.Size(150, 50);
-            this.btnDangNhap.TabIndex = 3;
-            this.btnDangNhap.Text = "Đăng Nhập";
-            this.btnDangNhap.UseVisualStyleBackColor = false;
-            this.btnDangNhap.Click += new System.EventHandler(this.btnDangNhap_Click);
-            // 
-            // txtPassword
-            // 
-            this.txtPassword.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtPassword.Location = new System.Drawing.Point(50, 270);
-            this.txtPassword.Name = "txtPassword";
-            this.txtPassword.PasswordChar = '•';
-            this.txtPassword.Size = new System.Drawing.Size(300, 34);
-            this.txtPassword.TabIndex = 2;
-            // 
-            // lblPassword
-            // 
-            this.lblPassword.AutoSize = true;
-            this.lblPassword.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.lblPassword.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(67)))), ((int)(((byte)(215)))));
-            this.lblPassword.Location = new System.Drawing.Point(46, 235);
-            this.lblPassword.Name = "lblPassword";
-            this.lblPassword.Size = new System.Drawing.Size(100, 28);
-            this.lblPassword.TabIndex = 4;
-            this.lblPassword.Text = "Mật khẩu:";
-            // 
-            // txtUsername
-            // 
-            this.txtUsername.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtUsername.Location = new System.Drawing.Point(50, 170);
-            this.txtUsername.Name = "txtUsername";
-            this.txtUsername.Size = new System.Drawing.Size(300, 34);
-            this.txtUsername.TabIndex = 1;
-            // 
-            // lblUsername
-            // 
-            this.lblUsername.AutoSize = true;
-            this.lblUsername.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.lblUsername.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(67)))), ((int)(((byte)(215)))));
-            this.lblUsername.Location = new System.Drawing.Point(46, 135);
-            this.lblUsername.Name = "lblUsername";
-            this.lblUsername.Size = new System.Drawing.Size(117, 28);
-            this.lblUsername.TabIndex = 1;
-            this.lblUsername.Text = "Email/User:";
-            // 
-            // lblTitle
-            // 
-            this.lblTitle.AutoSize = true;
-            this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
-            this.lblTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(67)))), ((int)(((byte)(215)))));
-            this.lblTitle.Location = new System.Drawing.Point(90, 40);
-            this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(227, 45);
-            this.lblTitle.TabIndex = 0;
-            this.lblTitle.Text = "ĐĂNG NHẬP";
+            panelMain.BackColor = Color.FromArgb(230, 235, 255);
+            panelMain.Controls.Add(btnDangKyMoi);
+            panelMain.Controls.Add(btnDangNhap);
+            panelMain.Controls.Add(txtPassword);
+            panelMain.Controls.Add(lblPassword);
+            panelMain.Controls.Add(txtUsername);
+            panelMain.Controls.Add(lblUsername);
+            panelMain.Controls.Add(lblTitle);
+            panelMain.Location = new Point(40, 52);
+            panelMain.Margin = new Padding(2);
+            panelMain.Name = "panelMain";
+            panelMain.Size = new Size(320, 348);
+            panelMain.TabIndex = 0;
             // 
             // btnDangKyMoi
             // 
-            this.btnDangKyMoi.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(172)))), ((int)(((byte)(180)))), ((int)(((byte)(239)))));
-            this.btnDangKyMoi.FlatAppearance.BorderSize = 0;
-            this.btnDangKyMoi.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDangKyMoi.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this.btnDangKyMoi.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(67)))), ((int)(((byte)(215)))));
-            this.btnDangKyMoi.Location = new System.Drawing.Point(50, 350);
-            this.btnDangKyMoi.Name = "btnDangKyMoi";
-            this.btnDangKyMoi.Size = new System.Drawing.Size(150, 50);
-            this.btnDangKyMoi.TabIndex = 4;
-            this.btnDangKyMoi.Text = "Đăng Ký";
-            this.btnDangKyMoi.UseVisualStyleBackColor = false;
+            btnDangKyMoi.BackColor = Color.FromArgb(172, 180, 239);
+            btnDangKyMoi.FlatAppearance.BorderSize = 0;
+            btnDangKyMoi.FlatStyle = FlatStyle.Flat;
+            btnDangKyMoi.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            btnDangKyMoi.ForeColor = Color.FromArgb(47, 67, 215);
+            btnDangKyMoi.Location = new Point(40, 280);
+            btnDangKyMoi.Margin = new Padding(2);
+            btnDangKyMoi.Name = "btnDangKyMoi";
+            btnDangKyMoi.Size = new Size(120, 40);
+            btnDangKyMoi.TabIndex = 4;
+            btnDangKyMoi.Text = "Đăng Ký";
+            btnDangKyMoi.UseVisualStyleBackColor = false;
+            // 
+            // btnDangNhap
+            // 
+            btnDangNhap.BackColor = Color.FromArgb(89, 105, 223);
+            btnDangNhap.FlatAppearance.BorderSize = 0;
+            btnDangNhap.FlatStyle = FlatStyle.Flat;
+            btnDangNhap.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            btnDangNhap.ForeColor = Color.White;
+            btnDangNhap.Location = new Point(160, 280);
+            btnDangNhap.Margin = new Padding(2);
+            btnDangNhap.Name = "btnDangNhap";
+            btnDangNhap.Size = new Size(120, 40);
+            btnDangNhap.TabIndex = 3;
+            btnDangNhap.Text = "Đăng Nhập";
+            btnDangNhap.UseVisualStyleBackColor = false;
+            btnDangNhap.Click += btnDangNhap_Click;
+            // 
+            // txtPassword
+            // 
+            txtPassword.Font = new Font("Segoe UI", 10F);
+            txtPassword.Location = new Point(40, 216);
+            txtPassword.Margin = new Padding(2);
+            txtPassword.Name = "txtPassword";
+            txtPassword.PasswordChar = '•';
+            txtPassword.Size = new Size(241, 30);
+            txtPassword.TabIndex = 2;
+            // 
+            // lblPassword
+            // 
+            lblPassword.AutoSize = true;
+            lblPassword.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            lblPassword.ForeColor = Color.FromArgb(47, 67, 215);
+            lblPassword.Location = new Point(37, 188);
+            lblPassword.Margin = new Padding(2, 0, 2, 0);
+            lblPassword.Name = "lblPassword";
+            lblPassword.Size = new Size(91, 23);
+            lblPassword.TabIndex = 4;
+            lblPassword.Text = "Mật khẩu:";
+            // 
+            // txtUsername
+            // 
+            txtUsername.Font = new Font("Segoe UI", 10F);
+            txtUsername.Location = new Point(40, 136);
+            txtUsername.Margin = new Padding(2);
+            txtUsername.Name = "txtUsername";
+            txtUsername.Size = new Size(241, 30);
+            txtUsername.TabIndex = 1;
+            // 
+            // lblUsername
+            // 
+            lblUsername.AutoSize = true;
+            lblUsername.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            lblUsername.ForeColor = Color.FromArgb(47, 67, 215);
+            lblUsername.Location = new Point(37, 108);
+            lblUsername.Margin = new Padding(2, 0, 2, 0);
+            lblUsername.Name = "lblUsername";
+            lblUsername.Size = new Size(103, 23);
+            lblUsername.TabIndex = 1;
+            lblUsername.Text = "Email/User:";
+            // 
+            // lblTitle
+            // 
+            lblTitle.AutoSize = true;
+            lblTitle.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
+            lblTitle.ForeColor = Color.FromArgb(47, 67, 215);
+            lblTitle.Location = new Point(72, 32);
+            lblTitle.Margin = new Padding(2, 0, 2, 0);
+            lblTitle.Name = "lblTitle";
+            lblTitle.Size = new Size(181, 37);
+            lblTitle.TabIndex = 0;
+            lblTitle.Text = "ĐĂNG NHẬP";
+            // 
+            // nightControlBox1
+            // 
+            nightControlBox1.BackColor = Color.Transparent;
+            nightControlBox1.CloseHoverColor = Color.FromArgb(199, 80, 80);
+            nightControlBox1.CloseHoverForeColor = Color.White;
+            nightControlBox1.DefaultLocation = true;
+            nightControlBox1.DisableMaximizeColor = Color.FromArgb(105, 105, 105);
+            nightControlBox1.DisableMinimizeColor = Color.FromArgb(105, 105, 105);
+            nightControlBox1.Dock = DockStyle.Right;
+            nightControlBox1.EnableCloseColor = Color.FromArgb(160, 160, 160);
+            nightControlBox1.EnableMaximizeButton = true;
+            nightControlBox1.EnableMaximizeColor = Color.FromArgb(160, 160, 160);
+            nightControlBox1.EnableMinimizeButton = true;
+            nightControlBox1.EnableMinimizeColor = Color.FromArgb(160, 160, 160);
+            nightControlBox1.Location = new Point(261, 0);
+            nightControlBox1.MaximizeHoverColor = Color.FromArgb(15, 255, 255, 255);
+            nightControlBox1.MaximizeHoverForeColor = Color.White;
+            nightControlBox1.MinimizeHoverColor = Color.FromArgb(15, 255, 255, 255);
+            nightControlBox1.MinimizeHoverForeColor = Color.White;
+            nightControlBox1.Name = "nightControlBox1";
+            nightControlBox1.Size = new Size(139, 31);
+            nightControlBox1.TabIndex = 1;
             // 
             // LoginForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(172)))), ((int)(((byte)(180)))), ((int)(((byte)(239)))));
-            this.ClientSize = new System.Drawing.Size(500, 550);
-            this.Controls.Add(this.panelMain);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "LoginForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Đăng Nhập Hệ Thống";
-            this.panelMain.ResumeLayout(false);
-            this.panelMain.PerformLayout();
-            this.ResumeLayout(false);
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(172, 180, 239);
+            ClientSize = new Size(400, 440);
+            Controls.Add(nightControlBox1);
+            Controls.Add(panelMain);
+            FormBorderStyle = FormBorderStyle.None;
+            Margin = new Padding(2);
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "LoginForm";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Đăng Nhập Hệ Thống";
+            panelMain.ResumeLayout(false);
+            panelMain.PerformLayout();
+            ResumeLayout(false);
 
         }
 
         #endregion
+
+        private ReaLTaiizor.Controls.NightControlBox nightControlBox1;
     }
 }
