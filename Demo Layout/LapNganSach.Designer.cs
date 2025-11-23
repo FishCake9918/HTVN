@@ -120,7 +120,7 @@
             // 
             // LapNganSach
             // 
-            ClientSize = new Size(504, 256);
+            ClientSize = new Size(508, 255);
             Controls.Add(btnLuu);
             Controls.Add(btnHuy);
             Controls.Add(dtpNgayKetThuc);

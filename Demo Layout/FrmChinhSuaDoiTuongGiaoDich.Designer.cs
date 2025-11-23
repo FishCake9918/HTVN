@@ -10,7 +10,6 @@ namespace Demo_Layout
         public KryptonTextBox txtTen;
         public KryptonTextBox txtGhiChu;
         private KryptonLabel labelTen;
-        private KryptonLabel labelGhiChu;
         private KryptonButton btnLuu;
         private KryptonButton btnHuy;
 
@@ -28,80 +27,121 @@ namespace Demo_Layout
         // PHƯƠNG THỨC KHỞI TẠO CÁC CONTROLS CỦA FORM (CHỈ CÓ 1 LẦN)
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmChinhSuaDoiTuongGiaoDich));
             txtTen = new KryptonTextBox();
             txtGhiChu = new KryptonTextBox();
-            labelTen = new KryptonLabel();
-            labelGhiChu = new KryptonLabel();
-            btnLuu = new KryptonButton();
-            btnHuy = new KryptonButton();
+            button1 = new Button();
+            button2 = new Button();
+            label1 = new Label();
+            label2 = new Label();
+            btnThoat = new Button();
             SuspendLayout();
             // 
             // txtTen
             // 
-            txtTen.Location = new Point(150, 20);
+            txtTen.Location = new Point(152, 56);
             txtTen.Name = "txtTen";
             txtTen.Size = new Size(300, 27);
             txtTen.TabIndex = 4;
             // 
             // txtGhiChu
             // 
-            txtGhiChu.Location = new Point(150, 60);
+            txtGhiChu.Location = new Point(152, 96);
             txtGhiChu.Name = "txtGhiChu";
             txtGhiChu.Size = new Size(300, 27);
             txtGhiChu.TabIndex = 2;
             // 
-            // labelTen
+            // button1
             // 
-            labelTen.Location = new Point(20, 20);
-            labelTen.Name = "labelTen";
-            labelTen.Size = new Size(116, 24);
-            labelTen.TabIndex = 5;
-            labelTen.Values.Text = "Tên Đối Tượng:";
+            button1.BackColor = Color.FromArgb(250, 110, 6);
+            button1.FlatAppearance.BorderSize = 0;
+            button1.FlatStyle = FlatStyle.Flat;
+            button1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            button1.ForeColor = Color.White;
+            button1.Location = new Point(358, 162);
+            button1.Name = "button1";
+            button1.Size = new Size(94, 29);
+            button1.TabIndex = 5;
+            button1.Text = "Huỷ";
+            button1.UseVisualStyleBackColor = false;
+            button1.Click += btnHuy_Click;
             // 
-            // labelGhiChu
+            // button2
             // 
-            labelGhiChu.Location = new Point(20, 60);
-            labelGhiChu.Name = "labelGhiChu";
-            labelGhiChu.Size = new Size(69, 24);
-            labelGhiChu.TabIndex = 3;
-            labelGhiChu.Values.Text = "Ghi Chú:";
+            button2.BackColor = Color.FromArgb(250, 110, 6);
+            button2.FlatAppearance.BorderSize = 0;
+            button2.FlatStyle = FlatStyle.Flat;
+            button2.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            button2.ForeColor = Color.White;
+            button2.Location = new Point(246, 162);
+            button2.Name = "button2";
+            button2.Size = new Size(94, 29);
+            button2.TabIndex = 6;
+            button2.Text = "Lưu";
+            button2.UseVisualStyleBackColor = false;
+            button2.Click += btnLuu_Click;
             // 
-            // btnLuu
+            // label1
             // 
-            btnLuu.Location = new Point(221, 150);
-            btnLuu.Name = "btnLuu";
-            btnLuu.Size = new Size(100, 30);
-            btnLuu.TabIndex = 1;
-            btnLuu.Values.DropDownArrowColor = Color.Empty;
-            btnLuu.Values.Text = "Lưu";
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            label1.ForeColor = Color.White;
+            label1.Location = new Point(22, 63);
+            label1.Name = "label1";
+            label1.Size = new Size(115, 20);
+            label1.TabIndex = 7;
+            label1.Text = "Tên đối tượng: ";
             // 
-            // btnHuy
+            // label2
             // 
-            btnHuy.Location = new Point(350, 150);
-            btnHuy.Name = "btnHuy";
-            btnHuy.Size = new Size(100, 30);
-            btnHuy.TabIndex = 0;
-            btnHuy.Values.DropDownArrowColor = Color.Empty;
-            btnHuy.Values.Text = "Hủy";
+            label2.AutoSize = true;
+            label2.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            label2.ForeColor = Color.White;
+            label2.Location = new Point(22, 103);
+            label2.Name = "label2";
+            label2.Size = new Size(70, 20);
+            label2.TabIndex = 8;
+            label2.Text = "Ghi chú: ";
+            // 
+            // btnThoat
+            // 
+            btnThoat.FlatAppearance.BorderSize = 0;
+            btnThoat.FlatStyle = FlatStyle.Flat;
+            btnThoat.Image = (Image)resources.GetObject("btnThoat.Image");
+            btnThoat.Location = new Point(423, 12);
+            btnThoat.Name = "btnThoat";
+            btnThoat.Size = new Size(29, 29);
+            btnThoat.TabIndex = 14;
+            btnThoat.UseVisualStyleBackColor = true;
+            btnThoat.Click += btnThoat_Click;
             // 
             // FrmChinhSuaDoiTuongGiaoDich
             // 
-            ClientSize = new Size(480, 200);
-            Controls.Add(btnHuy);
-            Controls.Add(btnLuu);
+            BackColor = Color.FromArgb(66, 94, 106);
+            ClientSize = new Size(467, 203);
+            Controls.Add(btnThoat);
+            Controls.Add(label2);
+            Controls.Add(label1);
+            Controls.Add(button2);
+            Controls.Add(button1);
             Controls.Add(txtGhiChu);
-            Controls.Add(labelGhiChu);
             Controls.Add(txtTen);
-            Controls.Add(labelTen);
-            FormBorderStyle = FormBorderStyle.FixedDialog;
+            FormBorderStyle = FormBorderStyle.None;
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "FrmChinhSuaDoiTuongGiaoDich";
             Text = "Chỉnh Sửa Đối Tượng Giao Dịch";
+            Load += FrmChinhSuaDoiTuongGiaoDich_Load;
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
+
+        private Button button1;
+        private Button button2;
+        private Label label1;
+        private Label label2;
+        private Button btnThoat;
     }
 }
