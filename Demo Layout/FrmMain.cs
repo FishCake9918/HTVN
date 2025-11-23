@@ -71,6 +71,7 @@ namespace Demo_Layout
 
         private void button1_Click(object sender, EventArgs e)
         {
+            HieuUngRungLac();
             pnlHienThi.Controls.Clear();
             UserControlBaoCao userControlMoi = _serviceProvider.GetRequiredService<UserControlBaoCao>();
             userControlMoi.Dock = DockStyle.Fill;
@@ -79,6 +80,7 @@ namespace Demo_Layout
 
         private void button2_Click(object sender, EventArgs e)
         {
+            HieuUngRungLac();
             pnlHienThi.Controls.Clear();
             UserControlQuanLyGiaoDich userControlMoi = _serviceProvider.GetRequiredService<UserControlQuanLyGiaoDich>();
             userControlMoi.Dock = DockStyle.Fill;
@@ -99,6 +101,7 @@ namespace Demo_Layout
 
         private void button3_Click(object sender, EventArgs e)
         {
+            HieuUngRungLac();
             pnlHienThi.Controls.Clear();
             UserControlNganSach userControlMoi = _serviceProvider.GetRequiredService<UserControlNganSach>();
             userControlMoi.Dock = DockStyle.Fill;
@@ -107,6 +110,7 @@ namespace Demo_Layout
 
         private void button5_Click(object sender, EventArgs e)
         {
+            HieuUngRungLac();
             pnlHienThi.Controls.Clear();
             UserControlDoiTuongGiaoDich userControlMoi = _serviceProvider.GetRequiredService<UserControlDoiTuongGiaoDich>();
             userControlMoi.Dock = DockStyle.Fill;
@@ -115,6 +119,7 @@ namespace Demo_Layout
 
         private void button4_Click(object sender, EventArgs e)
         {
+            HieuUngRungLac();
             pnlHienThi.Controls.Clear();
             UserControlDanhMucChiTieu userControlMoi = _serviceProvider.GetRequiredService<UserControlDanhMucChiTieu>();
             userControlMoi.Dock = DockStyle.Fill;
@@ -123,6 +128,7 @@ namespace Demo_Layout
 
         private void button6_Click(object sender, EventArgs e)
         {
+            HieuUngRungLac();
             pnlHienThi.Controls.Clear();
             UserControlTaiKhoanThanhToan userControlMoi = _serviceProvider.GetRequiredService<UserControlTaiKhoanThanhToan>();
             userControlMoi.Dock = DockStyle.Fill;
@@ -137,5 +143,39 @@ namespace Demo_Layout
                 SendMessage(this.Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
             }
         }
+        // Biến cờ để tránh việc rung bị chồng chéo nếu ấn nút quá nhanh
+        private bool _isShaking = false;
+
+        private async void HieuUngRungLac()
+        {
+            if (_isShaking) return;
+            _isShaking = true;
+
+            Point originalPos = icoPiggy.Location;
+            Random rnd = new Random();
+
+            try
+            {
+                // Lặp 8 lần thôi cho gọn (nhanh hơn chút)
+                for (int i = 0; i < 8; i++)
+                {
+                    // X giữ nguyên (originalPos.X) -> Không lắc ngang
+                    // Y chỉ thay đổi trong khoảng rất nhỏ (-2 đến +2) -> Rung nhẹ
+                    int y = originalPos.Y + rnd.Next(-2, 3);
+
+                    icoPiggy.Location = new Point(originalPos.X, y);
+
+                    // Tăng delay lên một chút (40ms) để nhịp rung chậm rãi, nhẹ nhàng hơn
+                    await Task.Delay(40);
+                }
+            }
+            finally
+            {
+                // Trả về vị trí cũ
+                icoPiggy.Location = originalPos;
+                _isShaking = false;
+            }
+        }
+
     }
 }

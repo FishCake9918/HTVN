@@ -11,6 +11,7 @@
   <ItemGroup>
     <PackageReference Include="LiveCharts.Core" Version="0.9.8" />
     <PackageReference Include="LiveCharts.WinForms.NetCore3" Version="0.9.8" />
+    <PackageReference Include="ReaLTaiizor" Version="3.8.1.4" />
   </ItemGroup>
 
   <ItemGroup>

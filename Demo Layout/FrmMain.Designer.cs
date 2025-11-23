@@ -70,8 +70,7 @@
             button8 = new Button();
             pnlHienThi = new Panel();
             panel3 = new Panel();
-            pictureBox1 = new PictureBox();
-            button14 = new Button();
+            icoPiggy = new PictureBox();
             button13 = new Button();
             button12 = new Button();
             button11 = new Button();
@@ -83,7 +82,7 @@
             ((System.ComponentModel.ISupportInitialize)picUserProfile).BeginInit();
             panel2.SuspendLayout();
             panel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)icoPiggy).BeginInit();
             SuspendLayout();
             // 
             // menuStrip1
@@ -445,8 +444,7 @@
             // panel3
             // 
             panel3.BackColor = Color.FromArgb(36, 76, 60);
-            panel3.Controls.Add(pictureBox1);
-            panel3.Controls.Add(button14);
+            panel3.Controls.Add(icoPiggy);
             panel3.Controls.Add(button13);
             panel3.Controls.Add(button12);
             panel3.Controls.Add(button11);
@@ -457,32 +455,16 @@
             panel3.Size = new Size(1232, 51);
             panel3.TabIndex = 0;
             // 
-            // pictureBox1
+            // icoPiggy
             // 
-            pictureBox1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(1180, 6);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(40, 40);
-            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox1.TabIndex = 5;
-            pictureBox1.TabStop = false;
-            // 
-            // button14
-            // 
-            button14.FlatAppearance.BorderSize = 0;
-            button14.FlatStyle = FlatStyle.Flat;
-            button14.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            button14.ForeColor = Color.Cyan;
-            button14.Image = (Image)resources.GetObject("button14.Image");
-            button14.ImageAlign = ContentAlignment.MiddleLeft;
-            button14.Location = new Point(753, 7);
-            button14.Name = "button14";
-            button14.Size = new Size(133, 38);
-            button14.TabIndex = 4;
-            button14.Text = "Tạo báo cáo";
-            button14.TextAlign = ContentAlignment.MiddleRight;
-            button14.UseVisualStyleBackColor = true;
+            icoPiggy.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            icoPiggy.Image = (Image)resources.GetObject("icoPiggy.Image");
+            icoPiggy.Location = new Point(1180, 6);
+            icoPiggy.Name = "icoPiggy";
+            icoPiggy.Size = new Size(40, 40);
+            icoPiggy.SizeMode = PictureBoxSizeMode.Zoom;
+            icoPiggy.TabIndex = 5;
+            icoPiggy.TabStop = false;
             // 
             // button13
             // 
@@ -578,7 +560,7 @@
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
             panel3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)icoPiggy).EndInit();
             ResumeLayout(false);
         }
 
@@ -624,12 +606,11 @@
         private Panel panel1;
         private PictureBox picUserProfile;
         private Panel panel3;
-        private Button button14;
         private Button button13;
         private Button button12;
         private Button button11;
         private Button scThemTaiKhoan;
         private NotifyIcon notifyIcon;
-        private PictureBox pictureBox1;
+        private PictureBox icoPiggy;
     }
 }
