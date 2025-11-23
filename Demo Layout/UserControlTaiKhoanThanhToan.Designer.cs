@@ -30,8 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserControlTaiKhoanThanhToan));
             panel4 = new Panel();
-            btnXoa = new Button();
-            button1 = new Button();
+            btnDong = new Button();
+            btnThem = new Button();
             txtTimKiem = new TextBox();
             label1 = new Label();
             panel2 = new Panel();
@@ -46,8 +46,8 @@
             // panel4
             // 
             panel4.BackColor = Color.FromArgb(82, 108, 91);
-            panel4.Controls.Add(btnXoa);
-            panel4.Controls.Add(button1);
+            panel4.Controls.Add(btnDong);
+            panel4.Controls.Add(btnThem);
             panel4.Controls.Add(txtTimKiem);
             panel4.Controls.Add(label1);
             panel4.Dock = DockStyle.Top;
@@ -56,39 +56,41 @@
             panel4.Size = new Size(922, 69);
             panel4.TabIndex = 9;
             // 
-            // btnXoa
+            // btnDong
             // 
-            btnXoa.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnXoa.FlatAppearance.BorderSize = 0;
-            btnXoa.FlatStyle = FlatStyle.Flat;
-            btnXoa.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            btnXoa.ForeColor = Color.White;
-            btnXoa.Image = (Image)resources.GetObject("btnXoa.Image");
-            btnXoa.ImageAlign = ContentAlignment.MiddleLeft;
-            btnXoa.Location = new Point(800, 21);
-            btnXoa.Name = "btnXoa";
-            btnXoa.Size = new Size(81, 29);
-            btnXoa.TabIndex = 4;
-            btnXoa.Text = "Đóng";
-            btnXoa.TextAlign = ContentAlignment.MiddleRight;
-            btnXoa.UseVisualStyleBackColor = true;
+            btnDong.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnDong.FlatAppearance.BorderSize = 0;
+            btnDong.FlatStyle = FlatStyle.Flat;
+            btnDong.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnDong.ForeColor = Color.White;
+            btnDong.Image = (Image)resources.GetObject("btnDong.Image");
+            btnDong.ImageAlign = ContentAlignment.MiddleLeft;
+            btnDong.Location = new Point(800, 21);
+            btnDong.Name = "btnDong";
+            btnDong.Size = new Size(81, 29);
+            btnDong.TabIndex = 4;
+            btnDong.Text = "Đóng";
+            btnDong.TextAlign = ContentAlignment.MiddleRight;
+            btnDong.UseVisualStyleBackColor = true;
+            btnDong.Click += BtnDong_Click;
             // 
-            // button1
+            // btnThem
             // 
-            button1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            button1.FlatAppearance.BorderSize = 0;
-            button1.FlatStyle = FlatStyle.Flat;
-            button1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            button1.ForeColor = Color.White;
-            button1.Image = (Image)resources.GetObject("button1.Image");
-            button1.ImageAlign = ContentAlignment.MiddleLeft;
-            button1.Location = new Point(700, 21);
-            button1.Name = "button1";
-            button1.Size = new Size(79, 29);
-            button1.TabIndex = 2;
-            button1.Text = "Thêm";
-            button1.TextAlign = ContentAlignment.MiddleRight;
-            button1.UseVisualStyleBackColor = true;
+            btnThem.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnThem.FlatAppearance.BorderSize = 0;
+            btnThem.FlatStyle = FlatStyle.Flat;
+            btnThem.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnThem.ForeColor = Color.White;
+            btnThem.Image = (Image)resources.GetObject("btnThem.Image");
+            btnThem.ImageAlign = ContentAlignment.MiddleLeft;
+            btnThem.Location = new Point(700, 21);
+            btnThem.Name = "btnThem";
+            btnThem.Size = new Size(79, 29);
+            btnThem.TabIndex = 2;
+            btnThem.Text = "Thêm";
+            btnThem.TextAlign = ContentAlignment.MiddleRight;
+            btnThem.UseVisualStyleBackColor = true;
+            btnThem.Click += BtnThem_Click;
             // 
             // txtTimKiem
             // 
@@ -185,7 +187,7 @@
         private Panel panel5;
         private Panel panel3;
         private Krypton.Toolkit.KryptonDataGridView kryptonDataGridView1;
-        private Button button1;
-        private Button btnXoa;
+        private Button btnThem;
+        private Button btnDong;
     }
 }

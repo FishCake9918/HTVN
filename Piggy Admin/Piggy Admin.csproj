@@ -25,6 +25,8 @@
     <PackageReference Include="Krypton.Ribbon" Version="95.25.10.293" />
     <PackageReference Include="Krypton.Toolkit" Version="95.25.10.293" />
     <PackageReference Include="Krypton.Workspace" Version="95.25.10.293" />
+    <PackageReference Include="LiveCharts.Core" Version="0.9.8" />
+    <PackageReference Include="LiveCharts.WinForms.NetCore3" Version="0.9.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.11">
       <PrivateAssets>all</PrivateAssets>

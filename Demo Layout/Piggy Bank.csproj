@@ -14,6 +14,26 @@
   </ItemGroup>
 
   <ItemGroup>
+    <COMReference Include="WMPLib">
+      <WrapperTool>tlbimp</WrapperTool>
+      <VersionMinor>0</VersionMinor>
+      <VersionMajor>1</VersionMajor>
+      <Guid>6bf52a50-394a-11d3-b153-00c04f79faa6</Guid>
+      <Lcid>0</Lcid>
+      <Isolated>false</Isolated>
+      <EmbedInteropTypes>true</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="AxWMPLib">
+      <WrapperTool>aximp</WrapperTool>
+      <VersionMinor>0</VersionMinor>
+      <VersionMajor>1</VersionMajor>
+      <Guid>6bf52a50-394a-11d3-b153-00c04f79faa6</Guid>
+      <Lcid>0</Lcid>
+      <Isolated>false</Isolated>
+    </COMReference>
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -25,6 +45,8 @@
     <PackageReference Include="Krypton.Ribbon" Version="95.25.10.293" />
     <PackageReference Include="Krypton.Toolkit" Version="95.25.10.293" />
     <PackageReference Include="Krypton.Workspace" Version="95.25.10.293" />
+    <PackageReference Include="LiveCharts.Core" Version="0.9.8" />
+    <PackageReference Include="LiveCharts.WinForms.NetCore3" Version="0.9.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.11">
       <PrivateAssets>all</PrivateAssets>
@@ -36,6 +58,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Data\Data.csproj" />
+    <ProjectReference Include="..\Piggy Admin\Piggy Admin.csproj" />
   </ItemGroup>
 
   <ItemGroup>
