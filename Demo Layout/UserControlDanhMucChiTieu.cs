@@ -98,16 +98,16 @@ namespace Demo_Layout
             //}
 
             // Cách 1: Nếu Form này đơn giản không cần DI --> NHỚ CHỈNH LẠI 
-            frmThemDanhMuc frm = new frmThemDanhMuc(/*_dbFactory*/);
+            //frmThemDanhMuc frm = new frmThemDanhMuc(/*_dbFactory*/);
 
             // Cách 2: Chuẩn DI (Bạn cần đăng ký frmThemDanhMuc trong Program.cs trước)
-            // using (var frm = _serviceProvider.GetRequiredService<frmThemDanhMuc>()) 
-            // {
-            //     if (frm.ShowDialog() == DialogResult.OK)
-            //     {
-            //         LoadTreeView();
-            //     }
-            // }
+            //using (var frm = _serviceProvider.GetRequiredService<frmThemDanhMuc>())
+            //{
+            //    if (frm.ShowDialog() == DialogResult.OK)
+            //    {
+            //        LoadTreeView();
+            //    }
+            //}
         }
 
         private void btnSua_Click(object sender, EventArgs e)

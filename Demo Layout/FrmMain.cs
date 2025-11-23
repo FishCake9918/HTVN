@@ -1,7 +1,8 @@
-﻿using System.Runtime.InteropServices;
-using Data;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using System.Media;
+using System.Runtime.InteropServices;
 namespace Demo_Layout
 {
     public partial class FrmMain : Form
@@ -246,6 +247,7 @@ namespace Demo_Layout
         {
             if (_isShaking) return;
             _isShaking = true;
+            SystemSounds.Asterisk.Play();
 
             Point originalPos = icoPiggy.Location;
             Random rnd = new Random();
