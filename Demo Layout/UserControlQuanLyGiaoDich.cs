@@ -12,7 +12,7 @@ namespace Demo_Layout
     public partial class UserControlQuanLyGiaoDich : UserControl
     {
         // Cấu hình
-        private const string ConnectionString = "Data Source=DESKTOP-6QOFBT9\\SQLEXPRESS;Initial Catalog=QLTCCN;Integrated Security=True;TrustServerCertificate=True";
+        private const string ConnectionString = "Data Source=LUCAS;Initial Catalog=QLTCCN;Integrated Security=True;TrustServerCertificate=True";
         private const int CURRENT_USER_ID = 1;
 
         // Biến toàn cục
