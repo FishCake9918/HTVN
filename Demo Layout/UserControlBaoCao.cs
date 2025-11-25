@@ -38,6 +38,8 @@ namespace Demo_Layout
             DateTime now = DateTime.Now;
             dtpTuNgay.Value = new DateTime(now.Year, now.Month, 1);
             dtpDenNgay.Value = now;
+            LogHelper.GhiLog(_dbFactory, "Quản lý báo cáo", CURRENT_USER_ID); // ghi log
+
 
             LoadComboBoxTaiKhoan();
             LoadDashboardData();

@@ -12,6 +12,8 @@ namespace Piggy_Admin
         [STAThread]
         static void Main()
         {
+            QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
+
             var builder = Host.CreateDefaultBuilder()
                 .ConfigureAppConfiguration((context, config) =>
                 {
@@ -28,7 +30,7 @@ namespace Piggy_Admin
                     // 2. Đăng ký Form chính và UserControl/Form phụ
                     services.AddTransient<FrmMainAdmin>();
                     services.AddTransient<FormTaiKhoan>();
-                    services.AddTransient<UserControlBaoCaoThongKe>();
+                    services.AddTransient<UserControlBaoCaoHeThong>();
                     services.AddTransient<UserControlQuanLyTaiKhoan>();
                     services.AddTransient<UserControlQuanLyThongBao>();
                     services.AddTransient<TaoCapNhatThongBao>();

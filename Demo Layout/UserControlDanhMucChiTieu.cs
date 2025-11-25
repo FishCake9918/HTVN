@@ -18,6 +18,7 @@ namespace Demo_Layout
         private readonly IDbContextFactory<QLTCCNContext> _dbFactory;
         private readonly IServiceProvider _serviceProvider;
         private const int CURRENT_USER_ID = 1;
+        
         public UserControlDanhMucChiTieu(IDbContextFactory<QLTCCNContext> dbFactory)
         {
             InitializeComponent();
@@ -27,6 +28,7 @@ namespace Demo_Layout
         private void UCDanhMucChiTieu_Load(object sender, EventArgs e)
         {
             LoadTreeView();
+            LogHelper.GhiLog(_dbFactory, "Quản lý danh mục chi tiêu", CURRENT_USER_ID); // ghi log
         }
         private void LoadTreeView()
         {
@@ -58,7 +60,7 @@ namespace Demo_Layout
                         tvDanhMuc.Nodes.Add(rootNode);
                     }
                 }
-                tvDanhMuc.ExpandAll(); // Mở rộng tất cả các node
+                //tvDanhMuc.ExpandAll(); // Mở rộng tất cả các node
             }
             catch (Exception ex)
             {

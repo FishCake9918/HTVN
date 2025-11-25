@@ -12,6 +12,7 @@ namespace Demo_Layout
 
         public const int WM_NCLBUTTONDOWN = 0xA1;
         public const int HT_CAPTION = 0x2;
+        private const int CURRENT_USER_ID = 1;
 
         [DllImport("user32.dll")]
         public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
@@ -39,6 +40,7 @@ namespace Demo_Layout
         private void button8_Click(object sender, EventArgs e)
         {
             this.Close();
+
         }
 
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
@@ -65,9 +67,11 @@ namespace Demo_Layout
 
         private void FrmMain_Load(object sender, EventArgs e)
         {
-         
+
             System.Drawing.Rectangle workingArea = Screen.PrimaryScreen.WorkingArea;
             this.MaximumSize = workingArea.Size;
+            LogHelper.GhiLog(_dbFactory, "Đăng nhập", CURRENT_USER_ID); // ghi log
+
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -239,6 +243,12 @@ namespace Demo_Layout
                 ReleaseCapture();
                 SendMessage(this.Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
             }
+        }
+
+        private void FrmMain_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            MessageBox.Show("Bye");
+            LogHelper.GhiLog(_dbFactory, "Đăng xuất", CURRENT_USER_ID); // ghi log
         }
         // Biến cờ để tránh việc rung bị chồng chéo nếu ấn nút quá nhanh
         private bool _isShaking = false;

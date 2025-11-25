@@ -586,6 +586,7 @@
             Name = "FrmMain";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Trang chủ";
+            FormClosed += FrmMain_FormClosed;
             Load += FrmMain_Load;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();

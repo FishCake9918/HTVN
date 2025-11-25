@@ -135,6 +135,9 @@ namespace Demo_Layout
 
                     // 2. Cập nhật thông tin chung
                     danhMuc.TenDanhMuc = txtTenDanhMuc.Text.Trim();
+                    int maCha = 0;
+                    if (cboDanhMucCha.SelectedValue != null)
+                        int.TryParse(cboDanhMucCha.SelectedValue.ToString(), out maCha);
 
                     int maCha = 0;
                     if (cboDanhMucCha.SelectedValue != null)
