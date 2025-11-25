@@ -1,38 +1,71 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 using System.Windows.Forms;
 using Microsoft.EntityFrameworkCore;
-using System;
 using Data;
 using Microsoft.Extensions.Configuration;
+using Piggy_Admin;
+using Demo_Layout;
 
 namespace PhanQuyen
 {
     static class Program
     {
+        public static IServiceProvider Services { get; private set; }
+
         [STAThread]
         static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            // 1. Khởi tạo Host
-            using (var host = CreateHostBuilder().Build())
+            // VÒNG LẶP CHÍNH: Giúp ứng dụng tự động mở lại Login khi Main Form đóng
+            while (true)
             {
-                var serviceProvider = host.Services;
-
-                try
+                using (var host = CreateHostBuilder().Build())
                 {
-                    // Lấy Form Đăng nhập từ DI
-                    var loginForm = serviceProvider.GetRequiredService<PhanQuyen.LoginForm>();
+                    Services = host.Services;
 
-                    // SỬA LỖI LƯỢNG CHÍNH: Thay vì Application.Run(loginForm), chúng ta dùng ApplicationContext
-                    // và gán Form Đăng nhập là Form đầu tiên trong Context.
-                    Application.Run(new ApplicationContext(loginForm));
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Lỗi khởi tạo ứng dụng: {ex.Message}", "Lỗi hệ thống", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    try
+                    {
+                        // 1. Mở Form Đăng Nhập
+                        var loginForm = Services.GetRequiredService<LoginForm>();
+                        Application.Run(loginForm);
+
+                        // 2. Kiểm tra kết quả trả về từ LoginForm
+                        if (loginForm.DialogResult == DialogResult.OK)
+                        {
+                            var userContext = Services.GetRequiredService<CurrentUserContext>();
+                            Form mainForm = null;
+
+                            if (userContext.IsAdmin)
+                            {
+                                mainForm = Services.GetRequiredService<FrmMainAdmin>();
+                            }
+                            else
+                            {
+                                mainForm = Services.GetRequiredService<FrmMain>();
+                            }
+
+                            // 3. Chạy Form Chính
+                            if (mainForm != null)
+                            {
+                                Application.Run(mainForm);
+                                // Khi mainForm đóng (do logout), vòng lặp while sẽ quay lại đầu -> Mở lại Login
+                            }
+                        }
+                        else
+                        {
+                            // Nếu user tắt form login hoặc bấm Thoát -> Thoát hẳn vòng lặp
+                            break;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Lỗi hệ thống: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        break;
+                    }
                 }
             }
         }
@@ -52,15 +85,20 @@ namespace PhanQuyen
                         options.UseSqlServer(connectionString);
                     });
 
-                    // Đăng ký tất cả các Form để DI có thể tạo
+                    // ĐĂNG KÝ CÁC FORM (Tất cả là Transient để tạo mới mỗi lần)
                     services.AddTransient<LoginForm>();
-                    services.AddTransient<Piggy_Admin.FrmMainAdmin>();
-                    services.AddTransient<Demo_Layout.FrmMain>();
-                    services.AddTransient<Piggy_Admin.UserControlQuanLyThongBao>();
+                    services.AddTransient<DangKy>();
+
+                    services.AddTransient<FrmMainAdmin>();
+                    services.AddTransient<UserControlQuanLyThongBao>();
                     services.AddTransient<Piggy_Admin.TaoCapNhatThongBao>();
-                    services.AddTransient <DangKy>();
+                    services.AddTransient<Piggy_Admin.FormTaiKhoan>();
+
+                    services.AddTransient<FrmMain>();
+                    services.AddTransient<UserControlNganSach>();
+
+                    services.AddSingleton<CurrentUserContext>();
                     services.AddTransient<IEmailService, EmailService>();
-                    services.AddTransient<Demo_Layout.UserControlNganSach>();
                 });
     }
 }
