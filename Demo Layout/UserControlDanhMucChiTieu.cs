@@ -90,15 +90,6 @@ namespace Demo_Layout
         /// </summary>
         private void btnThem_Click(object sender, EventArgs e)
         {
-            // Gọi form Thêm/Sửa ở chế độ Thêm (không truyền ID)
-            //frmThemDanhMuc frm = new frmThemDanhMuc();
-
-            //if (frm.ShowDialog() == DialogResult.OK)
-            //{
-            //    LoadTreeView(); // Tải lại TreeView
-            //}
-
-            // Cách 1: Nếu Form này đơn giản không cần DI --> NHỚ CHỈNH LẠI 
             frmThemDanhMuc frm = new frmThemDanhMuc(_dbFactory);
 
             if (frm.ShowDialog() == DialogResult.OK)
@@ -106,14 +97,6 @@ namespace Demo_Layout
                 LoadTreeView(); // Tải lại TreeView
             }
 
-            // Cách 2: Chuẩn DI (Bạn cần đăng ký frmThemDanhMuc trong Program.cs trước)
-            // using (var frm = _serviceProvider.GetRequiredService<frmThemDanhMuc>()) 
-            // {
-            //     if (frm.ShowDialog() == DialogResult.OK)
-            //     {
-            //         LoadTreeView();
-            //     }
-            // }
         }
 
         private void btnSua_Click(object sender, EventArgs e)
