@@ -1,75 +1,102 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using Data; // <-- ĐÃ SỬA: Sửa lại using để trỏ đến Model thật
+using Data; // Chứa CurrentUserContext
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace Piggy_Admin
 {
     public partial class TaoCapNhatThongBao : Form
     {
-        // Sử dụng Model ThongBao thật
         public ThongBao ThongBaoHienTai { get; private set; }
         private bool la_cap_nhat;
 
-        // Constructor tạo mới
-        public TaoCapNhatThongBao()
+        private readonly CurrentUserContext _userContext;
+        private readonly IDbContextFactory<QLTCCNContext> _dbFactory;
+
+        // Constructor DUY NHẤT dùng cho DI
+        public TaoCapNhatThongBao(CurrentUserContext userContext, IDbContextFactory<QLTCCNContext> dbFactory)
         {
             InitializeComponent();
+            _userContext = userContext;
+            _dbFactory = dbFactory;
+
+            // Mặc định là chế độ tạo mới
+            KhoiTaoCheDoTaoMoi();
+        }
+
+        private void KhoiTaoCheDoTaoMoi()
+        {
             this.Text = "Tạo Thông Báo Mới";
             la_cap_nhat = false;
             lblMaThongBaoValue.Text = "Tạo mới";
+
+            // Hiển thị tên Admin đang đăng nhập
+            txtRole.Text = GetTenAdmin(_userContext.MaAdmin);
+            txtRole.Enabled = false;
         }
 
-        // Constructor cập nhật (nhận Model thật)
-        public TaoCapNhatThongBao(ThongBao tb)
-        {
-            InitializeComponent();
-            this.Text = "Cập Nhật Thông Báo";
-            ThongBaoHienTai = tb;
-            la_cap_nhat = true;
-            NapDuLieu(tb);
-        }
-
-        // PHƯƠNG THỨC SỬA LỖI: Đã chuyển thành PUBLIC
-       public void NapDuLieu(ThongBao tb)
+        // Hàm này được gọi từ bên ngoài khi muốn Sửa
+        public void LoadDataForUpdate(ThongBao tb)
         {
             if (tb == null) return;
 
-            // Gán entity hiện tại để form sửa trực tiếp lên object đang được theo dõi
-            this.ThongBaoHienTai = tb;
-            this.la_cap_nhat = true;
+            this.Text = "Cập Nhật Thông Báo";
+            ThongBaoHienTai = tb;
+            la_cap_nhat = true;
 
             lblMaThongBaoValue.Text = tb.MaThongBao.ToString();
             txtTieuDe.Text = tb.TieuDe;
             txtNoiDung.Text = tb.NoiDung;
 
-            // Hiển thị MaAdmin (người tạo) và khóa trường này
-            txtRole.Text = tb.MaAdmin.HasValue ? tb.MaAdmin.ToString() : "N/A";
+            // Hiển thị tên người đã tạo thông báo này
+            txtRole.Text = GetTenAdmin(tb.MaAdmin);
             txtRole.Enabled = false;
         }
+
+        // Hàm phụ trợ lấy tên Admin từ DB
+        private string GetTenAdmin(int? maAdmin)
+        {
+            if (maAdmin == null) return "Hệ thống";
+
+            using (var db = _dbFactory.CreateDbContext())
+            {
+                var admin = db.Admins.FirstOrDefault(a => a.MaAdmin == maAdmin);
+                return admin != null ? admin.HoTenAdmin : $"Admin #{maAdmin}";
+            }
+        }
+
         private void btnLuu_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtTieuDe.Text) || string.IsNullOrWhiteSpace(txtNoiDung.Text))
             {
-                MessageBox.Show("Vui lòng điền đầy đủ Tiêu đề và Nội dung.", "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Vui lòng điền đầy đủ tiêu đề và nội dung.", "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            if (la_cap_nhat && ThongBaoHienTai != null)
+            if (la_cap_nhat)
             {
-                // cập nhật chính object đã được gán bởi NapDuLieu
+                // Cập nhật thông báo đang có (EF Core Tracking sẽ lo phần lưu sau này)
+                // Lưu ý: Việc check quyền đã làm ở UserControl rồi, vào đây chỉ việc gán.
                 ThongBaoHienTai.TieuDe = txtTieuDe.Text;
                 ThongBaoHienTai.NoiDung = txtNoiDung.Text;
             }
             else
             {
-                // Tạo mới
+                // Tạo mới: Phải gán MaAdmin của người đang đăng nhập
+                if (_userContext.MaAdmin == null)
+                {
+                    MessageBox.Show("Lỗi xác thực: Không tìm thấy thông tin Admin của bạn.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
                 ThongBaoHienTai = new ThongBao
                 {
                     TieuDe = txtTieuDe.Text,
                     NoiDung = txtNoiDung.Text,
-                    MaAdmin = 1 // hoặc lấy ID admin hiện tại
+                    MaAdmin = _userContext.MaAdmin.Value, // <-- LẤY ID THẬT
+                    NgayTao = DateTime.Now
                 };
             }
 

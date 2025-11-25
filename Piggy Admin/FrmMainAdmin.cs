@@ -10,17 +10,14 @@ namespace Piggy_Admin
         private readonly IDbContextFactory<QLTCCNContext> _dbFactory;
         private readonly IServiceProvider _serviceProvider;
 
-        // Cần 2 hằng số (constants) để gọi WinAPI
+        // Code API Win32
         public const int WM_NCLBUTTONDOWN = 0xA1;
         public const int HT_CAPTION = 0x2;
-
         [DllImport("user32.dll")]
         public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
-
         [DllImport("user32.dll")]
         public static extern bool ReleaseCapture();
 
-        // THAY THẾ CONSTRUCTOR CŨ BẰNG CONSTRUCTOR DÙNG DI:
         public FrmMainAdmin(IDbContextFactory<QLTCCNContext> dbFactory, IServiceProvider serviceProvider)
         {
             InitializeComponent();
@@ -28,33 +25,10 @@ namespace Piggy_Admin
             _serviceProvider = serviceProvider;
         }
 
-        private void button8_Click(object sender, EventArgs e)
-        {
-            System.Windows.Forms.Application.Exit();
-        }
-
-        private void button9_Click(object sender, EventArgs e)
-        {
-            this.WindowState = FormWindowState.Minimized;
-        }
-
-        private void button7_Click(object sender, EventArgs e)
-        {
-            if (this.WindowState == FormWindowState.Normal)
-            {
-                this.WindowState = FormWindowState.Maximized;
-            }
-            else if (this.WindowState == FormWindowState.Maximized)
-            {
-                this.WindowState = FormWindowState.Normal;
-            }
-        }
-
-        private void FrmMain_Load(object sender, EventArgs e)
-        {
-            System.Drawing.Rectangle workingArea = Screen.PrimaryScreen.WorkingArea;
-            this.MaximumSize = workingArea.Size;
-        }
+        private void button8_Click(object sender, EventArgs e) => System.Windows.Forms.Application.Exit();
+        private void button9_Click(object sender, EventArgs e) => this.WindowState = FormWindowState.Minimized;
+        private void button7_Click(object sender, EventArgs e) => this.WindowState = (this.WindowState == FormWindowState.Normal) ? FormWindowState.Maximized : FormWindowState.Normal;
+        private void FrmMain_Load(object sender, EventArgs e) => this.MaximumSize = Screen.PrimaryScreen.WorkingArea.Size;
 
         private void panel2_MouseDown(object sender, MouseEventArgs e)
         {
@@ -64,41 +38,55 @@ namespace Piggy_Admin
                 SendMessage(this.Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
             }
         }
-        // Đã xóa FormTaiKhoan formTaiKhoan; nếu là khai báo cũ
 
         private void button1_Click(object sender, EventArgs e)
         {
             pnlHienThi.Controls.Clear();
-            UserControlBaoCaoThongKe userControlMoi = _serviceProvider.GetRequiredService<UserControlBaoCaoThongKe>();
-            userControlMoi.Dock = DockStyle.Fill;
-            pnlHienThi.Controls.Add(userControlMoi);
-        }
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-            FormTaiKhoan f = _serviceProvider.GetRequiredService<FormTaiKhoan>();
-
-            Point pos = picUserProfile.PointToScreen(new Point(50, picUserProfile.Height - 500));
-            f.StartPosition = FormStartPosition.Manual;
-            f.Location = pos;
-
-            f.Show();
-            f.Deactivate += (s, ev) => f.Close();
+            UserControlBaoCaoThongKe uc = _serviceProvider.GetRequiredService<UserControlBaoCaoThongKe>();
+            uc.Dock = DockStyle.Fill;
+            pnlHienThi.Controls.Add(uc);
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             pnlHienThi.Controls.Clear();
-            UserControlQuanLyTaiKhoan userControlMoi = _serviceProvider.GetRequiredService<UserControlQuanLyTaiKhoan>();
-            userControlMoi.Dock = DockStyle.Fill;
-            pnlHienThi.Controls.Add(userControlMoi);
+            UserControlQuanLyTaiKhoan uc = _serviceProvider.GetRequiredService<UserControlQuanLyTaiKhoan>();
+            uc.Dock = DockStyle.Fill;
+            pnlHienThi.Controls.Add(uc);
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
             pnlHienThi.Controls.Clear();
-            UserControlQuanLyThongBao userControlMoi = _serviceProvider.GetRequiredService<UserControlQuanLyThongBao>();
-            userControlMoi.Dock = DockStyle.Fill;
-            pnlHienThi.Controls.Add(userControlMoi);
+            UserControlQuanLyThongBao uc = _serviceProvider.GetRequiredService<UserControlQuanLyThongBao>();
+            uc.Dock = DockStyle.Fill;
+            pnlHienThi.Controls.Add(uc);
+        }
+
+        // --- SỬA LỖI Ở ĐÂY ---
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            // 1. Lấy instance mới
+            FormTaiKhoan f = _serviceProvider.GetRequiredService<FormTaiKhoan>();
+
+            // 2. Đặt vị trí
+            Point pos = picUserProfile.PointToScreen(new Point(50, picUserProfile.Height - 500));
+            f.StartPosition = FormStartPosition.Manual;
+            f.Location = pos;
+
+            // 3. Đăng ký sự kiện: Nếu Form con yêu cầu Logout -> Form cha (MainAdmin) tự đóng
+            f.LogoutRequested += () =>
+            {
+                this.Close(); // Đóng Admin Main -> Program.cs sẽ mở lại Login
+            };
+
+            // 4. Hiển thị Form Tài khoản
+            f.Show();
+
+            // ⚠️ ĐÃ XÓA SỰ KIỆN Deactivate ĐỂ TRÁNH LỖI MESSAGE BOX TẮT FORM
+            // Bây giờ Form Tài khoản sẽ hoạt động như một cửa sổ bình thường.
+            // Người dùng phải tự bấm nút tắt hoặc click ra ngoài (nếu muốn logic phức tạp hơn).
+            // Nhưng ít nhất code này đảm bảo MessageBox hiện lên đàng hoàng.
         }
     }
 }
