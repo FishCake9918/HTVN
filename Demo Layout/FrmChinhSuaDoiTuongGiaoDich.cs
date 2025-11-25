@@ -41,7 +41,6 @@ namespace Demo_Layout
 
         private void FrmChinhSuaDoiTuongGiaoDich_Load(object sender, EventArgs e)
         {
-            // Không cần logic ở đây
         }
 
         private void LoadDataForEdit(int id)
@@ -128,11 +127,6 @@ namespace Demo_Layout
                     MessageBox.Show("Lỗi khi lưu dữ liệu: " + ex.Message, "Lỗi Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-        }
-
-        private void btnThoat_Click(object sender, EventArgs e)
-        {
-            this.Close(); // Đóng form hiện tại
         }
     }
 }

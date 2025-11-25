@@ -70,20 +70,21 @@
             button8 = new Button();
             pnlHienThi = new Panel();
             panel3 = new Panel();
-            pictureBox1 = new PictureBox();
-            button14 = new Button();
+            icoPiggy = new PictureBox();
             button13 = new Button();
             button12 = new Button();
             button11 = new Button();
             scThemTaiKhoan = new Button();
             notifyIcon = new NotifyIcon(components);
+            icoBell = new PictureBox();
             menuStrip1.SuspendLayout();
             pnlMenu.SuspendLayout();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picUserProfile).BeginInit();
             panel2.SuspendLayout();
             panel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)icoPiggy).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)icoBell).BeginInit();
             SuspendLayout();
             // 
             // menuStrip1
@@ -93,11 +94,11 @@
             menuStrip1.Font = new Font("Segoe UI", 9F);
             menuStrip1.ImageScalingSize = new Size(20, 20);
             menuStrip1.Items.AddRange(new ToolStripItem[] { accountToolStripMenuItem, editToolStripMenuItem, toolsToolStripMenuItem, helpToolStripMenuItem });
-            menuStrip1.Location = new Point(9, 5);
+            menuStrip1.Location = new Point(11, 6);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Padding = new Padding(7, 1, 0, 1);
+            menuStrip1.Padding = new Padding(9, 1, 0, 1);
             menuStrip1.RenderMode = ToolStripRenderMode.Professional;
-            menuStrip1.Size = new Size(252, 26);
+            menuStrip1.Size = new Size(301, 31);
             menuStrip1.TabIndex = 0;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -106,25 +107,25 @@
             accountToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { signInToolStripMenuItem, signOutToolStripMenuItem, exitToolStripMenuItem });
             accountToolStripMenuItem.ForeColor = SystemColors.ControlLightLight;
             accountToolStripMenuItem.Name = "accountToolStripMenuItem";
-            accountToolStripMenuItem.Size = new Size(81, 24);
+            accountToolStripMenuItem.Size = new Size(98, 29);
             accountToolStripMenuItem.Text = "Account ";
             // 
             // signInToolStripMenuItem
             // 
             signInToolStripMenuItem.Name = "signInToolStripMenuItem";
-            signInToolStripMenuItem.Size = new Size(147, 26);
+            signInToolStripMenuItem.Size = new Size(181, 34);
             signInToolStripMenuItem.Text = "Sign in ";
             // 
             // signOutToolStripMenuItem
             // 
             signOutToolStripMenuItem.Name = "signOutToolStripMenuItem";
-            signOutToolStripMenuItem.Size = new Size(147, 26);
+            signOutToolStripMenuItem.Size = new Size(181, 34);
             signOutToolStripMenuItem.Text = "Sign out";
             // 
             // exitToolStripMenuItem
             // 
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new Size(147, 26);
+            exitToolStripMenuItem.Size = new Size(181, 34);
             exitToolStripMenuItem.Text = "Exit";
             // 
             // editToolStripMenuItem
@@ -132,19 +133,19 @@
             editToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { undoToolStripMenuItem1, redoToolStripMenuItem1 });
             editToolStripMenuItem.ForeColor = SystemColors.ButtonHighlight;
             editToolStripMenuItem.Name = "editToolStripMenuItem";
-            editToolStripMenuItem.Size = new Size(49, 24);
+            editToolStripMenuItem.Size = new Size(58, 29);
             editToolStripMenuItem.Text = "Edit";
             // 
             // undoToolStripMenuItem1
             // 
             undoToolStripMenuItem1.Name = "undoToolStripMenuItem1";
-            undoToolStripMenuItem1.Size = new Size(128, 26);
+            undoToolStripMenuItem1.Size = new Size(158, 34);
             undoToolStripMenuItem1.Text = "Undo";
             // 
             // redoToolStripMenuItem1
             // 
             redoToolStripMenuItem1.Name = "redoToolStripMenuItem1";
-            redoToolStripMenuItem1.Size = new Size(128, 26);
+            redoToolStripMenuItem1.Size = new Size(158, 34);
             redoToolStripMenuItem1.Text = "Redo";
             // 
             // toolsToolStripMenuItem
@@ -152,19 +153,19 @@
             toolsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { findSchedulesToolStripMenuItem1, minimizeToolStripMenuItem1 });
             toolsToolStripMenuItem.ForeColor = SystemColors.ButtonHighlight;
             toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            toolsToolStripMenuItem.Size = new Size(58, 24);
+            toolsToolStripMenuItem.Size = new Size(69, 29);
             toolsToolStripMenuItem.Text = "Tools";
             // 
             // findSchedulesToolStripMenuItem1
             // 
             findSchedulesToolStripMenuItem1.Name = "findSchedulesToolStripMenuItem1";
-            findSchedulesToolStripMenuItem1.Size = new Size(188, 44);
+            findSchedulesToolStripMenuItem1.Size = new Size(230, 58);
             findSchedulesToolStripMenuItem1.Text = "Find schedules";
             // 
             // minimizeToolStripMenuItem1
             // 
             minimizeToolStripMenuItem1.Name = "minimizeToolStripMenuItem1";
-            minimizeToolStripMenuItem1.Size = new Size(188, 44);
+            minimizeToolStripMenuItem1.Size = new Size(230, 58);
             minimizeToolStripMenuItem1.Text = "Minimize\n";
             // 
             // helpToolStripMenuItem
@@ -172,19 +173,19 @@
             helpToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { documentationToolStripMenuItem1, keyboardShortcutsToolStripMenuItem1 });
             helpToolStripMenuItem.ForeColor = SystemColors.Control;
             helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            helpToolStripMenuItem.Size = new Size(55, 24);
+            helpToolStripMenuItem.Size = new Size(65, 29);
             helpToolStripMenuItem.Text = "Help";
             // 
             // documentationToolStripMenuItem1
             // 
             documentationToolStripMenuItem1.Name = "documentationToolStripMenuItem1";
-            documentationToolStripMenuItem1.Size = new Size(221, 26);
+            documentationToolStripMenuItem1.Size = new Size(270, 34);
             documentationToolStripMenuItem1.Text = "Documentation";
             // 
             // keyboardShortcutsToolStripMenuItem1
             // 
             keyboardShortcutsToolStripMenuItem1.Name = "keyboardShortcutsToolStripMenuItem1";
-            keyboardShortcutsToolStripMenuItem1.Size = new Size(221, 26);
+            keyboardShortcutsToolStripMenuItem1.Size = new Size(270, 34);
             keyboardShortcutsToolStripMenuItem1.Text = "Keyboard Shortcuts";
             // 
             // đăngNhậpToolStripMenuItem
@@ -250,9 +251,10 @@
             button1.ForeColor = Color.Cyan;
             button1.Image = (Image)resources.GetObject("button1.Image");
             button1.ImageAlign = ContentAlignment.MiddleLeft;
-            button1.Location = new Point(9, 6);
+            button1.Location = new Point(11, 8);
+            button1.Margin = new Padding(4, 4, 4, 4);
             button1.Name = "button1";
-            button1.Size = new Size(301, 70);
+            button1.Size = new Size(376, 88);
             button1.TabIndex = 0;
             button1.Text = "  Báo cáo";
             button1.UseVisualStyleBackColor = false;
@@ -267,9 +269,10 @@
             button2.ForeColor = Color.Cyan;
             button2.Image = (Image)resources.GetObject("button2.Image");
             button2.ImageAlign = ContentAlignment.MiddleLeft;
-            button2.Location = new Point(9, 82);
+            button2.Location = new Point(11, 102);
+            button2.Margin = new Padding(4, 4, 4, 4);
             button2.Name = "button2";
-            button2.Size = new Size(301, 70);
+            button2.Size = new Size(376, 88);
             button2.TabIndex = 1;
             button2.Text = "  Quản lý giao dịch";
             button2.UseVisualStyleBackColor = false;
@@ -284,9 +287,10 @@
             button3.ForeColor = Color.Cyan;
             button3.Image = (Image)resources.GetObject("button3.Image");
             button3.ImageAlign = ContentAlignment.MiddleLeft;
-            button3.Location = new Point(9, 158);
+            button3.Location = new Point(11, 198);
+            button3.Margin = new Padding(4, 4, 4, 4);
             button3.Name = "button3";
-            button3.Size = new Size(301, 70);
+            button3.Size = new Size(376, 88);
             button3.TabIndex = 2;
             button3.Text = "Ngân sách";
             button3.UseVisualStyleBackColor = false;
@@ -301,9 +305,10 @@
             button4.ForeColor = Color.Cyan;
             button4.Image = (Image)resources.GetObject("button4.Image");
             button4.ImageAlign = ContentAlignment.MiddleLeft;
-            button4.Location = new Point(9, 234);
+            button4.Location = new Point(11, 292);
+            button4.Margin = new Padding(4, 4, 4, 4);
             button4.Name = "button4";
-            button4.Size = new Size(301, 70);
+            button4.Size = new Size(376, 88);
             button4.TabIndex = 3;
             button4.Text = "  Danh mục chi tiêu";
             button4.UseVisualStyleBackColor = false;
@@ -318,9 +323,10 @@
             button5.ForeColor = Color.Cyan;
             button5.Image = (Image)resources.GetObject("button5.Image");
             button5.ImageAlign = ContentAlignment.MiddleLeft;
-            button5.Location = new Point(9, 310);
+            button5.Location = new Point(11, 388);
+            button5.Margin = new Padding(4, 4, 4, 4);
             button5.Name = "button5";
-            button5.Size = new Size(301, 70);
+            button5.Size = new Size(376, 88);
             button5.TabIndex = 4;
             button5.Text = "  Đối tượng giao dịch";
             button5.UseVisualStyleBackColor = false;
@@ -335,9 +341,10 @@
             button6.ForeColor = Color.Cyan;
             button6.Image = (Image)resources.GetObject("button6.Image");
             button6.ImageAlign = ContentAlignment.MiddleLeft;
-            button6.Location = new Point(9, 386);
+            button6.Location = new Point(11, 482);
+            button6.Margin = new Padding(4, 4, 4, 4);
             button6.Name = "button6";
-            button6.Size = new Size(301, 70);
+            button6.Size = new Size(376, 88);
             button6.TabIndex = 5;
             button6.Text = "  Tài khoản thanh toán";
             button6.UseVisualStyleBackColor = false;
@@ -354,9 +361,10 @@
             pnlMenu.Controls.Add(button2);
             pnlMenu.Controls.Add(button1);
             pnlMenu.Dock = DockStyle.Left;
-            pnlMenu.Location = new Point(0, 85);
+            pnlMenu.Location = new Point(0, 106);
+            pnlMenu.Margin = new Padding(4, 4, 4, 4);
             pnlMenu.Name = "pnlMenu";
-            pnlMenu.Size = new Size(310, 611);
+            pnlMenu.Size = new Size(388, 764);
             pnlMenu.TabIndex = 2;
             // 
             // panel1
@@ -364,18 +372,20 @@
             panel1.BackColor = SystemColors.ActiveBorder;
             panel1.Controls.Add(picUserProfile);
             panel1.Dock = DockStyle.Bottom;
-            panel1.Location = new Point(0, 531);
+            panel1.Location = new Point(0, 664);
+            panel1.Margin = new Padding(4, 4, 4, 4);
             panel1.Name = "panel1";
-            panel1.Size = new Size(310, 80);
+            panel1.Size = new Size(388, 100);
             panel1.TabIndex = 6;
             // 
             // picUserProfile
             // 
             picUserProfile.BackColor = SystemColors.ActiveBorder;
             picUserProfile.Image = (Image)resources.GetObject("picUserProfile.Image");
-            picUserProfile.Location = new Point(12, 12);
+            picUserProfile.Location = new Point(15, 15);
+            picUserProfile.Margin = new Padding(4, 4, 4, 4);
             picUserProfile.Name = "picUserProfile";
-            picUserProfile.Size = new Size(56, 56);
+            picUserProfile.Size = new Size(70, 70);
             picUserProfile.SizeMode = PictureBoxSizeMode.Zoom;
             picUserProfile.TabIndex = 2;
             picUserProfile.TabStop = false;
@@ -390,8 +400,9 @@
             panel2.Controls.Add(button8);
             panel2.Dock = DockStyle.Top;
             panel2.Location = new Point(0, 0);
+            panel2.Margin = new Padding(4, 4, 4, 4);
             panel2.Name = "panel2";
-            panel2.Size = new Size(1232, 34);
+            panel2.Size = new Size(1540, 42);
             panel2.TabIndex = 0;
             // 
             // button9
@@ -400,9 +411,10 @@
             button9.FlatAppearance.BorderSize = 0;
             button9.FlatStyle = FlatStyle.Flat;
             button9.Image = (Image)resources.GetObject("button9.Image");
-            button9.Location = new Point(1130, 0);
+            button9.Location = new Point(1414, 0);
+            button9.Margin = new Padding(4, 4, 4, 4);
             button9.Name = "button9";
-            button9.Size = new Size(34, 34);
+            button9.Size = new Size(42, 42);
             button9.TabIndex = 2;
             button9.UseVisualStyleBackColor = true;
             button9.Click += button9_Click;
@@ -413,9 +425,10 @@
             button7.FlatAppearance.BorderSize = 0;
             button7.FlatStyle = FlatStyle.Flat;
             button7.Image = (Image)resources.GetObject("button7.Image");
-            button7.Location = new Point(1164, 0);
+            button7.Location = new Point(1456, 0);
+            button7.Margin = new Padding(4, 4, 4, 4);
             button7.Name = "button7";
-            button7.Size = new Size(34, 34);
+            button7.Size = new Size(42, 42);
             button7.TabIndex = 0;
             button7.UseVisualStyleBackColor = true;
             button7.Click += button7_Click;
@@ -426,9 +439,10 @@
             button8.FlatAppearance.BorderSize = 0;
             button8.FlatStyle = FlatStyle.Flat;
             button8.Image = (Image)resources.GetObject("button8.Image");
-            button8.Location = new Point(1198, 0);
+            button8.Location = new Point(1498, 0);
+            button8.Margin = new Padding(4, 4, 4, 4);
             button8.Name = "button8";
-            button8.Size = new Size(34, 34);
+            button8.Size = new Size(42, 42);
             button8.TabIndex = 1;
             button8.UseVisualStyleBackColor = true;
             button8.Click += button8_Click;
@@ -437,52 +451,39 @@
             // 
             pnlHienThi.BackColor = Color.FromArgb(220, 220, 187);
             pnlHienThi.Dock = DockStyle.Fill;
-            pnlHienThi.Location = new Point(310, 85);
+            pnlHienThi.Location = new Point(388, 106);
+            pnlHienThi.Margin = new Padding(4, 4, 4, 4);
             pnlHienThi.Name = "pnlHienThi";
-            pnlHienThi.Size = new Size(922, 611);
+            pnlHienThi.Size = new Size(1152, 764);
             pnlHienThi.TabIndex = 3;
             // 
             // panel3
             // 
             panel3.BackColor = Color.FromArgb(36, 76, 60);
-            panel3.Controls.Add(pictureBox1);
-            panel3.Controls.Add(button14);
+            panel3.Controls.Add(icoBell);
+            panel3.Controls.Add(icoPiggy);
             panel3.Controls.Add(button13);
             panel3.Controls.Add(button12);
             panel3.Controls.Add(button11);
             panel3.Controls.Add(scThemTaiKhoan);
             panel3.Dock = DockStyle.Top;
-            panel3.Location = new Point(0, 34);
+            panel3.Location = new Point(0, 42);
+            panel3.Margin = new Padding(4, 4, 4, 4);
             panel3.Name = "panel3";
-            panel3.Size = new Size(1232, 51);
+            panel3.Size = new Size(1540, 64);
             panel3.TabIndex = 0;
             // 
-            // pictureBox1
+            // icoPiggy
             // 
-            pictureBox1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(1180, 6);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(40, 40);
-            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox1.TabIndex = 5;
-            pictureBox1.TabStop = false;
-            // 
-            // button14
-            // 
-            button14.FlatAppearance.BorderSize = 0;
-            button14.FlatStyle = FlatStyle.Flat;
-            button14.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            button14.ForeColor = Color.Cyan;
-            button14.Image = (Image)resources.GetObject("button14.Image");
-            button14.ImageAlign = ContentAlignment.MiddleLeft;
-            button14.Location = new Point(753, 7);
-            button14.Name = "button14";
-            button14.Size = new Size(133, 38);
-            button14.TabIndex = 4;
-            button14.Text = "Tạo báo cáo";
-            button14.TextAlign = ContentAlignment.MiddleRight;
-            button14.UseVisualStyleBackColor = true;
+            icoPiggy.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            icoPiggy.Image = (Image)resources.GetObject("icoPiggy.Image");
+            icoPiggy.Location = new Point(1475, 8);
+            icoPiggy.Margin = new Padding(4, 4, 4, 4);
+            icoPiggy.Name = "icoPiggy";
+            icoPiggy.Size = new Size(50, 50);
+            icoPiggy.SizeMode = PictureBoxSizeMode.Zoom;
+            icoPiggy.TabIndex = 5;
+            icoPiggy.TabStop = false;
             // 
             // button13
             // 
@@ -492,9 +493,10 @@
             button13.ForeColor = Color.Cyan;
             button13.Image = (Image)resources.GetObject("button13.Image");
             button13.ImageAlign = ContentAlignment.MiddleLeft;
-            button13.Location = new Point(583, 7);
+            button13.Location = new Point(729, 9);
+            button13.Margin = new Padding(4, 4, 4, 4);
             button13.Name = "button13";
-            button13.Size = new Size(164, 38);
+            button13.Size = new Size(205, 48);
             button13.TabIndex = 3;
             button13.Text = "Thêm ngân sách";
             button13.TextAlign = ContentAlignment.MiddleRight;
@@ -508,9 +510,10 @@
             button12.ForeColor = Color.Cyan;
             button12.Image = (Image)resources.GetObject("button12.Image");
             button12.ImageAlign = ContentAlignment.MiddleLeft;
-            button12.Location = new Point(416, 7);
+            button12.Location = new Point(520, 9);
+            button12.Margin = new Padding(4, 4, 4, 4);
             button12.Name = "button12";
-            button12.Size = new Size(161, 38);
+            button12.Size = new Size(201, 48);
             button12.TabIndex = 2;
             button12.Text = "Thêm đối tượng";
             button12.TextAlign = ContentAlignment.MiddleRight;
@@ -524,9 +527,10 @@
             button11.ForeColor = Color.Cyan;
             button11.Image = (Image)resources.GetObject("button11.Image");
             button11.ImageAlign = ContentAlignment.MiddleLeft;
-            button11.Location = new Point(255, 7);
+            button11.Location = new Point(319, 9);
+            button11.Margin = new Padding(4, 4, 4, 4);
             button11.Name = "button11";
-            button11.Size = new Size(155, 38);
+            button11.Size = new Size(194, 48);
             button11.TabIndex = 1;
             button11.Text = "Thêm giao dịch";
             button11.TextAlign = ContentAlignment.MiddleRight;
@@ -540,9 +544,10 @@
             scThemTaiKhoan.ForeColor = Color.Cyan;
             scThemTaiKhoan.Image = (Image)resources.GetObject("scThemTaiKhoan.Image");
             scThemTaiKhoan.ImageAlign = ContentAlignment.MiddleLeft;
-            scThemTaiKhoan.Location = new Point(12, 6);
+            scThemTaiKhoan.Location = new Point(15, 8);
+            scThemTaiKhoan.Margin = new Padding(4, 4, 4, 4);
             scThemTaiKhoan.Name = "scThemTaiKhoan";
-            scThemTaiKhoan.Size = new Size(237, 38);
+            scThemTaiKhoan.Size = new Size(296, 48);
             scThemTaiKhoan.TabIndex = 0;
             scThemTaiKhoan.Text = "Thêm tài khoản thanh toán";
             scThemTaiKhoan.TextAlign = ContentAlignment.MiddleRight;
@@ -553,19 +558,31 @@
             notifyIcon.Icon = (Icon)resources.GetObject("notifyIcon.Icon");
             notifyIcon.Text = "PFMA";
             // 
+            // icoBell
+            // 
+            icoBell.Image = (Image)resources.GetObject("icoBell.Image");
+            icoBell.Location = new Point(1406, 8);
+            icoBell.Margin = new Padding(5);
+            icoBell.Name = "icoBell";
+            icoBell.Size = new Size(50, 50);
+            icoBell.SizeMode = PictureBoxSizeMode.Zoom;
+            icoBell.TabIndex = 6;
+            icoBell.TabStop = false;
+            // 
             // FrmMain
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1232, 696);
+            ClientSize = new Size(1540, 870);
             Controls.Add(pnlHienThi);
             Controls.Add(pnlMenu);
             Controls.Add(panel3);
             Controls.Add(panel2);
             FormBorderStyle = FormBorderStyle.None;
             MainMenuStrip = menuStrip1;
-            MaximumSize = new Size(1232, 696);
-            MinimumSize = new Size(1232, 696);
+            Margin = new Padding(4, 4, 4, 4);
+            MaximumSize = new Size(1540, 870);
+            MinimumSize = new Size(1540, 870);
             Name = "FrmMain";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Trang chủ";
@@ -579,7 +596,8 @@
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
             panel3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)icoPiggy).EndInit();
+            ((System.ComponentModel.ISupportInitialize)icoBell).EndInit();
             ResumeLayout(false);
         }
 
@@ -625,12 +643,12 @@
         private Panel panel1;
         private PictureBox picUserProfile;
         private Panel panel3;
-        private Button button14;
         private Button button13;
         private Button button12;
         private Button button11;
         private Button scThemTaiKhoan;
         private NotifyIcon notifyIcon;
-        private PictureBox pictureBox1;
+        private PictureBox icoPiggy;
+        private PictureBox icoBell;
     }
 }

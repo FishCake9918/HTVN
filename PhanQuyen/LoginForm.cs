@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Windows.Forms;
-using Microsoft.Extensions.DependencyInjection;
-using Data; // Giả định namespace chứa DbContext và Models (TaiKhoan, VaiTro)
+using Data;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using Demo_Layout; // Cần dùng Form/Namespace của Piggy Bank
-using Piggy_Admin; // Cần dùng Form/Namespace của Piggy Admin
-
+using Microsoft.Extensions.DependencyInjection;
 
 namespace PhanQuyen
 {
@@ -14,57 +11,54 @@ namespace PhanQuyen
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly IDbContextFactory<QLTCCNContext> _dbFactory;
+        private readonly CurrentUserContext _userContext;
 
-        private const string ADMIN_ROLE_NAME = "Admin";
-        private const string CUSTOMER_ROLE_NAME = "Customer";
-
-        public LoginForm(IDbContextFactory<QLTCCNContext> dbFactory, IServiceProvider serviceProvider)
+        public LoginForm(
+            IDbContextFactory<QLTCCNContext> dbFactory,
+            IServiceProvider serviceProvider,
+            CurrentUserContext userContext)
         {
             InitializeComponent();
             _dbFactory = dbFactory;
             _serviceProvider = serviceProvider;
+            _userContext = userContext;
+
+            if (this.btnDangKyMoi != null)
+            {
+                this.btnDangKyMoi.Click += (s, e) => {
+                    using (var regForm = _serviceProvider.GetRequiredService<DangKy>())
+                    {
+                        regForm.ShowDialog(this);
+                    }
+                };
+            }
         }
 
         private void btnDangNhap_Click(object sender, EventArgs e)
         {
-            string email = txtUsername.Text;
-            string password = txtPassword.Text;
+            string email = txtUsername.Text.Trim();
+            string password = txtPassword.Text.Trim();
 
-            string userRole = AuthenticateAndGetRole(email, password);
-
-            if (userRole != null)
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
             {
-                Form mainFormToRun = null;
+                MessageBox.Show("Vui lòng nhập Email và Mật khẩu.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
-                // === LOGIC PHÂN QUYỀN ===
-                if (userRole.Equals(ADMIN_ROLE_NAME, StringComparison.OrdinalIgnoreCase))
-                {
-                    mainFormToRun = _serviceProvider.GetRequiredService<FrmMainAdmin>();
-                }
-                else
-                {
-                    mainFormToRun = _serviceProvider.GetRequiredService<Demo_Layout.FrmMain>();
-                }
+            var authResult = AuthenticateAndGetDetails(email, password);
 
-                if (mainFormToRun != null)
-                {
-                    // 1. Ẩn Form Login (Giữ luồng WinForms chạy)
-                    this.Hide();
+            if (authResult.TaiKhoan != null)
+            {
+                _userContext.SetCurrentUser(
+                    authResult.TaiKhoan,
+                    authResult.MaAdmin,
+                    authResult.MaNguoiDung,
+                    authResult.HoTen
+                );
 
-                    // 2. ĐĂNG KÝ SỰ KIỆN: Khi Form chính mới đóng, ứng dụng sẽ thoát.
-                    // Điều này giữ cho luồng WinForms chạy cho đến khi Form này đóng.
-                    mainFormToRun.FormClosed += (s, args) => {
-                        // 3. ĐÓNG FORM LOGIN (giải phóng bộ nhớ) VÀ GỌI APPLICATION.EXIT()
-                        // Application.Exit() sẽ chấm dứt luồng WinForms một cách an toàn.
-                        this.Dispose(); // Giải phóng Form Login khỏi bộ nhớ
-                        Application.Exit();
-                    };
-
-                    // 4. HIỂN THỊ FORM MỚI
-                    mainFormToRun.Show();
-
-                    // Không gọi this.Close() ở đây nữa, vì nó đã được xử lý bằng Application.Exit() khi mainFormToRun đóng.
-                }
+                // Đăng nhập thành công -> Trả về OK -> Program.cs sẽ mở Form Chính
+                this.DialogResult = DialogResult.OK;
+                this.Close();
             }
             else
             {
@@ -72,22 +66,50 @@ namespace PhanQuyen
             }
         }
 
-        private string AuthenticateAndGetRole(string email, string password)
+        private class AuthResultDetails
+        {
+            public TaiKhoan TaiKhoan { get; set; }
+            public int? MaAdmin { get; set; }
+            public int? MaNguoiDung { get; set; }
+            public string HoTen { get; set; }
+        }
+
+        private AuthResultDetails AuthenticateAndGetDetails(string email, string password)
         {
             using (var dbContext = _dbFactory.CreateDbContext())
             {
-                var taiKhoan = dbContext.Set<TaiKhoan>()
-                    .Include(tk => tk.VaiTro)
-                    .FirstOrDefault(tk =>
-                        tk.Email.ToLower() == email.ToLower() &&
-                        tk.MatKhau == password);
+                var tk = dbContext.Set<TaiKhoan>()
+                    .Include(t => t.VaiTro)
+                    .Include(t => t.Admin)
+                    .Include(t => t.NguoiDung)
+                    .FirstOrDefault(t =>
+                        t.Email.ToLower() == email.ToLower() &&
+                        t.MatKhau == password);
 
-                if (taiKhoan != null && taiKhoan.VaiTro != null)
+                if (tk == null) return new AuthResultDetails { TaiKhoan = null };
+
+                int? maAdmin = null;
+                int? maNguoiDung = null;
+                string hoTen = tk.Email;
+
+                if (tk.Admin != null)
                 {
-                    return taiKhoan.VaiTro.TenVaiTro;
+                    maAdmin = tk.Admin.MaAdmin;
+                    hoTen = tk.Admin.HoTenAdmin;
+                }
+                if (tk.NguoiDung != null)
+                {
+                    maNguoiDung = tk.NguoiDung.MaNguoiDung;
+                    hoTen = tk.NguoiDung.HoTen;
                 }
 
-                return null;
+                return new AuthResultDetails
+                {
+                    TaiKhoan = tk,
+                    MaAdmin = maAdmin,
+                    MaNguoiDung = maNguoiDung,
+                    HoTen = hoTen
+                };
             }
         }
     }

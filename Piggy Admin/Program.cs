@@ -34,6 +34,8 @@ namespace Piggy_Admin
                     services.AddTransient<UserControlQuanLyTaiKhoan>();
                     services.AddTransient<UserControlQuanLyThongBao>();
                     services.AddTransient<TaoCapNhatThongBao>();
+                    services.AddTransient<FormTaiKhoan>();
+
                 })
                 .Build();
 

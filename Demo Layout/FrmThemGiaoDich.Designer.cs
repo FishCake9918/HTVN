@@ -218,9 +218,9 @@
             // cbDanhMuc
             // 
             cbDanhMuc.FormattingEnabled = true;
-            cbDanhMuc.Location = new Point(499, 171);
+            cbDanhMuc.Location = new Point(445, 171);
             cbDanhMuc.Name = "cbDanhMuc";
-            cbDanhMuc.Size = new Size(151, 28);
+            cbDanhMuc.Size = new Size(205, 28);
             cbDanhMuc.TabIndex = 16;
             // 
             // label7
@@ -228,7 +228,7 @@
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             label7.ForeColor = Color.White;
-            label7.Location = new Point(358, 174);
+            label7.Location = new Point(304, 174);
             label7.Name = "label7";
             label7.Size = new Size(135, 20);
             label7.TabIndex = 17;

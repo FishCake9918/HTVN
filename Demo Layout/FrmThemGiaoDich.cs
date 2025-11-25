@@ -16,7 +16,7 @@ namespace Demo_Layout
         private const int CURRENT_USER_ID = 1; // Giả định user ID
 
         // Chuỗi kết nối
-        private const string ConnectionString = "Data Source=LUCAS;Initial Catalog=QLTCCN;Integrated Security=True;TrustServerCertificate=True";
+        private const string ConnectionString = "Data Source=DESKTOP-V70T5QI;Initial Catalog=QLTCCN;Integrated Security=True;TrustServerCertificate=True";
 
         // --- CONSTRUCTOR 1: THÊM MỚI ---
         public FrmThemGiaoDich()
@@ -89,17 +89,22 @@ namespace Demo_Layout
                     cbTaiKhoan.DisplayMember = "TenTaiKhoan";
                     cbTaiKhoan.ValueMember = "MaTaiKhoanThanhToan";
 
-                    // 3. Load Danh Mục (MỚI THÊM)
+                    // 3. Load Danh Mục (HIỂN THỊ DẠNG: CHA - CON)
                     var dsDanhMuc = context.DanhMucChiTieus
-                        .Where(dm => dm.MaNguoiDung == CURRENT_USER_ID)
-                        .Select(dm => new { dm.MaDanhMuc, dm.TenDanhMuc }) // Lấy ID và Tên
+                        .Include(dm => dm.DanhMucChaNavigation) // Join với bảng cha để lấy tên cha
+                        .Where(dm => dm.MaNguoiDung == CURRENT_USER_ID && dm.DanhMucCha != null)
+                        .Select(dm => new
+                        {
+                            dm.MaDanhMuc,
+                            // Tạo tên hiển thị mới: "Tên Cha - Tên Con"
+                            TenHienThi = dm.DanhMucChaNavigation.TenDanhMuc + " - " + dm.TenDanhMuc
+                        })
+                        .OrderBy(dm => dm.TenHienThi) // Sắp xếp cho dễ tìm
                         .ToList();
 
                     cbDanhMuc.DataSource = dsDanhMuc;
-                    cbDanhMuc.DisplayMember = "TenDanhMuc";
+                    cbDanhMuc.DisplayMember = "TenHienThi"; // Hiển thị cột tên đã ghép
                     cbDanhMuc.ValueMember = "MaDanhMuc";
-
-                    // Reset selection để tránh chọn nhầm cái đầu tiên khi mới mở
                     cbDanhMuc.SelectedIndex = -1;
                 }
             }
