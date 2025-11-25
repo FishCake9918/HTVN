@@ -107,13 +107,11 @@ namespace Demo_Layout
                 MessageBox.Show("Tên danh mục không được để trống.");
                 return;
             }
-
             try
             {
                 using (var db = _dbFactory.CreateDbContext())
                 {
                     DanhMucChiTieu danhMuc;
-
                     // 1. LOGIC PHÂN BIỆT THÊM / SỬA
                     if (_maDanhMucCanSua == null)
                     {
@@ -135,17 +133,14 @@ namespace Demo_Layout
 
                     // 2. Cập nhật thông tin chung
                     danhMuc.TenDanhMuc = txtTenDanhMuc.Text.Trim();
-
                     int maCha = 0;
                     if (cboDanhMucCha.SelectedValue != null)
                         int.TryParse(cboDanhMucCha.SelectedValue.ToString(), out maCha);
-
                     danhMuc.DanhMucCha = (maCha == 0) ? null : maCha;
 
                     // 3. Lưu
                     db.SaveChanges();
                 }
-
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }

@@ -69,7 +69,7 @@ namespace Piggy_Admin
         private void button1_Click(object sender, EventArgs e)
         {
             pnlHienThi.Controls.Clear();
-            UserControlBaoCaoThongKe userControlMoi = _serviceProvider.GetRequiredService<UserControlBaoCaoThongKe>();
+            UserControlBaoCaoHeThong userControlMoi = _serviceProvider.GetRequiredService<UserControlBaoCaoHeThong>();
             userControlMoi.Dock = DockStyle.Fill;
             pnlHienThi.Controls.Add(userControlMoi);
         }
