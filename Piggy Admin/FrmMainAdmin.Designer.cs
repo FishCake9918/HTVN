@@ -29,335 +29,383 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMainAdmin));
-            panel2 = new Panel();
-            menuStrip1 = new MenuStrip();
-            accountToolStripMenuItem = new ToolStripMenuItem();
-            signInToolStripMenuItem = new ToolStripMenuItem();
-            signOutToolStripMenuItem = new ToolStripMenuItem();
-            exitToolStripMenuItem = new ToolStripMenuItem();
-            editToolStripMenuItem = new ToolStripMenuItem();
-            undoToolStripMenuItem1 = new ToolStripMenuItem();
-            redoToolStripMenuItem1 = new ToolStripMenuItem();
-            toolsToolStripMenuItem = new ToolStripMenuItem();
-            findSchedulesToolStripMenuItem1 = new ToolStripMenuItem();
-            minimizeToolStripMenuItem1 = new ToolStripMenuItem();
-            helpToolStripMenuItem = new ToolStripMenuItem();
-            documentationToolStripMenuItem1 = new ToolStripMenuItem();
-            keyboardShortcutsToolStripMenuItem1 = new ToolStripMenuItem();
-            button9 = new Button();
-            button7 = new Button();
-            button8 = new Button();
-            panel3 = new Panel();
-            pictureBox2 = new PictureBox();
-            pnlMenu = new Panel();
-            panel1 = new Panel();
-            picUserProfile = new PictureBox();
-            button5 = new Button();
-            button2 = new Button();
-            button1 = new Button();
-            pnlHienThi = new Panel();
-            panel2.SuspendLayout();
-            menuStrip1.SuspendLayout();
-            panel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
-            pnlMenu.SuspendLayout();
-            panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)picUserProfile).BeginInit();
-            SuspendLayout();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.accountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.signInToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.signOutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.undoToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.redoToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.findSchedulesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.minimizeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.documentationToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.keyboardShortcutsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.button9 = new System.Windows.Forms.Button();
+            this.button7 = new System.Windows.Forms.Button();
+            this.button8 = new System.Windows.Forms.Button();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pnlMenu = new System.Windows.Forms.Panel();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.picUserProfile = new System.Windows.Forms.PictureBox();
+
+            // --- KHAI BÁO LABEL MỚI ---
+            this.lblTenHienThi = new System.Windows.Forms.Label();
+            this.lblVaiTro = new System.Windows.Forms.Label();
+            // ---------------------------
+
+            this.button5 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.pnlHienThi = new System.Windows.Forms.Panel();
+            this.panel2.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
+            this.panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            this.pnlMenu.SuspendLayout();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picUserProfile)).BeginInit();
+            this.SuspendLayout();
             // 
             // panel2
             // 
-            panel2.BackColor = Color.FromArgb(130, 142, 231);
-            panel2.Controls.Add(menuStrip1);
-            panel2.Controls.Add(button9);
-            panel2.Controls.Add(button7);
-            panel2.Controls.Add(button8);
-            panel2.Dock = DockStyle.Top;
-            panel2.Location = new Point(0, 0);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(1232, 34);
-            panel2.TabIndex = 1;
-            panel2.MouseDown += panel2_MouseDown;
+            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(130)))), ((int)(((byte)(142)))), ((int)(((byte)(231)))));
+            this.panel2.Controls.Add(this.menuStrip1);
+            this.panel2.Controls.Add(this.button9);
+            this.panel2.Controls.Add(this.button7);
+            this.panel2.Controls.Add(this.button8);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel2.Location = new System.Drawing.Point(0, 0);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(1232, 34);
+            this.panel2.TabIndex = 1;
+            this.panel2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel2_MouseDown);
             // 
             // menuStrip1
             // 
-            menuStrip1.BackColor = Color.FromArgb(130, 142, 231);
-            menuStrip1.Dock = DockStyle.None;
-            menuStrip1.Font = new Font("Segoe UI", 9F);
-            menuStrip1.ImageScalingSize = new Size(20, 20);
-            menuStrip1.Items.AddRange(new ToolStripItem[] { accountToolStripMenuItem, editToolStripMenuItem, toolsToolStripMenuItem, helpToolStripMenuItem });
-            menuStrip1.Location = new Point(9, 5);
-            menuStrip1.Name = "menuStrip1";
-            menuStrip1.Padding = new Padding(7, 1, 0, 1);
-            menuStrip1.RenderMode = ToolStripRenderMode.Professional;
-            menuStrip1.Size = new Size(252, 26);
-            menuStrip1.TabIndex = 0;
-            menuStrip1.Text = "menuStrip1";
+            this.menuStrip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(130)))), ((int)(((byte)(142)))), ((int)(((byte)(231)))));
+            this.menuStrip1.Dock = System.Windows.Forms.DockStyle.None;
+            this.menuStrip1.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.accountToolStripMenuItem,
+            this.editToolStripMenuItem,
+            this.toolsToolStripMenuItem,
+            this.helpToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(9, 5);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 1, 0, 1);
+            this.menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
+            this.menuStrip1.Size = new System.Drawing.Size(252, 26);
+            this.menuStrip1.TabIndex = 0;
+            this.menuStrip1.Text = "menuStrip1";
             // 
             // accountToolStripMenuItem
             // 
-            accountToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { signInToolStripMenuItem, signOutToolStripMenuItem, exitToolStripMenuItem });
-            accountToolStripMenuItem.ForeColor = SystemColors.ControlLightLight;
-            accountToolStripMenuItem.Name = "accountToolStripMenuItem";
-            accountToolStripMenuItem.Size = new Size(81, 24);
-            accountToolStripMenuItem.Text = "Account ";
+            this.accountToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.signInToolStripMenuItem,
+            this.signOutToolStripMenuItem,
+            this.exitToolStripMenuItem});
+            this.accountToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.accountToolStripMenuItem.Name = "accountToolStripMenuItem";
+            this.accountToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
+            this.accountToolStripMenuItem.Text = "Account ";
             // 
             // signInToolStripMenuItem
             // 
-            signInToolStripMenuItem.Name = "signInToolStripMenuItem";
-            signInToolStripMenuItem.Size = new Size(147, 26);
-            signInToolStripMenuItem.Text = "Sign in ";
+            this.signInToolStripMenuItem.Name = "signInToolStripMenuItem";
+            this.signInToolStripMenuItem.Size = new System.Drawing.Size(147, 26);
+            this.signInToolStripMenuItem.Text = "Sign in ";
             // 
             // signOutToolStripMenuItem
             // 
-            signOutToolStripMenuItem.Name = "signOutToolStripMenuItem";
-            signOutToolStripMenuItem.Size = new Size(147, 26);
-            signOutToolStripMenuItem.Text = "Sign out";
+            this.signOutToolStripMenuItem.Name = "signOutToolStripMenuItem";
+            this.signOutToolStripMenuItem.Size = new System.Drawing.Size(147, 26);
+            this.signOutToolStripMenuItem.Text = "Sign out";
             // 
             // exitToolStripMenuItem
             // 
-            exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new Size(147, 26);
-            exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(147, 26);
+            this.exitToolStripMenuItem.Text = "Exit";
             // 
             // editToolStripMenuItem
             // 
-            editToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { undoToolStripMenuItem1, redoToolStripMenuItem1 });
-            editToolStripMenuItem.ForeColor = SystemColors.ButtonHighlight;
-            editToolStripMenuItem.Name = "editToolStripMenuItem";
-            editToolStripMenuItem.Size = new Size(49, 24);
-            editToolStripMenuItem.Text = "Edit";
+            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.undoToolStripMenuItem1,
+            this.redoToolStripMenuItem1});
+            this.editToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(49, 24);
+            this.editToolStripMenuItem.Text = "Edit";
             // 
             // undoToolStripMenuItem1
             // 
-            undoToolStripMenuItem1.Name = "undoToolStripMenuItem1";
-            undoToolStripMenuItem1.Size = new Size(128, 26);
-            undoToolStripMenuItem1.Text = "Undo";
+            this.undoToolStripMenuItem1.Name = "undoToolStripMenuItem1";
+            this.undoToolStripMenuItem1.Size = new System.Drawing.Size(128, 26);
+            this.undoToolStripMenuItem1.Text = "Undo";
             // 
             // redoToolStripMenuItem1
             // 
-            redoToolStripMenuItem1.Name = "redoToolStripMenuItem1";
-            redoToolStripMenuItem1.Size = new Size(128, 26);
-            redoToolStripMenuItem1.Text = "Redo";
+            this.redoToolStripMenuItem1.Name = "redoToolStripMenuItem1";
+            this.redoToolStripMenuItem1.Size = new System.Drawing.Size(128, 26);
+            this.redoToolStripMenuItem1.Text = "Redo";
             // 
             // toolsToolStripMenuItem
             // 
-            toolsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { findSchedulesToolStripMenuItem1, minimizeToolStripMenuItem1 });
-            toolsToolStripMenuItem.ForeColor = SystemColors.ButtonHighlight;
-            toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            toolsToolStripMenuItem.Size = new Size(58, 24);
-            toolsToolStripMenuItem.Text = "Tools";
+            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.findSchedulesToolStripMenuItem1,
+            this.minimizeToolStripMenuItem1});
+            this.toolsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(58, 24);
+            this.toolsToolStripMenuItem.Text = "Tools";
             // 
             // findSchedulesToolStripMenuItem1
             // 
-            findSchedulesToolStripMenuItem1.Name = "findSchedulesToolStripMenuItem1";
-            findSchedulesToolStripMenuItem1.Size = new Size(188, 44);
-            findSchedulesToolStripMenuItem1.Text = "Find schedules";
+            this.findSchedulesToolStripMenuItem1.Name = "findSchedulesToolStripMenuItem1";
+            this.findSchedulesToolStripMenuItem1.Size = new System.Drawing.Size(188, 26);
+            this.findSchedulesToolStripMenuItem1.Text = "Find schedules";
             // 
             // minimizeToolStripMenuItem1
             // 
-            minimizeToolStripMenuItem1.Name = "minimizeToolStripMenuItem1";
-            minimizeToolStripMenuItem1.Size = new Size(188, 44);
-            minimizeToolStripMenuItem1.Text = "Minimize\n";
+            this.minimizeToolStripMenuItem1.Name = "minimizeToolStripMenuItem1";
+            this.minimizeToolStripMenuItem1.Size = new System.Drawing.Size(188, 26);
+            this.minimizeToolStripMenuItem1.Text = "Minimize";
             // 
             // helpToolStripMenuItem
             // 
-            helpToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { documentationToolStripMenuItem1, keyboardShortcutsToolStripMenuItem1 });
-            helpToolStripMenuItem.ForeColor = SystemColors.Control;
-            helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            helpToolStripMenuItem.Size = new Size(55, 24);
-            helpToolStripMenuItem.Text = "Help";
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.documentationToolStripMenuItem1,
+            this.keyboardShortcutsToolStripMenuItem1});
+            this.helpToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(55, 24);
+            this.helpToolStripMenuItem.Text = "Help";
             // 
             // documentationToolStripMenuItem1
             // 
-            documentationToolStripMenuItem1.Name = "documentationToolStripMenuItem1";
-            documentationToolStripMenuItem1.Size = new Size(221, 26);
-            documentationToolStripMenuItem1.Text = "Documentation";
+            this.documentationToolStripMenuItem1.Name = "documentationToolStripMenuItem1";
+            this.documentationToolStripMenuItem1.Size = new System.Drawing.Size(221, 26);
+            this.documentationToolStripMenuItem1.Text = "Documentation";
             // 
             // keyboardShortcutsToolStripMenuItem1
             // 
-            keyboardShortcutsToolStripMenuItem1.Name = "keyboardShortcutsToolStripMenuItem1";
-            keyboardShortcutsToolStripMenuItem1.Size = new Size(221, 26);
-            keyboardShortcutsToolStripMenuItem1.Text = "Keyboard Shortcuts";
+            this.keyboardShortcutsToolStripMenuItem1.Name = "keyboardShortcutsToolStripMenuItem1";
+            this.keyboardShortcutsToolStripMenuItem1.Size = new System.Drawing.Size(221, 26);
+            this.keyboardShortcutsToolStripMenuItem1.Text = "Keyboard Shortcuts";
             // 
             // button9
             // 
-            button9.Dock = DockStyle.Right;
-            button9.FlatAppearance.BorderSize = 0;
-            button9.FlatStyle = FlatStyle.Flat;
-            button9.Image = (Image)resources.GetObject("button9.Image");
-            button9.Location = new Point(1130, 0);
-            button9.Name = "button9";
-            button9.Size = new Size(34, 34);
-            button9.TabIndex = 2;
-            button9.UseVisualStyleBackColor = true;
-            button9.Click += button9_Click;
+            this.button9.Dock = System.Windows.Forms.DockStyle.Right;
+            this.button9.FlatAppearance.BorderSize = 0;
+            this.button9.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button9.Image = ((System.Drawing.Image)(resources.GetObject("button9.Image")));
+            this.button9.Location = new System.Drawing.Point(1130, 0);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(34, 34);
+            this.button9.TabIndex = 2;
+            this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
             // 
             // button7
             // 
-            button7.Dock = DockStyle.Right;
-            button7.FlatAppearance.BorderSize = 0;
-            button7.FlatStyle = FlatStyle.Flat;
-            button7.Image = (Image)resources.GetObject("button7.Image");
-            button7.Location = new Point(1164, 0);
-            button7.Name = "button7";
-            button7.Size = new Size(34, 34);
-            button7.TabIndex = 0;
-            button7.UseVisualStyleBackColor = true;
-            button7.Click += button7_Click;
+            this.button7.Dock = System.Windows.Forms.DockStyle.Right;
+            this.button7.FlatAppearance.BorderSize = 0;
+            this.button7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button7.Image = ((System.Drawing.Image)(resources.GetObject("button7.Image")));
+            this.button7.Location = new System.Drawing.Point(1164, 0);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(34, 34);
+            this.button7.TabIndex = 0;
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
             // button8
             // 
-            button8.Dock = DockStyle.Right;
-            button8.FlatAppearance.BorderSize = 0;
-            button8.FlatStyle = FlatStyle.Flat;
-            button8.Image = (Image)resources.GetObject("button8.Image");
-            button8.Location = new Point(1198, 0);
-            button8.Name = "button8";
-            button8.Size = new Size(34, 34);
-            button8.TabIndex = 1;
-            button8.UseVisualStyleBackColor = true;
-            button8.Click += button8_Click;
+            this.button8.Dock = System.Windows.Forms.DockStyle.Right;
+            this.button8.FlatAppearance.BorderSize = 0;
+            this.button8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button8.Image = ((System.Drawing.Image)(resources.GetObject("button8.Image")));
+            this.button8.Location = new System.Drawing.Point(1198, 0);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(34, 34);
+            this.button8.TabIndex = 1;
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
             // panel3
             // 
-            panel3.BackColor = Color.FromArgb(47, 67, 215);
-            panel3.Controls.Add(pictureBox2);
-            panel3.Dock = DockStyle.Top;
-            panel3.Location = new Point(0, 34);
-            panel3.Name = "panel3";
-            panel3.Size = new Size(1232, 51);
-            panel3.TabIndex = 2;
+            this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(67)))), ((int)(((byte)(215)))));
+            this.panel3.Controls.Add(this.pictureBox2);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel3.Location = new System.Drawing.Point(0, 34);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(1232, 51);
+            this.panel3.TabIndex = 2;
             // 
             // pictureBox2
             // 
-            pictureBox2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
-            pictureBox2.Location = new Point(1180, 6);
-            pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(40, 40);
-            pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox2.TabIndex = 6;
-            pictureBox2.TabStop = false;
+            this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
+            this.pictureBox2.Location = new System.Drawing.Point(1180, 6);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(40, 40);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox2.TabIndex = 6;
+            this.pictureBox2.TabStop = false;
             // 
             // pnlMenu
             // 
-            pnlMenu.BackColor = Color.FromArgb(89, 105, 223);
-            pnlMenu.Controls.Add(panel1);
-            pnlMenu.Controls.Add(button5);
-            pnlMenu.Controls.Add(button2);
-            pnlMenu.Controls.Add(button1);
-            pnlMenu.Dock = DockStyle.Left;
-            pnlMenu.Location = new Point(0, 85);
-            pnlMenu.Name = "pnlMenu";
-            pnlMenu.Size = new Size(310, 611);
-            pnlMenu.TabIndex = 3;
+            this.pnlMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(105)))), ((int)(((byte)(223)))));
+            this.pnlMenu.Controls.Add(this.panel1);
+            this.pnlMenu.Controls.Add(this.button5);
+            this.pnlMenu.Controls.Add(this.button2);
+            this.pnlMenu.Controls.Add(this.button1);
+            this.pnlMenu.Dock = System.Windows.Forms.DockStyle.Left;
+            this.pnlMenu.Location = new System.Drawing.Point(0, 85);
+            this.pnlMenu.Name = "pnlMenu";
+            this.pnlMenu.Size = new System.Drawing.Size(310, 611);
+            this.pnlMenu.TabIndex = 3;
             // 
             // panel1
             // 
-            panel1.BackColor = Color.FromArgb(213, 217, 247);
-            panel1.Controls.Add(picUserProfile);
-            panel1.Dock = DockStyle.Bottom;
-            panel1.Location = new Point(0, 531);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(310, 80);
-            panel1.TabIndex = 6;
+            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(213)))), ((int)(((byte)(217)))), ((int)(((byte)(247)))));
+            this.panel1.Controls.Add(this.lblVaiTro); // Add Label Vai trò
+            this.panel1.Controls.Add(this.lblTenHienThi); // Add Label Tên
+            this.panel1.Controls.Add(this.picUserProfile);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel1.Location = new System.Drawing.Point(0, 531);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(310, 80);
+            this.panel1.TabIndex = 6;
             // 
             // picUserProfile
             // 
-            picUserProfile.BackColor = Color.FromArgb(213, 217, 247);
-            picUserProfile.Image = (Image)resources.GetObject("picUserProfile.Image");
-            picUserProfile.Location = new Point(12, 12);
-            picUserProfile.Name = "picUserProfile";
-            picUserProfile.Size = new Size(56, 56);
-            picUserProfile.SizeMode = PictureBoxSizeMode.Zoom;
-            picUserProfile.TabIndex = 2;
-            picUserProfile.TabStop = false;
-            picUserProfile.Click += pictureBox1_Click;
+            this.picUserProfile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(213)))), ((int)(((byte)(217)))), ((int)(((byte)(247)))));
+            this.picUserProfile.Image = ((System.Drawing.Image)(resources.GetObject("picUserProfile.Image")));
+            this.picUserProfile.Location = new System.Drawing.Point(12, 12);
+            this.picUserProfile.Name = "picUserProfile";
+            this.picUserProfile.Size = new System.Drawing.Size(56, 56);
+            this.picUserProfile.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picUserProfile.TabIndex = 2;
+            this.picUserProfile.TabStop = false;
+            this.picUserProfile.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.picUserProfile.Click += new System.EventHandler(this.pictureBox1_Click);
+
+            // 
+            // lblTenHienThi
+            // 
+            this.lblTenHienThi.AutoSize = true;
+            this.lblTenHienThi.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.lblTenHienThi.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(67)))), ((int)(((byte)(215)))));
+            this.lblTenHienThi.Location = new System.Drawing.Point(80, 15);
+            this.lblTenHienThi.Name = "lblTenHienThi";
+            this.lblTenHienThi.Size = new System.Drawing.Size(150, 23);
+            this.lblTenHienThi.TabIndex = 3;
+            this.lblTenHienThi.Text = "Tên Người Dùng";
+            // 
+            // lblVaiTro
+            // 
+            this.lblVaiTro.AutoSize = true;
+            this.lblVaiTro.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic);
+            this.lblVaiTro.ForeColor = System.Drawing.Color.DimGray;
+            this.lblVaiTro.Location = new System.Drawing.Point(80, 40);
+            this.lblVaiTro.Name = "lblVaiTro";
+            this.lblVaiTro.Size = new System.Drawing.Size(54, 20);
+            this.lblVaiTro.TabIndex = 4;
+            this.lblVaiTro.Text = "Vai trò";
+
             // 
             // button5
             // 
-            button5.BackColor = Color.FromArgb(89, 105, 223);
-            button5.FlatAppearance.BorderSize = 0;
-            button5.FlatStyle = FlatStyle.Flat;
-            button5.Font = new Font("Segoe UI Semibold", 13F, FontStyle.Bold);
-            button5.ForeColor = Color.Cyan;
-            button5.Image = (Image)resources.GetObject("button5.Image");
-            button5.ImageAlign = ContentAlignment.MiddleLeft;
-            button5.Location = new Point(6, 158);
-            button5.Name = "button5";
-            button5.Size = new Size(301, 70);
-            button5.TabIndex = 4;
-            button5.Text = "Quản lý thông báo";
-            button5.UseVisualStyleBackColor = false;
-            button5.Click += button5_Click;
+            this.button5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(105)))), ((int)(((byte)(223)))));
+            this.button5.FlatAppearance.BorderSize = 0;
+            this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button5.Font = new System.Drawing.Font("Segoe UI Semibold", 13F, System.Drawing.FontStyle.Bold);
+            this.button5.ForeColor = System.Drawing.Color.Cyan;
+            this.button5.Image = ((System.Drawing.Image)(resources.GetObject("button5.Image")));
+            this.button5.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button5.Location = new System.Drawing.Point(6, 158);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(301, 70);
+            this.button5.TabIndex = 4;
+            this.button5.Text = "Quản lý thông báo";
+            this.button5.UseVisualStyleBackColor = false;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // button2
             // 
-            button2.BackColor = Color.FromArgb(89, 105, 223);
-            button2.FlatAppearance.BorderSize = 0;
-            button2.FlatStyle = FlatStyle.Flat;
-            button2.Font = new Font("Segoe UI Semibold", 13F, FontStyle.Bold);
-            button2.ForeColor = Color.Cyan;
-            button2.Image = (Image)resources.GetObject("button2.Image");
-            button2.ImageAlign = ContentAlignment.MiddleLeft;
-            button2.Location = new Point(9, 82);
-            button2.Name = "button2";
-            button2.Size = new Size(301, 70);
-            button2.TabIndex = 1;
-            button2.Text = "  Quản lý tài khoản";
-            button2.UseVisualStyleBackColor = false;
-            button2.Click += button2_Click;
+            this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(105)))), ((int)(((byte)(223)))));
+            this.button2.FlatAppearance.BorderSize = 0;
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.Font = new System.Drawing.Font("Segoe UI Semibold", 13F, System.Drawing.FontStyle.Bold);
+            this.button2.ForeColor = System.Drawing.Color.Cyan;
+            this.button2.Image = ((System.Drawing.Image)(resources.GetObject("button2.Image")));
+            this.button2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button2.Location = new System.Drawing.Point(9, 82);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(301, 70);
+            this.button2.TabIndex = 1;
+            this.button2.Text = "  Quản lý tài khoản";
+            this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // button1
             // 
-            button1.BackColor = Color.FromArgb(89, 105, 223);
-            button1.FlatAppearance.BorderSize = 0;
-            button1.FlatStyle = FlatStyle.Flat;
-            button1.Font = new Font("Segoe UI Semibold", 13F, FontStyle.Bold);
-            button1.ForeColor = Color.Cyan;
-            button1.Image = (Image)resources.GetObject("button1.Image");
-            button1.ImageAlign = ContentAlignment.MiddleLeft;
-            button1.Location = new Point(9, 6);
-            button1.Name = "button1";
-            button1.Size = new Size(301, 70);
-            button1.TabIndex = 0;
-            button1.Text = "  Báo cáo thống kê";
-            button1.UseVisualStyleBackColor = false;
-            button1.Click += button1_Click;
+            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(105)))), ((int)(((byte)(223)))));
+            this.button1.FlatAppearance.BorderSize = 0;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Segoe UI Semibold", 13F, System.Drawing.FontStyle.Bold);
+            this.button1.ForeColor = System.Drawing.Color.Cyan;
+            this.button1.Image = ((System.Drawing.Image)(resources.GetObject("button1.Image")));
+            this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button1.Location = new System.Drawing.Point(9, 6);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(301, 70);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "  Báo cáo thống kê";
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // pnlHienThi
             // 
-            pnlHienThi.BackColor = Color.WhiteSmoke;
-            pnlHienThi.Dock = DockStyle.Fill;
-            pnlHienThi.Location = new Point(310, 85);
-            pnlHienThi.Name = "pnlHienThi";
-            pnlHienThi.Size = new Size(922, 611);
-            pnlHienThi.TabIndex = 4;
+            this.pnlHienThi.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.pnlHienThi.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlHienThi.Location = new System.Drawing.Point(310, 85);
+            this.pnlHienThi.Name = "pnlHienThi";
+            this.pnlHienThi.Size = new System.Drawing.Size(922, 611);
+            this.pnlHienThi.TabIndex = 4;
             // 
             // FrmMainAdmin
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
-            AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1232, 696);
-            Controls.Add(pnlHienThi);
-            Controls.Add(pnlMenu);
-            Controls.Add(panel3);
-            Controls.Add(panel2);
-            FormBorderStyle = FormBorderStyle.None;
-            Name = "FrmMainAdmin";
-            Text = "FrmMainAdmin";
-            Load += FrmMain_Load;
-            panel2.ResumeLayout(false);
-            panel2.PerformLayout();
-            menuStrip1.ResumeLayout(false);
-            menuStrip1.PerformLayout();
-            panel3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
-            pnlMenu.ResumeLayout(false);
-            panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)picUserProfile).EndInit();
-            ResumeLayout(false);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(1232, 696);
+            this.Controls.Add(this.pnlHienThi);
+            this.Controls.Add(this.pnlMenu);
+            this.Controls.Add(this.panel3);
+            this.Controls.Add(this.panel2);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Name = "FrmMainAdmin";
+            this.Text = "FrmMainAdmin";
+            this.Load += new System.EventHandler(this.FrmMain_Load);
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
+            this.panel3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            this.pnlMenu.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picUserProfile)).EndInit();
+            this.ResumeLayout(false);
+
         }
 
         #endregion
@@ -389,5 +437,9 @@
         private Button button1;
         private Panel pnlHienThi;
         private PictureBox pictureBox2;
+
+        // Labels mới
+        private System.Windows.Forms.Label lblTenHienThi;
+        private System.Windows.Forms.Label lblVaiTro;
     }
 }

@@ -63,6 +63,8 @@
             button6 = new Button();
             pnlMenu = new Panel();
             panel1 = new Panel();
+            lblVaiTro = new Label();
+            lblTenHienThi = new Label();
             picUserProfile = new PictureBox();
             panel2 = new Panel();
             button9 = new Button();
@@ -70,21 +72,21 @@
             button8 = new Button();
             pnlHienThi = new Panel();
             panel3 = new Panel();
+            icoBell = new PictureBox();
             icoPiggy = new PictureBox();
             button13 = new Button();
             button12 = new Button();
             button11 = new Button();
             scThemTaiKhoan = new Button();
             notifyIcon = new NotifyIcon(components);
-            icoBell = new PictureBox();
             menuStrip1.SuspendLayout();
             pnlMenu.SuspendLayout();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picUserProfile).BeginInit();
             panel2.SuspendLayout();
             panel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)icoPiggy).BeginInit();
             ((System.ComponentModel.ISupportInitialize)icoBell).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)icoPiggy).BeginInit();
             SuspendLayout();
             // 
             // menuStrip1
@@ -252,7 +254,7 @@
             button1.Image = (Image)resources.GetObject("button1.Image");
             button1.ImageAlign = ContentAlignment.MiddleLeft;
             button1.Location = new Point(11, 8);
-            button1.Margin = new Padding(4, 4, 4, 4);
+            button1.Margin = new Padding(4);
             button1.Name = "button1";
             button1.Size = new Size(376, 88);
             button1.TabIndex = 0;
@@ -270,7 +272,7 @@
             button2.Image = (Image)resources.GetObject("button2.Image");
             button2.ImageAlign = ContentAlignment.MiddleLeft;
             button2.Location = new Point(11, 102);
-            button2.Margin = new Padding(4, 4, 4, 4);
+            button2.Margin = new Padding(4);
             button2.Name = "button2";
             button2.Size = new Size(376, 88);
             button2.TabIndex = 1;
@@ -288,7 +290,7 @@
             button3.Image = (Image)resources.GetObject("button3.Image");
             button3.ImageAlign = ContentAlignment.MiddleLeft;
             button3.Location = new Point(11, 198);
-            button3.Margin = new Padding(4, 4, 4, 4);
+            button3.Margin = new Padding(4);
             button3.Name = "button3";
             button3.Size = new Size(376, 88);
             button3.TabIndex = 2;
@@ -306,7 +308,7 @@
             button4.Image = (Image)resources.GetObject("button4.Image");
             button4.ImageAlign = ContentAlignment.MiddleLeft;
             button4.Location = new Point(11, 292);
-            button4.Margin = new Padding(4, 4, 4, 4);
+            button4.Margin = new Padding(4);
             button4.Name = "button4";
             button4.Size = new Size(376, 88);
             button4.TabIndex = 3;
@@ -324,7 +326,7 @@
             button5.Image = (Image)resources.GetObject("button5.Image");
             button5.ImageAlign = ContentAlignment.MiddleLeft;
             button5.Location = new Point(11, 388);
-            button5.Margin = new Padding(4, 4, 4, 4);
+            button5.Margin = new Padding(4);
             button5.Name = "button5";
             button5.Size = new Size(376, 88);
             button5.TabIndex = 4;
@@ -342,7 +344,7 @@
             button6.Image = (Image)resources.GetObject("button6.Image");
             button6.ImageAlign = ContentAlignment.MiddleLeft;
             button6.Location = new Point(11, 482);
-            button6.Margin = new Padding(4, 4, 4, 4);
+            button6.Margin = new Padding(4);
             button6.Name = "button6";
             button6.Size = new Size(376, 88);
             button6.TabIndex = 5;
@@ -362,7 +364,7 @@
             pnlMenu.Controls.Add(button1);
             pnlMenu.Dock = DockStyle.Left;
             pnlMenu.Location = new Point(0, 106);
-            pnlMenu.Margin = new Padding(4, 4, 4, 4);
+            pnlMenu.Margin = new Padding(4);
             pnlMenu.Name = "pnlMenu";
             pnlMenu.Size = new Size(388, 764);
             pnlMenu.TabIndex = 2;
@@ -370,20 +372,46 @@
             // panel1
             // 
             panel1.BackColor = SystemColors.ActiveBorder;
+            panel1.Controls.Add(lblVaiTro);
+            panel1.Controls.Add(lblTenHienThi);
             panel1.Controls.Add(picUserProfile);
             panel1.Dock = DockStyle.Bottom;
             panel1.Location = new Point(0, 664);
-            panel1.Margin = new Padding(4, 4, 4, 4);
+            panel1.Margin = new Padding(4);
             panel1.Name = "panel1";
             panel1.Size = new Size(388, 100);
             panel1.TabIndex = 6;
+            // 
+            // lblVaiTro
+            // 
+            lblVaiTro.AutoSize = true;
+            lblVaiTro.Font = new Font("Segoe UI", 9F, FontStyle.Italic);
+            lblVaiTro.ForeColor = Color.DimGray;
+            lblVaiTro.Location = new Point(100, 50);
+            lblVaiTro.Margin = new Padding(4, 0, 4, 0);
+            lblVaiTro.Name = "lblVaiTro";
+            lblVaiTro.Size = new Size(65, 25);
+            lblVaiTro.TabIndex = 5;
+            lblVaiTro.Text = "Vai trò";
+            // 
+            // lblTenHienThi
+            // 
+            lblTenHienThi.AutoSize = true;
+            lblTenHienThi.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            lblTenHienThi.ForeColor = Color.FromArgb(47, 67, 215);
+            lblTenHienThi.Location = new Point(100, 19);
+            lblTenHienThi.Margin = new Padding(4, 0, 4, 0);
+            lblTenHienThi.Name = "lblTenHienThi";
+            lblTenHienThi.Size = new Size(168, 28);
+            lblTenHienThi.TabIndex = 4;
+            lblTenHienThi.Text = "Tên Người Dùng";
             // 
             // picUserProfile
             // 
             picUserProfile.BackColor = SystemColors.ActiveBorder;
             picUserProfile.Image = (Image)resources.GetObject("picUserProfile.Image");
             picUserProfile.Location = new Point(15, 15);
-            picUserProfile.Margin = new Padding(4, 4, 4, 4);
+            picUserProfile.Margin = new Padding(4);
             picUserProfile.Name = "picUserProfile";
             picUserProfile.Size = new Size(70, 70);
             picUserProfile.SizeMode = PictureBoxSizeMode.Zoom;
@@ -400,7 +428,7 @@
             panel2.Controls.Add(button8);
             panel2.Dock = DockStyle.Top;
             panel2.Location = new Point(0, 0);
-            panel2.Margin = new Padding(4, 4, 4, 4);
+            panel2.Margin = new Padding(4);
             panel2.Name = "panel2";
             panel2.Size = new Size(1540, 42);
             panel2.TabIndex = 0;
@@ -412,7 +440,7 @@
             button9.FlatStyle = FlatStyle.Flat;
             button9.Image = (Image)resources.GetObject("button9.Image");
             button9.Location = new Point(1414, 0);
-            button9.Margin = new Padding(4, 4, 4, 4);
+            button9.Margin = new Padding(4);
             button9.Name = "button9";
             button9.Size = new Size(42, 42);
             button9.TabIndex = 2;
@@ -426,7 +454,7 @@
             button7.FlatStyle = FlatStyle.Flat;
             button7.Image = (Image)resources.GetObject("button7.Image");
             button7.Location = new Point(1456, 0);
-            button7.Margin = new Padding(4, 4, 4, 4);
+            button7.Margin = new Padding(4);
             button7.Name = "button7";
             button7.Size = new Size(42, 42);
             button7.TabIndex = 0;
@@ -440,7 +468,7 @@
             button8.FlatStyle = FlatStyle.Flat;
             button8.Image = (Image)resources.GetObject("button8.Image");
             button8.Location = new Point(1498, 0);
-            button8.Margin = new Padding(4, 4, 4, 4);
+            button8.Margin = new Padding(4);
             button8.Name = "button8";
             button8.Size = new Size(42, 42);
             button8.TabIndex = 1;
@@ -452,7 +480,7 @@
             pnlHienThi.BackColor = Color.FromArgb(220, 220, 187);
             pnlHienThi.Dock = DockStyle.Fill;
             pnlHienThi.Location = new Point(388, 106);
-            pnlHienThi.Margin = new Padding(4, 4, 4, 4);
+            pnlHienThi.Margin = new Padding(4);
             pnlHienThi.Name = "pnlHienThi";
             pnlHienThi.Size = new Size(1152, 764);
             pnlHienThi.TabIndex = 3;
@@ -468,17 +496,29 @@
             panel3.Controls.Add(scThemTaiKhoan);
             panel3.Dock = DockStyle.Top;
             panel3.Location = new Point(0, 42);
-            panel3.Margin = new Padding(4, 4, 4, 4);
+            panel3.Margin = new Padding(4);
             panel3.Name = "panel3";
             panel3.Size = new Size(1540, 64);
             panel3.TabIndex = 0;
+            // 
+            // icoBell
+            // 
+            icoBell.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            icoBell.Image = (Image)resources.GetObject("icoBell.Image");
+            icoBell.Location = new Point(1406, 8);
+            icoBell.Margin = new Padding(5);
+            icoBell.Name = "icoBell";
+            icoBell.Size = new Size(50, 50);
+            icoBell.SizeMode = PictureBoxSizeMode.Zoom;
+            icoBell.TabIndex = 6;
+            icoBell.TabStop = false;
             // 
             // icoPiggy
             // 
             icoPiggy.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             icoPiggy.Image = (Image)resources.GetObject("icoPiggy.Image");
             icoPiggy.Location = new Point(1475, 8);
-            icoPiggy.Margin = new Padding(4, 4, 4, 4);
+            icoPiggy.Margin = new Padding(4);
             icoPiggy.Name = "icoPiggy";
             icoPiggy.Size = new Size(50, 50);
             icoPiggy.SizeMode = PictureBoxSizeMode.Zoom;
@@ -494,7 +534,7 @@
             button13.Image = (Image)resources.GetObject("button13.Image");
             button13.ImageAlign = ContentAlignment.MiddleLeft;
             button13.Location = new Point(729, 9);
-            button13.Margin = new Padding(4, 4, 4, 4);
+            button13.Margin = new Padding(4);
             button13.Name = "button13";
             button13.Size = new Size(205, 48);
             button13.TabIndex = 3;
@@ -511,7 +551,7 @@
             button12.Image = (Image)resources.GetObject("button12.Image");
             button12.ImageAlign = ContentAlignment.MiddleLeft;
             button12.Location = new Point(520, 9);
-            button12.Margin = new Padding(4, 4, 4, 4);
+            button12.Margin = new Padding(4);
             button12.Name = "button12";
             button12.Size = new Size(201, 48);
             button12.TabIndex = 2;
@@ -528,7 +568,7 @@
             button11.Image = (Image)resources.GetObject("button11.Image");
             button11.ImageAlign = ContentAlignment.MiddleLeft;
             button11.Location = new Point(319, 9);
-            button11.Margin = new Padding(4, 4, 4, 4);
+            button11.Margin = new Padding(4);
             button11.Name = "button11";
             button11.Size = new Size(194, 48);
             button11.TabIndex = 1;
@@ -545,7 +585,7 @@
             scThemTaiKhoan.Image = (Image)resources.GetObject("scThemTaiKhoan.Image");
             scThemTaiKhoan.ImageAlign = ContentAlignment.MiddleLeft;
             scThemTaiKhoan.Location = new Point(15, 8);
-            scThemTaiKhoan.Margin = new Padding(4, 4, 4, 4);
+            scThemTaiKhoan.Margin = new Padding(4);
             scThemTaiKhoan.Name = "scThemTaiKhoan";
             scThemTaiKhoan.Size = new Size(296, 48);
             scThemTaiKhoan.TabIndex = 0;
@@ -558,17 +598,6 @@
             notifyIcon.Icon = (Icon)resources.GetObject("notifyIcon.Icon");
             notifyIcon.Text = "PFMA";
             // 
-            // icoBell
-            // 
-            icoBell.Image = (Image)resources.GetObject("icoBell.Image");
-            icoBell.Location = new Point(1406, 8);
-            icoBell.Margin = new Padding(5);
-            icoBell.Name = "icoBell";
-            icoBell.Size = new Size(50, 50);
-            icoBell.SizeMode = PictureBoxSizeMode.Zoom;
-            icoBell.TabIndex = 6;
-            icoBell.TabStop = false;
-            // 
             // FrmMain
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -580,7 +609,7 @@
             Controls.Add(panel2);
             FormBorderStyle = FormBorderStyle.None;
             MainMenuStrip = menuStrip1;
-            Margin = new Padding(4, 4, 4, 4);
+            Margin = new Padding(4);
             MaximumSize = new Size(1540, 870);
             MinimumSize = new Size(1540, 870);
             Name = "FrmMain";
@@ -592,12 +621,13 @@
             menuStrip1.PerformLayout();
             pnlMenu.ResumeLayout(false);
             panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)picUserProfile).EndInit();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
             panel3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)icoPiggy).EndInit();
             ((System.ComponentModel.ISupportInitialize)icoBell).EndInit();
+            ((System.ComponentModel.ISupportInitialize)icoPiggy).EndInit();
             ResumeLayout(false);
         }
 
@@ -650,5 +680,7 @@
         private NotifyIcon notifyIcon;
         private PictureBox icoPiggy;
         private PictureBox icoBell;
+        private Label lblTenHienThi;
+        private Label lblVaiTro;
     }
 }

@@ -64,6 +64,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Data\Data.csproj" />
+    <ProjectReference Include="..\Piggy Admin\Piggy Admin.csproj" />
   </ItemGroup>
 
   <ItemGroup>

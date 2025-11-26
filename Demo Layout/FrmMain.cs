@@ -1,5 +1,6 @@
 ﻿using Data;
 using Microsoft.EntityFrameworkCore;
+using Piggy_Admin;
 using Microsoft.Extensions.DependencyInjection;
 using System.Media;
 using System.Runtime.InteropServices;
@@ -9,6 +10,8 @@ namespace Demo_Layout
     {
         private readonly IDbContextFactory<QLTCCNContext> _dbFactory;
         private readonly IServiceProvider _serviceProvider;
+        public event Action LogoutRequested;
+        private readonly CurrentUserContext _userContext; // <-- INJECT CONTEXT
 
         public const int WM_NCLBUTTONDOWN = 0xA1;
         public const int HT_CAPTION = 0x2;
@@ -20,53 +23,37 @@ namespace Demo_Layout
         [DllImport("user32.dll")]
         public static extern bool ReleaseCapture();
 
-        // HÀM KHỞI TẠO CHỈ DÙNG CHO DESIGNER (Đã sửa lỗi)
-        public FrmMain()
-        {
-            InitializeComponent();
-            this.FormClosing += FrmMain_FormClosing;
-        }
-
         // HÀM KHỞI TẠO CHÍNH (ĐƯỢC GỌI BỞI DI)
-        public FrmMain(IDbContextFactory<QLTCCNContext> dbFactory, IServiceProvider serviceProvider)
+        public FrmMain(IDbContextFactory<QLTCCNContext> dbFactory, IServiceProvider serviceProvider, CurrentUserContext userContext)
         {
             InitializeComponent();
             _dbFactory = dbFactory;
             _serviceProvider = serviceProvider;
-            this.FormClosing += FrmMain_FormClosing;
+            _userContext = userContext;
+            LoadUserInfo();
+        }
+        private void LoadUserInfo()
+        {
+            if (_userContext.IsLoggedIn)
+            {
+                lblTenHienThi.Text = _userContext.DisplayName; // Hiện tên
+                lblVaiTro.Text = _userContext.TenVaiTro;       // Hiện vai trò
+
+                // Logic đổi hình đại diện nếu có (ví dụ)
+                // if (_userContext.IsAdmin) picUserProfile.Image = ...
+            }
         }
 
         // FIX LỖI ỨNG DỤNG KHÔNG TẮT (Nút X)
-        private void button8_Click(object sender, EventArgs e)
-        {
-            this.Close();
+        private void button8_Click(object sender, EventArgs e) => System.Windows.Forms.Application.Exit();
+        private void button9_Click(object sender, EventArgs e) => this.WindowState = FormWindowState.Minimized;
+        private void button7_Click(object sender, EventArgs e) => this.WindowState = (this.WindowState == FormWindowState.Normal) ? FormWindowState.Maximized : FormWindowState.Normal;
+        private void FrmMain_Load(object sender, EventArgs e) => this.MaximumSize = Screen.PrimaryScreen.WorkingArea.Size;
 
-        }
 
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             System.Windows.Forms.Application.Exit();
-        }
-
-        private void button9_Click(object sender, EventArgs e)
-        {
-            this.WindowState = FormWindowState.Minimized;
-        }
-
-        private void button7_Click(object sender, EventArgs e)
-        {
-            if (this.WindowState == FormWindowState.Normal)
-            {
-                this.WindowState = FormWindowState.Maximized;
-            }
-            else if (this.WindowState == FormWindowState.Maximized)
-            {
-                this.WindowState = FormWindowState.Normal;
-            }
-        }
-
-        private void FrmMain_Load(object sender, EventArgs e)
-        {
 
             System.Drawing.Rectangle workingArea = Screen.PrimaryScreen.WorkingArea;
             this.MaximumSize = workingArea.Size;
@@ -92,18 +79,31 @@ namespace Demo_Layout
             pnlHienThi.Controls.Add(userControlMoi);
         }
 
+ 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            FormTaiKhoan f = _serviceProvider.GetRequiredService<FormTaiKhoan>();
+            // 1. Lấy instance mới
+           Piggy_Admin.FormTaiKhoan  f = _serviceProvider.GetRequiredService<Piggy_Admin.FormTaiKhoan>();
 
+            // 2. Đặt vị trí
             Point pos = picUserProfile.PointToScreen(new Point(50, picUserProfile.Height - 500));
             f.StartPosition = FormStartPosition.Manual;
             f.Location = pos;
 
-            f.Show();
-            f.Deactivate += (s, ev) => f.Close();
-        }
+            // 3. Đăng ký sự kiện: Nếu Form con yêu cầu Logout -> Form cha (MainAdmin) tự đóng
+            f.LogoutRequested += () =>
+            {
+                this.Close(); // Đóng Admin Main -> Program.cs sẽ mở lại Login
+            };
 
+            // 4. Hiển thị Form Tài khoản
+            f.Show();
+
+            // ⚠️ ĐÃ XÓA SỰ KIỆN Deactivate ĐỂ TRÁNH LỖI MESSAGE BOX TẮT FORM
+            // Bây giờ Form Tài khoản sẽ hoạt động như một cửa sổ bình thường.
+            // Người dùng phải tự bấm nút tắt hoặc click ra ngoài (nếu muốn logic phức tạp hơn).
+            // Nhưng ít nhất code này đảm bảo MessageBox hiện lên đàng hoàng.
+        }
         private void button3_Click(object sender, EventArgs e)
         {
             HieuUngRungLac();

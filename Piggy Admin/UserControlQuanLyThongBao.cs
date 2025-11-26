@@ -69,7 +69,7 @@ namespace Piggy_Admin
                 kryptonDataGridView1.DataSource = danhSach;
 
                 // Cấu hình hiển thị cột
-                if (kryptonDataGridView1.Columns.Contains("MaThongBao")) kryptonDataGridView1.Columns["MaThongBao"].HeaderText = "Mã TB";
+                if (kryptonDataGridView1.Columns.Contains("TieuDe")) kryptonDataGridView1.Columns["MaThongBao"].HeaderText = "Mã thông báo";
                 if (kryptonDataGridView1.Columns.Contains("TieuDe")) kryptonDataGridView1.Columns["TieuDe"].HeaderText = "Tiêu đề";
                 if (kryptonDataGridView1.Columns.Contains("NoiDung")) kryptonDataGridView1.Columns["NoiDung"].HeaderText = "Nội dung";
                 if (kryptonDataGridView1.Columns.Contains("NgayTao")) kryptonDataGridView1.Columns["NgayTao"].HeaderText = "Ngày tạo";

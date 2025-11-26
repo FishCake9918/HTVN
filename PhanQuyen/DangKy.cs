@@ -54,6 +54,12 @@ namespace PhanQuyen
                 MessageBox.Show("Bạn phải từ 16 tuổi trở lên để đăng ký.", "Lỗi Tuổi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+           
+            if (password.Length < 6)
+            {
+                MessageBox.Show("Mật khẩu mới phải có ít nhất 6 ký tự.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
             // === 2. THAO TÁC VỚI DATABASE (LƯU 2 BẢNG) ===
             using (var dbContext = _dbFactory.CreateDbContext())
