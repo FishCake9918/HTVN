@@ -139,10 +139,6 @@ namespace Demo_Layout
                     if (cboDanhMucCha.SelectedValue != null)
                         int.TryParse(cboDanhMucCha.SelectedValue.ToString(), out maCha);
 
-                    int maCha = 0;
-                    if (cboDanhMucCha.SelectedValue != null)
-                        int.TryParse(cboDanhMucCha.SelectedValue.ToString(), out maCha);
-
                     danhMuc.DanhMucCha = (maCha == 0) ? null : maCha;
 
                     // 3. Lưu

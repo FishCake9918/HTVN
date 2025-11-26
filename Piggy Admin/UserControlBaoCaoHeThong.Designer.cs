@@ -19,8 +19,7 @@
         {
             btnLoc = new Button();
             panelCards = new Panel();
-            btnInLog = new Button();
-            btnInDashboard = new Button();
+            btnIn = new Button();
             cboMocThoiGian = new ComboBox();
             panelCard2 = new Panel();
             lblThoiGianTrungBinh = new Label();
@@ -45,10 +44,10 @@
             btnLoc.FlatStyle = FlatStyle.Popup;
             btnLoc.Font = new Font("Segoe UI Black", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnLoc.ForeColor = Color.Transparent;
-            btnLoc.Location = new Point(688, 75);
+            btnLoc.Location = new Point(632, 65);
             btnLoc.Margin = new Padding(3, 4, 3, 4);
             btnLoc.Name = "btnLoc";
-            btnLoc.Size = new Size(87, 40);
+            btnLoc.Size = new Size(87, 42);
             btnLoc.TabIndex = 4;
             btnLoc.Text = "Lọc";
             btnLoc.UseVisualStyleBackColor = false;
@@ -57,8 +56,7 @@
             // panelCards
             // 
             panelCards.BackColor = Color.FromArgb(248, 150, 30);
-            panelCards.Controls.Add(btnInLog);
-            panelCards.Controls.Add(btnInDashboard);
+            panelCards.Controls.Add(btnIn);
             panelCards.Controls.Add(btnLoc);
             panelCards.Controls.Add(cboMocThoiGian);
             panelCards.Controls.Add(panelCard2);
@@ -71,33 +69,29 @@
             panelCards.Size = new Size(922, 160);
             panelCards.TabIndex = 1;
             // 
-            // btnInLog
+            // btnIn
             // 
-            btnInLog.Location = new Point(814, 124);
-            btnInLog.Name = "btnInLog";
-            btnInLog.Size = new Size(94, 29);
-            btnInLog.TabIndex = 6;
-            btnInLog.Text = "In log";
-            btnInLog.UseVisualStyleBackColor = true;
-            btnInLog.Click += btnInLog_Click;
-            // 
-            // btnInDashboard
-            // 
-            btnInDashboard.Location = new Point(688, 124);
-            btnInDashboard.Name = "btnInDashboard";
-            btnInDashboard.Size = new Size(120, 29);
-            btnInDashboard.TabIndex = 5;
-            btnInDashboard.Text = "In dashboard";
-            btnInDashboard.UseVisualStyleBackColor = true;
-            btnInDashboard.Click += btnInDashboard_Click;
+            btnIn.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            btnIn.BackColor = Color.FromArgb(255, 255, 87);
+            btnIn.FlatStyle = FlatStyle.Popup;
+            btnIn.Font = new Font("Segoe UI Black", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnIn.ForeColor = Color.Black;
+            btnIn.Location = new Point(821, 27);
+            btnIn.Margin = new Padding(3, 4, 3, 4);
+            btnIn.Name = "btnIn";
+            btnIn.Size = new Size(87, 42);
+            btnIn.TabIndex = 5;
+            btnIn.Text = "In";
+            btnIn.UseVisualStyleBackColor = false;
+            btnIn.Click += btnInLog_Click;
             // 
             // cboMocThoiGian
             // 
             cboMocThoiGian.ForeColor = Color.FromArgb(47, 67, 215);
             cboMocThoiGian.FormattingEnabled = true;
-            cboMocThoiGian.Location = new Point(688, 30);
+            cboMocThoiGian.Location = new Point(632, 27);
             cboMocThoiGian.Name = "cboMocThoiGian";
-            cboMocThoiGian.Size = new Size(181, 28);
+            cboMocThoiGian.Size = new Size(159, 28);
             cboMocThoiGian.TabIndex = 2;
             cboMocThoiGian.SelectedIndexChanged += cboMocThoiGian_SelectedIndexChanged;
             // 
@@ -272,7 +266,6 @@
         private System.Windows.Forms.Label labelChart1;
         private System.Windows.Forms.Label labelChart2;
         private ComboBox cboMocThoiGian;
-        private Button btnInLog;
-        private Button btnInDashboard;
+        private Button btnIn;
     }
 }

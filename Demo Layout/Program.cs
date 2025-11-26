@@ -13,6 +13,7 @@ namespace Demo_Layout
         [STAThread]
         static void Main()
         {
+            QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
             // Bắt buộc thêm dòng này để khởi tạo tương thích WinForms/WPF (cho LiveCharts)
             System.Windows.Forms.Application.EnableVisualStyles();
             System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);

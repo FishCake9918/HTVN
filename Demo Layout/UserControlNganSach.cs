@@ -67,6 +67,9 @@ namespace Demo_Layout
 };
         private void ConfigCharts()
         {
+            txtTimKiem.Text = string.Empty;
+            txtTimKiem.ForeColor = Color.Black;
+            LogHelper.GhiLog(_dbFactory, "Quản lý ngân sách", CURRENT_USER_ID); // ghi log
             if (pieChartNganSach != null)
             {
                 // Cấu hình cơ bản (chỉ thuộc tính trực tiếp)
