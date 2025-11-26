@@ -19,7 +19,7 @@ namespace Demo_Layout
         private readonly IServiceProvider _serviceProvider;
         private const int CURRENT_USER_ID = 1;
         
-        public UserControlDanhMucChiTieu(IDbContextFactory<QLTCCNContext> dbFactory)
+        public UserControlDanhMucChiTieu(IDbContextFactory<QLTCCNContext> dbFactory, IServiceProvider _serviceProvider)
         {
             InitializeComponent();
             _dbFactory = dbFactory;
@@ -27,8 +27,161 @@ namespace Demo_Layout
 
         private void UCDanhMucChiTieu_Load(object sender, EventArgs e)
         {
+            KiemTraVaTaoDuLieuMau();
             LoadTreeView();
             LogHelper.GhiLog(_dbFactory, "Quản lý danh mục chi tiêu", CURRENT_USER_ID); // ghi log
+        }
+
+        // Trong file DanhMucChiTieu.cs (hoặc class Seeder)
+
+        private void KiemTraVaTaoDuLieuMau()
+        {
+            try
+            {
+                using (var db = _dbFactory.CreateDbContext())
+                {
+                    bool daCoDuLieu = db.DanhMucChiTieus.Any(dm => dm.MaNguoiDung == CURRENT_USER_ID);
+
+                    if (!daCoDuLieu)
+                    {
+                        TaoDanhMucMacDinh(db, CURRENT_USER_ID);                        
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi: " + ex.Message);
+            }
+        }
+
+        private static void TaoDanhMucMacDinh(QLTCCNContext db, int userId)
+        {
+            var danhSachGoc = new List<DanhMucChiTieu>();
+
+            // --- 1. ĂN UỐNG ---
+            var anUong = new DanhMucChiTieu
+            {
+                TenDanhMuc = "Ăn uống",
+                MaNguoiDung = userId,
+                DanhMucCha = null,
+                DanhMucCon = new List<DanhMucChiTieu> // EF Core tự động liên kết con với cha
+        {
+            new DanhMucChiTieu { TenDanhMuc = "Cafe", MaNguoiDung = userId },
+            new DanhMucChiTieu { TenDanhMuc = "Nhà hàng", MaNguoiDung = userId },
+            new DanhMucChiTieu { TenDanhMuc = "Đi chợ/Siêu thị", MaNguoiDung = userId }
+        }
+            };
+            danhSachGoc.Add(anUong);
+
+            // --- 2. HÓA ĐƠN ---
+            var hoaDon = new DanhMucChiTieu
+            {
+                TenDanhMuc = "Hóa đơn",
+                MaNguoiDung = userId,
+                DanhMucCha = null,
+                DanhMucCon = new List<DanhMucChiTieu>
+        {
+            new DanhMucChiTieu { TenDanhMuc = "Tiền điện", MaNguoiDung = userId },
+            new DanhMucChiTieu { TenDanhMuc = "Tiền nước", MaNguoiDung = userId },
+            new DanhMucChiTieu { TenDanhMuc = "Internet", MaNguoiDung = userId },
+            new DanhMucChiTieu { TenDanhMuc = "Điện thoại", MaNguoiDung = userId }
+        }
+            };
+            danhSachGoc.Add(hoaDon);
+
+            // --- 3. GIẢI TRÍ ---
+            var giaiTri = new DanhMucChiTieu
+            {
+                TenDanhMuc = "Giải trí",
+                MaNguoiDung = userId,
+                DanhMucCha = null,
+                DanhMucCon = new List<DanhMucChiTieu>
+        {
+            new DanhMucChiTieu { TenDanhMuc = "Xem phim", MaNguoiDung = userId },
+            new DanhMucChiTieu { TenDanhMuc = "Nghe nhạc (Spotify)", MaNguoiDung = userId },
+            new DanhMucChiTieu { TenDanhMuc = "Du lịch", MaNguoiDung = userId }
+        }
+            };
+            danhSachGoc.Add(giaiTri);
+
+            // --- 4. DI CHUYỂN ---
+            var diChuyen = new DanhMucChiTieu
+            {
+                TenDanhMuc = "Di chuyển",
+                MaNguoiDung = userId,
+                DanhMucCha = null,
+                DanhMucCon = new List<DanhMucChiTieu>
+        {
+            new DanhMucChiTieu { TenDanhMuc = "Xăng xe", MaNguoiDung = userId },
+            new DanhMucChiTieu { TenDanhMuc = "Gửi xe", MaNguoiDung = userId },
+            new DanhMucChiTieu { TenDanhMuc = "Grab/Be", MaNguoiDung = userId }
+        }
+            };
+            danhSachGoc.Add(diChuyen);
+
+            // --- 5. MUA SẮM ---
+            var muaSam = new DanhMucChiTieu
+            {
+                TenDanhMuc = "Mua sắm",
+                MaNguoiDung = userId,
+                DanhMucCha = null,
+                DanhMucCon = new List<DanhMucChiTieu>
+        {
+            new DanhMucChiTieu { TenDanhMuc = "Quần áo", MaNguoiDung = userId },
+            new DanhMucChiTieu { TenDanhMuc = "Đồ gia dụng", MaNguoiDung = userId },
+            new DanhMucChiTieu { TenDanhMuc = "Mỹ phẩm", MaNguoiDung = userId }
+        }
+            };
+            danhSachGoc.Add(muaSam);
+
+            // --- 6. SỨC KHỎE ---
+            var sucKhoe = new DanhMucChiTieu
+            {
+                TenDanhMuc = "Sức khỏe",
+                MaNguoiDung = userId,
+                DanhMucCha = null,
+                DanhMucCon = new List<DanhMucChiTieu>
+        {
+            new DanhMucChiTieu { TenDanhMuc = "Khám bệnh", MaNguoiDung = userId },
+            new DanhMucChiTieu { TenDanhMuc = "Thuốc", MaNguoiDung = userId },
+            new DanhMucChiTieu { TenDanhMuc = "Bảo hiểm y tế", MaNguoiDung = userId }
+        }
+            };
+            danhSachGoc.Add(sucKhoe);
+
+            // --- 7. GIÁO DỤC ---
+            var giaoDuc = new DanhMucChiTieu
+            {
+                TenDanhMuc = "Giáo dục",
+                MaNguoiDung = userId,
+                DanhMucCha = null,
+                DanhMucCon = new List<DanhMucChiTieu>
+        {
+            new DanhMucChiTieu { TenDanhMuc = "Học phí", MaNguoiDung = userId },
+            new DanhMucChiTieu { TenDanhMuc = "Mua sách", MaNguoiDung = userId },
+            new DanhMucChiTieu { TenDanhMuc = "Khóa học online", MaNguoiDung = userId }
+        }
+            };
+            danhSachGoc.Add(giaoDuc);
+
+            // --- 8. THU NHẬP ---
+            var thuNhap = new DanhMucChiTieu
+            {
+                TenDanhMuc = "Thu nhập",
+                MaNguoiDung = userId,
+                DanhMucCha = null,
+                DanhMucCon = new List<DanhMucChiTieu>
+        {
+            new DanhMucChiTieu { TenDanhMuc = "Lương", MaNguoiDung = userId },
+            new DanhMucChiTieu { TenDanhMuc = "Thưởng", MaNguoiDung = userId },
+            new DanhMucChiTieu { TenDanhMuc = "Thu nhập phụ", MaNguoiDung = userId }
+        }
+            };
+            danhSachGoc.Add(thuNhap);
+
+            // --- LƯU TẤT CẢ VÀO DB ---
+            db.DanhMucChiTieus.AddRange(danhSachGoc);
+            db.SaveChanges();
         }
         private void LoadTreeView()
         {
@@ -86,6 +239,7 @@ namespace Demo_Layout
                 parentNode.Nodes.Add(childNode);
             }
         }
+
 
 
         /// Mở form Thêm (Create)

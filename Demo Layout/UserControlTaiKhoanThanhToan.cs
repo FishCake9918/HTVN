@@ -43,7 +43,7 @@ namespace Demo_Layout
         {
             txtTimKiem.Text = string.Empty;
             txtTimKiem.ForeColor = Color.Black;
-
+            LogHelper.GhiLog(_dbFactory, "Quản lý tài khoản thanh toán", CURRENT_USER_ID); // ghi log
             LoadDanhSach();
         }
 

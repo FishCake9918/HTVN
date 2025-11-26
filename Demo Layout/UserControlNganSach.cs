@@ -41,6 +41,7 @@ namespace Demo_Layout
         {
             txtTimKiem.Text = string.Empty;
             txtTimKiem.ForeColor = Color.Black;
+            LogHelper.GhiLog(_dbFactory, "Quản lý ngân sách", CURRENT_USER_ID); // ghi log
 
             LoadDanhSach();
         }

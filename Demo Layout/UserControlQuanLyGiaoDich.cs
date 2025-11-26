@@ -46,6 +46,7 @@ namespace Demo_Layout
             kryptonDataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             kryptonDataGridView1.MultiSelect = false;
             kryptonDataGridView1.ReadOnly = true;
+            LogHelper.GhiLog(_dbFactory, "Quản lý giao dịch", CURRENT_USER_ID); // ghi log
 
             LoadComboBoxTaiKhoan();
             LoadData();

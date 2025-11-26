@@ -275,92 +275,13 @@ namespace Piggy_Admin
         // ========================================================================
         // TÍNH NĂNG 1: IN NGUYÊN DASHBOARD (CHỤP ẢNH DÁN VÀO PDF)
         // ========================================================================
-        private void btnInDashboard_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                // 1. Chụp ảnh UserControl
-                Bitmap bmp = new Bitmap(this.Width, this.Height);
-                this.DrawToBitmap(bmp, new System.Drawing.Rectangle(0, 0, this.Width, this.Height));
-
-                // 2. [SỬA LỖI] Sử dụng System.Drawing.Imaging.ImageFormat rõ ràng
-                byte[] imageData;
-                using (var stream = new MemoryStream())
-                {
-                    bmp.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
-                    imageData = stream.ToArray();
-                }
-
-                // 3. Tạo PDF
-                var document = Document.Create(container =>
-                {
-                    container.Page(page =>
-                    {
-                        page.Size(PageSizes.A4.Landscape());
-                        page.Margin(1, Unit.Centimetre);
-
-                        page.Content()
-                            .Column(col =>
-                            {
-                                // [SỬA LỖI] Sử dụng QuestPDF.Helpers.Colors rõ ràng
-                                col.Item().Text("BÁO CÁO TỔNG QUAN HỆ THỐNG")
-                                   .FontSize(20).Bold().AlignCenter().FontColor(QuestPDF.Helpers.Colors.Blue.Medium);
-
-                                col.Item().Text($"Ngày xuất: {DateTime.Now:dd/MM/yyyy HH:mm}")
-                                   .FontSize(10).AlignCenter();
-
-                                // [SỬA LỖI] Colors.Grey.Light
-                                col.Item().PaddingVertical(10).LineHorizontal(1).LineColor(QuestPDF.Helpers.Colors.Grey.Lighten1);
-
-                                col.Item().Image(imageData, ImageScaling.FitArea);
-                            });
-                    });
-                });
-
-                string fileName = $"Dashboard_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
-                document.GeneratePdf(fileName);
-
-                var p = new System.Diagnostics.Process();
-                p.StartInfo = new System.Diagnostics.ProcessStartInfo(fileName) { UseShellExecute = true };
-                p.Start();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi xuất PDF: " + ex.Message);
-            }
-        }
 
         // ========================================================================
         // TÍNH NĂNG 2: IN NHẬT KÝ HOẠT ĐỘNG
         // ========================================================================
         private void btnInLog_Click(object sender, EventArgs e)
         {
-            //// 1. Lấy mốc thời gian từ ComboBox (giống hệt Dashboard)
-            //DateTime fromDate, toDate;
-            //LayKhoangThoiGian(out fromDate, out toDate);
 
-            //// 2. [QUAN TRỌNG] Phải mở rộng toDate đến hết ngày (23:59:59)
-            //// Nếu không làm bước này, SQL sẽ hiểu toDate là 00:00:00 sáng nay -> Mất hết dữ liệu trong ngày
-            //toDate = toDate.Date.AddDays(1).AddTicks(-1);
-            //fromDate = fromDate.Date; // Reset về 0h sáng cho chắc
-
-            //using (var db = _dbFactory.CreateDbContext())
-            //{
-            //    // 3. Query dữ liệu
-            //    var logs = db.NhatKyHoatDongs
-            //        .Where(x => x.ThoiGian >= fromDate && x.ThoiGian <= toDate)
-            //        .Include(x => x.NguoiDung)
-            //        .OrderByDescending(x => x.ThoiGian)
-            //        .ToList();
-
-            //    if (logs.Count == 0)
-            //    {
-            //        MessageBox.Show($"Không tìm thấy dữ liệu từ {fromDate:dd/MM} đến {toDate:dd/MM} để in.", "Thông báo");
-            //        return;
-            //    }
-
-            //    XuatPdfNhatKy(logs);
-            //}
 
             // 1. Lấy khoảng thời gian (Logic cũ giữ nguyên)
             DateTime fromDate, toDate;
@@ -404,7 +325,7 @@ namespace Piggy_Admin
                         ThoiGian = x.ThoiGian.ToString("dd/MM/yyyy HH:mm:ss"),
                         NguoiDung = x.NguoiDung != null ? x.NguoiDung.HoTen : "Hệ thống/Đã xóa",
                         HanhDong = x.HanhDong
-                        
+
                     });
 
                     // 5. GHI FILE EXCEL (Chỉ 1 dòng code duy nhất!)

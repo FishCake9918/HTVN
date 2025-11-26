@@ -14,6 +14,8 @@ namespace Demo_Layout
         [STAThread]
         static void Main()
         {
+            QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
+
             var builder = Host.CreateDefaultBuilder()
                 .ConfigureAppConfiguration((context, config) =>
                 {
