@@ -51,11 +51,12 @@
             kryptonDataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             kryptonDataGridView1.BorderStyle = BorderStyle.None;
             kryptonDataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            kryptonDataGridView1.Location = new Point(125, 171);
+            kryptonDataGridView1.Dock = DockStyle.Fill;
+            kryptonDataGridView1.Location = new Point(125, 172);
             kryptonDataGridView1.Margin = new Padding(4);
             kryptonDataGridView1.Name = "kryptonDataGridView1";
             kryptonDataGridView1.RowHeadersWidth = 51;
-            kryptonDataGridView1.Size = new Size(902, 508);
+            kryptonDataGridView1.Size = new Size(902, 506);
             kryptonDataGridView1.StateCommon.Background.Color1 = Color.FromArgb(172, 180, 239);
             kryptonDataGridView1.StateCommon.BackStyle = Krypton.Toolkit.PaletteBackStyle.GridBackgroundList;
             kryptonDataGridView1.TabIndex = 20;
@@ -177,8 +178,8 @@
             // 
             // panel2
             // 
+            panel2.Anchor = AnchorStyles.Left;
             panel2.BackColor = Color.FromArgb(172, 180, 239);
-            panel2.Dock = DockStyle.Left;
             panel2.Location = new Point(0, 0);
             panel2.Margin = new Padding(4);
             panel2.Name = "panel2";
@@ -209,10 +210,10 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(kryptonDataGridView1);
             Controls.Add(panel6);
             Controls.Add(panel5);
             Controls.Add(panel1);
-            Controls.Add(kryptonDataGridView1);
             Controls.Add(panel3);
             Controls.Add(panel4);
             Margin = new Padding(4);

@@ -93,6 +93,9 @@ namespace PhanQuyen
                     services.AddTransient<UserControlQuanLyThongBao>();
                     services.AddTransient<Piggy_Admin.TaoCapNhatThongBao>();
                     services.AddTransient<Piggy_Admin.FormTaiKhoan>();
+                    services.AddTransient<Piggy_Admin.FormDoiMatKhau>();
+                    services.AddTransient<Piggy_Admin.UserControlQuanLyTaiKhoan>();
+                    services.AddTransient<FormTaoCapNhatTaiKhoan>();
 
                     services.AddTransient<FrmMain>();
                     services.AddTransient<UserControlNganSach>();

@@ -8,10 +8,8 @@ namespace Demo_Layout
     {
         private System.ComponentModel.IContainer components = null;
 
-        // Khai báo Controls
+        // KHAI BÁO CONTROLS (Chỉ một lần ở đây)
         public KryptonTextBox txtSoTien;
-        public KryptonDateTimePicker dtpNgayBatDau;
-        public KryptonDateTimePicker dtpNgayKetThuc;
         public KryptonButton btnLuu;
         public KryptonButton btnHuy;
 
@@ -20,8 +18,9 @@ namespace Demo_Layout
         private KryptonLabel label3;
         private KryptonLabel label4;
 
-        // Khai báo ComboBox Krypton (thay thế cho TreeView)
         public KryptonComboBox cmbDanhMuc;
+        public KryptonComboBox cmbThang;
+        public KryptonTextBox txtNam;
 
         protected override void Dispose(bool disposing)
         {
@@ -36,19 +35,16 @@ namespace Demo_Layout
 
         private void InitializeComponent()
         {
-            // Khởi tạo các Controls
             txtSoTien = new KryptonTextBox();
-            dtpNgayBatDau = new KryptonDateTimePicker();
-            dtpNgayKetThuc = new KryptonDateTimePicker();
             btnLuu = new KryptonButton();
             btnHuy = new KryptonButton();
             label1 = new KryptonLabel();
             label2 = new KryptonLabel();
             label3 = new KryptonLabel();
             label4 = new KryptonLabel();
-
-            // Khởi tạo ComboBox Krypton
             cmbDanhMuc = new KryptonComboBox();
+            cmbThang = new KryptonComboBox();
+            txtNam = new KryptonTextBox();
 
             this.SuspendLayout();
 
@@ -61,20 +57,21 @@ namespace Demo_Layout
             txtSoTien.TabIndex = 1;
 
             // 
-            // dtpNgayBatDau
+            // cmbThang
             // 
-            dtpNgayBatDau.Location = new Point(180, 110);
-            dtpNgayBatDau.Name = "dtpNgayBatDau";
-            dtpNgayBatDau.Size = new Size(280, 25);
-            dtpNgayBatDau.TabIndex = 2;
+            cmbThang.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbThang.Location = new Point(180, 110);
+            cmbThang.Name = "cmbThang";
+            cmbThang.Size = new Size(130, 25);
+            cmbThang.TabIndex = 2;
 
             // 
-            // dtpNgayKetThuc
+            // txtNam
             // 
-            dtpNgayKetThuc.Location = new Point(180, 150);
-            dtpNgayKetThuc.Name = "dtpNgayKetThuc";
-            dtpNgayKetThuc.Size = new Size(280, 25);
-            dtpNgayKetThuc.TabIndex = 3;
+            txtNam.Location = new Point(180, 150);
+            txtNam.Name = "txtNam";
+            txtNam.Size = new Size(130, 27);
+            txtNam.TabIndex = 3;
 
             // 
             // btnLuu
@@ -95,7 +92,7 @@ namespace Demo_Layout
             btnHuy.Values.Text = "Hủy";
 
             // 
-            // label1 (Chọn Danh mục)
+            // label1
             // 
             label1.Location = new Point(30, 30);
             label1.Name = "label1";
@@ -104,7 +101,7 @@ namespace Demo_Layout
             label1.Values.Text = "Chọn Danh mục:";
 
             // 
-            // label2 (Số tiền Ngân sách)
+            // label2
             // 
             label2.Location = new Point(30, 70);
             label2.Name = "label2";
@@ -113,43 +110,42 @@ namespace Demo_Layout
             label2.Values.Text = "Số tiền Ngân sách:";
 
             // 
-            // label3 (Ngày Bắt đầu)
+            // label3
             // 
             label3.Location = new Point(30, 110);
             label3.Name = "label3";
-            label3.Size = new Size(107, 24);
+            label3.Size = new Size(61, 24);
             label3.TabIndex = 7;
-            label3.Values.Text = "Ngày Bắt đầu:";
+            label3.Values.Text = "Tháng:";
 
             // 
-            // label4 (Ngày Kết thúc)
+            // label4
             // 
             label4.Location = new Point(30, 150);
             label4.Name = "label4";
-            label4.Size = new Size(111, 24);
+            label4.Size = new Size(54, 24);
             label4.TabIndex = 6;
-            label4.Values.Text = "Ngày Kết thúc:";
+            label4.Values.Text = "Năm:";
 
             // 
-            // cmbDanhMuc (ComboBox thay cho TreeView)
+            // cmbDanhMuc 
             // 
             cmbDanhMuc.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbDanhMuc.DropDownWidth = 280;
             cmbDanhMuc.Location = new Point(180, 30);
             cmbDanhMuc.Name = "cmbDanhMuc";
             cmbDanhMuc.Size = new Size(280, 25);
             cmbDanhMuc.TabIndex = 10;
 
             // 
-            // LapNganSach (Cấu hình Form)
+            // LapNganSach
             // 
             this.ClientSize = new Size(508, 283);
+            this.Controls.Add(txtNam);
+            this.Controls.Add(cmbThang);
             this.Controls.Add(cmbDanhMuc);
             this.Controls.Add(btnLuu);
             this.Controls.Add(btnHuy);
-            this.Controls.Add(dtpNgayKetThuc);
             this.Controls.Add(label4);
-            this.Controls.Add(dtpNgayBatDau);
             this.Controls.Add(label3);
             this.Controls.Add(txtSoTien);
             this.Controls.Add(label2);

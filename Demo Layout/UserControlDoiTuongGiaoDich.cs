@@ -19,8 +19,6 @@ namespace Demo_Layout
         private List<DoiTuongGiaoDich> _fullList = new List<DoiTuongGiaoDich>();
         private const int MA_NGUOI_DUNG_HIEN_TAI = 1;
 
-        // *Bỏ hằng số PLACEHOLDER_TEXT vì ta sẽ xóa chữ đi*
-
         public event OpenEditFormEventHandler OnOpenEditForm;
 
         public UserControlDoiTuongGiaoDich(IDbContextFactory<QLTCCNContext> dbFactory)
@@ -37,6 +35,9 @@ namespace Demo_Layout
             this.btnSua.Click += BtnSua_Click;
             this.btnXoa.Click += BtnXoa_Click;
 
+            // YÊU CẦU: Đúp chuột vào dòng để Sửa
+            this.kryptonDataGridView1.DoubleClick += KryptonDataGridView1_DoubleClick;
+
             ConfigureGridView();
         }
 
@@ -52,12 +53,23 @@ namespace Demo_Layout
         // --- Cấu hình DataGridView ---
         private void ConfigureGridView()
         {
+            // YÊU CẦU: Xóa dòng thừa của bảng
+            kryptonDataGridView1.AllowUserToAddRows = false;
+
             kryptonDataGridView1.AutoGenerateColumns = true;
             kryptonDataGridView1.ReadOnly = true;
             kryptonDataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             kryptonDataGridView1.MultiSelect = false;
             kryptonDataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
+
+        // --- Xử lý sự kiện Đúp chuột để Sửa ---
+        private void KryptonDataGridView1_DoubleClick(object sender, EventArgs e)
+        {
+            BtnSua_Click(sender, e);
+        }
+
+        // ... (ApplyGridViewHeaders, LoadDanhSach, TimKiemVaLoc giữ nguyên) ...
 
         private void ApplyGridViewHeaders()
         {
@@ -90,10 +102,10 @@ namespace Demo_Layout
                 using (var db = _dbFactory.CreateDbContext())
                 {
                     _fullList = db.DoiTuongGiaoDichs
-                                    .Where(d => d.MaNguoiDung == MA_NGUOI_DUNG_HIEN_TAI)
-                                    .OrderBy(d => d.TenDoiTuong)
-                                    .AsNoTracking()
-                                    .ToList();
+                                        .Where(d => d.MaNguoiDung == MA_NGUOI_DUNG_HIEN_TAI)
+                                        .OrderBy(d => d.TenDoiTuong)
+                                        .AsNoTracking()
+                                        .ToList();
 
                     TimKiemVaLoc();
                     ApplyGridViewHeaders();
@@ -172,16 +184,17 @@ namespace Demo_Layout
                 {
                     using (var db = _dbFactory.CreateDbContext())
                     {
-                        // 1. Tải đối tượng cần xóa cùng với các entities liên quan (GiaoDichs, DoiTuongGiaoDichNganSachs)
-                        // Bạn cần đảm bảo các navigation property này có trong QLTCCNContext/DoiTuongGiaoDich
+                        // 1. Tải đối tượng cần xóa cùng với các entities liên quan
                         var entityToDelete = db.DoiTuongGiaoDichs
-                                                .Include(d => d.GiaoDichs) // Giả định tên property là GiaoDichs
-                                                .Include(d => d.DoiTuongGiaoDichNganSachs) // Giả định tên property là DoiTuongGiaoDichNganSachs
+                                                // Include Giao Dịch
+                                                .Include(d => d.GiaoDichs)
+                                                // Include Ngân sách liên quan (nếu có)
+                                                .Include(d => d.DoiTuongGiaoDichNganSachs)
                                                 .FirstOrDefault(d => d.MaDoiTuongGiaoDich == selectedObj.MaDoiTuongGiaoDich);
 
                         if (entityToDelete != null)
                         {
-                            // 2. Xóa các entities con trước để tránh lỗi Khóa ngoại (CASCADE DELETE)
+                            // 2. Xóa các entities con trước (Giao Dịch, Ngân sách)
                             if (entityToDelete.GiaoDichs != null)
                             {
                                 db.GiaoDichs.RemoveRange(entityToDelete.GiaoDichs);
@@ -200,7 +213,6 @@ namespace Demo_Layout
                 }
                 catch (Exception ex)
                 {
-                    // Hiển thị lỗi rõ ràng hơn
                     string errorMessage = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
                     MessageBox.Show($"Lỗi khi xóa dữ liệu: {errorMessage}", "Lỗi Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }

@@ -1,5 +1,4 @@
-﻿// Program.cs (Của Project Demo_Layout)
-using Data;
+﻿using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,6 +14,9 @@ namespace Demo_Layout
         static void Main()
         {
             QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
+            // Bắt buộc thêm dòng này để khởi tạo tương thích WinForms/WPF (cho LiveCharts)
+            System.Windows.Forms.Application.EnableVisualStyles();
+            System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
 
             var builder = Host.CreateDefaultBuilder()
                 .ConfigureAppConfiguration((context, config) =>

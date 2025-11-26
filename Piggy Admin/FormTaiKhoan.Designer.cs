@@ -24,156 +24,156 @@ namespace Piggy_Admin
 
         private void InitializeComponent()
         {
-            this.lblTitle = new Label();
-            this.lblRole = new Label();
-            this.lblName = new Label();
-            this.lblEmail = new Label();
-            this.btnDoiMatKhau = new Button();
-            this.btnXoaTaiKhoan = new Button();
-            this.btnDangXuat = new Button();
-            this.picAvatar = new PictureBox();
-            this.panelMain = new Panel();
-            ((System.ComponentModel.ISupportInitialize)(this.picAvatar)).BeginInit();
-            this.panelMain.SuspendLayout();
-            this.SuspendLayout();
-
-            // 
-            // panelMain
-            // 
-            this.panelMain.BackColor = Color.White;
-            this.panelMain.Controls.Add(this.lblTitle);
-            this.panelMain.Controls.Add(this.picAvatar);
-            this.panelMain.Controls.Add(this.lblRole);
-            this.panelMain.Controls.Add(this.lblName);
-            this.panelMain.Controls.Add(this.lblEmail);
-            this.panelMain.Controls.Add(this.btnDoiMatKhau);
-            this.panelMain.Controls.Add(this.btnXoaTaiKhoan);
-            this.panelMain.Controls.Add(this.btnDangXuat);
-            this.panelMain.Dock = DockStyle.Fill;
-            this.panelMain.Location = new Point(0, 0);
-            this.panelMain.Name = "panelMain";
-            this.panelMain.Size = new Size(400, 500);
-            this.panelMain.TabIndex = 0;
-
+            lblTitle = new Label();
+            lblRole = new Label();
+            lblName = new Label();
+            lblEmail = new Label();
+            btnDoiMatKhau = new Button();
+            btnXoaTaiKhoan = new Button();
+            btnDangXuat = new Button();
+            picAvatar = new PictureBox();
+            panelMain = new Panel();
+            ((System.ComponentModel.ISupportInitialize)picAvatar).BeginInit();
+            panelMain.SuspendLayout();
+            SuspendLayout();
             // 
             // lblTitle
             // 
-            this.lblTitle.AutoSize = true;
-            this.lblTitle.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
-            this.lblTitle.ForeColor = Color.DarkBlue;
-            this.lblTitle.Location = new Point(100, 20);
-            this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new Size(200, 37);
-            this.lblTitle.TabIndex = 0;
-            this.lblTitle.Text = "HỒ SƠ ADMIN";
-
-            // 
-            // picAvatar
-            // 
-            this.picAvatar.BackColor = Color.LightGray;
-            this.picAvatar.Location = new Point(150, 70);
-            this.picAvatar.Name = "picAvatar";
-            this.picAvatar.Size = new Size(100, 100);
-            this.picAvatar.SizeMode = PictureBoxSizeMode.StretchImage;
-            this.picAvatar.TabIndex = 1;
-            this.picAvatar.TabStop = false;
-
+            lblTitle.AutoSize = true;
+            lblTitle.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
+            lblTitle.ForeColor = Color.DarkBlue;
+            lblTitle.Location = new Point(190, 20);
+            lblTitle.Margin = new Padding(4, 0, 4, 0);
+            lblTitle.Name = "lblTitle";
+            lblTitle.Size = new Size(121, 45);
+            lblTitle.TabIndex = 0;
+            lblTitle.Text = "HỒ SƠ";
             // 
             // lblRole
             // 
-            this.lblRole.AutoSize = true;
-            this.lblRole.Font = new Font("Segoe UI", 10F, FontStyle.Italic);
-            this.lblRole.ForeColor = Color.Gray;
-            this.lblRole.Location = new Point(150, 180);
-            this.lblRole.Name = "lblRole";
-            this.lblRole.Size = new Size(100, 23);
-            this.lblRole.TabIndex = 2;
-            this.lblRole.Text = "Vai trò: Admin";
-            this.lblRole.TextAlign = ContentAlignment.MiddleCenter;
-
+            lblRole.AutoSize = true;
+            lblRole.Font = new Font("Segoe UI", 10F, FontStyle.Italic);
+            lblRole.ForeColor = Color.Gray;
+            lblRole.Location = new Point(188, 225);
+            lblRole.Margin = new Padding(4, 0, 4, 0);
+            lblRole.Name = "lblRole";
+            lblRole.Size = new Size(138, 28);
+            lblRole.TabIndex = 2;
+            lblRole.Text = "Vai trò: Admin";
+            lblRole.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // lblName
             // 
-            this.lblName.AutoSize = true;
-            this.lblName.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            this.lblName.Location = new Point(50, 210);
-            this.lblName.Name = "lblName";
-            this.lblName.Size = new Size(300, 28);
-            this.lblName.TabIndex = 3;
-            this.lblName.Text = "Tên Admin";
-            this.lblName.TextAlign = ContentAlignment.MiddleCenter;
-
+            lblName.AutoSize = true;
+            lblName.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            lblName.Location = new Point(62, 262);
+            lblName.Margin = new Padding(4, 0, 4, 0);
+            lblName.Name = "lblName";
+            lblName.Size = new Size(137, 32);
+            lblName.TabIndex = 3;
+            lblName.Text = "Tên Admin";
+            lblName.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // lblEmail
             // 
-            this.lblEmail.AutoSize = true;
-            this.lblEmail.Font = new Font("Segoe UI", 10F);
-            this.lblEmail.Location = new Point(50, 240);
-            this.lblEmail.Name = "lblEmail";
-            this.lblEmail.Size = new Size(300, 23);
-            this.lblEmail.TabIndex = 4;
-            this.lblEmail.Text = "admin@example.com";
-            this.lblEmail.TextAlign = ContentAlignment.MiddleCenter;
-
+            lblEmail.AutoSize = true;
+            lblEmail.Font = new Font("Segoe UI", 10F);
+            lblEmail.Location = new Point(62, 300);
+            lblEmail.Margin = new Padding(4, 0, 4, 0);
+            lblEmail.Name = "lblEmail";
+            lblEmail.Size = new Size(201, 28);
+            lblEmail.TabIndex = 4;
+            lblEmail.Text = "admin@example.com";
+            lblEmail.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // btnDoiMatKhau
             // 
-            this.btnDoiMatKhau.BackColor = Color.FromArgb(89, 105, 223);
-            this.btnDoiMatKhau.FlatStyle = FlatStyle.Flat;
-            this.btnDoiMatKhau.ForeColor = Color.White;
-            this.btnDoiMatKhau.Location = new Point(50, 290);
-            this.btnDoiMatKhau.Name = "btnDoiMatKhau";
-            this.btnDoiMatKhau.Size = new Size(300, 40);
-            this.btnDoiMatKhau.TabIndex = 5;
-            this.btnDoiMatKhau.Text = "Đổi Mật Khẩu";
-            this.btnDoiMatKhau.UseVisualStyleBackColor = false;
-            this.btnDoiMatKhau.Click += new System.EventHandler(this.btnDoiMatKhau_Click);
-
+            btnDoiMatKhau.BackColor = Color.FromArgb(89, 105, 223);
+            btnDoiMatKhau.FlatStyle = FlatStyle.Flat;
+            btnDoiMatKhau.ForeColor = Color.White;
+            btnDoiMatKhau.Location = new Point(62, 362);
+            btnDoiMatKhau.Margin = new Padding(4, 4, 4, 4);
+            btnDoiMatKhau.Name = "btnDoiMatKhau";
+            btnDoiMatKhau.Size = new Size(375, 50);
+            btnDoiMatKhau.TabIndex = 5;
+            btnDoiMatKhau.Text = "Đổi Mật Khẩu";
+            btnDoiMatKhau.UseVisualStyleBackColor = false;
+            btnDoiMatKhau.Click += btnDoiMatKhau_Click;
             // 
             // btnXoaTaiKhoan
             // 
-            this.btnXoaTaiKhoan.BackColor = Color.IndianRed;
-            this.btnXoaTaiKhoan.FlatStyle = FlatStyle.Flat;
-            this.btnXoaTaiKhoan.ForeColor = Color.White;
-            this.btnXoaTaiKhoan.Location = new Point(50, 340);
-            this.btnXoaTaiKhoan.Name = "btnXoaTaiKhoan";
-            this.btnXoaTaiKhoan.Size = new Size(300, 40);
-            this.btnXoaTaiKhoan.TabIndex = 6;
-            this.btnXoaTaiKhoan.Text = "Xóa Tài Khoản";
-            this.btnXoaTaiKhoan.UseVisualStyleBackColor = false;
-            this.btnXoaTaiKhoan.Click += new System.EventHandler(this.btnXoaTaiKhoan_Click);
-
+            btnXoaTaiKhoan.BackColor = Color.IndianRed;
+            btnXoaTaiKhoan.FlatStyle = FlatStyle.Flat;
+            btnXoaTaiKhoan.ForeColor = Color.White;
+            btnXoaTaiKhoan.Location = new Point(62, 425);
+            btnXoaTaiKhoan.Margin = new Padding(4, 4, 4, 4);
+            btnXoaTaiKhoan.Name = "btnXoaTaiKhoan";
+            btnXoaTaiKhoan.Size = new Size(375, 50);
+            btnXoaTaiKhoan.TabIndex = 6;
+            btnXoaTaiKhoan.Text = "Xóa Tài Khoản";
+            btnXoaTaiKhoan.UseVisualStyleBackColor = false;
+            btnXoaTaiKhoan.Click += btnXoaTaiKhoan_Click;
             // 
             // btnDangXuat
             // 
-            this.btnDangXuat.BackColor = Color.Gray;
-            this.btnDangXuat.FlatStyle = FlatStyle.Flat;
-            this.btnDangXuat.ForeColor = Color.White;
-            this.btnDangXuat.Location = new Point(50, 390);
-            this.btnDangXuat.Name = "btnDangXuat";
-            this.btnDangXuat.Size = new Size(300, 40);
-            this.btnDangXuat.TabIndex = 7;
-            this.btnDangXuat.Text = "Đăng Xuất";
-            this.btnDangXuat.UseVisualStyleBackColor = false;
-            this.btnDangXuat.Click += new System.EventHandler(this.btnDangXuat_Click);
-
+            btnDangXuat.BackColor = Color.Gray;
+            btnDangXuat.FlatStyle = FlatStyle.Flat;
+            btnDangXuat.ForeColor = Color.White;
+            btnDangXuat.Location = new Point(62, 488);
+            btnDangXuat.Margin = new Padding(4, 4, 4, 4);
+            btnDangXuat.Name = "btnDangXuat";
+            btnDangXuat.Size = new Size(375, 50);
+            btnDangXuat.TabIndex = 7;
+            btnDangXuat.Text = "Đăng Xuất";
+            btnDangXuat.UseVisualStyleBackColor = false;
+            btnDangXuat.Click += btnDangXuat_Click;
+            // 
+            // picAvatar
+            // 
+            picAvatar.BackColor = Color.LightGray;
+            picAvatar.Location = new Point(188, 88);
+            picAvatar.Margin = new Padding(4, 4, 4, 4);
+            picAvatar.Name = "picAvatar";
+            picAvatar.Size = new Size(125, 125);
+            picAvatar.SizeMode = PictureBoxSizeMode.StretchImage;
+            picAvatar.TabIndex = 1;
+            picAvatar.TabStop = false;
+            // 
+            // panelMain
+            // 
+            panelMain.BackColor = Color.White;
+            panelMain.Controls.Add(lblTitle);
+            panelMain.Controls.Add(picAvatar);
+            panelMain.Controls.Add(lblRole);
+            panelMain.Controls.Add(lblName);
+            panelMain.Controls.Add(lblEmail);
+            panelMain.Controls.Add(btnDoiMatKhau);
+            panelMain.Controls.Add(btnXoaTaiKhoan);
+            panelMain.Controls.Add(btnDangXuat);
+            panelMain.Dock = DockStyle.Fill;
+            panelMain.Location = new Point(0, 0);
+            panelMain.Margin = new Padding(4, 4, 4, 4);
+            panelMain.Name = "panelMain";
+            panelMain.Size = new Size(500, 625);
+            panelMain.TabIndex = 0;
             // 
             // FormTaiKhoan
             // 
-            this.AutoScaleDimensions = new SizeF(8F, 20F);
-            this.AutoScaleMode = AutoScaleMode.Font;
-            this.ClientSize = new Size(400, 500);
-            this.Controls.Add(this.panelMain);
-            this.FormBorderStyle = FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "FormTaiKhoan";
-            this.StartPosition = FormStartPosition.CenterParent;
-            this.Text = "Thông Tin Tài Khoản";
-            ((System.ComponentModel.ISupportInitialize)(this.picAvatar)).EndInit();
-            this.panelMain.ResumeLayout(false);
-            this.panelMain.PerformLayout();
-            this.ResumeLayout(false);
+            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(500, 625);
+            Controls.Add(panelMain);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            Margin = new Padding(4, 4, 4, 4);
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "FormTaiKhoan";
+            StartPosition = FormStartPosition.CenterParent;
+            Text = "Thông Tin Tài Khoản";
+            ((System.ComponentModel.ISupportInitialize)picAvatar).EndInit();
+            panelMain.ResumeLayout(false);
+            panelMain.PerformLayout();
+            ResumeLayout(false);
         }
     }
 }

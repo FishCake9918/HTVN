@@ -5,24 +5,17 @@ using System;
 using System.Linq;
 using System.Windows.Forms;
 using Krypton.Toolkit;
-using Microsoft.Data.SqlClient;
-using System.Net.Http; // Cần thiết cho API
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+using System.Data;
 
 namespace Demo_Layout
 {
-    // Class để chứa thông tin đơn vị tiền tệ cho cmbDonViTienTe
-
 
     public partial class FormThemTaiKhoanThanhToan : Form
     {
         private readonly IDbContextFactory<QLTCCNContext> _dbFactory;
         private const int MA_NGUOI_DUNG_HIEN_TAI = 1;
 
-        // Khởi tạo HttpClient một lần cho toàn bộ Form
-        private readonly HttpClient _httpClient = new HttpClient();
-        private const string BASE_CURRENCY = "VND";
+        // Giả định controls tồn tại trong Designer: tbTenTaiKhoan, txtSoDu, cmbLoaiTaiKhoan, btnTao, btnQuayLai
 
         public FormThemTaiKhoanThanhToan(IDbContextFactory<QLTCCNContext> dbFactory)
         {
@@ -30,7 +23,7 @@ namespace Demo_Layout
             _dbFactory = dbFactory;
 
             this.Load += FormThemTaiKhoan_Load;
-            this.btnTao.Click += BtnTao_Click; // Sự kiện này là async
+            this.btnTao.Click += BtnTao_Click;
             this.btnQuayLai.Click += (s, e) => { this.DialogResult = DialogResult.Cancel; this.Close(); };
 
             this.txtSoDu.KeyPress += TxtSoDu_KeyPress;
@@ -39,59 +32,6 @@ namespace Demo_Layout
         private void FormThemTaiKhoan_Load(object sender, EventArgs e)
         {
             LoadLoaiTaiKhoan();
-            LoadCurrencies(); // Tải danh sách tiền tệ
-        }
-
-        // --- LOGIC API: TẢI DANH SÁCH TIỀN TỆ VÀO COMBOBOX ---
-        private void LoadCurrencies()
-        {
-            // Danh sách tiền tệ cơ bản
-            var currencyList = new List<CurrencyModel>
-            {
-                new CurrencyModel { Code = "VND", Name = "Việt Nam Đồng (VND)" },
-                new CurrencyModel { Code = "USD", Name = "Đô la Mỹ (USD)" },
-                new CurrencyModel { Code = "EUR", Name = "Euro (EUR)" },
-                new CurrencyModel { Code = "JPY", Name = "Yên Nhật (JPY)" }
-            };
-
-            // Giả định tên ComboBox là cmbDonViTienTe
-            cmbDonViTienTe.DataSource = currencyList;
-            cmbDonViTienTe.DisplayMember = "Name";
-            cmbDonViTienTe.ValueMember = "Code";
-            cmbDonViTienTe.SelectedValue = BASE_CURRENCY; // Chọn mặc định là VND
-        }
-
-        /// <summary>
-        /// Lấy tỉ giá chuyển đổi từ ngoại tệ (fromCurrency) sang VND (BASE_CURRENCY).
-        /// </summary>
-        private async Task<decimal> GetExchangeRate(string fromCurrency)
-        {
-            if (fromCurrency == BASE_CURRENCY) return 1m;
-
-            try
-            {
-                string url = $"https://api.exchangerate.host/latest?base={fromCurrency}&symbols={BASE_CURRENCY}";
-
-                var res = await _httpClient.GetAsync(url);
-
-                if (res.IsSuccessStatusCode)
-                {
-                    string result = await res.Content.ReadAsStringAsync();
-                    dynamic data = JsonConvert.DeserializeObject(result);
-
-                    if (data?.rates?.VND != null)
-                    {
-                        return (decimal)data.rates.VND;
-                    }
-                }
-                MessageBox.Show("Không thể lấy tỉ giá từ API. Sử dụng tỉ giá 1:1.", "Cảnh báo API", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return 1m;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Lỗi kết nối API tỉ giá: {ex.Message}. Sử dụng tỉ giá 1:1.", "Lỗi API", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return 1m;
-            }
         }
 
         private void LoadLoaiTaiKhoan()
@@ -114,15 +54,14 @@ namespace Demo_Layout
             }
         }
 
-        // --- SỬA LOGIC LƯU DỮ LIỆU ĐỂ TÍCH HỢP CHUYỂN ĐỔI TIỀN TỆ ---
-        private async void BtnTao_Click(object sender, EventArgs e)
+        // --- LOGIC LƯU DỮ LIỆU ---
+        private void BtnTao_Click(object sender, EventArgs e)
         {
             btnTao.Enabled = false;
 
             string ten = tbTenTaiKhoan.Text.Trim();
             int? maLoai = cmbLoaiTaiKhoan.SelectedValue as int?;
-            decimal soDuNgoaiTe = 0;
-            string maTienTe = cmbDonViTienTe.SelectedValue?.ToString() ?? BASE_CURRENCY;
+            decimal soDuBanDau = 0;
 
             // Validation 1: Tên, Loại TK
             if (string.IsNullOrEmpty(ten) || maLoai == null || maLoai == -1)
@@ -135,9 +74,8 @@ namespace Demo_Layout
             // Validation 2: Số dư
             if (!string.IsNullOrEmpty(txtSoDu.Text.Trim()))
             {
-                // Xử lý chuỗi số dư nhập vào
                 string cleanSoDu = txtSoDu.Text.Replace(".", "").Replace(",", "");
-                if (!decimal.TryParse(cleanSoDu, out soDuNgoaiTe) || soDuNgoaiTe < 0)
+                if (!decimal.TryParse(cleanSoDu, out soDuBanDau) || soDuBanDau < 0)
                 {
                     MessageBox.Show("Số dư không hợp lệ (phải là số không âm), vui lòng nhập lại.", "Lỗi nhập liệu", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     txtSoDu.Focus();
@@ -146,17 +84,12 @@ namespace Demo_Layout
                 }
             }
 
-            // 1. TÍCH HỢP API: Gọi hàm lấy tỉ giá (ASYNC AWAIT)
-            decimal tiGia = await GetExchangeRate(maTienTe);
-            // 2. CHUYỂN ĐỔI: Số dư ban đầu (VND) = Số dư ngoại tệ * Tỉ giá
-            decimal soDuBanDauVND = soDuNgoaiTe * tiGia;
-
             using (var db = _dbFactory.CreateDbContext())
             {
-                // Kiểm tra Trùng tên 
+                // Kiểm tra Trùng tên 
                 var userAccounts = db.TaiKhoanThanhToans
-                                     .Where(t => t.MaNguoiDung == MA_NGUOI_DUNG_HIEN_TAI)
-                                     .ToList();
+                                            .Where(t => t.MaNguoiDung == MA_NGUOI_DUNG_HIEN_TAI)
+                                            .ToList();
                 bool isDuplicate = userAccounts.Any(t =>
                     t.TenTaiKhoan.Equals(ten, StringComparison.OrdinalIgnoreCase));
 
@@ -174,21 +107,47 @@ namespace Demo_Layout
                     {
                         TenTaiKhoan = ten,
                         MaLoaiTaiKhoan = maLoai.Value,
-                        SoDuBanDau = soDuBanDauVND, // <-- LƯU SỐ DƯ ĐÃ CHUYỂN ĐỔI
                         MaNguoiDung = MA_NGUOI_DUNG_HIEN_TAI,
-                        TrangThai = "Đang hoạt động"
+                        TrangThai = "Đang hoạt động",
+                        SoDuBanDau = soDuBanDau // GÁN SỐ DƯ BAN ĐẦU VÀO ENTITY
                     };
+
+                    // 1. LƯU TÀI KHOẢN TRƯỚC (Quan trọng để có ID)
                     db.TaiKhoanThanhToans.Add(newTaiKhoan);
                     db.SaveChanges();
 
-                    MessageBox.Show($"Thêm tài khoản thành công! Số dư ban đầu: {soDuBanDauVND:N0} VND (Tỉ giá: {tiGia:N0})", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    // 2. THÊM GIAO DỊCH GỐC (Nếu Số dư > 0)
+                    if (soDuBanDau > 0)
+                    {
+                        var initialTransaction = new GiaoDich
+                        {
+                            MaTaiKhoanThanhToan = newTaiKhoan.MaTaiKhoanThanhToan,
+                            SoTien = soDuBanDau,
+                            NgayGiaoDich = DateTime.Now,
+
+                            // *** DÒNG CODE SỬA LỖI GÂY LỖI: GÁN GIÁ TRỊ CHO TRƯỜNG NOT NULL ***
+                            TenGiaoDich = "Số dư ban đầu",
+                            GhiChu = "Số dư ban đầu",
+
+                            MaLoaiGiaoDich = 1, // Giả định 1 là THU
+                            MaNguoiDung = MA_NGUOI_DUNG_HIEN_TAI,
+
+                            // Gán NULL an toàn cho các trường khóa ngoại không bắt buộc
+                            MaDanhMuc = null,
+                            MaDoiTuongGiaoDich = null
+                        };
+                        db.GiaoDichs.Add(initialTransaction);
+                        db.SaveChanges();
+                    }
+
+                    MessageBox.Show($"Thêm tài khoản thành công! Số dư ban đầu: {soDuBanDau:N0} VND", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.DialogResult = DialogResult.OK;
                     this.Close();
                 }
                 catch (DbUpdateException dbEx)
                 {
-                    // Logic xử lý lỗi Database
-                    MessageBox.Show($"Lỗi Database: {dbEx.Message}", "Lỗi Lưu Dữ Liệu", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    string innerMsg = dbEx.InnerException?.Message ?? "Không rõ nguyên nhân chi tiết.";
+                    MessageBox.Show($"Lỗi Database khi lưu giao dịch: {innerMsg}", "Lỗi Lưu Dữ Liệu", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 catch (Exception ex)
                 {
@@ -219,10 +178,5 @@ namespace Demo_Layout
             }
         }
 
-    }
-    public class CurrencyModel
-    {
-        public string Code { get; set; }
-        public string Name { get; set; }
     }
 }

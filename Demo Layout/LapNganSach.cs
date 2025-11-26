@@ -6,7 +6,6 @@ using System.Linq;
 using System.Windows.Forms;
 using Krypton.Toolkit;
 using System.Globalization;
-using System.Collections.Generic;
 
 namespace Demo_Layout
 {
@@ -16,7 +15,9 @@ namespace Demo_Layout
         private int _maNganSach = 0;
         private const int MA_NGUOI_DUNG_HIEN_TAI = 1;
 
-        // Khai báo Constructor cho DI
+        // KHÔNG KHAI BÁO CÁC CONTROLS TẠI ĐÂY! (Chúng đã có trong LapNganSach.Designer.cs)
+
+        // Constructor
         public LapNganSach(IDbContextFactory<QLTCCNContext> dbFactory)
         {
             InitializeComponent();
@@ -27,58 +28,57 @@ namespace Demo_Layout
             this.btnHuy.Click += (s, e) => { this.DialogResult = DialogResult.Cancel; this.Close(); };
 
             this.txtSoTien.KeyPress += TxtSoTien_KeyPress;
+            this.txtSoTien.KeyPress += TxtSoTien_KeyPress;
+            this.txtNam.KeyPress += TxtNam_KeyPress; // <-- Đăng ký sự kiện
         }
 
-        // Phương thức để thiết lập ID (giữ nguyên)
         public void SetId(int id)
         {
             _maNganSach = id;
             this.Text = (id == 0) ? "Thêm Ngân sách mới" : "Sửa Ngân sách";
 
-            if (_maNganSach > 0)
-            {
-                LoadDataForEdit(id);
-            }
-            else
+            if (_maNganSach == 0)
             {
                 txtSoTien.Text = string.Empty;
-                dtpNgayBatDau.Value = DateTime.Today.Date;
-                dtpNgayKetThuc.Value = DateTime.Today.Date.AddMonths(1).AddDays(-1);
+                if (cmbThang.DataSource != null)
+                    cmbThang.SelectedValue = DateTime.Today.Month;
+                txtNam.Text = DateTime.Today.Year.ToString();
+            }
+        }
+        private void TxtNam_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Chỉ cho phép nhập số và phím điều khiển (backspace, delete)
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+        private void FrmThemSuaNganSach_Load(object sender, EventArgs e)
+        {
+            LoadThangComboBox();
+            LoadDanhMuc();
+
+            if (_maNganSach > 0)
+            {
+                LoadDataForEdit(_maNganSach);
             }
         }
 
-        private void FrmThemSuaNganSach_Load(object sender, EventArgs e)
-        {
-            LoadDanhMucCha(); // Tải cấu trúc cây danh mục
-        }
-
-        // --- TẢI DỮ LIỆU DANH MỤC VÀO COMBOBOX ---
-        private void LoadDanhMucCha()
+        private void LoadDanhMuc()
         {
             try
             {
                 using (var db = _dbFactory.CreateDbContext())
                 {
-                    // Chỉ tải các Danh mục Gốc (DanhMucCha == null) cho Ngân sách
                     var danhMucList = db.DanhMucChiTieus
                        .Where(d => d.MaNguoiDung == MA_NGUOI_DUNG_HIEN_TAI && d.DanhMucCha == null)
                        .AsNoTracking()
                        .ToList();
 
-                    // Gán Data Source cho ComboBox
                     cmbDanhMuc.DataSource = danhMucList;
                     cmbDanhMuc.DisplayMember = "TenDanhMuc";
                     cmbDanhMuc.ValueMember = "MaDanhMuc";
-
-                    // SỬA LỖI: Đặt giá trị mặc định nếu danh sách có dữ liệu
-                    if (danhMucList.Any())
-                    {
-                        cmbDanhMuc.SelectedIndex = 0; // Chọn mục đầu tiên mặc định
-                    }
-                    else
-                    {
-                        cmbDanhMuc.SelectedIndex = -1; // Không có gì để chọn
-                    }
+                    cmbDanhMuc.SelectedIndex = -1;
                 }
             }
             catch (Exception ex)
@@ -87,7 +87,20 @@ namespace Demo_Layout
             }
         }
 
-        // --- LOAD DATA FOR EDIT (Đã sửa cho ComboBox) ---
+
+        private void LoadThangComboBox()
+        {
+            var months = Enumerable.Range(1, 12)
+                .Select(m => new { MonthValue = m, MonthName = $"Tháng {m}" })
+                .ToList();
+
+            cmbThang.DataSource = months;
+            cmbThang.DisplayMember = "MonthName";
+            cmbThang.ValueMember = "MonthValue";
+
+            cmbThang.SelectedValue = DateTime.Today.Month;
+        }
+
         private void LoadDataForEdit(int id)
         {
             try
@@ -98,13 +111,14 @@ namespace Demo_Layout
                     if (ns != null)
                     {
                         txtSoTien.Text = ns.SoTien.ToString("N0", CultureInfo.CurrentCulture);
-                        dtpNgayBatDau.Value = ns.NgayBatDau ?? DateTime.Today;
-                        dtpNgayKetThuc.Value = ns.NgayKetThuc ?? DateTime.Today.AddMonths(1);
-
-                        // LỌC: Chọn mục tương ứng trong ComboBox
-                        cmbDanhMuc.SelectedValue = ns.MaDanhMuc; // ns.MaDanhMuc là int?, SelectedValue tự xử lý
-
+                        cmbDanhMuc.SelectedValue = ns.MaDanhMuc;
                         cmbDanhMuc.Enabled = false;
+
+                        cmbThang.SelectedValue = ns.NgayBatDau?.Month ?? DateTime.Today.Month;
+                        txtNam.Text = (ns.NgayBatDau?.Year ?? DateTime.Today.Year).ToString();
+
+                        cmbThang.Enabled = false;
+                        txtNam.Enabled = false;
                     }
                 }
             }
@@ -114,83 +128,87 @@ namespace Demo_Layout
             }
         }
 
-        // --- RÀNG BUỘC VÀ LƯU DỮ LIỆU ---
         private void BtnLuu_Click(object sender, EventArgs e)
         {
-            // 1. Lấy MaDanhMuc từ ComboBox
-            // Sử dụng as int? để lấy giá trị int an toàn, nếu SelectedValue là null thì maDanhMuc là null
             int? maDanhMuc = cmbDanhMuc.SelectedValue as int?;
+            int? thang = cmbThang.SelectedValue as int?;
+            int? nam = int.TryParse(txtNam.Text.Trim(), out int n) ? (int?)n : null;
+            decimal soTien;
 
-            // SỬA LỖI: Kiểm tra maDanhMuc có giá trị hợp lệ (khác null và ID > 0)
             if (maDanhMuc == null || maDanhMuc.Value <= 0)
             {
                 MessageBox.Show("Vui lòng chọn Danh mục cần lập ngân sách.", "Lỗi nhập liệu", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
-            // 2. Validation số tiền và ngày tháng
-            string soTienText = txtSoTien.Text.Replace(",", "").Replace(".", "");
-            if (!decimal.TryParse(soTienText, out decimal soTien) || soTien <= 0)
+            if (!thang.HasValue || !nam.HasValue)
+            {
+                MessageBox.Show("Vui lòng chọn Tháng và nhập Năm hợp lệ.", "Lỗi nhập liệu", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (!decimal.TryParse(txtSoTien.Text.Replace(",", "").Replace(".", ""), out soTien) || soTien <= 0)
             {
                 MessageBox.Show("Số tiền ngân sách phải là số dương.", "Lỗi nhập liệu", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtSoTien.Focus();
                 return;
             }
 
-            DateTime ngayBatDau = dtpNgayBatDau.Value.Date;
-            DateTime ngayKetThuc = dtpNgayKetThuc.Value.Date;
+            DateTime ngayBatDau;
 
-            if (ngayKetThuc <= ngayBatDau)
+            try
             {
-                MessageBox.Show("Ngày kết thúc phải sau ngày bắt đầu.", "Lỗi nhập liệu", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ngayBatDau = new DateTime(nam.Value, thang.Value, 1);
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                MessageBox.Show("Tháng hoặc Năm không hợp lệ.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            // RÀNG BUỘC THỜI GIAN: Ngân sách không được lập cho quá khứ (Trừ chế độ Sửa)
-            if (_maNganSach == 0 && ngayBatDau < DateTime.Today.Date)
+            if (_maNganSach == 0)
             {
-                MessageBox.Show("Không thể lập ngân sách cho ngày trong quá khứ.", "Lỗi Thời gian", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                DateTime thoiDiemHienTai = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
+
+                if (ngayBatDau.Date < thoiDiemHienTai)
+                {
+                    MessageBox.Show("Không thể lập ngân sách cho tháng/năm đã qua.", "Lỗi Thời gian", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
             }
 
             using (var db = _dbFactory.CreateDbContext())
             {
                 try
                 {
-                    if (_maNganSach == 0) // THÊM MỚI
+                    if (_maNganSach == 0)
                     {
-                        // Ràng buộc trùng lặp
                         bool isOverlap = db.BangNganSachs.Any(n =>
                             n.MaNguoiDung == MA_NGUOI_DUNG_HIEN_TAI &&
                             n.MaDanhMuc == maDanhMuc.Value &&
-                            ngayBatDau < n.NgayKetThuc && ngayKetThuc > n.NgayBatDau
+                            n.NgayBatDau == ngayBatDau
                         );
 
                         if (isOverlap)
                         {
-                            MessageBox.Show("Đã tồn tại ngân sách cho danh mục này trong khoảng thời gian trùng lặp.", "Lỗi Trùng lặp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            MessageBox.Show($"Đã tồn tại ngân sách cho danh mục này trong Tháng {thang.Value}/{nam.Value}.", "Lỗi Trùng lặp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
                         }
 
-                        // THÊM MỚI
                         var newNs = new BangNganSach
                         {
                             SoTien = soTien,
                             NgayBatDau = ngayBatDau,
-                            NgayKetThuc = ngayKetThuc,
+                            NgayKetThuc = ngayBatDau.AddMonths(1).AddDays(-1),
                             MaNguoiDung = MA_NGUOI_DUNG_HIEN_TAI,
                             MaDanhMuc = maDanhMuc.Value
                         };
                         db.BangNganSachs.Add(newNs);
                     }
-                    else // CẬP NHẬT
+                    else
                     {
                         var nsToUpdate = db.BangNganSachs.FirstOrDefault(n => n.MaNganSach == _maNganSach);
                         if (nsToUpdate != null)
                         {
                             nsToUpdate.SoTien = soTien;
-                            nsToUpdate.NgayBatDau = ngayBatDau;
-                            nsToUpdate.NgayKetThuc = ngayKetThuc;
                         }
                     }
 
@@ -208,14 +226,13 @@ namespace Demo_Layout
 
         private void TxtSoTien_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // Logic ràng buộc nhập số (giữ nguyên)
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.') && (e.KeyChar != ','))
             {
                 e.Handled = true;
             }
             if ((e.KeyChar == '.') || (e.KeyChar == ','))
             {
-                if (((KryptonTextBox)sender).Text.Contains(e.KeyChar))
+                if (txtSoTien.Text.Contains(e.KeyChar))
                 {
                     e.Handled = true;
                 }

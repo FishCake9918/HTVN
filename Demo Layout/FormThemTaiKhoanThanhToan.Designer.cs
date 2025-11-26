@@ -4,10 +4,6 @@
     {
         private System.ComponentModel.IContainer components = null;
 
-        // Khai báo controls mới
-        private System.Windows.Forms.Label lbTienTe;
-        private System.Windows.Forms.ComboBox cmbDonViTienTe;
-
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -29,8 +25,6 @@
             btnQuayLai = new Button();
             lbLoaiTaiKhoan = new Label();
             cmbLoaiTaiKhoan = new ComboBox();
-            lbTienTe = new Label();
-            cmbDonViTienTe = new ComboBox();
             SuspendLayout();
             // 
             // lbTenTaiKhoan
@@ -71,7 +65,7 @@
             // 
             // btnTao
             // 
-            btnTao.Location = new Point(468, 195);
+            btnTao.Location = new Point(390, 195);
             btnTao.Name = "btnTao";
             btnTao.Size = new Size(94, 40);
             btnTao.TabIndex = 5;
@@ -80,7 +74,7 @@
             // 
             // btnQuayLai
             // 
-            btnQuayLai.Location = new Point(331, 195);
+            btnQuayLai.Location = new Point(254, 195);
             btnQuayLai.Name = "btnQuayLai";
             btnQuayLai.Size = new Size(107, 40);
             btnQuayLai.TabIndex = 6;
@@ -106,33 +100,12 @@
             cmbLoaiTaiKhoan.Size = new Size(321, 36);
             cmbLoaiTaiKhoan.TabIndex = 8;
             // 
-            // lbTienTe
-            // 
-            lbTienTe.AutoSize = true;
-            lbTienTe.Font = new Font("Segoe UI", 12F);
-            lbTienTe.Location = new Point(12, 195);
-            lbTienTe.Name = "lbTienTe";
-            lbTienTe.Size = new Size(70, 28);
-            lbTienTe.TabIndex = 9;
-            lbTienTe.Text = "Tiền tệ";
-            // 
-            // cmbDonViTienTe
-            // 
-            cmbDonViTienTe.Font = new Font("Segoe UI", 12F);
-            cmbDonViTienTe.FormattingEnabled = true;
-            cmbDonViTienTe.Location = new Point(163, 192);
-            cmbDonViTienTe.Name = "cmbDonViTienTe";
-            cmbDonViTienTe.Size = new Size(150, 36);
-            cmbDonViTienTe.TabIndex = 10;
-            // 
             // FormThemTaiKhoanThanhToan
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Honeydew;
-            ClientSize = new Size(803, 258);
-            Controls.Add(cmbDonViTienTe);
-            Controls.Add(lbTienTe);
+            ClientSize = new Size(527, 258);
             Controls.Add(cmbLoaiTaiKhoan);
             Controls.Add(lbLoaiTaiKhoan);
             Controls.Add(btnQuayLai);

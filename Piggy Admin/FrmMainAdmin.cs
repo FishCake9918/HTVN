@@ -9,6 +9,7 @@ namespace Piggy_Admin
     {
         private readonly IDbContextFactory<QLTCCNContext> _dbFactory;
         private readonly IServiceProvider _serviceProvider;
+        private readonly CurrentUserContext _userContext; // <-- INJECT CONTEXT
 
         // Code API Win32
         public const int WM_NCLBUTTONDOWN = 0xA1;
@@ -18,13 +19,26 @@ namespace Piggy_Admin
         [DllImport("user32.dll")]
         public static extern bool ReleaseCapture();
 
-        public FrmMainAdmin(IDbContextFactory<QLTCCNContext> dbFactory, IServiceProvider serviceProvider)
+        public FrmMainAdmin(IDbContextFactory<QLTCCNContext> dbFactory, IServiceProvider serviceProvider, CurrentUserContext userContext)
         {
             InitializeComponent();
             _dbFactory = dbFactory;
             _serviceProvider = serviceProvider;
+            _userContext = userContext; // Lưu context để sử dụng
+            // GỌI HÀM HIỂN THỊ THÔNG TIN NGAY KHI FORM MỞ
+            LoadUserInfo();
         }
+        // Inject CurrentUserContext từ project Data
+        // Hàm hiển thị thông tin người dùng lên Panel 1
+        private void LoadUserInfo()
+        {
+            if (_userContext.IsLoggedIn)
+            {
+                lblTenHienThi.Text = _userContext.DisplayName; // Hiện tên
+                lblVaiTro.Text = _userContext.TenVaiTro;     // Hiện vai trò
 
+            }
+        }
         private void button8_Click(object sender, EventArgs e) => System.Windows.Forms.Application.Exit();
         private void button9_Click(object sender, EventArgs e) => this.WindowState = FormWindowState.Minimized;
         private void button7_Click(object sender, EventArgs e) => this.WindowState = (this.WindowState == FormWindowState.Normal) ? FormWindowState.Maximized : FormWindowState.Normal;
