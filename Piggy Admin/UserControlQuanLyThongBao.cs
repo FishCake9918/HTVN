@@ -27,6 +27,7 @@ namespace Piggy_Admin
             _userContext = userContext;
 
             // Hookup events
+            kryptonDataGridView1.CellDoubleClick += KryptonDataGridView1_CellDoubleClick;
             txtTimKiem.TextChanged += txtTimKiem_TextChanged;
             kryptonDataGridView1.SelectionChanged += kryptonDataGridView1_SelectionChanged;
             txtTimKiem.GotFocus += txtTimKiem_GotFocus;
@@ -37,6 +38,15 @@ namespace Piggy_Admin
         private void UserControlQuanLyThongBao_Load(object sender, EventArgs e)
         {
             HienThiDanhSach();
+        }
+        // Sự kiện click đúp chuột (Yêu cầu 6)
+        private void KryptonDataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // Tránh click vào header
+            if (e.RowIndex >= 0)
+            {
+                btnSua.PerformClick(); // Gọi lại hàm sửa
+            }
         }
 
         // --- HIỂN THỊ DANH SÁCH VỚI TÊN ADMIN ---
@@ -69,7 +79,8 @@ namespace Piggy_Admin
                 kryptonDataGridView1.DataSource = danhSach;
 
                 // Cấu hình hiển thị cột
-                if (kryptonDataGridView1.Columns.Contains("TieuDe")) kryptonDataGridView1.Columns["MaThongBao"].HeaderText = "Mã thông báo";
+                if (kryptonDataGridView1.Columns.Contains("MaThongBao")) kryptonDataGridView1.Columns["MaThongBao"].HeaderText = "Mã thông báo";
+                    kryptonDataGridView1.Columns["MaThongBao"].Visible = false;
                 if (kryptonDataGridView1.Columns.Contains("TieuDe")) kryptonDataGridView1.Columns["TieuDe"].HeaderText = "Tiêu đề";
                 if (kryptonDataGridView1.Columns.Contains("NoiDung")) kryptonDataGridView1.Columns["NoiDung"].HeaderText = "Nội dung";
                 if (kryptonDataGridView1.Columns.Contains("NgayTao")) kryptonDataGridView1.Columns["NgayTao"].HeaderText = "Ngày tạo";

@@ -1,8 +1,15 @@
-﻿using System.Runtime.InteropServices;
-using Data;
-using Microsoft.Extensions.DependencyInjection;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.IO;
+using Data; // QUAN TRỌNG
 using Microsoft.EntityFrameworkCore;
-using Piggy_Admin;
+using Microsoft.Extensions.DependencyInjection;
+
 namespace Demo_Layout
 {
     public partial class FrmMain : Form
@@ -10,7 +17,16 @@ namespace Demo_Layout
         private readonly IDbContextFactory<QLTCCNContext> _dbFactory;
         private readonly IServiceProvider _serviceProvider;
         public event Action LogoutRequested;
-        private readonly CurrentUserContext _userContext; // <-- INJECT CONTEXT
+        private readonly CurrentUserContext _userContext;
+
+        private ToolStripDropDown _popupThongBao;
+        private ListThongBao _ucListThongBao;
+        private bool _coThongBaoMoi = false;
+        private DateTime _lastCheckTime;
+        private Color _dotColor = ColorTranslator.FromHtml("#CC0000");
+        private string _timestampFile = "last_check.txt";
+
+        private bool _isShaking = false;
 
         public const int WM_NCLBUTTONDOWN = 0xA1;
         public const int HT_CAPTION = 0x2;
@@ -21,7 +37,6 @@ namespace Demo_Layout
         [DllImport("user32.dll")]
         public static extern bool ReleaseCapture();
 
-        // HÀM KHỞI TẠO CHÍNH (ĐƯỢC GỌI BỞI DI)
         public FrmMain(IDbContextFactory<QLTCCNContext> dbFactory, IServiceProvider serviceProvider, CurrentUserContext userContext)
         {
             InitializeComponent();
@@ -29,25 +44,122 @@ namespace Demo_Layout
             _serviceProvider = serviceProvider;
             _userContext = userContext;
             LoadUserInfo();
+
+            icoBell.Click += IcoBell_Click;
+            icoBell.Paint += IcoBell_Paint;
+
+            CheckNewNotifications();
         }
+
+        private void FrmMain_Load(object sender, EventArgs e)
+        {
+            this.MaximumSize = Screen.PrimaryScreen.WorkingArea.Size;
+        }
+
         private void LoadUserInfo()
         {
             if (_userContext.IsLoggedIn)
             {
-                lblTenHienThi.Text = _userContext.DisplayName; // Hiện tên
-                lblVaiTro.Text = _userContext.TenVaiTro;       // Hiện vai trò
-
-                // Logic đổi hình đại diện nếu có (ví dụ)
-                // if (_userContext.IsAdmin) picUserProfile.Image = ...
+                lblTenHienThi.Text = _userContext.DisplayName;
+                lblVaiTro.Text = _userContext.TenVaiTro;
             }
         }
 
-        // FIX LỖI ỨNG DỤNG KHÔNG TẮT (Nút X)
-        private void button8_Click(object sender, EventArgs e) => System.Windows.Forms.Application.Exit();
-        private void button9_Click(object sender, EventArgs e) => this.WindowState = FormWindowState.Minimized;
-        private void button7_Click(object sender, EventArgs e) => this.WindowState = (this.WindowState == FormWindowState.Normal) ? FormWindowState.Maximized : FormWindowState.Normal;
-        private void FrmMain_Load(object sender, EventArgs e) => this.MaximumSize = Screen.PrimaryScreen.WorkingArea.Size;
+        private void CheckNewNotifications()
+        {
+            try
+            {
+                if (File.Exists(_timestampFile))
+                {
+                    string content = File.ReadAllText(_timestampFile);
+                    if (DateTime.TryParse(content, out DateTime savedTime))
+                    {
+                        _lastCheckTime = savedTime;
+                    }
+                    else _lastCheckTime = DateTime.Now.AddDays(-7);
+                }
+                else
+                {
+                    _lastCheckTime = DateTime.Now.AddDays(-7);
+                }
+            }
+            catch { _lastCheckTime = DateTime.Now.AddDays(-7); }
 
+            try
+            {
+                using (var db = _dbFactory.CreateDbContext())
+                {
+                    // FIX LỖI: So sánh trực tiếp, không cần HasValue
+                    int countNew = db.ThongBaos.Count(t => t.NgayTao > _lastCheckTime);
+                    _coThongBaoMoi = countNew > 0;
+                    icoBell.Invalidate();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Lỗi check thông báo: " + ex.Message);
+            }
+        }
+
+        private void IcoBell_Paint(object sender, PaintEventArgs e)
+        {
+            if (_coThongBaoMoi)
+            {
+                e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                Rectangle rect = new Rectangle(icoBell.Width - 14, 2, 12, 12);
+                using (Brush brush = new SolidBrush(_dotColor))
+                {
+                    e.Graphics.FillEllipse(brush, rect);
+                }
+            }
+        }
+
+        private void IcoBell_Click(object sender, EventArgs e)
+        {
+            _coThongBaoMoi = false;
+            icoBell.Invalidate();
+
+            _lastCheckTime = DateTime.Now;
+            try { File.WriteAllText(_timestampFile, _lastCheckTime.ToString()); } catch { }
+
+            try
+            {
+                using (var db = _dbFactory.CreateDbContext())
+                {
+                    // Lấy dữ liệu Data.ThongBao
+                    var listThongBao = db.ThongBaos
+                        .OrderByDescending(t => t.NgayTao)
+                        .Take(20)
+                        .ToList();
+
+                    if (_popupThongBao == null)
+                    {
+                        _ucListThongBao = new ListThongBao();
+                        ToolStripControlHost host = new ToolStripControlHost(_ucListThongBao);
+                        host.Margin = Padding.Empty;
+                        host.Padding = Padding.Empty;
+                        host.AutoSize = false;
+
+                        _popupThongBao = new ToolStripDropDown();
+                        _popupThongBao.Items.Add(host);
+                        _popupThongBao.Margin = Padding.Empty;
+                        _popupThongBao.Padding = Padding.Empty;
+
+                        _popupThongBao.BackColor = Color.White;
+                    }
+
+                    _ucListThongBao.LoadData(listThongBao, _lastCheckTime);
+
+                    _popupThongBao.Show(icoBell, new Point(-310 + icoBell.Width, icoBell.Height + 5));
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi tải thông báo: " + ex.Message);
+            }
+        }
+
+        // --- CÁC PHẦN CÒN LẠI CỦA MAIN FORM ---
 
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -72,45 +184,11 @@ namespace Demo_Layout
             pnlHienThi.Controls.Add(userControlMoi);
         }
 
- 
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-            // 1. Lấy instance mới
-           Piggy_Admin.FormTaiKhoan  f = _serviceProvider.GetRequiredService<Piggy_Admin.FormTaiKhoan>();
-
-            // 2. Đặt vị trí
-            Point pos = picUserProfile.PointToScreen(new Point(50, picUserProfile.Height - 500));
-            f.StartPosition = FormStartPosition.Manual;
-            f.Location = pos;
-
-            // 3. Đăng ký sự kiện: Nếu Form con yêu cầu Logout -> Form cha (MainAdmin) tự đóng
-            f.LogoutRequested += () =>
-            {
-                this.Close(); // Đóng Admin Main -> Program.cs sẽ mở lại Login
-            };
-
-            // 4. Hiển thị Form Tài khoản
-            f.Show();
-
-            // ⚠️ ĐÃ XÓA SỰ KIỆN Deactivate ĐỂ TRÁNH LỖI MESSAGE BOX TẮT FORM
-            // Bây giờ Form Tài khoản sẽ hoạt động như một cửa sổ bình thường.
-            // Người dùng phải tự bấm nút tắt hoặc click ra ngoài (nếu muốn logic phức tạp hơn).
-            // Nhưng ít nhất code này đảm bảo MessageBox hiện lên đàng hoàng.
-        }
         private void button3_Click(object sender, EventArgs e)
         {
             HieuUngRungLac();
             pnlHienThi.Controls.Clear();
             UserControlNganSach userControlMoi = _serviceProvider.GetRequiredService<UserControlNganSach>();
-            userControlMoi.Dock = DockStyle.Fill;
-            pnlHienThi.Controls.Add(userControlMoi);
-        }
-
-        private void button5_Click(object sender, EventArgs e)
-        {
-            HieuUngRungLac();
-            pnlHienThi.Controls.Clear();
-            UserControlDoiTuongGiaoDich userControlMoi = _serviceProvider.GetRequiredService<UserControlDoiTuongGiaoDich>();
             userControlMoi.Dock = DockStyle.Fill;
             pnlHienThi.Controls.Add(userControlMoi);
         }
@@ -124,6 +202,15 @@ namespace Demo_Layout
             pnlHienThi.Controls.Add(userControlMoi);
         }
 
+        private void button5_Click(object sender, EventArgs e)
+        {
+            HieuUngRungLac();
+            pnlHienThi.Controls.Clear();
+            UserControlDoiTuongGiaoDich userControlMoi = _serviceProvider.GetRequiredService<UserControlDoiTuongGiaoDich>();
+            userControlMoi.Dock = DockStyle.Fill;
+            pnlHienThi.Controls.Add(userControlMoi);
+        }
+
         private void button6_Click(object sender, EventArgs e)
         {
             HieuUngRungLac();
@@ -133,6 +220,10 @@ namespace Demo_Layout
             pnlHienThi.Controls.Add(userControlMoi);
         }
 
+        private void button8_Click(object sender, EventArgs e) => System.Windows.Forms.Application.Exit();
+        private void button9_Click(object sender, EventArgs e) => this.WindowState = FormWindowState.Minimized;
+        private void button7_Click(object sender, EventArgs e) => this.WindowState = (this.WindowState == FormWindowState.Normal) ? FormWindowState.Maximized : FormWindowState.Normal;
+
         private void panel2_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -141,8 +232,16 @@ namespace Demo_Layout
                 SendMessage(this.Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
             }
         }
-        // Biến cờ để tránh việc rung bị chồng chéo nếu ấn nút quá nhanh
-        private bool _isShaking = false;
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            Piggy_Admin.FormTaiKhoan f = _serviceProvider.GetRequiredService<Piggy_Admin.FormTaiKhoan>();
+            Point pos = picUserProfile.PointToScreen(new Point(50, picUserProfile.Height - 500));
+            f.StartPosition = FormStartPosition.Manual;
+            f.Location = pos;
+            f.LogoutRequested += () => { this.Close(); };
+            f.Show();
+        }
 
         private async void HieuUngRungLac()
         {
@@ -154,26 +253,18 @@ namespace Demo_Layout
 
             try
             {
-                // Lặp 8 lần thôi cho gọn (nhanh hơn chút)
                 for (int i = 0; i < 8; i++)
                 {
-                    // X giữ nguyên (originalPos.X) -> Không lắc ngang
-                    // Y chỉ thay đổi trong khoảng rất nhỏ (-2 đến +2) -> Rung nhẹ
                     int y = originalPos.Y + rnd.Next(-4, 5);
-
                     icoPiggy.Location = new Point(originalPos.X, y);
-
-                    // Tăng delay lên một chút (40ms) để nhịp rung chậm rãi, nhẹ nhàng hơn
                     await Task.Delay(50);
                 }
             }
             finally
             {
-                // Trả về vị trí cũ
                 icoPiggy.Location = originalPos;
                 _isShaking = false;
             }
         }
-
     }
 }

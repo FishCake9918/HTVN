@@ -23,11 +23,11 @@ namespace Piggy_Admin
             _userContext = userContext;
 
             this.Load += UserControlQuanLyTaiKhoan_Load;
-
+    
+            kryptonDataGridView1.CellDoubleClick += KryptonDataGridView1_CellDoubleClick;
             txtTimKiem.TextChanged += TxtTimKiem_TextChanged;
             txtTimKiem.GotFocus += TxtTimKiem_GotFocus;
             txtTimKiem.LostFocus += TxtTimKiem_LostFocus;
-
             btnThem.Click += btnThem_Click;
             btnSua.Click += btnSua_Click;
             btnXoa.Click += btnXoa_Click;
@@ -35,20 +35,27 @@ namespace Piggy_Admin
 
         private void UserControlQuanLyTaiKhoan_Load(object sender, EventArgs e)
         {
-           
             LoadData();
         }
 
-        // HÀM QUAN TRỌNG: CHỈ LOAD USER
+        // Sự kiện click đúp chuột (Yêu cầu 6)
+        private void KryptonDataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // Tránh click vào header
+            if (e.RowIndex >= 0)
+            {
+                btnSua.PerformClick(); // Gọi lại hàm sửa
+            }
+        }
+
         private void LoadData(string keyword = "")
         {
             using (var db = _dbFactory.CreateDbContext())
             {
-                // Lọc: Chỉ lấy tài khoản có vai trò KHÁC "Admin"
+                // Yêu cầu 1: Chỉ lấy tài khoản User (Khác Admin)
                 var query = db.Set<TaiKhoan>()
                     .Include(t => t.VaiTro)
                     .Include(t => t.NguoiDung)
-                    // Giả định tên vai trò Admin là "Admin" (không phân biệt hoa thường trong SQL)
                     .Where(t => t.VaiTro.TenVaiTro != "Admin")
                     .AsQueryable();
 
@@ -63,15 +70,22 @@ namespace Piggy_Admin
                 {
                     MaTaiKhoan = t.MaTaiKhoan,
                     Email = t.Email,
-                    VaiTro = t.VaiTro.TenVaiTro, // Sẽ luôn là User
+                    VaiTro = t.VaiTro.TenVaiTro,
                     HoTen = t.NguoiDung != null ? t.NguoiDung.HoTen : "Chưa cập nhật"
                 }).ToList();
 
                 kryptonDataGridView1.DataSource = list;
 
-                if (kryptonDataGridView1.Columns["MaTaiKhoan"] != null) kryptonDataGridView1.Columns["MaTaiKhoan"].HeaderText = "ID";
+                // Yêu cầu 3: Ẩn cột Mã Tài Khoản
+                if (kryptonDataGridView1.Columns["MaTaiKhoan"] != null)
+                    kryptonDataGridView1.Columns["MaTaiKhoan"].Visible = false;
+
                 if (kryptonDataGridView1.Columns["HoTen"] != null) kryptonDataGridView1.Columns["HoTen"].HeaderText = "Họ Tên";
                 if (kryptonDataGridView1.Columns["VaiTro"] != null) kryptonDataGridView1.Columns["VaiTro"].HeaderText = "Vai Trò";
+                if (kryptonDataGridView1.Columns["Email"] != null) kryptonDataGridView1.Columns["Email"].HeaderText = "Email";
+
+                // Tự động giãn cột cho đẹp
+                kryptonDataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             }
         }
 
@@ -88,7 +102,6 @@ namespace Piggy_Admin
 
             using (var frm = _serviceProvider.GetRequiredService<FormTaoCapNhatTaiKhoan>())
             {
-                // Form này đã được cấu hình chỉ tạo User
                 if (frm.ShowDialog() == DialogResult.OK)
                 {
                     LoadData();
@@ -103,13 +116,13 @@ namespace Piggy_Admin
 
             if (kryptonDataGridView1.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Vui lòng chọn tài khoản cần sửa.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Vui lòng chọn dòng cần sửa.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
+            // Lấy ID từ dòng đã chọn (dù cột này bị ẩn nhưng vẫn lấy được giá trị)
             int maTK = (int)kryptonDataGridView1.SelectedRows[0].Cells["MaTaiKhoan"].Value;
 
-            // Không cần check vai trò Admin nữa vì danh sách không có Admin
             using (var frm = _serviceProvider.GetRequiredService<FormTaoCapNhatTaiKhoan>())
             {
                 frm.LoadDataForEdit(maTK);
@@ -127,15 +140,14 @@ namespace Piggy_Admin
 
             if (kryptonDataGridView1.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Vui lòng chọn tài khoản cần xóa.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Vui lòng chọn dòng cần xóa.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             int maTK = (int)kryptonDataGridView1.SelectedRows[0].Cells["MaTaiKhoan"].Value;
             string email = kryptonDataGridView1.SelectedRows[0].Cells["Email"].Value.ToString();
 
-            // Không cần check tự xóa mình vì mình (Admin) không có trong danh sách này
-            if (MessageBox.Show($"Bạn có chắc chắn muốn xóa tài khoản người dùng '{email}'?\nHành động này sẽ xóa toàn bộ dữ liệu liên quan.",
+            if (MessageBox.Show($"Bạn có chắc chắn muốn xóa tài khoản '{email}'?\nHành động này sẽ xóa toàn bộ dữ liệu liên quan.",
                 "Xác nhận xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
                 try
