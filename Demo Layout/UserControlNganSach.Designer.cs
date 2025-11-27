@@ -1,6 +1,5 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
-// Đã loại bỏ using Krypton.Toolkit
 using LiveCharts.WinForms;
 
 namespace Demo_Layout
@@ -112,9 +111,9 @@ namespace Demo_Layout
             btnSua.ForeColor = Color.White;
             btnSua.Image = (Image)resources.GetObject("btnSua.Image");
             btnSua.ImageAlign = ContentAlignment.MiddleLeft;
-            btnSua.Location = new Point(835, 22);
+            btnSua.Location = new Point(844, 14);
             btnSua.Name = "btnSua";
-            btnSua.Size = new Size(75, 23);
+            btnSua.Size = new Size(75, 43);
             btnSua.TabIndex = 6;
             btnSua.Text = "Sửa";
             btnSua.TextAlign = ContentAlignment.MiddleRight;
@@ -129,9 +128,9 @@ namespace Demo_Layout
             btnXoa.ForeColor = Color.White;
             btnXoa.Image = (Image)resources.GetObject("btnXoa.Image");
             btnXoa.ImageAlign = ContentAlignment.MiddleLeft;
-            btnXoa.Location = new Point(750, 21);
+            btnXoa.Location = new Point(763, 15);
             btnXoa.Name = "btnXoa";
-            btnXoa.Size = new Size(75, 23);
+            btnXoa.Size = new Size(75, 41);
             btnXoa.TabIndex = 5;
             btnXoa.Text = "Xoá";
             btnXoa.TextAlign = ContentAlignment.MiddleRight;
@@ -146,9 +145,9 @@ namespace Demo_Layout
             btnThem.ForeColor = Color.White;
             btnThem.Image = (Image)resources.GetObject("btnThem.Image");
             btnThem.ImageAlign = ContentAlignment.MiddleLeft;
-            btnThem.Location = new Point(649, 21);
+            btnThem.Location = new Point(682, 14);
             btnThem.Name = "btnThem";
-            btnThem.Size = new Size(75, 23);
+            btnThem.Size = new Size(75, 43);
             btnThem.TabIndex = 4;
             btnThem.Text = "Thêm";
             btnThem.TextAlign = ContentAlignment.MiddleRight;
@@ -166,7 +165,7 @@ namespace Demo_Layout
             // 
             label1.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
             label1.ForeColor = Color.Cyan;
-            label1.Location = new Point(13, 13);
+            label1.Location = new Point(3, 11);
             label1.Name = "label1";
             label1.Size = new Size(306, 37);
             label1.TabIndex = 0;
@@ -209,9 +208,9 @@ namespace Demo_Layout
             // 
             lblValueTongConLai.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
             lblValueTongConLai.ForeColor = Color.DarkGreen;
-            lblValueTongConLai.Location = new Point(10, 124);
+            lblValueTongConLai.Location = new Point(25, 136);
             lblValueTongConLai.Name = "lblValueTongConLai";
-            lblValueTongConLai.Size = new Size(370, 46);
+            lblValueTongConLai.Size = new Size(363, 46);
             lblValueTongConLai.TabIndex = 2;
             lblValueTongConLai.Text = "TỔNG CÒN LẠI: {0} VNĐ";
             // 
@@ -219,9 +218,9 @@ namespace Demo_Layout
             // 
             lblValueTongDaChi.Font = new Font("Segoe UI", 12F);
             lblValueTongDaChi.ForeColor = Color.Firebrick;
-            lblValueTongDaChi.Location = new Point(10, 95);
+            lblValueTongDaChi.Location = new Point(5, 89);
             lblValueTongDaChi.Name = "lblValueTongDaChi";
-            lblValueTongDaChi.Size = new Size(204, 32);
+            lblValueTongDaChi.Size = new Size(201, 32);
             lblValueTongDaChi.TabIndex = 3;
             lblValueTongDaChi.Text = "Tổng Đã chi: {0} VNĐ";
             // 
@@ -236,10 +235,11 @@ namespace Demo_Layout
             // 
             // labelTongNS
             // 
+            labelTongNS.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
             labelTongNS.ForeColor = Color.FromArgb(82, 108, 91);
-            labelTongNS.Location = new Point(76, 16);
+            labelTongNS.Location = new Point(0, 11);
             labelTongNS.Name = "labelTongNS";
-            labelTongNS.Size = new Size(250, 24);
+            labelTongNS.Size = new Size(405, 37);
             labelTongNS.TabIndex = 0;
             labelTongNS.Text = "TỔNG QUAN NGÂN SÁCH ĐÃ LỌC";
             // 

@@ -129,7 +129,6 @@ namespace Demo_Layout
             CapNhatTongNganSach(ketQuaLoc);
         }
 
-        // ... (Giữ nguyên các hàm CapNhatTongNganSach, CapNhatPieChart, ConfigureGridView, chart colors) ...
         private void CapNhatTongNganSach(List<NganSachViewModel> hienThiList)
         {
             decimal tongSoTien = hienThiList.Sum(n => n.SoTienNganSach);
