@@ -172,6 +172,8 @@ namespace Demo_Layout
             }
         }
 
+        // Trong FrmThemGiaoDich.cs
+
         private void btnLuu_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtTenGiaoDich.Text))
@@ -187,6 +189,15 @@ namespace Demo_Layout
                 return;
             }
 
+            // ⭐ THÊM KIỂM TRA SỐ ÂM NGAY TẠI ĐÂY ⭐
+            if (soTien < 0)
+            {
+                MessageBox.Show("Số tiền không được là số âm.", "Lỗi nhập liệu", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtSoTien.Focus();
+                return;
+            }
+            // ⭐ KẾT THÚC KIỂM TRA SỐ ÂM ⭐
+
             int maLoaiGD = radThu.Checked ? 1 : 2;
 
             try
@@ -200,7 +211,7 @@ namespace Demo_Layout
                         {
                             TenGiaoDich = txtTenGiaoDich.Text,
                             GhiChu = rtbGhiChu.Text,
-                            SoTien = soTien,
+                            SoTien = soTien, // Giá trị đã được kiểm tra không âm
                             NgayGiaoDich = dtNgayGiaoDich.Value,
                             MaNguoiDung = CURRENT_USER_ID,
                             MaLoaiGiaoDich = maLoaiGD,
@@ -221,7 +232,7 @@ namespace Demo_Layout
                         {
                             gd.TenGiaoDich = txtTenGiaoDich.Text;
                             gd.GhiChu = rtbGhiChu.Text;
-                            gd.SoTien = soTien;
+                            gd.SoTien = soTien; // Giá trị đã được kiểm tra không âm
                             gd.NgayGiaoDich = dtNgayGiaoDich.Value;
                             gd.MaLoaiGiaoDich = maLoaiGD;
 
