@@ -25,7 +25,8 @@ namespace PhanQuyen
 
             if (this.btnDangKyMoi != null)
             {
-                this.btnDangKyMoi.Click += (s, e) => {
+                this.btnDangKyMoi.Click += (s, e) =>
+                {
                     using (var regForm = _serviceProvider.GetRequiredService<DangKy>())
                     {
                         regForm.ShowDialog(this);
@@ -112,5 +113,6 @@ namespace PhanQuyen
                 };
             }
         }
+
     }
 }

@@ -29,53 +29,58 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.pnlStatus = new System.Windows.Forms.Panel();
-            this.lblTieuDe = new System.Windows.Forms.Label();
-            this.lblThoiGian = new System.Windows.Forms.Label();
-            this.SuspendLayout();
+            pnlStatus = new Panel();
+            lblTieuDe = new Label();
+            lblThoiGian = new Label();
+            SuspendLayout();
             // 
             // pnlStatus
             // 
-            this.pnlStatus.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(112)))), ((int)(((byte)(85)))));
-            this.pnlStatus.Location = new System.Drawing.Point(10, 32);
-            this.pnlStatus.Name = "pnlStatus";
-            this.pnlStatus.Size = new System.Drawing.Size(10, 10);
-            this.pnlStatus.TabIndex = 0;
+            pnlStatus.BackColor = Color.FromArgb(240, 112, 85);
+            pnlStatus.Location = new Point(12, 40);
+            pnlStatus.Margin = new Padding(4, 4, 4, 4);
+            pnlStatus.Name = "pnlStatus";
+            pnlStatus.Size = new Size(12, 12);
+            pnlStatus.TabIndex = 0;
             // 
             // lblTieuDe
             // 
-            this.lblTieuDe.AutoEllipsis = true;
-            this.lblTieuDe.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.lblTieuDe.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(76)))), ((int)(((byte)(60)))));
-            this.lblTieuDe.Location = new System.Drawing.Point(30, 10);
-            this.lblTieuDe.Name = "lblTieuDe";
-            this.lblTieuDe.Size = new System.Drawing.Size(310, 25);
-            this.lblTieuDe.TabIndex = 1;
-            this.lblTieuDe.Text = "Tiêu đề thông báo";
+            lblTieuDe.AutoEllipsis = true;
+            lblTieuDe.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            lblTieuDe.ForeColor = Color.FromArgb(36, 76, 60);
+            lblTieuDe.Location = new Point(38, 12);
+            lblTieuDe.Margin = new Padding(4, 0, 4, 0);
+            lblTieuDe.Name = "lblTieuDe";
+            lblTieuDe.Size = new Size(388, 31);
+            lblTieuDe.TabIndex = 1;
+            lblTieuDe.Text = "Tiêu đề thông báo";
             // 
             // lblThoiGian
             // 
-            this.lblThoiGian.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Italic);
-            this.lblThoiGian.ForeColor = System.Drawing.Color.Gray;
-            this.lblThoiGian.Location = new System.Drawing.Point(30, 38);
-            this.lblThoiGian.Name = "lblThoiGian";
-            this.lblThoiGian.Size = new System.Drawing.Size(300, 20);
-            this.lblThoiGian.TabIndex = 2;
-            this.lblThoiGian.Text = "12/12/2024 10:00";
+            lblThoiGian.Font = new Font("Segoe UI", 8F, FontStyle.Italic);
+            lblThoiGian.ForeColor = Color.Gray;
+            lblThoiGian.Location = new Point(38, 48);
+            lblThoiGian.Margin = new Padding(4, 0, 4, 0);
+            lblThoiGian.Name = "lblThoiGian";
+            lblThoiGian.Size = new Size(375, 25);
+            lblThoiGian.TabIndex = 2;
+            lblThoiGian.Text = "12/12/2024 10:00";
             // 
-            // UC_ItemThongBao
+            // ChiTietThongBao
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.lblThoiGian);
-            this.Controls.Add(this.lblTieuDe);
-            this.Controls.Add(this.pnlStatus);
-            this.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.Name = "UC_ItemThongBao";
-            this.Padding = new System.Windows.Forms.Padding(5);
-            this.Size = new System.Drawing.Size(350, 75);
-            this.ResumeLayout(false);
+            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.White;
+            Controls.Add(lblThoiGian);
+            Controls.Add(lblTieuDe);
+            Controls.Add(pnlStatus);
+            Cursor = Cursors.Hand;
+            Margin = new Padding(4, 4, 4, 4);
+            MaximumSize = new Size(438, 94);
+            Name = "ChiTietThongBao";
+            Padding = new Padding(6, 6, 6, 6);
+            Size = new Size(438, 94);
+            ResumeLayout(false);
 
         }
 

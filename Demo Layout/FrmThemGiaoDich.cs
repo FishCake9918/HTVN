@@ -14,17 +14,22 @@ namespace Demo_Layout
     {
         public Action OnDataAdded;
         private int? _maGiaoDich = null;
-        private const int CURRENT_USER_ID = 1;
-
+        
+        // 1. Khai báo biến Inject
         private readonly IDbContextFactory<QLTCCNContext> _dbFactory;
         private readonly IServiceProvider _serviceProvider;
+        private readonly CurrentUserContext _userContext; 
 
         // --- CONSTRUCTOR 1: THÊM MỚI (NHẬN DI) ---
-        public FrmThemGiaoDich(IDbContextFactory<QLTCCNContext> dbFactory, IServiceProvider serviceProvider)
+        public FrmThemGiaoDich(
+            IDbContextFactory<QLTCCNContext> dbFactory, 
+            IServiceProvider serviceProvider,
+            CurrentUserContext userContext) // <-- Inject vào đây
         {
             InitializeComponent();
             _dbFactory = dbFactory;
             _serviceProvider = serviceProvider;
+            _userContext = userContext; // Gán giá trị
             _maGiaoDich = null;
             this.Load += FrmThemGiaoDich_Load;
             this.Text = "Thêm Giao Dịch Mới";
@@ -34,6 +39,7 @@ namespace Demo_Layout
         public FrmThemGiaoDich(
             IDbContextFactory<QLTCCNContext> dbFactory,
             IServiceProvider serviceProvider,
+            CurrentUserContext userContext, // <-- Inject vào đây
             int maGiaoDich,
             string tenGiaoDich,
             string ghiChu,
@@ -45,14 +51,24 @@ namespace Demo_Layout
             InitializeComponent();
             _dbFactory = dbFactory;
             _serviceProvider = serviceProvider;
+            _userContext = userContext; // Gán giá trị
             _maGiaoDich = maGiaoDich;
             this.Load += FrmThemGiaoDich_Load;
             this.Text = "Cập Nhật Giao Dịch";
+
+            // Có thể gán dữ liệu vào control ngay tại đây hoặc trong LoadDataForEdit
         }
 
         private void FrmThemGiaoDich_Load(object sender, EventArgs e)
         {
-            // Setup giao diện
+            // Kiểm tra bảo mật
+            if (_userContext.MaNguoiDung == null)
+            {
+                MessageBox.Show("Lỗi: Không xác định được người dùng hiện tại.");
+                this.Close();
+                return;
+            }
+
             rtbGhiChu.Multiline = true;
             rtbGhiChu.ScrollBars = RichTextBoxScrollBars.Vertical;
             rtbGhiChu.WordWrap = true;
@@ -61,13 +77,11 @@ namespace Demo_Layout
 
             if (_maGiaoDich != null)
             {
-                // --- CHẾ ĐỘ SỬA ---
                 LoadDataForEdit(_maGiaoDich.Value);
             }
             else
             {
-                // --- CHẾ ĐỘ THÊM MỚI ---
-                radChi.Checked = true; // Mặc định là Chi
+                radChi.Checked = true; 
                 dtNgayGiaoDich.Value = DateTime.Now;
             }
         }
@@ -81,9 +95,11 @@ namespace Demo_Layout
             {
                 using (var context = _dbFactory.CreateDbContext())
                 {
-                    // 1. Load Đối Tượng
+                    int currentUserId = _userContext.MaNguoiDung.Value;
+
+                    // 1. Load Đối Tượng (Lọc theo User)
                     var dsDoiTuong = context.DoiTuongGiaoDichs
-                        .Where(dt => dt.MaNguoiDung == CURRENT_USER_ID)
+                        .Where(dt => dt.MaNguoiDung == currentUserId)
                         .Select(dt => new { dt.MaDoiTuongGiaoDich, dt.TenDoiTuong })
                         .ToList();
 
@@ -91,9 +107,9 @@ namespace Demo_Layout
                     cbDoiTuong.DisplayMember = "TenDoiTuong";
                     cbDoiTuong.ValueMember = "MaDoiTuongGiaoDich";
 
-                    // 2. Load Tài Khoản (Đã lọc theo "Đang hoạt động")
+                    // 2. Load Tài Khoản (Lọc theo User)
                     var dsTaiKhoan = context.TaiKhoanThanhToans
-                        .Where(tk => tk.MaNguoiDung == CURRENT_USER_ID && tk.TrangThai == "Đang hoạt động")
+                        .Where(tk => tk.MaNguoiDung == currentUserId && tk.TrangThai == "Đang hoạt động")
                         .Select(tk => new { tk.MaTaiKhoanThanhToan, tk.TenTaiKhoan })
                         .ToList();
 
@@ -101,10 +117,10 @@ namespace Demo_Layout
                     cbTaiKhoan.DisplayMember = "TenTaiKhoan";
                     cbTaiKhoan.ValueMember = "MaTaiKhoanThanhToan";
 
-                    // 3. Load Danh Mục (HIỂN THỊ DẠNG: CHA - CON)
+                    // 3. Load Danh Mục (Lọc theo User)
                     var dsDanhMuc = context.DanhMucChiTieus
                         .Include(dm => dm.DanhMucChaNavigation)
-                        .Where(dm => dm.MaNguoiDung == CURRENT_USER_ID && dm.DanhMucCha != null)
+                        .Where(dm => dm.MaNguoiDung == currentUserId && dm.DanhMucCha != null)
                         .Select(dm => new
                         {
                             dm.MaDanhMuc,
@@ -124,7 +140,7 @@ namespace Demo_Layout
                 MessageBox.Show("Lỗi tải danh sách chọn: " + ex.Message);
             }
 
-            // Gán lại giá trị đã chọn (nếu có)
+            // Gán lại giá trị cũ
             if (currentDoiTuong != null && cbDoiTuong.Items.Cast<dynamic>().Any(x => x.MaDoiTuongGiaoDich == (int)currentDoiTuong))
                 cbDoiTuong.SelectedValue = currentDoiTuong;
 
@@ -141,24 +157,21 @@ namespace Demo_Layout
                     var gd = context.GiaoDichs.Find(maGiaoDich);
                     if (gd != null)
                     {
+                        // Kiểm tra xem giao dịch này có thuộc về user hiện tại không
+                        if (gd.MaNguoiDung != _userContext.MaNguoiDung)
+                        {
+                            MessageBox.Show("Bạn không có quyền sửa giao dịch này.");
+                            this.Close();
+                            return;
+                        }
+
                         txtTenGiaoDich.Text = gd.TenGiaoDich;
                         rtbGhiChu.Text = gd.GhiChu;
                         txtSoTien.Text = gd.SoTien.ToString("N0");
                         dtNgayGiaoDich.Value = gd.NgayGiaoDich;
 
                         if (gd.MaDoiTuongGiaoDich.HasValue) cbDoiTuong.SelectedValue = gd.MaDoiTuongGiaoDich;
-
-                        if (gd.MaTaiKhoanThanhToan.HasValue)
-                        {
-                            var selectedTK = context.TaiKhoanThanhToans
-                                .Any(tk => tk.MaTaiKhoanThanhToan == gd.MaTaiKhoanThanhToan && tk.TrangThai == "Đang hoạt động");
-
-                            if (selectedTK)
-                                cbTaiKhoan.SelectedValue = gd.MaTaiKhoanThanhToan;
-                            else
-                                cbTaiKhoan.SelectedIndex = -1;
-                        }
-
+                        if (gd.MaTaiKhoanThanhToan.HasValue) cbTaiKhoan.SelectedValue = gd.MaTaiKhoanThanhToan;
                         if (gd.MaDanhMuc.HasValue) cbDanhMuc.SelectedValue = gd.MaDanhMuc;
 
                         if (gd.MaLoaiGiaoDich == 1) radThu.Checked = true;
@@ -171,8 +184,6 @@ namespace Demo_Layout
                 MessageBox.Show("Lỗi tải dữ liệu cũ: " + ex.Message);
             }
         }
-
-        // Trong FrmThemGiaoDich.cs
 
         private void btnLuu_Click(object sender, EventArgs e)
         {
@@ -189,14 +200,12 @@ namespace Demo_Layout
                 return;
             }
 
-            // ⭐ THÊM KIỂM TRA SỐ ÂM NGAY TẠI ĐÂY ⭐
             if (soTien < 0)
             {
                 MessageBox.Show("Số tiền không được là số âm.", "Lỗi nhập liệu", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtSoTien.Focus();
                 return;
             }
-            // ⭐ KẾT THÚC KIỂM TRA SỐ ÂM ⭐
 
             int maLoaiGD = radThu.Checked ? 1 : 2;
 
@@ -211,9 +220,12 @@ namespace Demo_Layout
                         {
                             TenGiaoDich = txtTenGiaoDich.Text,
                             GhiChu = rtbGhiChu.Text,
-                            SoTien = soTien, // Giá trị đã được kiểm tra không âm
+                            SoTien = soTien,
                             NgayGiaoDich = dtNgayGiaoDich.Value,
-                            MaNguoiDung = CURRENT_USER_ID,
+                            
+                            // 3. Gán MaNguoiDung từ Context
+                            MaNguoiDung = _userContext.MaNguoiDung.Value,
+                            
                             MaLoaiGiaoDich = maLoaiGD,
                             MaDoiTuongGiaoDich = cbDoiTuong.SelectedValue as int?,
                             MaTaiKhoanThanhToan = cbTaiKhoan.SelectedValue as int?,
@@ -230,9 +242,16 @@ namespace Demo_Layout
                         var gd = context.GiaoDichs.Find(_maGiaoDich.Value);
                         if (gd != null)
                         {
+                            // Kiểm tra quyền sở hữu
+                            if (gd.MaNguoiDung != _userContext.MaNguoiDung)
+                            {
+                                MessageBox.Show("Không có quyền sửa giao dịch này.");
+                                return;
+                            }
+
                             gd.TenGiaoDich = txtTenGiaoDich.Text;
                             gd.GhiChu = rtbGhiChu.Text;
-                            gd.SoTien = soTien; // Giá trị đã được kiểm tra không âm
+                            gd.SoTien = soTien;
                             gd.NgayGiaoDich = dtNgayGiaoDich.Value;
                             gd.MaLoaiGiaoDich = maLoaiGD;
 
@@ -263,15 +282,9 @@ namespace Demo_Layout
         private void radChi_CheckedChanged(object sender, EventArgs e) { }
         private void radThu_CheckedChanged(object sender, EventArgs e) { }
 
-        // --- HÀM CHO NÚT THÊM ĐỐI TƯỢNG GIAO DỊCH ---
         private void btnThemDoiTuongGiaoDich_Click(object sender, EventArgs e)
         {
-            if (_serviceProvider == null)
-            {
-                MessageBox.Show("Lỗi cấu hình hệ thống (IServiceProvider).", "Lỗi DI", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
+            if (_serviceProvider == null) return;
             try
             {
                 var frm = _serviceProvider.GetRequiredService<FrmChinhSuaDoiTuongGiaoDich>();
@@ -280,38 +293,23 @@ namespace Demo_Layout
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi mở form Thêm Đối tượng Giao dịch: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Lỗi: " + ex.Message);
             }
         }
 
-        // --- HÀM NÀY ĐANG BỎ TRỐNG (TRƯỚC KHI BẠN HỎI) ---
         private void btnThemDanhMucChiTieu_Click(object sender, EventArgs e)
         {
-            if (_serviceProvider == null)
-            {
-                MessageBox.Show("Lỗi cấu hình hệ thống (IServiceProvider).", "Lỗi DI", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
+            if (_serviceProvider == null) return;
             try
             {
-                // 1. Lấy instance của form con từ DI container.
                 var frm = _serviceProvider.GetRequiredService<frmThemDanhMuc>();
-
-                // 2. Gọi hàm để thiết lập form ở chế độ Thêm mới (ID = 0).
-                // Hàm này cũng tự động tải ComboBoxes.
                 frm.CheDoSua(0);
-
-                // 3. Hiển thị form con.
                 frm.ShowDialog();
-
-                // 4. KHÔNG CẦN CALLBACK, TẢI LẠI THỦ CÔNG sau khi đóng form con.
-                // Dữ liệu sẽ được cập nhật lại sau khi form con đóng.
                 LoadComboBoxes();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi mở form Thêm Danh mục: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Lỗi: " + ex.Message);
             }
         }
     }
