@@ -33,7 +33,6 @@
             btnSua = new Button();
             btnXoa = new Button();
             btnThem = new Button();
-            txtTimKiem = new TextBox();
             label1 = new Label();
             panel2 = new Panel();
             panel1 = new Panel();
@@ -49,7 +48,6 @@
             panel4.Controls.Add(btnSua);
             panel4.Controls.Add(btnXoa);
             panel4.Controls.Add(btnThem);
-            panel4.Controls.Add(txtTimKiem);
             panel4.Controls.Add(label1);
             panel4.Dock = DockStyle.Top;
             panel4.Location = new Point(0, 0);
@@ -111,15 +109,6 @@
             btnThem.UseVisualStyleBackColor = true;
             btnThem.Click += btnThem_Click;
             // 
-            // txtTimKiem
-            // 
-            txtTimKiem.ForeColor = SystemColors.InactiveCaption;
-            txtTimKiem.Location = new Point(335, 23);
-            txtTimKiem.Name = "txtTimKiem";
-            txtTimKiem.Size = new Size(213, 27);
-            txtTimKiem.TabIndex = 1;
-            txtTimKiem.Text = "  Tìm kiếm...";
-            // 
             // label1
             // 
             label1.AutoSize = true;
@@ -174,6 +163,7 @@
             tvDanhMuc.Name = "tvDanhMuc";
             tvDanhMuc.Size = new Size(722, 442);
             tvDanhMuc.TabIndex = 14;
+            tvDanhMuc.NodeMouseDoubleClick += tvDanhMuc_NodeMouseDoubleClick_1;
             // 
             // UserControlDanhMucChiTieu
             // 
@@ -196,7 +186,6 @@
         #endregion
 
         private Panel panel4;
-        private TextBox txtTimKiem;
         private Label label1;
         private Panel panel2;
         private Panel panel1;

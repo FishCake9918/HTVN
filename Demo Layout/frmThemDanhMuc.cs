@@ -11,17 +11,17 @@ namespace Demo_Layout
     {
         // Giả định ID người dùng hiện tại là 1 (Nguyễn Văn An)
         // Trong ứng dụng thật, bạn sẽ lấy ID này từ Form Đăng nhập
-        private const int CURRENT_USER_ID = 1;
         private readonly IDbContextFactory<QLTCCNContext> _dbFactory;
-        private readonly IServiceProvider _serviceProvider;
-
-        // Biến lưu trạng thái: Nếu null => Thêm mới, Nếu có số => Sửa
+        // 1. Thêm biến userContext
+        private readonly CurrentUserContext _userContext;
         private int? _maDanhMucCanSua = null;
 
-        public frmThemDanhMuc(IDbContextFactory<QLTCCNContext> dbFactory)
+        // 2. Sửa Constructor nhận thêm userContext
+        public frmThemDanhMuc(IDbContextFactory<QLTCCNContext> dbFactory, CurrentUserContext userContext)
         {
             InitializeComponent();
             _dbFactory = dbFactory;
+            _userContext = userContext;
         }
 
         public void CheDoSua(int maDanhMuc)
@@ -70,9 +70,11 @@ namespace Demo_Layout
             {
                 using (var db = _dbFactory.CreateDbContext())
                 {
+                    var currentUserId = _userContext.MaNguoiDung.Value;
+
                     // Lấy tất cả danh mục của người dùng hiện tại
                     var danhSachCha = db.DanhMucChiTieus
-                                        .Where(dm => dm.MaNguoiDung == CURRENT_USER_ID && dm.DanhMucCha == null)
+                                        .Where(dm => dm.MaNguoiDung == currentUserId && dm.DanhMucCha == null)
                                         .Select(dm => new { dm.MaDanhMuc, dm.TenDanhMuc })
                                         .ToList();
 
@@ -102,9 +104,12 @@ namespace Demo_Layout
         /// </summary>
         private void btnLuu_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtTenDanhMuc.Text))
+            // 1. Validate cơ bản
+            string tenNhapVao = txtTenDanhMuc.Text.Trim();
+            if (string.IsNullOrWhiteSpace(tenNhapVao))
             {
-                MessageBox.Show("Tên danh mục không được để trống.");
+                MessageBox.Show("Tên danh mục không được để trống.", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTenDanhMuc.Focus();
                 return;
             }
 
@@ -112,36 +117,70 @@ namespace Demo_Layout
             {
                 using (var db = _dbFactory.CreateDbContext())
                 {
+                    int currentUserId = _userContext.MaNguoiDung.Value;
+
+                    // [QUAN TRỌNG] 2. KIỂM TRA TRÙNG TÊN (Case-Insensitive)
+                    // Logic: Tìm xem có danh mục nào của User này có tên giống tên nhập vào không
+                    var danhMucTrung = db.DanhMucChiTieus
+                        .Where(dm => dm.MaNguoiDung == currentUserId)
+                        .ToList() // Tải về bộ nhớ để so sánh chuỗi chính xác nhất
+                        .FirstOrDefault(dm =>
+                            string.Equals(dm.TenDanhMuc, tenNhapVao, StringComparison.OrdinalIgnoreCase) // So sánh bỏ qua hoa thường
+                        );
+
+                    // Nếu tìm thấy danh mục trùng tên
+                    if (danhMucTrung != null)
+                    {
+                        // Kiểm tra kỹ hơn:
+                        // - Nếu đang THÊM MỚI: Cứ trùng là chặn.
+                        // - Nếu đang SỬA: Trùng với chính nó thì OK, trùng với đứa khác thì chặn.
+                        if (_maDanhMucCanSua == null || (_maDanhMucCanSua != null && danhMucTrung.MaDanhMuc != _maDanhMucCanSua))
+                        {
+                            MessageBox.Show($"Tên danh mục '{tenNhapVao}' đã tồn tại.\nVui lòng chọn tên khác.",
+                                "Trùng dữ liệu", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            txtTenDanhMuc.SelectAll();
+                            txtTenDanhMuc.Focus();
+                            return; // Dừng lại, không lưu
+                        }
+                    }
+
+                    // 3. Tiến hành Lưu nếu không trùng
                     DanhMucChiTieu danhMuc;
 
-                    // 1. LOGIC PHÂN BIỆT THÊM / SỬA
                     if (_maDanhMucCanSua == null)
                     {
-                        // Chế độ THÊM
+                        // Thêm mới
                         danhMuc = new DanhMucChiTieu();
-                        danhMuc.MaNguoiDung = CURRENT_USER_ID;
+                        danhMuc.MaNguoiDung = currentUserId;
                         db.DanhMucChiTieus.Add(danhMuc);
                     }
                     else
                     {
-                        // Chế độ SỬA
+                        // Sửa
                         danhMuc = db.DanhMucChiTieus.Find(_maDanhMucCanSua);
                         if (danhMuc == null)
                         {
-                            MessageBox.Show("Danh mục này không còn tồn tại.");
+                            MessageBox.Show("Danh mục không tồn tại.");
                             return;
                         }
                     }
 
-                    // 2. Cập nhật thông tin chung
-                    danhMuc.TenDanhMuc = txtTenDanhMuc.Text.Trim();
+                    danhMuc.TenDanhMuc = tenNhapVao; // Lưu tên đã trim
+
+                    // Xử lý Danh mục cha
                     int maCha = 0;
                     if (cboDanhMucCha.SelectedValue != null)
                         int.TryParse(cboDanhMucCha.SelectedValue.ToString(), out maCha);
 
+                    // Ngăn chặn việc chọn chính nó làm cha của nó (Logic vòng lặp)
+                    if (_maDanhMucCanSua != null && maCha == _maDanhMucCanSua)
+                    {
+                        MessageBox.Show("Một danh mục không thể là cha của chính nó.", "Lỗi Logic", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
                     danhMuc.DanhMucCha = (maCha == 0) ? null : maCha;
 
-                    // 3. Lưu
                     db.SaveChanges();
                 }
 
@@ -153,6 +192,7 @@ namespace Demo_Layout
                 MessageBox.Show("Lỗi lưu dữ liệu: " + ex.Message);
             }
         }
+        
 
         private void btnHuy_Click(object sender, EventArgs e)
         {

@@ -44,7 +44,7 @@
             cartesianChartXuHuong = new LiveCharts.WinForms.CartesianChart();
             lblTitle3 = new Label();
             panel2 = new Panel();
-            lblTongThuNhap = new Label();
+            lblTongChiTieu = new Label();
             lblTitle2 = new Label();
             panel3 = new Panel();
             cartesianChartThuChi = new LiveCharts.WinForms.CartesianChart();
@@ -142,6 +142,7 @@
             cboTaiKhoan.Name = "cboTaiKhoan";
             cboTaiKhoan.Size = new Size(160, 28);
             cboTaiKhoan.TabIndex = 4;
+            cboTaiKhoan.SelectedIndexChanged += cboTaiKhoan_SelectedIndexChanged;
             // 
             // dtpDenNgay
             // 
@@ -152,8 +153,9 @@
             dtpDenNgay.CalendarTitleBackColor = Color.FromArgb(82, 108, 91);
             dtpDenNgay.CalendarTitleForeColor = Color.FromArgb(220, 220, 187);
             dtpDenNgay.CalendarTrailingForeColor = Color.Gray;
+            dtpDenNgay.CustomFormat = "dd/MM/yyyy";
             dtpDenNgay.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            dtpDenNgay.Format = DateTimePickerFormat.Short;
+            dtpDenNgay.Format = DateTimePickerFormat.Custom;
             dtpDenNgay.Location = new Point(264, 17);
             dtpDenNgay.Name = "dtpDenNgay";
             dtpDenNgay.Size = new Size(120, 27);
@@ -180,8 +182,9 @@
             dtpTuNgay.CalendarTitleBackColor = Color.FromArgb(82, 108, 91);
             dtpTuNgay.CalendarTitleForeColor = Color.FromArgb(220, 220, 187);
             dtpTuNgay.CalendarTrailingForeColor = Color.Gray;
+            dtpTuNgay.CustomFormat = "dd/MM/yyyy";
             dtpTuNgay.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            dtpTuNgay.Format = DateTimePickerFormat.Short;
+            dtpTuNgay.Format = DateTimePickerFormat.Custom;
             dtpTuNgay.Location = new Point(84, 18);
             dtpTuNgay.Name = "dtpTuNgay";
             dtpTuNgay.Size = new Size(120, 27);
@@ -261,7 +264,7 @@
             // panel2
             // 
             panel2.BorderStyle = BorderStyle.FixedSingle;
-            panel2.Controls.Add(lblTongThuNhap);
+            panel2.Controls.Add(lblTongChiTieu);
             panel2.Controls.Add(lblTitle2);
             panel2.Dock = DockStyle.Fill;
             panel2.Location = new Point(3, 3);
@@ -269,17 +272,17 @@
             panel2.Size = new Size(441, 179);
             panel2.TabIndex = 2;
             // 
-            // lblTongThuNhap
+            // lblTongChiTieu
             // 
-            lblTongThuNhap.Dock = DockStyle.Fill;
-            lblTongThuNhap.Font = new Font("Segoe UI", 28F, FontStyle.Bold);
-            lblTongThuNhap.ForeColor = Color.SeaGreen;
-            lblTongThuNhap.Location = new Point(0, 42);
-            lblTongThuNhap.Name = "lblTongThuNhap";
-            lblTongThuNhap.Size = new Size(439, 135);
-            lblTongThuNhap.TabIndex = 1;
-            lblTongThuNhap.Text = "0 đ";
-            lblTongThuNhap.TextAlign = ContentAlignment.MiddleCenter;
+            lblTongChiTieu.Dock = DockStyle.Fill;
+            lblTongChiTieu.Font = new Font("Segoe UI", 28F, FontStyle.Bold);
+            lblTongChiTieu.ForeColor = Color.SeaGreen;
+            lblTongChiTieu.Location = new Point(0, 42);
+            lblTongChiTieu.Name = "lblTongChiTieu";
+            lblTongChiTieu.Size = new Size(439, 135);
+            lblTongChiTieu.TabIndex = 1;
+            lblTongChiTieu.Text = "0 đ";
+            lblTongChiTieu.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // lblTitle2
             // 
@@ -289,7 +292,7 @@
             lblTitle2.Name = "lblTitle2";
             lblTitle2.Size = new Size(439, 42);
             lblTitle2.TabIndex = 0;
-            lblTitle2.Text = "TỔNG THU NHẬP";
+            lblTitle2.Text = "TỔNG CHI TIÊU";
             lblTitle2.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // panel3
@@ -379,7 +382,7 @@
         private Label label1;
         private TableLayoutPanel tableLayoutPanel1;
         private Panel panel2;
-        private Label lblTongThuNhap;
+        private Label lblTongChiTieu;
         private Label lblTitle2;
         private Panel panel1;
         private LiveCharts.WinForms.PieChart pieChartChiTieu;

@@ -95,10 +95,25 @@ namespace PhanQuyen
                     services.AddTransient<Piggy_Admin.FormTaiKhoan>();
                     services.AddTransient<Piggy_Admin.FormDoiMatKhau>();
                     services.AddTransient<Piggy_Admin.UserControlQuanLyTaiKhoan>();
-                    services.AddTransient<FormTaoCapNhatTaiKhoan>();
+                    services.AddTransient<FormTaoCapNhatTaiKhoan>();           
+                    services.AddTransient<UserControlBaoCaoHeThong>();
 
                     services.AddTransient<FrmMain>();
                     services.AddTransient<UserControlNganSach>();
+
+                    //mới thêm full program bên piggy bank 
+                    services.AddTransient<UserControlBaoCao>();
+                    services.AddTransient<UserControlQuanLyGiaoDich>();
+                    services.AddTransient<UserControlNganSach>();
+                    services.AddTransient<UserControlDoiTuongGiaoDich>();
+                    services.AddTransient<UserControlDanhMucChiTieu>();
+                    services.AddTransient<UserControlTaiKhoanThanhToan>();
+                    services.AddTransient<FormDongTaiKhoan>();
+                    services.AddTransient<FormThemTaiKhoanThanhToan>();
+                    services.AddTransient<UserControlDoiTuongGiaoDich>();
+                    services.AddTransient<FrmChinhSuaDoiTuongGiaoDich>();
+                    services.AddTransient<UserControlNganSach>();
+                    services.AddTransient<LapNganSach>();
 
                     services.AddSingleton<CurrentUserContext>();
                     services.AddTransient<IEmailService, EmailService>();

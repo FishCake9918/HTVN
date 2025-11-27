@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Data;
 using Microsoft.EntityFrameworkCore;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Demo_Layout
 {
@@ -17,19 +18,24 @@ namespace Demo_Layout
     {
         private readonly IDbContextFactory<QLTCCNContext> _dbFactory;
         private readonly IServiceProvider _serviceProvider;
-        private const int CURRENT_USER_ID = 1;
-        
-        public UserControlDanhMucChiTieu(IDbContextFactory<QLTCCNContext> dbFactory, IServiceProvider _serviceProvider)
+
+        // 1. Khai báo biến lưu thông tin người dùng
+        private readonly CurrentUserContext _userContext;
+
+        // 2. Inject CurrentUserContext vào Constructor
+        public UserControlDanhMucChiTieu(IDbContextFactory<QLTCCNContext> dbFactory, IServiceProvider serviceProvider, CurrentUserContext userContext)
         {
             InitializeComponent();
             _dbFactory = dbFactory;
+            _serviceProvider = serviceProvider;
+            _userContext = userContext;
         }
 
         private void UCDanhMucChiTieu_Load(object sender, EventArgs e)
         {
             KiemTraVaTaoDuLieuMau();
             LoadTreeView();
-            LogHelper.GhiLog(_dbFactory, "Quản lý danh mục chi tiêu", CURRENT_USER_ID); // ghi log
+            LogHelper.GhiLog(_dbFactory, "Quản lý danh mục chi tiêu", _userContext.MaNguoiDung); // ghi log
         }
 
         // Trong file DanhMucChiTieu.cs (hoặc class Seeder)
@@ -40,17 +46,27 @@ namespace Demo_Layout
             {
                 using (var db = _dbFactory.CreateDbContext())
                 {
-                    bool daCoDuLieu = db.DanhMucChiTieus.Any(dm => dm.MaNguoiDung == CURRENT_USER_ID);
+                    // 5. Dùng ID thật
+                    int currentUserId = _userContext.MaNguoiDung.Value;
+
+                    bool daCoDuLieu = db.DanhMucChiTieus.Any(dm => dm.MaNguoiDung == currentUserId);
 
                     if (!daCoDuLieu)
                     {
-                        TaoDanhMucMacDinh(db, CURRENT_USER_ID);                        
+                        // Gợi ý tạo dữ liệu mẫu
+                        if (MessageBox.Show("Bạn chưa có danh mục nào. Bạn có muốn tạo bộ danh mục mẫu không?", "Gợi ý", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        {
+                            // Gọi hàm tạo mẫu (đã viết ở các bài trước, nhớ update hàm này nhận ID động)
+                            // Giả sử bạn để hàm này trong class DanhMucChiTieu
+                            TaoDanhMucMacDinh(db, currentUserId);
+                            MessageBox.Show("Đã tạo danh mục mẫu thành công!");
+                        }
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi: " + ex.Message);
+                MessageBox.Show("Lỗi kiểm tra dữ liệu mẫu: " + ex.Message);
             }
         }
 
@@ -65,11 +81,11 @@ namespace Demo_Layout
                 MaNguoiDung = userId,
                 DanhMucCha = null,
                 DanhMucCon = new List<DanhMucChiTieu> // EF Core tự động liên kết con với cha
-        {
-            new DanhMucChiTieu { TenDanhMuc = "Cafe", MaNguoiDung = userId },
-            new DanhMucChiTieu { TenDanhMuc = "Nhà hàng", MaNguoiDung = userId },
-            new DanhMucChiTieu { TenDanhMuc = "Đi chợ/Siêu thị", MaNguoiDung = userId }
-        }
+                {
+                    new DanhMucChiTieu { TenDanhMuc = "Cafe", MaNguoiDung = userId },
+                    new DanhMucChiTieu { TenDanhMuc = "Nhà hàng", MaNguoiDung = userId },
+                    new DanhMucChiTieu { TenDanhMuc = "Đi chợ/Siêu thị", MaNguoiDung = userId }
+                }
             };
             danhSachGoc.Add(anUong);
 
@@ -187,13 +203,15 @@ namespace Demo_Layout
         {
             tvDanhMuc.Nodes.Clear(); // Xóa cây cũ
 
+            int currentUserId = _userContext.MaNguoiDung.Value;
+
             try
             {
                 using (var db = _dbFactory.CreateDbContext())
                 {
                     // Lấy TẤT CẢ danh mục của người dùng
                     var allCategories = db.DanhMucChiTieus
-                                          .Where(dm => dm.MaNguoiDung == CURRENT_USER_ID)
+                                          .Where(dm => dm.MaNguoiDung == currentUserId)
                                           .ToList();
 
                     // Lọc ra các mục gốc (Cha = null)
@@ -235,7 +253,6 @@ namespace Demo_Layout
 
                 // Tiếp tục đệ quy cho chính nó
                 AddChildNodes(childNode, childCat.MaDanhMuc, allCategories);
-
                 parentNode.Nodes.Add(childNode);
             }
         }
@@ -246,17 +263,22 @@ namespace Demo_Layout
         /// </summary>
         private void btnThem_Click(object sender, EventArgs e)
         {
-            frmThemDanhMuc frm = new frmThemDanhMuc(_dbFactory);
+            frmThemDanhMuc frm = new frmThemDanhMuc(_dbFactory, _userContext);
 
             if (frm.ShowDialog() == DialogResult.OK)
             {
-                LoadTreeView(); // Tải lại TreeView
+                LoadTreeView(); // Tải lại TreeView4
             }
 
         }
 
         private void btnSua_Click(object sender, EventArgs e)
         {
+            if (tvDanhMuc.SelectedNode == null)
+            {
+                MessageBox.Show("Vui lòng chọn danh mục cần sửa.");
+                return;
+            }
             ThucHienSua();
         }
         private void TvDanhMuc_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -266,16 +288,12 @@ namespace Demo_Layout
 
         private void ThucHienSua()
         {
-            if (tvDanhMuc.SelectedNode == null)
-            {
-                MessageBox.Show("Vui lòng chọn danh mục cần sửa.");
-                return;
-            }
+            if (tvDanhMuc.SelectedNode == null) return;
 
             int maDanhMuc = (int)tvDanhMuc.SelectedNode.Tag;
 
-            // Khởi tạo form
-            frmThemDanhMuc frm = new frmThemDanhMuc(_dbFactory);
+            // Truyền UserContext sang form con
+            frmThemDanhMuc frm = new frmThemDanhMuc(_dbFactory, _userContext);
 
             // Kích hoạt chế độ Sửa
             frm.CheDoSua(maDanhMuc);
@@ -283,7 +301,7 @@ namespace Demo_Layout
             if (frm.ShowDialog() == DialogResult.OK)
             {
                 LoadTreeView();
-                MessageBox.Show("Cập nhật thành công!");
+                MessageBox.Show("Cập nhật thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
         private void btnXoa_Click(object sender, EventArgs e)
@@ -347,8 +365,10 @@ namespace Demo_Layout
             }
         }
 
-
-        // Placeholder event
+        private void tvDanhMuc_NodeMouseDoubleClick_1(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            ThucHienSua();
+        }
 
     }
 }

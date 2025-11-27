@@ -39,6 +39,8 @@ namespace Demo_Layout
                 lblTenHienThi.Text = _userContext.DisplayName; // Hiện tên
                 lblVaiTro.Text = _userContext.TenVaiTro;       // Hiện vai trò
 
+                LogHelper.GhiLog(_dbFactory, "Đăng nhập", _userContext.MaNguoiDung); // ghi log
+
                 // Logic đổi hình đại diện nếu có (ví dụ)
                 // if (_userContext.IsAdmin) picUserProfile.Image = ...
             }
@@ -57,7 +59,6 @@ namespace Demo_Layout
 
             System.Drawing.Rectangle workingArea = Screen.PrimaryScreen.WorkingArea;
             this.MaximumSize = workingArea.Size;
-            LogHelper.GhiLog(_dbFactory, "Đăng nhập", CURRENT_USER_ID); // ghi log
 
         }
 

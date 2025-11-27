@@ -20,13 +20,23 @@ namespace Demo_Layout
     {
         private readonly IDbContextFactory<QLTCCNContext> _dbFactory;
         private readonly IServiceProvider _serviceProvider;
-        private const int CURRENT_USER_ID = 1;
 
-        public UserControlBaoCao(IDbContextFactory<QLTCCNContext> dbFactory)
+        // 1. Khai báo biến giữ thông tin User
+        private readonly CurrentUserContext _userContext;
+
+        private bool _isLoading = true;
+
+        public UserControlBaoCao(IDbContextFactory<QLTCCNContext> dbFactory, CurrentUserContext userContext)
         {
             InitializeComponent();
-            _dbFactory = dbFactory; // Lưu lại dùng dần
-            ConfigCharts(); // Cấu hình giao diện biểu đồ
+            _dbFactory = dbFactory;
+            _userContext = userContext; // <--- Lưu lại để dùng
+
+            ConfigCharts();
+
+            // [MỚI] Gán sự kiện kiểm tra ngày tháng
+            dtpTuNgay.ValueChanged += Dtp_ValueChanged;
+            dtpDenNgay.ValueChanged += Dtp_ValueChanged;
         }
 
         private void ConfigCharts()
@@ -40,10 +50,35 @@ namespace Demo_Layout
             DateTime now = DateTime.Now;
             dtpTuNgay.Value = new DateTime(now.Year, now.Month, 1);
             dtpDenNgay.Value = now;
-            LogHelper.GhiLog(_dbFactory, "Quản lý báo cáo", CURRENT_USER_ID); // ghi log
+            LogHelper.GhiLog(_dbFactory, "Quản lý báo cáo", _userContext.MaNguoiDung); // ghi log
 
 
             LoadComboBoxTaiKhoan();
+            LoadDashboardData();
+
+            _isLoading = false; // Load xong
+        }
+
+        private void Dtp_ValueChanged(object sender, EventArgs e)
+        {
+            if (_isLoading) return;
+
+            // Ràng buộc: Từ ngày không được lớn hơn Đến ngày
+            if (dtpTuNgay.Value.Date > dtpDenNgay.Value.Date)
+            {
+                MessageBox.Show("Ngày bắt đầu không được lớn hơn ngày kết thúc!", "Lỗi thời gian", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                // Quay về mốc set ban đầu (Đầu tháng - Hiện tại)
+                _isLoading = true; // Tạm khóa để không bị loop sự kiện
+                DateTime now = DateTime.Now;
+                dtpTuNgay.Value = new DateTime(now.Year, now.Month, 1);
+                dtpDenNgay.Value = now;
+                _isLoading = false;
+
+                return;
+            }
+
+            // Nếu đúng thì load lại dữ liệu
             LoadDashboardData();
         }
 
@@ -54,8 +89,10 @@ namespace Demo_Layout
                 // 3. DÙNG NHÀ MÁY TẠO KẾT NỐI (Thay vì new trực tiếp)
                 using (var db = _dbFactory.CreateDbContext())
                 {
+                    int userId = _userContext.MaNguoiDung.Value;
+
                     var listTK = db.TaiKhoanThanhToans
-                                   .Where(t => t.MaNguoiDung == CURRENT_USER_ID
+                                   .Where(t => t.MaNguoiDung == userId
                                             && t.TrangThai != "Đóng") // <--- Thêm điều kiện này
                                    .Select(t => new { t.MaTaiKhoanThanhToan, t.TenTaiKhoan })
                                    .ToList();
@@ -101,12 +138,14 @@ namespace Demo_Layout
                 // 3. Truy vấn dữ liệu
                 using (var context = _dbFactory.CreateDbContext())
                 {
+                    int userId = _userContext.MaNguoiDung.Value;
+
                     var query = context.GiaoDichs
                         .Include(g => g.LoaiGiaoDich)
                         .Include(g => g.DoiTuongGiaoDich)
                         .Include(g => g.TaiKhoanThanhToan)
                         .Include(g => g.DanhMucChiTieu)
-                        .Where(g => g.MaNguoiDung == CURRENT_USER_ID);
+                        .Where(g => g.MaNguoiDung == userId);
 
                     // Áp dụng lọc tài khoản nếu có
                     if (maTaiKhoanLoc > 0)
@@ -154,10 +193,10 @@ namespace Demo_Layout
             {
                 MessageBox.Show("Lỗi xuất Excel: " + ex.Message);
             }
-        
+
         }
 
-        
+
         // ==================================================================================
         // HÀM CHÍNH: ĐIỀU PHỐI DỮ LIỆU
         // ==================================================================================
@@ -176,14 +215,18 @@ namespace Demo_Layout
             {
                 using (var db = _dbFactory.CreateDbContext())
                 {
+
+                    int userId = _userContext.MaNguoiDung.Value;
+
                     // 1. Truy vấn bảng GIAO_DICH
                     var query = db.GiaoDichs
-                        .Include(g => g.DanhMucChiTieu)
-                        // Include Tài Khoản để check trạng thái
-                        .Include(g => g.TaiKhoanThanhToan)
-                        .Where(g => g.MaNguoiDung == CURRENT_USER_ID &&
-                                    g.NgayGiaoDich >= fromDate &&
-                                    g.NgayGiaoDich <= toDate);
+                                .Include(g => g.TaiKhoanThanhToan)
+                                // Include sâu vào DanhMucChaNavigation để lấy tên cha
+                                .Include(g => g.DanhMucChiTieu)
+                                    .ThenInclude(dm => dm.DanhMucChaNavigation)
+                                .Where(g => g.MaNguoiDung == userId &&
+                                            g.NgayGiaoDich >= fromDate &&
+                                            g.NgayGiaoDich <= toDate);
 
                     query = query.Where(g => g.TaiKhoanThanhToan.TrangThai != "Đóng");
 
@@ -193,21 +236,23 @@ namespace Demo_Layout
                         query = query.Where(g => g.MaTaiKhoanThanhToan == maTaiKhoan);
                     }
 
-                    // 2. Chuyển đổi sang DTO (Data Transfer Object) để map dữ liệu cũ sang mới
+                    // [SỬA ĐỔI] Logic lấy tên danh mục cha
                     var rawData = query.Select(g => new DashboardDto
                     {
-                        // Map các trường tiếng Việt mới
                         SoTien = (double)g.SoTien,
                         NgayGiaoDich = g.NgayGiaoDich,
-                        // Nếu null thì coi là 0
                         MaLoaiGiaoDich = g.MaLoaiGiaoDich ?? 0,
-                        // Lấy tên danh mục từ bảng quan hệ
-                        TenDanhMuc = g.DanhMucChiTieu != null ? g.DanhMucChiTieu.TenDanhMuc : "Khác"
+
+                        // Logic: Nếu có Cha -> Lấy tên Cha. Nếu không có Cha -> Lấy tên chính nó.
+                        // (Toán tử ?. và ?? giúp code gọn và tránh lỗi null)
+                        TenDanhMuc = (g.DanhMucChiTieu.DanhMucChaNavigation != null)
+                                     ? g.DanhMucChiTieu.DanhMucChaNavigation.TenDanhMuc
+                                     : (g.DanhMucChiTieu != null ? g.DanhMucChiTieu.TenDanhMuc : "Khác")
                     }).ToList();
 
                     // 3. Gọi các hàm vẽ biểu đồ
                     UpdatePieChart_CoCauChiTieu(rawData);
-                    UpdateLabel_TongThuNhap(rawData);
+                    UpdateLabel_TongChiTieu(rawData);
                     UpdateLineChart_XuHuong(rawData);
 
                     // Hàm này cần query riêng nên tách ra
@@ -268,11 +313,11 @@ namespace Demo_Layout
         // ==================================================================================
         // HÀM 2: CẬP NHẬT TỔNG THU NHẬP
         // ==================================================================================
-        private void UpdateLabel_TongThuNhap(List<DashboardDto> data)
+        private void UpdateLabel_TongChiTieu(List<DashboardDto> data)
         {
             // Tính tổng các giao dịch Thu (MaLoai = 1)
-            var tongThu = data.Where(x => x.MaLoaiGiaoDich == 1).Sum(x => x.SoTien);
-            lblTongThuNhap.Text = $"{tongThu:N0} đ";
+            var tongChi = data.Where(x => x.MaLoaiGiaoDich == 2).Sum(x => x.SoTien);
+            lblTongChiTieu.Text = $"{tongChi:N0} đ";
         }
 
         // ==================================================================================
@@ -306,7 +351,7 @@ namespace Demo_Layout
 
                 cartesianChartXuHuong.AxisX.Add(new Axis
                 {
-                    Title = "Thời gian",
+                    //Title = "Thời gian",
                     Labels = xuHuongData.Select(x => x.Date.ToString("dd/MM")).ToList(),
 
                     // TÙY CHỈNH MÀU SẮC Ở ĐÂY:
@@ -318,7 +363,7 @@ namespace Demo_Layout
                         StrokeThickness = 1 // Độ dày đường kẻ
                     }
                 });
-                
+
 
                 cartesianChartXuHuong.AxisY.Add(new Axis
                 {
@@ -343,6 +388,7 @@ namespace Demo_Layout
             cartesianChartThuChi.AxisX.Clear();
             cartesianChartThuChi.AxisY.Clear();
 
+            int userId = _userContext.MaNguoiDung.Value;
 
             if (cboTaiKhoan.SelectedValue != null)
             {
@@ -359,7 +405,7 @@ namespace Demo_Layout
                 using (var db = _dbFactory.CreateDbContext())
                 {
                     var taiKhoans = db.TaiKhoanThanhToans
-                                       .Where(t => t.MaNguoiDung == CURRENT_USER_ID
+                                       .Where(t => t.MaNguoiDung == userId
                                                && t.TrangThai != "Đóng")
                                        .ToList();
 
@@ -489,7 +535,14 @@ namespace Demo_Layout
             public string TenDanhMuc { get; set; }
         }
 
-      
+        private void cboTaiKhoan_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Kiểm tra cờ _isLoading để tránh lỗi khi Form vừa mới mở (lúc đang đổ dữ liệu vào combobox)
+            if (_isLoading) return;
+
+            // Gọi hàm load dữ liệu chính
+            LoadDashboardData();
+        }
     }
 }
 

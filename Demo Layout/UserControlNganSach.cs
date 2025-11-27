@@ -69,7 +69,7 @@ namespace Demo_Layout
         {
             txtTimKiem.Text = string.Empty;
             txtTimKiem.ForeColor = Color.Black;
-            LogHelper.GhiLog(_dbFactory, "Quản lý ngân sách", CURRENT_USER_ID); // ghi log
+            LogHelper.GhiLog(_dbFactory, "Quản lý ngân sách", MA_NGUOI_DUNG_HIEN_TAI); // ghi log
             if (pieChartNganSach != null)
             {
                 // Cấu hình cơ bản (chỉ thuộc tính trực tiếp)

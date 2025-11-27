@@ -16,7 +16,7 @@ namespace Demo_Layout
         private const int CURRENT_USER_ID = 1; // Giả định user ID
 
         // Chuỗi kết nối
-        private const string ConnectionString = "Data Source=DESKTOP-V70T5QI;Initial Catalog=QLTCCN;Integrated Security=True;TrustServerCertificate=True";
+        private const string ConnectionString = "Data Source=LUCAS;Initial Catalog=QLTCCN;Integrated Security=True;TrustServerCertificate=True";
 
         // --- CONSTRUCTOR 1: THÊM MỚI ---
         public FrmThemGiaoDich()
