@@ -69,8 +69,6 @@ namespace Demo_Layout
             BtnSua_Click(sender, e);
         }
 
-        // ... (ApplyGridViewHeaders, LoadDanhSach, TimKiemVaLoc giữ nguyên) ...
-
         private void ApplyGridViewHeaders()
         {
             // *FIX: Chỉ hiển thị 2 cột Tên Đối Tượng và Ghi Chú*
