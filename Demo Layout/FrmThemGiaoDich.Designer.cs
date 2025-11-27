@@ -47,6 +47,8 @@
             radChi = new RadioButton();
             cbDanhMuc = new ComboBox();
             label7 = new Label();
+            btnThemDoiTuongGiaoDich = new Button();
+            btnThemDanhMucChiTieu = new Button();
             SuspendLayout();
             // 
             // txtTenGiaoDich
@@ -180,7 +182,7 @@
             button1.FlatAppearance.BorderSize = 0;
             button1.FlatStyle = FlatStyle.Flat;
             button1.Image = (Image)resources.GetObject("button1.Image");
-            button1.Location = new Point(636, 7);
+            button1.Location = new Point(657, 12);
             button1.Name = "button1";
             button1.Size = new Size(29, 29);
             button1.TabIndex = 13;
@@ -234,12 +236,37 @@
             label7.TabIndex = 17;
             label7.Text = "Danh mục chi tiêu";
             // 
+            // btnThemDoiTuongGiaoDich
+            // 
+            btnThemDoiTuongGiaoDich.FlatAppearance.BorderSize = 0;
+            btnThemDoiTuongGiaoDich.FlatStyle = FlatStyle.Flat;
+            btnThemDoiTuongGiaoDich.Image = (Image)resources.GetObject("btnThemDoiTuongGiaoDich.Image");
+            btnThemDoiTuongGiaoDich.Location = new Point(657, 46);
+            btnThemDoiTuongGiaoDich.Name = "btnThemDoiTuongGiaoDich";
+            btnThemDoiTuongGiaoDich.Size = new Size(29, 29);
+            btnThemDoiTuongGiaoDich.TabIndex = 18;
+            btnThemDoiTuongGiaoDich.UseVisualStyleBackColor = true;
+            btnThemDoiTuongGiaoDich.Click += btnThemDoiTuongGiaoDich_Click;
+            // 
+            // btnThemDanhMucChiTieu
+            // 
+            btnThemDanhMucChiTieu.FlatAppearance.BorderSize = 0;
+            btnThemDanhMucChiTieu.FlatStyle = FlatStyle.Flat;
+            btnThemDanhMucChiTieu.Image = (Image)resources.GetObject("btnThemDanhMucChiTieu.Image");
+            btnThemDanhMucChiTieu.Location = new Point(657, 170);
+            btnThemDanhMucChiTieu.Name = "btnThemDanhMucChiTieu";
+            btnThemDanhMucChiTieu.Size = new Size(29, 29);
+            btnThemDanhMucChiTieu.TabIndex = 19;
+            btnThemDanhMucChiTieu.UseVisualStyleBackColor = true;
+            btnThemDanhMucChiTieu.Click += btnThemDanhMucChiTieu_Click;
+            // 
             // FrmThemGiaoDich
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
-            AutoScaleMode = AutoScaleMode.Font;
+            AutoScaleMode = AutoScaleMode.Inherit;
             BackColor = Color.FromArgb(66, 94, 106);
-            ClientSize = new Size(675, 270);
+            ClientSize = new Size(698, 270);
+            Controls.Add(btnThemDanhMucChiTieu);
+            Controls.Add(btnThemDoiTuongGiaoDich);
             Controls.Add(label7);
             Controls.Add(cbDanhMuc);
             Controls.Add(radChi);
@@ -287,5 +314,7 @@
         private RadioButton radChi;
         private ComboBox cbDanhMuc;
         private Label label7;
+        private Button btnThemDoiTuongGiaoDich;
+        private Button btnThemDanhMucChiTieu;
     }
 }

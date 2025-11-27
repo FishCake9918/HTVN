@@ -9,6 +9,9 @@ namespace Demo_Layout
 {
     public partial class FrmChinhSuaDoiTuongGiaoDich : Form
     {
+        // 1. THÊM ACTION CALLBACK
+        public Action OnDataSaved;
+
         private readonly IDbContextFactory<QLTCCNContext> _dbFactory;
         private int _idDoiTuong = 0;
         private const int MA_NGUOI_DUNG_HIEN_TAI = 1;
@@ -118,6 +121,9 @@ namespace Demo_Layout
                     }
 
                     db.SaveChanges();
+
+                    // 2. GỌI CALLBACK TRƯỚC KHI ĐÓNG FORM
+                    OnDataSaved?.Invoke();
 
                     this.DialogResult = DialogResult.OK;
                     this.Close();

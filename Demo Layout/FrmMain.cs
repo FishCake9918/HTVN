@@ -325,7 +325,21 @@ namespace Demo_Layout
 
         private void button8_Click(object sender, EventArgs e) => System.Windows.Forms.Application.Exit();
         private void button9_Click(object sender, EventArgs e) => this.WindowState = FormWindowState.Minimized;
-        private void button7_Click(object sender, EventArgs e) => this.WindowState = (this.WindowState == FormWindowState.Normal) ? FormWindowState.Maximized : FormWindowState.Normal;
+        private void button7_Click(object sender, EventArgs e)
+        {
+            // Chuyển từ trạng thái Normal sang Maximized
+            if (this.WindowState == FormWindowState.Normal)
+            {
+                // Sử dụng WorkingArea để Maximized mà không che Taskbar
+                this.MaximumSize = Screen.PrimaryScreen.WorkingArea.Size;
+                this.WindowState = FormWindowState.Maximized;
+            }
+            // Chuyển từ trạng thái Maximized về Normal
+            else
+            {
+                this.WindowState = FormWindowState.Normal;
+            }
+        }
 
         private void panel2_MouseDown(object sender, MouseEventArgs e)
         {

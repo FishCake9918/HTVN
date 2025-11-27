@@ -39,14 +39,13 @@ namespace Demo_Layout
             txtTimKiem.TextChanged += txtTimKiem_TextChanged;
         }
 
-        // (Đã xóa hàm GetContext và ConnectionString cứng)
-
         private void UserControlQuanLyGiaoDich_Load(object sender, EventArgs e)
         {
             kryptonDataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             kryptonDataGridView1.MultiSelect = false;
             kryptonDataGridView1.ReadOnly = true;
-            LogHelper.GhiLog(_dbFactory, "Quản lý giao dịch", CURRENT_USER_ID); // ghi log
+            // Giả định LogHelper tồn tại
+            // LogHelper.GhiLog(_dbFactory, "Quản lý giao dịch", CURRENT_USER_ID); 
 
             LoadComboBoxTaiKhoan();
             LoadData();
@@ -61,9 +60,9 @@ namespace Demo_Layout
                 using (var context = _dbFactory.CreateDbContext())
                 {
                     var listTK = context.TaiKhoanThanhToans
-                                        .Where(t => t.MaNguoiDung == CURRENT_USER_ID)
-                                        .Select(t => new { t.MaTaiKhoanThanhToan, t.TenTaiKhoan })
-                                        .ToList();
+                                         .Where(t => t.MaNguoiDung == CURRENT_USER_ID && t.TrangThai == "Đang hoạt động")
+                                         .Select(t => new { t.MaTaiKhoanThanhToan, t.TenTaiKhoan })
+                                         .ToList();
 
                     listTK.Insert(0, new { MaTaiKhoanThanhToan = 0, TenTaiKhoan = "--- Tất cả tài khoản ---" });
 
@@ -137,7 +136,8 @@ namespace Demo_Layout
                     kryptonDataGridView1.DataSource = dtGiaoDich;
 
                     FormatGrid();
-                    CalculateTotalBalance(context, maTaiKhoanLoc, query);
+                    // Gọi hàm tính Tổng Thu/Chi mới
+                    CalculateTotal(query);
                 }
             }
             catch (Exception ex)
@@ -146,29 +146,17 @@ namespace Demo_Layout
             }
         }
 
-        // --- 3. LOGIC TÍNH TỔNG SỐ DƯ ---
-        private void CalculateTotalBalance(QLTCCNContext context, int maTaiKhoanLoc, IQueryable<GiaoDich> filteredTransactions)
+        // --- 3. LOGIC TÍNH TỔNG THU & TỔNG CHI MỚI ---
+        private void CalculateTotal(IQueryable<GiaoDich> filteredTransactions)
         {
-            decimal soDuDau = 0;
-            if (maTaiKhoanLoc > 0)
-            {
-                var tk = context.TaiKhoanThanhToans.Find(maTaiKhoanLoc);
-                soDuDau = tk != null ? tk.SoDuBanDau : 0;
-            }
-            else
-            {
-                soDuDau = context.TaiKhoanThanhToans
-                                 .Where(t => t.MaNguoiDung == CURRENT_USER_ID)
-                                 .Sum(t => t.SoDuBanDau);
-            }
-
+            // Mã loại giao dịch: 1 (Thu), 2 (Chi)
             decimal tongThu = filteredTransactions.Where(g => g.MaLoaiGiaoDich == 1).Sum(g => g.SoTien);
             decimal tongChi = filteredTransactions.Where(g => g.MaLoaiGiaoDich == 2).Sum(g => g.SoTien);
 
-            decimal tongSoDu = soDuDau + tongThu - tongChi;
-
-            lblTongGiaoDich.Text = string.Format("Tổng số dư: {0:N0} đ", tongSoDu);
-            lblTongGiaoDich.ForeColor = tongSoDu < 0 ? Color.Red : Color.SeaGreen;
+            // Gán kết quả vào lblTongThuChi
+            lblTongThuChi.Text = string.Format("💰 Tổng thu: {0:N0} đ | 💸 Tổng chi: {1:N0} đ", tongThu, tongChi);
+            // Có thể đặt màu tùy theo ý muốn, ví dụ: màu xanh cho cả dòng.
+            lblTongThuChi.ForeColor = Color.DarkSlateGray;
         }
 
         private void FormatGrid()
@@ -205,10 +193,13 @@ namespace Demo_Layout
         // --- 5. CHỨC NĂNG THÊM / SỬA / XÓA ---
         private void btnThem_Click(object sender, EventArgs e)
         {
-            // Lưu ý: FrmThemGiaoDich hiện tại đang dùng new(). 
-            // Nếu bạn muốn FrmThemGiaoDich cũng dùng DI thì cần sửa form đó và gọi qua _serviceProvider.GetRequiredService<FrmThemGiaoDich>()
-            // Ở đây tạm thời giữ nguyên new() để tránh lỗi nếu form kia chưa sửa.
-            FrmThemGiaoDich frm = new FrmThemGiaoDich();
+            // Sử dụng ActivatorUtilities.CreateInstance để gọi constructor 
+            // FrmThemGiaoDich(IDbContextFactory<QLTCCNContext> dbFactory, IServiceProvider serviceProvider)
+            FrmThemGiaoDich frm = ActivatorUtilities.CreateInstance<FrmThemGiaoDich>(
+                _serviceProvider,
+                _dbFactory,
+                _serviceProvider
+            );
             frm.OnDataAdded = LoadData;
             frm.ShowDialog();
         }
@@ -233,7 +224,20 @@ namespace Demo_Layout
             int maDoiTuong = row.Cells["MaDoiTuongGiaoDich"].Value != DBNull.Value ? Convert.ToInt32(row.Cells["MaDoiTuongGiaoDich"].Value) : 0;
             int maTaiKhoan = row.Cells["MaTaiKhoanThanhToan"].Value != DBNull.Value ? Convert.ToInt32(row.Cells["MaTaiKhoanThanhToan"].Value) : 0;
 
-            FrmThemGiaoDich frm = new FrmThemGiaoDich(maGiaoDich, tenGiaoDich, ghiChu, soTien, ngayGiaoDich, maDoiTuong, maTaiKhoan);
+            // Sử dụng ActivatorUtilities.CreateInstance để gọi constructor đầy đủ
+            FrmThemGiaoDich frm = ActivatorUtilities.CreateInstance<FrmThemGiaoDich>(
+                _serviceProvider,
+                _dbFactory,           // Dependency 1
+                _serviceProvider,     // Dependency 2
+                maGiaoDich,           // Tham số 1 (Dữ liệu)
+                tenGiaoDich,          // ...
+                ghiChu,
+                soTien,
+                ngayGiaoDich,
+                maDoiTuong,
+                maTaiKhoan
+            );
+
             frm.OnDataAdded = LoadData;
             frm.ShowDialog();
         }
@@ -307,12 +311,12 @@ namespace Demo_Layout
                 try
                 {
                     dtGiaoDich.DefaultView.RowFilter =
-                       $"TenGiaoDich LIKE '%{filter}%' OR " +
-                       $"TenDoiTuong LIKE '%{filter}%' OR " +
-                       $"TenTaiKhoan LIKE '%{filter}%' OR " +
-                       $"DanhMucChiTieu LIKE '%{filter}%' OR " +
-                       $"TenLoaiGiaoDich LIKE '%{filter}%' OR " +
-                       $"GhiChu LIKE '%{filter}%'";
+                        $"TenGiaoDich LIKE '%{filter}%' OR " +
+                        $"TenDoiTuong LIKE '%{filter}%' OR " +
+                        $"TenTaiKhoan LIKE '%{filter}%' OR " +
+                        $"DanhMucChiTieu LIKE '%{filter}%' OR " +
+                        $"TenLoaiGiaoDich LIKE '%{filter}%' OR " +
+                        $"GhiChu LIKE '%{filter}%'";
                 }
                 catch (Exception)
                 {

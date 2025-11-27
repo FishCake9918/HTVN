@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
-using Krypton.Toolkit;
+// Đã loại bỏ using Krypton.Toolkit
 using LiveCharts.WinForms;
 
 namespace Demo_Layout
@@ -9,16 +9,16 @@ namespace Demo_Layout
     {
         private System.ComponentModel.IContainer components = null;
 
-        // --- KHAI BÁO CONTROLS ---
-        public KryptonComboBox cmbLocThang;
-        public KryptonTextBox txtLocNam;
-        public KryptonLabel labelTongNS;
-        public KryptonPanel kryptonPanelLeft;
-
+        // --- KHAI BÁO CONTROLS (Đã thay đổi loại) ---
+        public ComboBox cmbLocThang; // KryptonComboBox -> ComboBox
+        public TextBox txtLocNam; // KryptonTextBox -> TextBox
+        public Label labelTongNS; // KryptonLabel -> Label
+        public Panel panelLeftContainer; // KryptonPanel -> Panel
+        
         // Labels giá trị chi tiết
-        public KryptonLabel lblValueTongNS;
-        public KryptonLabel lblValueTongDaChi;
-        public KryptonLabel lblValueTongConLai;
+        public Label lblValueTongNS; // KryptonLabel -> Label
+        public Label lblValueTongDaChi; // KryptonLabel -> Label
+        public Label lblValueTongConLai; // KryptonLabel -> Label
         public PieChart pieChartNganSach;
 
         // Cấu trúc layout và controls WinForms
@@ -30,7 +30,7 @@ namespace Demo_Layout
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelMain;
         private System.Windows.Forms.Panel panelRightContainer;
-        private KryptonDataGridView kryptonDataGridView1;
+        private System.Windows.Forms.DataGridView dataGridView1; // KryptonDataGridView -> DataGridView
 
         protected override void Dispose(bool disposing)
         {
@@ -47,27 +47,25 @@ namespace Demo_Layout
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserControlNganSach));
             panel4 = new Panel();
-            cmbLocThang = new KryptonComboBox();
-            txtLocNam = new KryptonTextBox();
+            cmbLocThang = new ComboBox();
+            txtLocNam = new TextBox();
             btnSua = new Button();
             btnXoa = new Button();
             btnThem = new Button();
             txtTimKiem = new TextBox();
             label1 = new Label();
-            kryptonDataGridView1 = new KryptonDataGridView();
-            kryptonPanelLeft = new KryptonPanel();
+            dataGridView1 = new DataGridView();
+            panelLeftContainer = new Panel();
             pieChartNganSach = new PieChart();
-            lblValueTongConLai = new KryptonLabel();
-            lblValueTongDaChi = new KryptonLabel();
-            lblValueTongNS = new KryptonLabel();
-            labelTongNS = new KryptonLabel();
+            lblValueTongConLai = new Label();
+            lblValueTongDaChi = new Label();
+            lblValueTongNS = new Label();
+            labelTongNS = new Label();
             tableLayoutPanelMain = new TableLayoutPanel();
             panelRightContainer = new Panel();
             panel4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)cmbLocThang).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)kryptonDataGridView1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)kryptonPanelLeft).BeginInit();
-            kryptonPanelLeft.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            panelLeftContainer.SuspendLayout();
             tableLayoutPanelMain.SuspendLayout();
             panelRightContainer.SuspendLayout();
             SuspendLayout();
@@ -91,19 +89,19 @@ namespace Demo_Layout
             // cmbLocThang
             // 
             cmbLocThang.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbLocThang.DropDownWidth = 128;
             cmbLocThang.Location = new Point(311, 20);
             cmbLocThang.Name = "cmbLocThang";
-            cmbLocThang.Size = new Size(128, 26);
+            cmbLocThang.Size = new Size(128, 28);
             cmbLocThang.TabIndex = 1;
             // 
             // txtLocNam
             // 
-            txtLocNam.CueHint.CueHintText = "Năm (YYYY)";
+            txtLocNam.ForeColor = SystemColors.InactiveCaption;
             txtLocNam.Location = new Point(445, 20);
             txtLocNam.Name = "txtLocNam";
             txtLocNam.Size = new Size(100, 27);
             txtLocNam.TabIndex = 2;
+            txtLocNam.Text = "Năm (YYYY)";
             // 
             // btnSua
             // 
@@ -174,29 +172,29 @@ namespace Demo_Layout
             label1.TabIndex = 0;
             label1.Text = "QUẢN LÝ NGÂN SÁCH";
             // 
-            // kryptonDataGridView1
+            // dataGridView1
             // 
-            kryptonDataGridView1.BorderStyle = BorderStyle.None;
-            kryptonDataGridView1.ColumnHeadersHeight = 36;
-            kryptonDataGridView1.Dock = DockStyle.Fill;
-            kryptonDataGridView1.Location = new Point(0, 0);
-            kryptonDataGridView1.Name = "kryptonDataGridView1";
-            kryptonDataGridView1.RowHeadersWidth = 51;
-            kryptonDataGridView1.Size = new Size(502, 536);
-            kryptonDataGridView1.TabIndex = 0;
+            dataGridView1.BorderStyle = BorderStyle.None;
+            dataGridView1.ColumnHeadersHeight = 36;
+            dataGridView1.Dock = DockStyle.Fill;
+            dataGridView1.Location = new Point(0, 0);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.RowHeadersWidth = 51;
+            dataGridView1.Size = new Size(502, 536);
+            dataGridView1.TabIndex = 0;
             // 
-            // kryptonPanelLeft
+            // panelLeftContainer
             // 
-            kryptonPanelLeft.Controls.Add(pieChartNganSach);
-            kryptonPanelLeft.Controls.Add(lblValueTongConLai);
-            kryptonPanelLeft.Controls.Add(lblValueTongDaChi);
-            kryptonPanelLeft.Controls.Add(lblValueTongNS);
-            kryptonPanelLeft.Controls.Add(labelTongNS);
-            kryptonPanelLeft.Dock = DockStyle.Fill;
-            kryptonPanelLeft.Location = new Point(3, 3);
-            kryptonPanelLeft.Name = "kryptonPanelLeft";
-            kryptonPanelLeft.Size = new Size(408, 536);
-            kryptonPanelLeft.TabIndex = 0;
+            panelLeftContainer.Controls.Add(pieChartNganSach);
+            panelLeftContainer.Controls.Add(lblValueTongConLai);
+            panelLeftContainer.Controls.Add(lblValueTongDaChi);
+            panelLeftContainer.Controls.Add(lblValueTongNS);
+            panelLeftContainer.Controls.Add(labelTongNS);
+            panelLeftContainer.Dock = DockStyle.Fill;
+            panelLeftContainer.Location = new Point(3, 3);
+            panelLeftContainer.Name = "panelLeftContainer";
+            panelLeftContainer.Size = new Size(408, 536);
+            panelLeftContainer.TabIndex = 0;
             // 
             // pieChartNganSach
             // 
@@ -204,53 +202,53 @@ namespace Demo_Layout
             pieChartNganSach.ForeColor = SystemColors.ButtonHighlight;
             pieChartNganSach.Location = new Point(5, 185);
             pieChartNganSach.Name = "pieChartNganSach";
-            pieChartNganSach.Size = new Size(398, 350);
+            pieChartNganSach.Size = new Size(400, 348);
             pieChartNganSach.TabIndex = 1;
             // 
             // lblValueTongConLai
             // 
+            lblValueTongConLai.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            lblValueTongConLai.ForeColor = Color.DarkGreen;
             lblValueTongConLai.Location = new Point(10, 124);
             lblValueTongConLai.Name = "lblValueTongConLai";
             lblValueTongConLai.Size = new Size(370, 46);
-            lblValueTongConLai.StateCommon.ShortText.Color1 = Color.DarkGreen;
-            lblValueTongConLai.StateCommon.ShortText.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
             lblValueTongConLai.TabIndex = 2;
-            lblValueTongConLai.Values.Text = "TỔNG CÒN LẠI: {0} VNĐ";
+            lblValueTongConLai.Text = "TỔNG CÒN LẠI: {0} VNĐ";
             // 
             // lblValueTongDaChi
             // 
+            lblValueTongDaChi.Font = new Font("Segoe UI", 12F);
+            lblValueTongDaChi.ForeColor = Color.Firebrick;
             lblValueTongDaChi.Location = new Point(10, 95);
             lblValueTongDaChi.Name = "lblValueTongDaChi";
             lblValueTongDaChi.Size = new Size(204, 32);
-            lblValueTongDaChi.StateCommon.ShortText.Color1 = Color.Firebrick;
-            lblValueTongDaChi.StateCommon.ShortText.Font = new Font("Segoe UI", 12F);
             lblValueTongDaChi.TabIndex = 3;
-            lblValueTongDaChi.Values.Text = "Tổng Đã chi: {0} VNĐ";
+            lblValueTongDaChi.Text = "Tổng Đã chi: {0} VNĐ";
             // 
             // lblValueTongNS
             // 
+            lblValueTongNS.Font = new Font("Segoe UI", 12F);
             lblValueTongNS.Location = new Point(5, 57);
             lblValueTongNS.Name = "lblValueTongNS";
             lblValueTongNS.Size = new Size(243, 32);
-            lblValueTongNS.StateCommon.ShortText.Font = new Font("Segoe UI", 12F);
             lblValueTongNS.TabIndex = 4;
-            lblValueTongNS.Values.Text = "Tổng Ngân sách: {0} VNĐ";
+            lblValueTongNS.Text = "Tổng Ngân sách: {0} VNĐ";
             // 
             // labelTongNS
             // 
+            labelTongNS.ForeColor = Color.FromArgb(82, 108, 91);
             labelTongNS.Location = new Point(76, 16);
             labelTongNS.Name = "labelTongNS";
             labelTongNS.Size = new Size(250, 24);
-            labelTongNS.StateCommon.ShortText.Color1 = Color.FromArgb(82, 108, 91);
             labelTongNS.TabIndex = 0;
-            labelTongNS.Values.Text = "TỔNG QUAN NGÂN SÁCH ĐÃ LỌC";
+            labelTongNS.Text = "TỔNG QUAN NGÂN SÁCH ĐÃ LỌC";
             // 
             // tableLayoutPanelMain
             // 
             tableLayoutPanelMain.ColumnCount = 2;
             tableLayoutPanelMain.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 45F));
             tableLayoutPanelMain.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 55F));
-            tableLayoutPanelMain.Controls.Add(kryptonPanelLeft, 0, 0);
+            tableLayoutPanelMain.Controls.Add(panelLeftContainer, 0, 0);
             tableLayoutPanelMain.Controls.Add(panelRightContainer, 1, 0);
             tableLayoutPanelMain.Dock = DockStyle.Fill;
             tableLayoutPanelMain.Location = new Point(0, 69);
@@ -262,7 +260,7 @@ namespace Demo_Layout
             // 
             // panelRightContainer
             // 
-            panelRightContainer.Controls.Add(kryptonDataGridView1);
+            panelRightContainer.Controls.Add(dataGridView1);
             panelRightContainer.Dock = DockStyle.Fill;
             panelRightContainer.Location = new Point(417, 3);
             panelRightContainer.Name = "panelRightContainer";
@@ -279,11 +277,8 @@ namespace Demo_Layout
             Size = new Size(922, 611);
             panel4.ResumeLayout(false);
             panel4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)cmbLocThang).EndInit();
-            ((System.ComponentModel.ISupportInitialize)kryptonDataGridView1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)kryptonPanelLeft).EndInit();
-            kryptonPanelLeft.ResumeLayout(false);
-            kryptonPanelLeft.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            panelLeftContainer.ResumeLayout(false);
             tableLayoutPanelMain.ResumeLayout(false);
             panelRightContainer.ResumeLayout(false);
             ResumeLayout(false);

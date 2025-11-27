@@ -32,7 +32,7 @@
             panel2 = new Panel();
             panel3 = new Panel();
             cbTaiKhoan = new ComboBox();
-            lblTongGiaoDich = new Label();
+            lblTongThuChi = new Label();
             panel4 = new Panel();
             btnThem = new Button();
             btnSua = new Button();
@@ -62,7 +62,7 @@
             // 
             panel3.BackColor = Color.FromArgb(220, 220, 187);
             panel3.Controls.Add(cbTaiKhoan);
-            panel3.Controls.Add(lblTongGiaoDich);
+            panel3.Controls.Add(lblTongThuChi);
             panel3.Dock = DockStyle.Bottom;
             panel3.Location = new Point(100, 561);
             panel3.Name = "panel3";
@@ -77,15 +77,15 @@
             cbTaiKhoan.Size = new Size(228, 28);
             cbTaiKhoan.TabIndex = 2;
             // 
-            // lblTongGiaoDich
+            // lblTongThuChi
             // 
-            lblTongGiaoDich.AutoSize = true;
-            lblTongGiaoDich.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            lblTongGiaoDich.ForeColor = Color.FromArgb(36, 76, 60);
-            lblTongGiaoDich.Location = new Point(234, 20);
-            lblTongGiaoDich.Name = "lblTongGiaoDich";
-            lblTongGiaoDich.Size = new Size(0, 23);
-            lblTongGiaoDich.TabIndex = 1;
+            lblTongThuChi.AutoSize = true;
+            lblTongThuChi.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            lblTongThuChi.ForeColor = Color.FromArgb(36, 76, 60);
+            lblTongThuChi.Location = new Point(234, 20);
+            lblTongThuChi.Name = "lblTongThuChi";
+            lblTongThuChi.Size = new Size(0, 23);
+            lblTongThuChi.TabIndex = 1;
             // 
             // panel4
             // 
@@ -200,6 +200,7 @@
             kryptonDataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             kryptonDataGridView1.Size = new Size(722, 442);
             kryptonDataGridView1.TabIndex = 2;
+            kryptonDataGridView1.DoubleClick += btnSua_Click;
             // 
             // panel6
             // 
@@ -253,7 +254,7 @@
         private Button btnXoa;
         private Button btnThem;
         private DataGridView kryptonDataGridView1;
-        private Label lblTongGiaoDich;
+        private Label lblTongThuChi;
         private ComboBox cbTaiKhoan;
     }
 }

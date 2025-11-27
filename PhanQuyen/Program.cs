@@ -110,10 +110,12 @@ namespace PhanQuyen
                     services.AddTransient<UserControlTaiKhoanThanhToan>();
                     services.AddTransient<FormDongTaiKhoan>();
                     services.AddTransient<FormThemTaiKhoanThanhToan>();
+                    services.AddTransient<FrmThemGiaoDich>();
                     services.AddTransient<UserControlDoiTuongGiaoDich>();
                     services.AddTransient<FrmChinhSuaDoiTuongGiaoDich>();
                     services.AddTransient<UserControlNganSach>();
                     services.AddTransient<LapNganSach>();
+                    services.AddTransient<frmThemDanhMuc>();
 
                     services.AddSingleton<CurrentUserContext>();
                     services.AddTransient<IEmailService, EmailService>();

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using Krypton.Toolkit;
+// Đã loại bỏ using Krypton.Toolkit
 using LiveCharts;
 using LiveCharts.Wpf;
 using LiveCharts.Configurations;
@@ -15,13 +15,14 @@ namespace Demo_Layout
 {
     public delegate void OpenNganSachFormHandler(object sender, int nganSachId);
 
+    // Đã thay đổi UserControlNganSach để không dùng Krypton
     public partial class UserControlNganSach : UserControl
     {
         private readonly IDbContextFactory<QLTCCNContext> _dbFactory;
         private BindingSource bsNganSach = new BindingSource();
         private List<NganSachViewModel> _fullList = new List<NganSachViewModel>();
         private const int MA_NGUOI_DUNG_HIEN_TAI = 1;
-        private const int MA_LOAI_GIAO_DICH_CHI = 2; 
+        private const int MA_LOAI_GIAO_DICH_CHI = 2;
 
         public event OpenNganSachFormHandler OnOpenEditForm;
 
@@ -32,22 +33,24 @@ namespace Demo_Layout
             // GỌI HÀM CẤU HÌNH GIAO DIỆN CHUNG
             ConfigCharts();
 
-            if (kryptonDataGridView1 != null)
+            // Đã đổi từ kryptonDataGridView1 sang dataGridView1
+            if (dataGridView1 != null)
             {
-                kryptonDataGridView1.DataSource = bsNganSach;
-                kryptonDataGridView1.DoubleClick += KryptonDataGridView1_DoubleClick;
+                dataGridView1.DataSource = bsNganSach;
+                dataGridView1.DoubleClick += KryptonDataGridView1_DoubleClick;
             }
 
             this.Load += UserControlNganSach_Load;
-            
+
+            // Đã đổi từ Krypton control sang WinForms control tương ứng
             if (txtTimKiem != null) this.txtTimKiem.TextChanged += (s, e) => TimKiemVaLoc();
             if (cmbLocThang != null) this.cmbLocThang.SelectedIndexChanged += (s, e) => TimKiemVaLoc();
-            if (txtLocNam != null) 
+            if (txtLocNam != null)
             {
                 this.txtLocNam.TextChanged += (s, e) => TimKiemVaLoc();
-                this.txtLocNam.KeyPress += TxtLocNam_KeyPress; 
+                this.txtLocNam.KeyPress += TxtLocNam_KeyPress;
             }
-            
+
             if (btnThem != null) this.btnThem.Click += BtnThem_Click;
             if (btnSua != null) this.btnSua.Click += BtnSua_Click;
             if (btnXoa != null) this.btnXoa.Click += BtnXoa_Click;
@@ -57,16 +60,17 @@ namespace Demo_Layout
         }
         private System.Windows.Media.Color[] _chartColors = new System.Windows.Media.Color[]
 {
-    System.Windows.Media.Color.FromRgb(255, 99, 132), // Đỏ
-    System.Windows.Media.Color.FromRgb(54, 162, 235), // Xanh dương
-    System.Windows.Media.Color.FromRgb(255, 206, 86), // Vàng
-    System.Windows.Media.Color.FromRgb(75, 192, 192), // Xanh lá cây
-    System.Windows.Media.Color.FromRgb(153, 102, 255), // Tím
-    System.Windows.Media.Color.FromRgb(255, 159, 64), // Cam
-    System.Windows.Media.Color.FromRgb(200, 200, 200) // Xám cho "Khác"
+            System.Windows.Media.Color.FromRgb(255, 99, 132), // Đỏ
+            System.Windows.Media.Color.FromRgb(54, 162, 235), // Xanh dương
+            System.Windows.Media.Color.FromRgb(255, 206, 86), // Vàng
+            System.Windows.Media.Color.FromRgb(75, 192, 192), // Xanh lá cây
+            System.Windows.Media.Color.FromRgb(153, 102, 255), // Tím
+            System.Windows.Media.Color.FromRgb(255, 159, 64), // Cam
+            System.Windows.Media.Color.FromRgb(200, 200, 200) // Xám cho "Khác"
 };
         private void ConfigCharts()
         {
+            // txtTimKiem đã là WinForms TextBox
             txtTimKiem.Text = string.Empty;
             txtTimKiem.ForeColor = Color.Black;
             LogHelper.GhiLog(_dbFactory, "Quản lý ngân sách", MA_NGUOI_DUNG_HIEN_TAI); // ghi log
@@ -78,7 +82,7 @@ namespace Demo_Layout
             }
         }
 
-        // --- RÀNG BUỘC NHẬP SỐ CHO NĂM ---
+        // --- RÀNG BUỘC NHẬP SỐ CHO NĂM (Không đổi) ---
         private void TxtLocNam_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
@@ -86,8 +90,9 @@ namespace Demo_Layout
                 e.Handled = true;
             }
         }
-        
+
         // --- XỬ LÝ ĐÚP CHUỘT (CHỈNH SỬA) ---
+        // Vẫn giữ tên hàm nhưng áp dụng cho DataGridView tiêu chuẩn
         private void KryptonDataGridView1_DoubleClick(object sender, EventArgs e)
         {
             BtnSua_Click(sender, e);
@@ -96,48 +101,45 @@ namespace Demo_Layout
         private void UserControlNganSach_Load(object sender, EventArgs e)
         {
             if (txtTimKiem != null) this.txtTimKiem.Text = string.Empty;
+            // Đã đổi txtLocNam thành TextBox
             if (txtLocNam != null) this.txtLocNam.Text = DateTime.Today.Year.ToString();
-            
-            if (cmbLocThang != null && cmbLocThang.DataSource != null) 
+
+            // Đã đổi cmbLocThang thành ComboBox
+            if (cmbLocThang != null && cmbLocThang.DataSource != null)
             {
                 cmbLocThang.SelectedValue = DateTime.Today.Month;
             }
-            
+
             LoadDanhSach();
         }
-        
+
         // --- Tải dữ liệu cho ComboBox Lọc Tháng ---
         private void LoadLocThangComboBox()
         {
             var months = Enumerable.Range(1, 12)
                 .Select(m => new { MonthValue = m, MonthName = $"Tháng {m}" })
                 .ToList();
-            
+
             months.Insert(0, new { MonthValue = 0, MonthName = "Tất cả Tháng" });
 
+            // cmbLocThang đã đổi thành ComboBox tiêu chuẩn
             cmbLocThang.DataSource = months;
             cmbLocThang.DisplayMember = "MonthName";
             cmbLocThang.ValueMember = "MonthValue";
         }
 
-        // --- PHƯƠNG THỨC MỚI: Lấy ID Danh mục con (BFS) ---
+        // --- PHƯƠNG THỨC MỚI: Lấy ID Danh mục con (BFS) (Không đổi) ---
         private List<int> GetDescendantCategoryIds(int parentId, List<DanhMucChiTieu> allCategories)
         {
-            // Bắt đầu với ID của chính nó (danh mục ngân sách)
             var resultIds = new List<int> { parentId };
-
-            // Sử dụng Queue để quản lý các nút cần kiểm tra (logic lặp qua cây)
             var queue = new Queue<int>();
             queue.Enqueue(parentId);
 
             while (queue.Count > 0)
             {
                 var currentParentId = queue.Dequeue();
-
-                // SỬA: Dùng tên trường chính xác là DanhMucCha
                 var children = allCategories
                     .Where(c => c.DanhMucCha.HasValue && c.DanhMucCha.Value == currentParentId)
-                    //            ^^^^^^^^^^
                     .ToList();
                 foreach (var child in children)
                 {
@@ -152,39 +154,34 @@ namespace Demo_Layout
         }
 
 
-        // --- Tải toàn bộ Danh sách từ DB và Tính toán Giao dịch ---
+        // --- Tải toàn bộ Danh sách từ DB và Tính toán Giao dịch (Không đổi) ---
         public void LoadDanhSach()
         {
             try
             {
                 using (var db = _dbFactory.CreateDbContext())
                 {
-                    // SỬA LỖI CS1061: Giả định tên DbSet là số nhiều (DanhMucChiTieus)
                     var allCategories = db.DanhMucChiTieus.ToList();
 
                     var nganSachList = db.BangNganSachs
-                                        .Include(n => n.DanhMucChiTieu)
-                                        .Where(n => n.MaNguoiDung == MA_NGUOI_DUNG_HIEN_TAI)
-                                        .ToList();
+                                         .Include(n => n.DanhMucChiTieu)
+                                         .Where(n => n.MaNguoiDung == MA_NGUOI_DUNG_HIEN_TAI)
+                                         .ToList();
 
-                    // Lấy tất cả các giao dịch CHI (MaLoaiGiaoDich = 2)
                     var allGiaoDichChi = db.GiaoDichs
-                        .Where(gd => gd.MaNguoiDung == MA_NGUOI_DUNG_HIEN_TAI && 
-                                     gd.MaLoaiGiaoDich == MA_LOAI_GIAO_DICH_CHI) 
+                        .Where(gd => gd.MaNguoiDung == MA_NGUOI_DUNG_HIEN_TAI &&
+                                     gd.MaLoaiGiaoDich == MA_LOAI_GIAO_DICH_CHI)
                         .ToList();
 
                     // TÍNH TOÁN CÁC CỘT: Đã chi và Còn lại
                     _fullList = nganSachList.Select(n =>
                     {
-                        // LẤY TẤT CẢ ID DANH MỤC CON VÀ CHÍNH NÓ (NEW LOGIC)
                         List<int> relevantCategoryIds = GetDescendantCategoryIds(n.MaDanhMuc.Value, allCategories);
 
-                        // TÍNH TOÁN: Lọc theo danh sách ID đã tính toán
                         decimal daChi = allGiaoDichChi
                             .Where(gd => gd.MaDanhMuc.HasValue &&
-                                         // SỬ DỤNG .Contains() để lọc theo tập hợp ID
-                                         relevantCategoryIds.Contains(gd.MaDanhMuc.Value) && 
-                                         gd.NgayGiaoDich >= n.NgayBatDau && 
+                                         relevantCategoryIds.Contains(gd.MaDanhMuc.Value) &&
+                                         gd.NgayGiaoDich >= n.NgayBatDau &&
                                          gd.NgayGiaoDich <= n.NgayKetThuc)
                             .Sum(gd => gd.SoTien);
 
@@ -210,16 +207,17 @@ namespace Demo_Layout
                 MessageBox.Show($"Lỗi tải dữ liệu ngân sách: {ex.Message}", "Lỗi Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        
-        // --- Logic Tra cứu & Lọc (Search & Filter) ---
+
+        // --- Logic Tra cứu & Lọc (Search & Filter) (Không đổi) ---
         public void TimKiemVaLoc()
         {
-            var danhSachLoc = _fullList.AsEnumerable(); 
-            
+            var danhSachLoc = _fullList.AsEnumerable();
+
             string tuKhoa = txtTimKiem.Text.Trim();
+            // Đã đổi cmbLocThang thành ComboBox tiêu chuẩn
             int? thangLoc = cmbLocThang.SelectedValue as int?;
             int? namLoc = int.TryParse(txtLocNam.Text.Trim(), out int n) ? (int?)n : null;
-            
+
             // LỌC THEO NĂM
             if (namLoc.HasValue && namLoc.Value > 0)
             {
@@ -231,9 +229,9 @@ namespace Demo_Layout
             {
                 danhSachLoc = danhSachLoc.Where(n => n.NgayBatDau.HasValue && n.NgayBatDau.Value.Month == thangLoc.Value);
             }
-            
+
             // LỌC THEO TỪ KHÓA
-            if (!string.IsNullOrEmpty(tuKhoa) && tuKhoa != " Tìm kiếm...") 
+            if (!string.IsNullOrEmpty(tuKhoa) && tuKhoa != " Tìm kiếm...")
             {
                 danhSachLoc = danhSachLoc.Where(p =>
                     (p.TenDanhMuc != null && p.TenDanhMuc.Contains(tuKhoa, StringComparison.OrdinalIgnoreCase))
@@ -243,7 +241,7 @@ namespace Demo_Layout
             List<NganSachViewModel> ketQuaLoc = danhSachLoc.ToList();
             bsNganSach.DataSource = ketQuaLoc;
             bsNganSach.ResetBindings(false);
-            
+
             CapNhatTongNganSach(ketQuaLoc);
         }
 
@@ -254,6 +252,7 @@ namespace Demo_Layout
             decimal tongDaChi = hienThiList.Sum(n => n.SoTienDaChi);
             decimal tongConLai = tongSoTien - tongDaChi;
 
+            // Đã đổi KryptonLabel sang Label
             if (labelTongNS != null)
                 labelTongNS.Text = $"TỔNG QUAN NGÂN SÁCH ĐÃ LỌC";
 
@@ -267,7 +266,7 @@ namespace Demo_Layout
                 lblValueTongConLai.Text = string.Format("TỔNG CÒN LẠI: {0:N0} VNĐ", tongConLai);
         }
 
-        // --- Cập nhật Biểu đồ Pie Chart ---
+        // --- Cập nhật Biểu đồ Pie Chart (Không đổi) ---
         private void CapNhatPieChart(List<NganSachViewModel> hienThiList)
         {
             if (pieChartNganSach == null) return;
@@ -300,8 +299,7 @@ namespace Demo_Layout
                     DataLabels = true,
                     LabelPoint = point => string.Format("{0:N0} VNĐ ({1:P0})", (decimal)point.Y, point.Participation),
                     Fill = new System.Windows.Media.SolidColorBrush(_chartColors[colorIndex % _chartColors.Length]),
-                    Stroke = System.Windows.Media.Brushes.Transparent, // Bỏ viền
-                                                                       // FontSize = 12 // Có thể đặt ở đây hoặc trong ConfigCharts
+                    Stroke = System.Windows.Media.Brushes.Transparent,
                 });
                 colorIndex++;
             }
@@ -317,7 +315,6 @@ namespace Demo_Layout
                     LabelPoint = point => string.Format("{0:N0} VNĐ ({1:P0})", (decimal)point.Y, point.Participation),
                     Fill = new System.Windows.Media.SolidColorBrush(_chartColors[colorIndex % _chartColors.Length]), // Màu xám hoặc màu cuối cùng trong mảng
                     Stroke = System.Windows.Media.Brushes.Transparent,
-                    // FontSize = 12
                 });
             }
 
@@ -334,35 +331,37 @@ namespace Demo_Layout
         // --- Cấu hình GridView ---
         private void ConfigureGridView()
         {
-            if (kryptonDataGridView1 == null) return;
-            kryptonDataGridView1.AutoGenerateColumns = false;
-            kryptonDataGridView1.AllowUserToAddRows = false;
-            kryptonDataGridView1.ReadOnly = true;
-            kryptonDataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            kryptonDataGridView1.MultiSelect = false;
-            kryptonDataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            // Đã đổi từ kryptonDataGridView1 sang dataGridView1
+            if (dataGridView1 == null) return;
+            dataGridView1.AutoGenerateColumns = false;
+            dataGridView1.AllowUserToAddRows = false;
+            dataGridView1.ReadOnly = true;
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridView1.MultiSelect = false;
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-            kryptonDataGridView1.Columns.Clear();
-            
-            kryptonDataGridView1.Columns.Add(new DataGridViewTextBoxColumn { Name = "MaNganSach", HeaderText = "ID", DataPropertyName = "MaNganSach", Visible = false });
-            
-            kryptonDataGridView1.Columns.Add(new DataGridViewTextBoxColumn { Name = "DanhMuc", HeaderText = "Danh mục", DataPropertyName = "TenDanhMuc" });
-            
-            kryptonDataGridView1.Columns.Add(new DataGridViewTextBoxColumn { Name = "SoTienNS", HeaderText = "Số tiền NS", DataPropertyName = "SoTienNganSach", DefaultCellStyle = { Format = "N0", Alignment = DataGridViewContentAlignment.MiddleRight } });
-            
-            kryptonDataGridView1.Columns.Add(new DataGridViewTextBoxColumn { Name = "SoTienDaChi", HeaderText = "Đã chi", DataPropertyName = "SoTienDaChi", DefaultCellStyle = { Format = "N0", Alignment = DataGridViewContentAlignment.MiddleRight, ForeColor = Color.Red } });
-            
-            kryptonDataGridView1.Columns.Add(new DataGridViewTextBoxColumn { Name = "SoTienConLai", HeaderText = "Còn lại", DataPropertyName = "SoTienConLai", DefaultCellStyle = { Format = "N0", Alignment = DataGridViewContentAlignment.MiddleRight, ForeColor = Color.Green } });
-            
+            dataGridView1.Columns.Clear();
+
+            dataGridView1.Columns.Add(new DataGridViewTextBoxColumn { Name = "MaNganSach", HeaderText = "ID", DataPropertyName = "MaNganSach", Visible = false });
+
+            dataGridView1.Columns.Add(new DataGridViewTextBoxColumn { Name = "DanhMuc", HeaderText = "Danh mục", DataPropertyName = "TenDanhMuc" });
+
+            dataGridView1.Columns.Add(new DataGridViewTextBoxColumn { Name = "SoTienNS", HeaderText = "Số tiền NS", DataPropertyName = "SoTienNganSach", DefaultCellStyle = { Format = "N0", Alignment = DataGridViewContentAlignment.MiddleRight } });
+
+            // Lưu ý: Color.Red và Color.Green trong DefaultCellStyle là System.Drawing.Color, không phải Krypton Color
+            dataGridView1.Columns.Add(new DataGridViewTextBoxColumn { Name = "SoTienDaChi", HeaderText = "Đã chi", DataPropertyName = "SoTienDaChi", DefaultCellStyle = { Format = "N0", Alignment = DataGridViewContentAlignment.MiddleRight, ForeColor = Color.Red } });
+
+            dataGridView1.Columns.Add(new DataGridViewTextBoxColumn { Name = "SoTienConLai", HeaderText = "Còn lại", DataPropertyName = "SoTienConLai", DefaultCellStyle = { Format = "N0", Alignment = DataGridViewContentAlignment.MiddleRight, ForeColor = Color.Green } });
+
             // Ẩn Ngày Bắt đầu/Kết thúc
-            kryptonDataGridView1.Columns.Add(new DataGridViewTextBoxColumn { Name = "NgayBatDau", HeaderText = "Bắt đầu", DataPropertyName = "NgayBatDau", Visible = false });
-            kryptonDataGridView1.Columns.Add(new DataGridViewTextBoxColumn { Name = "NgayKetThuc", HeaderText = "Kết thúc", DataPropertyName = "NgayKetThuc", Visible = false });
+            dataGridView1.Columns.Add(new DataGridViewTextBoxColumn { Name = "NgayBatDau", HeaderText = "Bắt đầu", DataPropertyName = "NgayBatDau", Visible = false });
+            dataGridView1.Columns.Add(new DataGridViewTextBoxColumn { Name = "NgayKetThuc", HeaderText = "Kết thúc", DataPropertyName = "NgayKetThuc", Visible = false });
         }
-        
-        // --- Xử lý sự kiện CRUD ---
+
+        // --- Xử lý sự kiện CRUD (Không đổi) ---
         private void BtnThem_Click(object sender, EventArgs e)
         {
-            OnOpenEditForm?.Invoke(this, 0); 
+            OnOpenEditForm?.Invoke(this, 0);
         }
 
         private void BtnSua_Click(object sender, EventArgs e)
@@ -415,7 +414,7 @@ namespace Demo_Layout
             }
         }
     }
-     
+
     public class NganSachViewModel
     {
         public int MaNganSach { get; set; }
@@ -423,7 +422,7 @@ namespace Demo_Layout
         public decimal SoTienNganSach { get; set; }
         public decimal SoTienDaChi { get; set; }
         public decimal SoTienConLai { get; set; }
-        public DateTime? NgayBatDau { get; set; } 
+        public DateTime? NgayBatDau { get; set; }
         public DateTime? NgayKetThuc { get; set; }
     }
 }
