@@ -56,7 +56,7 @@ namespace Piggy_Admin
         private void button1_Click(object sender, EventArgs e)
         {
             pnlHienThi.Controls.Clear();
-            UserControlBaoCaoThongKe uc = _serviceProvider.GetRequiredService<UserControlBaoCaoThongKe>();
+            UserControlBaoCaoHeThong uc = _serviceProvider.GetRequiredService<UserControlBaoCaoHeThong>();
             uc.Dock = DockStyle.Fill;
             pnlHienThi.Controls.Add(uc);
         }
@@ -72,9 +72,9 @@ namespace Piggy_Admin
         private void button5_Click(object sender, EventArgs e)
         {
             pnlHienThi.Controls.Clear();
-            UserControlQuanLyThongBao uc = _serviceProvider.GetRequiredService<UserControlQuanLyThongBao>();
-            uc.Dock = DockStyle.Fill;
-            pnlHienThi.Controls.Add(uc);
+            UserControlBaoCaoHeThong userControlMoi = _serviceProvider.GetRequiredService<UserControlBaoCaoHeThong>();
+            userControlMoi.Dock = DockStyle.Fill;
+            pnlHienThi.Controls.Add(userControlMoi);
         }
 
         // --- SỬA LỖI Ở ĐÂY ---

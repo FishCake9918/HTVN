@@ -11,6 +11,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Data;
+using MiniExcelLibs;
+using System.IO;     // Nhớ using System.IO
 
 namespace Demo_Layout
 {
@@ -38,6 +40,8 @@ namespace Demo_Layout
             DateTime now = DateTime.Now;
             dtpTuNgay.Value = new DateTime(now.Year, now.Month, 1);
             dtpDenNgay.Value = now;
+            LogHelper.GhiLog(_dbFactory, "Quản lý báo cáo", CURRENT_USER_ID); // ghi log
+
 
             LoadComboBoxTaiKhoan();
             LoadDashboardData();
@@ -51,7 +55,8 @@ namespace Demo_Layout
                 using (var db = _dbFactory.CreateDbContext())
                 {
                     var listTK = db.TaiKhoanThanhToans
-                                   .Where(t => t.MaNguoiDung == CURRENT_USER_ID)
+                                   .Where(t => t.MaNguoiDung == CURRENT_USER_ID
+                                            && t.TrangThai != "Đóng") // <--- Thêm điều kiện này
                                    .Select(t => new { t.MaTaiKhoanThanhToan, t.TenTaiKhoan })
                                    .ToList();
 
@@ -74,6 +79,85 @@ namespace Demo_Layout
             LoadDashboardData();
         }
 
+        private void btnIn_Click(object sender, EventArgs e)
+        {
+
+            // 1. Cấu hình hộp thoại lưu file
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Excel (*.xlsx)|*.xlsx";
+            saveFileDialog.FileName = $"ThongKeGiaoDich_{DateTime.Now:ddMMyyyy_HHmmss}.xlsx";
+
+            if (saveFileDialog.ShowDialog() != DialogResult.OK) return;
+
+            try
+            {
+                // 2. Lấy điều kiện lọc (Giống hệt LoadData)
+                int maTaiKhoanLoc = 0;
+                if (cboTaiKhoan.SelectedValue != null && int.TryParse(cboTaiKhoan.SelectedValue.ToString(), out int val))
+                {
+                    maTaiKhoanLoc = val;
+                }
+
+                // 3. Truy vấn dữ liệu
+                using (var context = _dbFactory.CreateDbContext())
+                {
+                    var query = context.GiaoDichs
+                        .Include(g => g.LoaiGiaoDich)
+                        .Include(g => g.DoiTuongGiaoDich)
+                        .Include(g => g.TaiKhoanThanhToan)
+                        .Include(g => g.DanhMucChiTieu)
+                        .Where(g => g.MaNguoiDung == CURRENT_USER_ID);
+
+                    // Áp dụng lọc tài khoản nếu có
+                    if (maTaiKhoanLoc > 0)
+                    {
+                        query = query.Where(g => g.MaTaiKhoanThanhToan == maTaiKhoanLoc);
+                    }
+
+                    // 4. CHUẨN BỊ DỮ LIỆU XUẤT (Projection)
+                    // Lưu ý: Tên thuộc tính ở đây sẽ là Tiêu đề cột trong Excel
+                    // Ta bỏ qua các cột "Ma..." vì user không cần xem
+                    var dataToExport = query
+                        .OrderByDescending(x => x.NgayGiaoDich) // Sắp xếp trước khi lấy
+                        .Select(gd => new
+                        {
+                            NgayGiaoDich = gd.NgayGiaoDich, // Excel sẽ tự format ngày
+                            TenGiaoDich = gd.TenGiaoDich,
+                            SoTien = gd.SoTien,
+                            Loai = gd.LoaiGiaoDich != null ? gd.LoaiGiaoDich.TenLoaiGiaoDich : "",
+                            DanhMuc = gd.DanhMucChiTieu != null ? gd.DanhMucChiTieu.TenDanhMuc : "Khác",
+                            TaiKhoan = gd.TaiKhoanThanhToan != null ? gd.TaiKhoanThanhToan.TenTaiKhoan : "",
+                            DoiTuong = gd.DoiTuongGiaoDich != null ? gd.DoiTuongGiaoDich.TenDoiTuong : "",
+                            GhiChu = gd.GhiChu
+                        })
+                        .ToList(); // Thực thi truy vấn
+
+                    if (dataToExport.Count == 0)
+                    {
+                        MessageBox.Show("Không có dữ liệu giao dịch nào để xuất.");
+                        return;
+                    }
+
+                    // 5. Ghi ra file Excel
+                    // OverwriteExisting: Ghi đè nếu file đã tồn tại
+                    MiniExcel.SaveAs(saveFileDialog.FileName, dataToExport);
+
+                    // 6. Mở file sau khi xuất xong
+                    var p = new System.Diagnostics.Process();
+                    p.StartInfo = new System.Diagnostics.ProcessStartInfo(saveFileDialog.FileName) { UseShellExecute = true };
+                    p.Start();
+
+                    MessageBox.Show("Xuất dữ liệu thành công!");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi xuất Excel: " + ex.Message);
+            }
+        
+        }
+
+        
         // ==================================================================================
         // HÀM CHÍNH: ĐIỀU PHỐI DỮ LIỆU
         // ==================================================================================
@@ -94,10 +178,14 @@ namespace Demo_Layout
                 {
                     // 1. Truy vấn bảng GIAO_DICH
                     var query = db.GiaoDichs
-                        .Include(g => g.DanhMucChiTieu) // Include bảng DANH_MUC_CHI_TIEU
+                        .Include(g => g.DanhMucChiTieu)
+                        // Include Tài Khoản để check trạng thái
+                        .Include(g => g.TaiKhoanThanhToan)
                         .Where(g => g.MaNguoiDung == CURRENT_USER_ID &&
                                     g.NgayGiaoDich >= fromDate &&
                                     g.NgayGiaoDich <= toDate);
+
+                    query = query.Where(g => g.TaiKhoanThanhToan.TrangThai != "Đóng");
 
                     // Nếu có chọn tài khoản cụ thể thì lọc thêm
                     if (maTaiKhoan != 0)
@@ -152,10 +240,11 @@ namespace Demo_Layout
             {
                 pieSeries.Add(new PieSeries
                 {
-                    Title = item.Name,
+                    Title = $"{item.Name}",
                     Values = new ChartValues<double> { item.Total },
                     DataLabels = true,
-                    LabelPoint = p => string.Format("({1:P})", p.Y.ToString("N0"), p.Participation)
+                    //LabelPoint = p => string.Format("({1:P})", p.Y.ToString("N0"), p.Participation)
+                    LabelPoint = p => $"{p.Participation:P0}"
                 });
             }
 
@@ -218,13 +307,29 @@ namespace Demo_Layout
                 cartesianChartXuHuong.AxisX.Add(new Axis
                 {
                     Title = "Thời gian",
-                    Labels = xuHuongData.Select(x => x.Date.ToString("dd/mm")).ToList(),
-                    Separator = new Separator { Step = 3 }
+                    Labels = xuHuongData.Select(x => x.Date.ToString("dd/MM")).ToList(),
+
+                    // TÙY CHỈNH MÀU SẮC Ở ĐÂY:
+                    Foreground = System.Windows.Media.Brushes.Black, // Màu chữ (Labels)
+                    Separator = new Separator
+                    {
+                        Step = 1,
+                        Stroke = System.Windows.Media.Brushes.Black, // Màu đường kẻ dọc
+                        StrokeThickness = 1 // Độ dày đường kẻ
+                    }
                 });
+                
 
                 cartesianChartXuHuong.AxisY.Add(new Axis
                 {
-                    LabelFormatter = value => value.ToString("N0")
+                    Foreground = System.Windows.Media.Brushes.Black, // Màu chữ số tiền
+                    LabelFormatter = value => value.ToString("N0"),
+
+                    Separator = new Separator
+                    {
+                        Stroke = System.Windows.Media.Brushes.Black, // Màu đường kẻ ngang
+                        StrokeThickness = 0.5 // Mỏng hơn chút cho dễ nhìn
+                    }
                 });
             }
         }
@@ -254,7 +359,8 @@ namespace Demo_Layout
                 using (var db = _dbFactory.CreateDbContext())
                 {
                     var taiKhoans = db.TaiKhoanThanhToans
-                                       .Where(t => t.MaNguoiDung == CURRENT_USER_ID)
+                                       .Where(t => t.MaNguoiDung == CURRENT_USER_ID
+                                               && t.TrangThai != "Đóng")
                                        .ToList();
 
                     foreach (var tk in taiKhoans)
@@ -307,9 +413,14 @@ namespace Demo_Layout
 
                 cartesianChartThuChi.AxisX.Add(new Axis
                 {
-                    //Title = "Tài khoản",
-                    Labels = accountNames, // Tên các tài khoản nằm dưới trục X
-                    Separator = new Separator { Step = 1 }
+                    Labels = accountNames,
+                    Foreground = System.Windows.Media.Brushes.Black, // Màu chữ tên tài khoản
+                    Separator = new Separator
+                    {
+                        Step = 1,
+                        Stroke = System.Windows.Media.Brushes.Transparent // Ẩn đường kẻ dọc (thường biểu đồ cột không cần kẻ dọc)
+                                                                          // Hoặc để Brushes.Black nếu bạn muốn hiện
+                    }
                 });
             }
             // TRƯỜNG HỢP 2: CHỌN 1 TÀI KHOẢN CỤ THỂ (Giữ nguyên logic so sánh tổng quát)
@@ -359,7 +470,13 @@ namespace Demo_Layout
             // Trục Y chung
             cartesianChartThuChi.AxisY.Add(new Axis
             {
-                LabelFormatter = value => value.ToString("N0")
+                Foreground = System.Windows.Media.Brushes.Black, // Màu chữ số tiền
+                LabelFormatter = value => value.ToString("N0"),
+                Separator = new Separator
+                {
+                    Stroke = System.Windows.Media.Brushes.Black, // Màu đường kẻ ngang (Grid lines)
+                    StrokeThickness = 0.5
+                }
             });
         }
 
@@ -371,6 +488,8 @@ namespace Demo_Layout
             public int MaLoaiGiaoDich { get; set; }
             public string TenDanhMuc { get; set; }
         }
+
+      
     }
 }
 

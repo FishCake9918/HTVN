@@ -6,8 +6,6 @@
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
-
-        // KHAI BÁO CÁC CONTROLS CÔNG CỘNG (SẼ DÙNG TRONG FILE .CS CHÍNH)
         public Krypton.Toolkit.KryptonLabel lblTenTaiKhoan;
         public Krypton.Toolkit.KryptonLabel lblSoDuHienTai;
         public Krypton.Toolkit.KryptonComboBox cmbTaiKhoanChuyen;
@@ -35,105 +33,112 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.lblTenTaiKhoan = new Krypton.Toolkit.KryptonLabel();
-            this.lblSoDuHienTai = new Krypton.Toolkit.KryptonLabel();
-            this.cmbTaiKhoanChuyen = new Krypton.Toolkit.KryptonComboBox();
-            this.btnDong = new Krypton.Toolkit.KryptonButton();
-            this.btnHuy = new Krypton.Toolkit.KryptonButton();
-            Krypton.Toolkit.KryptonLabel label1;
-            Krypton.Toolkit.KryptonLabel label2;
-            Krypton.Toolkit.KryptonLabel label3;
-            ((System.ComponentModel.ISupportInitialize)(this.cmbTaiKhoanChuyen)).BeginInit();
-            this.SuspendLayout();
-
-            // 
-            // label1
-            // 
+            lblTenTaiKhoan = new Krypton.Toolkit.KryptonLabel();
+            lblSoDuHienTai = new Krypton.Toolkit.KryptonLabel();
+            cmbTaiKhoanChuyen = new Krypton.Toolkit.KryptonComboBox();
+            btnDong = new Krypton.Toolkit.KryptonButton();
+            btnHuy = new Krypton.Toolkit.KryptonButton();
             label1 = new Krypton.Toolkit.KryptonLabel();
-            label1.Location = new System.Drawing.Point(30, 20);
-            label1.Name = "label1";
-            label1.Size = new System.Drawing.Size(280, 20);
-            label1.Text = "Bạn có chắc chắn muốn đóng tài khoản:";
+            label2 = new Krypton.Toolkit.KryptonLabel();
+            label3 = new Krypton.Toolkit.KryptonLabel();
+            ((System.ComponentModel.ISupportInitialize)cmbTaiKhoanChuyen).BeginInit();
+            SuspendLayout();
             // 
             // lblTenTaiKhoan
             // 
-            this.lblTenTaiKhoan.Location = new System.Drawing.Point(300, 20);
-            this.lblTenTaiKhoan.Name = "lblTenTaiKhoan";
-            this.lblTenTaiKhoan.Size = new System.Drawing.Size(10, 20);
-            this.lblTenTaiKhoan.Text = "Tên Tài Khoản"; // Placeholder
-            this.lblTenTaiKhoan.StateCommon.ShortText.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            // 
-            // label2
-            // 
-            label2 = new Krypton.Toolkit.KryptonLabel();
-            label2.Location = new System.Drawing.Point(30, 60);
-            label2.Name = "label2";
-            label2.Size = new System.Drawing.Size(250, 20);
-            label2.Text = "Tài khoản này hiện có số dư là:";
+            lblTenTaiKhoan.Location = new Point(300, 20);
+            lblTenTaiKhoan.Name = "lblTenTaiKhoan";
+            lblTenTaiKhoan.Size = new Size(115, 24);
+            lblTenTaiKhoan.StateCommon.ShortText.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            lblTenTaiKhoan.TabIndex = 6;
+            lblTenTaiKhoan.Values.Text = "Tên Tài Khoản";
             // 
             // lblSoDuHienTai
             // 
-            this.lblSoDuHienTai.Location = new System.Drawing.Point(280, 60);
-            this.lblSoDuHienTai.Name = "lblSoDuHienTai";
-            this.lblSoDuHienTai.Size = new System.Drawing.Size(10, 20);
-            this.lblSoDuHienTai.Text = "0 đ"; // Placeholder
-            this.lblSoDuHienTai.StateCommon.ShortText.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblSoDuHienTai.StateCommon.ShortText.Color1 = System.Drawing.Color.Red;
-            // 
-            // label3
-            // 
-            label3 = new Krypton.Toolkit.KryptonLabel();
-            label3.Location = new System.Drawing.Point(30, 100);
-            label3.Name = "label3";
-            label3.Size = new System.Drawing.Size(350, 20);
-            label3.Text = "Chọn tài khoản khác để chuyển số dư này sang:";
+            lblSoDuHienTai.Location = new Point(280, 60);
+            lblSoDuHienTai.Name = "lblSoDuHienTai";
+            lblSoDuHienTai.Size = new Size(34, 24);
+            lblSoDuHienTai.StateCommon.ShortText.Color1 = Color.Red;
+            lblSoDuHienTai.StateCommon.ShortText.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            lblSoDuHienTai.TabIndex = 4;
+            lblSoDuHienTai.Values.Text = "0 đ";
             // 
             // cmbTaiKhoanChuyen
             // 
-            this.cmbTaiKhoanChuyen.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbTaiKhoanChuyen.DropDownWidth = 370;
-            this.cmbTaiKhoanChuyen.Location = new System.Drawing.Point(30, 130);
-            this.cmbTaiKhoanChuyen.Name = "cmbTaiKhoanChuyen";
-            this.cmbTaiKhoanChuyen.Size = new System.Drawing.Size(370, 21);
-            this.cmbTaiKhoanChuyen.TabIndex = 0;
-            // 
-            // btnHuy
-            // 
-            this.btnHuy.Location = new System.Drawing.Point(220, 200);
-            this.btnHuy.Name = "btnHuy";
-            this.btnHuy.Size = new System.Drawing.Size(90, 30);
-            this.btnHuy.TabIndex = 1;
-            this.btnHuy.Values.Text = "Hủy";
+            cmbTaiKhoanChuyen.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbTaiKhoanChuyen.DropDownWidth = 370;
+            cmbTaiKhoanChuyen.Location = new Point(30, 130);
+            cmbTaiKhoanChuyen.Name = "cmbTaiKhoanChuyen";
+            cmbTaiKhoanChuyen.Size = new Size(370, 26);
+            cmbTaiKhoanChuyen.TabIndex = 0;
             // 
             // btnDong
             // 
-            this.btnDong.Location = new System.Drawing.Point(315, 200);
-            this.btnDong.Name = "btnDong";
-            this.btnDong.Size = new System.Drawing.Size(90, 30);
-            this.btnDong.TabIndex = 2;
-            this.btnDong.Values.Text = "Đóng";
+            btnDong.Location = new Point(315, 200);
+            btnDong.Name = "btnDong";
+            btnDong.Size = new Size(90, 30);
+            btnDong.TabIndex = 2;
+            btnDong.Values.DropDownArrowColor = Color.Empty;
+            btnDong.Values.Text = "Xác nhận";
+            // 
+            // btnHuy
+            // 
+            btnHuy.Location = new Point(207, 200);
+            btnHuy.Name = "btnHuy";
+            btnHuy.Size = new Size(90, 30);
+            btnHuy.TabIndex = 1;
+            btnHuy.Values.DropDownArrowColor = Color.Empty;
+            btnHuy.Values.Text = "Hủy";
+            // 
+            // label1
+            // 
+            label1.Location = new Point(30, 20);
+            label1.Name = "label1";
+            label1.Size = new Size(284, 24);
+            label1.TabIndex = 7;
+            label1.Values.Text = "Bạn có chắc chắn muốn đóng tài khoản:";
+            // 
+            // label2
+            // 
+            label2.Location = new Point(30, 60);
+            label2.Name = "label2";
+            label2.Size = new Size(221, 24);
+            label2.TabIndex = 5;
+            label2.Values.Text = "Tài khoản này hiện có số dư là:";
+            // 
+            // label3
+            // 
+            label3.Location = new Point(30, 100);
+            label3.Name = "label3";
+            label3.Size = new Size(336, 24);
+            label3.TabIndex = 3;
+            label3.Values.Text = "Chọn tài khoản khác để chuyển số dư này sang:";
             // 
             // FormDongTaiKhoan
             // 
-            this.ClientSize = new System.Drawing.Size(430, 250);
-            this.ControlBox = true;
-            this.Controls.Add(this.btnDong);
-            this.Controls.Add(this.btnHuy);
-            this.Controls.Add(this.cmbTaiKhoanChuyen);
-            this.Controls.Add(label3);
-            this.Controls.Add(this.lblSoDuHienTai);
-            this.Controls.Add(label2);
-            this.Controls.Add(this.lblTenTaiKhoan);
-            this.Controls.Add(label1);
-            this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.Name = "FormDongTaiKhoan";
-            this.Text = "Đóng Tài Khoản";
-            ((System.ComponentModel.ISupportInitialize)(this.cmbTaiKhoanChuyen)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            ClientSize = new Size(434, 236);
+            Controls.Add(btnDong);
+            Controls.Add(btnHuy);
+            Controls.Add(cmbTaiKhoanChuyen);
+            Controls.Add(label3);
+            Controls.Add(lblSoDuHienTai);
+            Controls.Add(label2);
+            Controls.Add(lblTenTaiKhoan);
+            Controls.Add(label1);
+            Font = new Font("Segoe UI", 9F);
+            Location = new Point(0, 0);
+            Name = "FormDongTaiKhoan";
+            Text = "Đóng Tài Khoản";
+            ((System.ComponentModel.ISupportInitialize)cmbTaiKhoanChuyen).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 
         #endregion
+
+        private Krypton.Toolkit.KryptonLabel label1;
+        private Krypton.Toolkit.KryptonLabel label2;
+        private Krypton.Toolkit.KryptonLabel label3;
     }
 }

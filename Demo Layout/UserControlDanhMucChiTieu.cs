@@ -12,12 +12,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Demo_Layout
 {
+
     public partial class UserControlDanhMucChiTieu : UserControl
     {
         private readonly IDbContextFactory<QLTCCNContext> _dbFactory;
         private readonly IServiceProvider _serviceProvider;
         private const int CURRENT_USER_ID = 1;
-        public UserControlDanhMucChiTieu(IDbContextFactory<QLTCCNContext> dbFactory)
+        
+        public UserControlDanhMucChiTieu(IDbContextFactory<QLTCCNContext> dbFactory, IServiceProvider _serviceProvider)
         {
             InitializeComponent();
             _dbFactory = dbFactory;
@@ -25,7 +27,161 @@ namespace Demo_Layout
 
         private void UCDanhMucChiTieu_Load(object sender, EventArgs e)
         {
+            KiemTraVaTaoDuLieuMau();
             LoadTreeView();
+            LogHelper.GhiLog(_dbFactory, "Quản lý danh mục chi tiêu", CURRENT_USER_ID); // ghi log
+        }
+
+        // Trong file DanhMucChiTieu.cs (hoặc class Seeder)
+
+        private void KiemTraVaTaoDuLieuMau()
+        {
+            try
+            {
+                using (var db = _dbFactory.CreateDbContext())
+                {
+                    bool daCoDuLieu = db.DanhMucChiTieus.Any(dm => dm.MaNguoiDung == CURRENT_USER_ID);
+
+                    if (!daCoDuLieu)
+                    {
+                        TaoDanhMucMacDinh(db, CURRENT_USER_ID);                        
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi: " + ex.Message);
+            }
+        }
+
+        private static void TaoDanhMucMacDinh(QLTCCNContext db, int userId)
+        {
+            var danhSachGoc = new List<DanhMucChiTieu>();
+
+            // --- 1. ĂN UỐNG ---
+            var anUong = new DanhMucChiTieu
+            {
+                TenDanhMuc = "Ăn uống",
+                MaNguoiDung = userId,
+                DanhMucCha = null,
+                DanhMucCon = new List<DanhMucChiTieu> // EF Core tự động liên kết con với cha
+        {
+            new DanhMucChiTieu { TenDanhMuc = "Cafe", MaNguoiDung = userId },
+            new DanhMucChiTieu { TenDanhMuc = "Nhà hàng", MaNguoiDung = userId },
+            new DanhMucChiTieu { TenDanhMuc = "Đi chợ/Siêu thị", MaNguoiDung = userId }
+        }
+            };
+            danhSachGoc.Add(anUong);
+
+            // --- 2. HÓA ĐƠN ---
+            var hoaDon = new DanhMucChiTieu
+            {
+                TenDanhMuc = "Hóa đơn",
+                MaNguoiDung = userId,
+                DanhMucCha = null,
+                DanhMucCon = new List<DanhMucChiTieu>
+        {
+            new DanhMucChiTieu { TenDanhMuc = "Tiền điện", MaNguoiDung = userId },
+            new DanhMucChiTieu { TenDanhMuc = "Tiền nước", MaNguoiDung = userId },
+            new DanhMucChiTieu { TenDanhMuc = "Internet", MaNguoiDung = userId },
+            new DanhMucChiTieu { TenDanhMuc = "Điện thoại", MaNguoiDung = userId }
+        }
+            };
+            danhSachGoc.Add(hoaDon);
+
+            // --- 3. GIẢI TRÍ ---
+            var giaiTri = new DanhMucChiTieu
+            {
+                TenDanhMuc = "Giải trí",
+                MaNguoiDung = userId,
+                DanhMucCha = null,
+                DanhMucCon = new List<DanhMucChiTieu>
+        {
+            new DanhMucChiTieu { TenDanhMuc = "Xem phim", MaNguoiDung = userId },
+            new DanhMucChiTieu { TenDanhMuc = "Nghe nhạc (Spotify)", MaNguoiDung = userId },
+            new DanhMucChiTieu { TenDanhMuc = "Du lịch", MaNguoiDung = userId }
+        }
+            };
+            danhSachGoc.Add(giaiTri);
+
+            // --- 4. DI CHUYỂN ---
+            var diChuyen = new DanhMucChiTieu
+            {
+                TenDanhMuc = "Di chuyển",
+                MaNguoiDung = userId,
+                DanhMucCha = null,
+                DanhMucCon = new List<DanhMucChiTieu>
+        {
+            new DanhMucChiTieu { TenDanhMuc = "Xăng xe", MaNguoiDung = userId },
+            new DanhMucChiTieu { TenDanhMuc = "Gửi xe", MaNguoiDung = userId },
+            new DanhMucChiTieu { TenDanhMuc = "Grab/Be", MaNguoiDung = userId }
+        }
+            };
+            danhSachGoc.Add(diChuyen);
+
+            // --- 5. MUA SẮM ---
+            var muaSam = new DanhMucChiTieu
+            {
+                TenDanhMuc = "Mua sắm",
+                MaNguoiDung = userId,
+                DanhMucCha = null,
+                DanhMucCon = new List<DanhMucChiTieu>
+        {
+            new DanhMucChiTieu { TenDanhMuc = "Quần áo", MaNguoiDung = userId },
+            new DanhMucChiTieu { TenDanhMuc = "Đồ gia dụng", MaNguoiDung = userId },
+            new DanhMucChiTieu { TenDanhMuc = "Mỹ phẩm", MaNguoiDung = userId }
+        }
+            };
+            danhSachGoc.Add(muaSam);
+
+            // --- 6. SỨC KHỎE ---
+            var sucKhoe = new DanhMucChiTieu
+            {
+                TenDanhMuc = "Sức khỏe",
+                MaNguoiDung = userId,
+                DanhMucCha = null,
+                DanhMucCon = new List<DanhMucChiTieu>
+        {
+            new DanhMucChiTieu { TenDanhMuc = "Khám bệnh", MaNguoiDung = userId },
+            new DanhMucChiTieu { TenDanhMuc = "Thuốc", MaNguoiDung = userId },
+            new DanhMucChiTieu { TenDanhMuc = "Bảo hiểm y tế", MaNguoiDung = userId }
+        }
+            };
+            danhSachGoc.Add(sucKhoe);
+
+            // --- 7. GIÁO DỤC ---
+            var giaoDuc = new DanhMucChiTieu
+            {
+                TenDanhMuc = "Giáo dục",
+                MaNguoiDung = userId,
+                DanhMucCha = null,
+                DanhMucCon = new List<DanhMucChiTieu>
+        {
+            new DanhMucChiTieu { TenDanhMuc = "Học phí", MaNguoiDung = userId },
+            new DanhMucChiTieu { TenDanhMuc = "Mua sách", MaNguoiDung = userId },
+            new DanhMucChiTieu { TenDanhMuc = "Khóa học online", MaNguoiDung = userId }
+        }
+            };
+            danhSachGoc.Add(giaoDuc);
+
+            // --- 8. THU NHẬP ---
+            var thuNhap = new DanhMucChiTieu
+            {
+                TenDanhMuc = "Thu nhập",
+                MaNguoiDung = userId,
+                DanhMucCha = null,
+                DanhMucCon = new List<DanhMucChiTieu>
+        {
+            new DanhMucChiTieu { TenDanhMuc = "Lương", MaNguoiDung = userId },
+            new DanhMucChiTieu { TenDanhMuc = "Thưởng", MaNguoiDung = userId },
+            new DanhMucChiTieu { TenDanhMuc = "Thu nhập phụ", MaNguoiDung = userId }
+        }
+            };
+            danhSachGoc.Add(thuNhap);
+
+            // --- LƯU TẤT CẢ VÀO DB ---
+            db.DanhMucChiTieus.AddRange(danhSachGoc);
+            db.SaveChanges();
         }
         private void LoadTreeView()
         {
@@ -57,7 +213,7 @@ namespace Demo_Layout
                         tvDanhMuc.Nodes.Add(rootNode);
                     }
                 }
-                tvDanhMuc.ExpandAll(); // Mở rộng tất cả các node
+                //tvDanhMuc.ExpandAll(); // Mở rộng tất cả các node
             }
             catch (Exception ex)
             {
@@ -85,112 +241,112 @@ namespace Demo_Layout
         }
 
 
+
         /// Mở form Thêm (Create)
         /// </summary>
         private void btnThem_Click(object sender, EventArgs e)
         {
-            // Gọi form Thêm/Sửa ở chế độ Thêm (không truyền ID)
-            //frmThemDanhMuc frm = new frmThemDanhMuc();
+            frmThemDanhMuc frm = new frmThemDanhMuc(_dbFactory);
 
-            //if (frm.ShowDialog() == DialogResult.OK)
-            //{
-            //    LoadTreeView(); // Tải lại TreeView
-            //}
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                LoadTreeView(); // Tải lại TreeView
+            }
 
-            // Cách 1: Nếu Form này đơn giản không cần DI --> NHỚ CHỈNH LẠI 
-            frmThemDanhMuc frm = new frmThemDanhMuc(/*_dbFactory*/);
-
-            // Cách 2: Chuẩn DI (Bạn cần đăng ký frmThemDanhMuc trong Program.cs trước)
-            // using (var frm = _serviceProvider.GetRequiredService<frmThemDanhMuc>()) 
-            // {
-            //     if (frm.ShowDialog() == DialogResult.OK)
-            //     {
-            //         LoadTreeView();
-            //     }
-            // }
         }
 
         private void btnSua_Click(object sender, EventArgs e)
         {
-            //    // 1. Kiểm tra xem có node nào được chọn không
-            //    if (tvDanhMuc.SelectedNode == null)
-            //    {
-            //        MessageBox.Show("Vui lòng chọn một danh mục để sửa.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            //        return;
-            //    }
-
-            //    try
-            //    {
-            //        // 2. Lấy MaDanhMuc (ID) từ Tag của Node được chọn
-            //        int selectedId = (int)tvDanhMuc.SelectedNode.Tag;
-
-            //        // 3. Gọi form Sửa
-            //        frmThemSuaDanhMuc frm = new frmThemSuaDanhMuc(selectedId);
-            //        if (frm.ShowDialog() == DialogResult.OK)
-            //        {
-            //            LoadTreeView(); // Tải lại TreeView
-            //        }
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        MessageBox.Show("Lỗi khi lấy ID: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //    }
+            ThucHienSua();
+        }
+        private void TvDanhMuc_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            ThucHienSua();
         }
 
+        private void ThucHienSua()
+        {
+            if (tvDanhMuc.SelectedNode == null)
+            {
+                MessageBox.Show("Vui lòng chọn danh mục cần sửa.");
+                return;
+            }
+
+            int maDanhMuc = (int)tvDanhMuc.SelectedNode.Tag;
+
+            // Khởi tạo form
+            frmThemDanhMuc frm = new frmThemDanhMuc(_dbFactory);
+
+            // Kích hoạt chế độ Sửa
+            frm.CheDoSua(maDanhMuc);
+
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                LoadTreeView();
+                MessageBox.Show("Cập nhật thành công!");
+            }
+        }
         private void btnXoa_Click(object sender, EventArgs e)
         {
             if (tvDanhMuc.SelectedNode == null)
             {
-                MessageBox.Show("Vui lòng chọn một danh mục để xóa.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Vui lòng chọn danh mục cần xóa.");
                 return;
             }
 
-            var confirmResult = MessageBox.Show("Bạn có chắc muốn xóa danh mục này không?", "Xác nhận Xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            // Lấy thông tin để hiển thị confirm
+            string tenDanhMuc = tvDanhMuc.SelectedNode.Text;
+            int maDanhMuc = (int)tvDanhMuc.SelectedNode.Tag;
 
-            if (confirmResult == DialogResult.Yes)
+            // Cảnh báo mạnh mẽ vì xóa sẽ mất hết giao dịch
+            var result = MessageBox.Show(
+                $"CẢNH BÁO: Bạn đang muốn xóa danh mục '{tenDanhMuc}'.\n\n" +
+                $"Hành động này sẽ XÓA TOÀN BỘ CÁC GIAO DỊCH thuộc danh mục này.\n" +
+                "Bạn có chắc chắn muốn tiếp tục không?",
+                "Xác nhận xóa nguy hiểm",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning);
+
+            if (result == DialogResult.Yes)
             {
                 try
                 {
-                    int selectedId = (int)tvDanhMuc.SelectedNode.Tag;
-
                     using (var db = _dbFactory.CreateDbContext())
                     {
-                        // 1. Kiểm tra ràng buộc con (Danh mục cha)
-                        bool coCon = db.DanhMucChiTieus.Any(dm => dm.DanhMucCha == selectedId);
+                        // 1. Kiểm tra xem có danh mục con không? (Nếu có con thì không cho xóa, bắt xóa con trước)
+                        bool coCon = db.DanhMucChiTieus.Any(dm => dm.DanhMucCha == maDanhMuc);
                         if (coCon)
                         {
-                            MessageBox.Show("Lỗi: Không thể xóa danh mục này vì nó là danh mục cha của các mục khác. Vui lòng xóa các mục con trước.", "Lỗi Ràng buộc", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show("Danh mục này đang chứa các danh mục con. Vui lòng xóa các danh mục con trước.");
                             return;
                         }
 
-                        //// 2. Kiểm tra ràng buộc Giao dịch (Quan trọng)
-                        //bool coGiaoDich = db.GIAO_DICH.Any(gd => gd.MaDanhMuc == selectedId);
-                        //if (coGiaoDich)
-                        //{
-                        //    MessageBox.Show("Lỗi: Không thể xóa danh mục này vì đã có giao dịch sử dụng nó.", "Lỗi Ràng buộc", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        //    return;
-                        //}
-
-                        // (Bạn cũng nên kiểm tra BẢNG NGÂN SÁCH nếu cần)
-
-                        // 3. Tiến hành Xóa
-                        var danhMucCanXoa = db.DanhMucChiTieus.Find(selectedId);
-                        if (danhMucCanXoa != null)
+                        // 2. TÌM VÀ XÓA CÁC GIAO DỊCH LIÊN QUAN TRƯỚC (Theo yêu cầu của bạn)
+                        var giaoDichLienQuan = db.GiaoDichs.Where(gd => gd.MaDanhMuc == maDanhMuc).ToList();
+                        if (giaoDichLienQuan.Count > 0)
                         {
-                            db.DanhMucChiTieus.Remove(danhMucCanXoa);
-                            db.SaveChanges();
+                            db.GiaoDichs.RemoveRange(giaoDichLienQuan);
+                        }
 
-                            MessageBox.Show("Xóa thành công!");
-                            LoadTreeView(); // Tải lại TreeView
+                        // 3. XÓA DANH MỤC
+                        var danhMuc = db.DanhMucChiTieus.Find(maDanhMuc);
+                        if (danhMuc != null)
+                        {
+                            db.DanhMucChiTieus.Remove(danhMuc);
+                            db.SaveChanges(); // Commit transaction (xóa cả GD và DM cùng lúc)
+
+                            LoadTreeView();
+                            MessageBox.Show($"Đã xóa danh mục và {giaoDichLienQuan.Count} giao dịch liên quan.");
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Lỗi khi xóa: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Lỗi khi xóa: " + ex.Message);
                 }
             }
         }
+
 
         // Placeholder event
 

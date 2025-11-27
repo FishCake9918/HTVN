@@ -21,6 +21,9 @@ namespace Data
         public DbSet<BangNganSach> BangNganSachs { get; set; }
         public DbSet<ThongBao> ThongBaos { get; set; }
 
+        // >>> [THÊM MỚI] BẢNG NHẬT KÝ HOẠT ĐỘNG <<<
+        public DbSet<NhatKyHoatDong> NhatKyHoatDongs { get; set; }
+
         // Bảng Trung Gian (Junction Tables)
         public DbSet<DanhMucChiTieuNganSach> DanhMucChiTieuNganSachs { get; set; }
         public DbSet<GiaoDichNganSach> GiaoDichNganSachs { get; set; }
@@ -58,6 +61,14 @@ namespace Data
                .WithMany(a => a.ThongBaos)
                .HasForeignKey(tb => tb.MaAdmin)
                .OnDelete(DeleteBehavior.SetNull);
+
+            // >>> [THÊM MỚI] CẤU HÌNH NHAT_KY_HOAT_DONG - NGUOI_DUNG (SET NULL) <<<
+            // Khi xóa Người dùng, Log không bị xóa mà MaNguoiDung sẽ về NULL
+            modelBuilder.Entity<NhatKyHoatDong>()
+                .HasOne(nk => nk.NguoiDung)
+                .WithMany() // Một người dùng có nhiều log (không cần khai báo List bên NguoiDung cũng được)
+                .HasForeignKey(nk => nk.MaNguoiDung)
+                .OnDelete(DeleteBehavior.SetNull);
 
             // Cấu hình các CASCADE cho các bảng trung gian (phù hợp với scripts SQL của bạn)
 

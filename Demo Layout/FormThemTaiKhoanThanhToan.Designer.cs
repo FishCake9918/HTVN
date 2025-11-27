@@ -2,15 +2,8 @@
 {
     partial class FormThemTaiKhoanThanhToan
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -22,10 +15,6 @@
 
         #region Windows Form Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
             lbTenTaiKhoan = new Label();
@@ -71,12 +60,12 @@
             txtSoDu.Font = new Font("Segoe UI", 12F);
             txtSoDu.Location = new Point(163, 135);
             txtSoDu.Name = "txtSoDu";
-            txtSoDu.Size = new Size(321, 34);
+            txtSoDu.Size = new Size(180, 34);
             txtSoDu.TabIndex = 3;
             // 
             // btnTao
             // 
-            btnTao.Location = new Point(367, 186);
+            btnTao.Location = new Point(390, 195);
             btnTao.Name = "btnTao";
             btnTao.Size = new Size(94, 40);
             btnTao.TabIndex = 5;
@@ -85,7 +74,7 @@
             // 
             // btnQuayLai
             // 
-            btnQuayLai.Location = new Point(238, 186);
+            btnQuayLai.Location = new Point(254, 195);
             btnQuayLai.Name = "btnQuayLai";
             btnQuayLai.Size = new Size(107, 40);
             btnQuayLai.TabIndex = 6;
@@ -111,12 +100,12 @@
             cmbLoaiTaiKhoan.Size = new Size(321, 36);
             cmbLoaiTaiKhoan.TabIndex = 8;
             // 
-            // FormThemTaiKhoan
+            // FormThemTaiKhoanThanhToan
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Honeydew;
-            ClientSize = new Size(515, 258);
+            ClientSize = new Size(527, 258);
             Controls.Add(cmbLoaiTaiKhoan);
             Controls.Add(lbLoaiTaiKhoan);
             Controls.Add(btnQuayLai);
@@ -125,7 +114,7 @@
             Controls.Add(tbTenTaiKhoan);
             Controls.Add(lbSoDu);
             Controls.Add(lbTenTaiKhoan);
-            Name = "FormThemTaiKhoan";
+            Name = "FormThemTaiKhoanThanhToan";
             Text = "Thêm tài khoản";
             ResumeLayout(false);
             PerformLayout();
@@ -133,6 +122,7 @@
 
         #endregion
 
+        // Khai báo biến thành viên
         private Label lbTenTaiKhoan;
         private Label lbSoDu;
         private TextBox tbTenTaiKhoan;
