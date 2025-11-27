@@ -1,7 +1,7 @@
 ﻿// ThongBao.cs
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
+namespace Data { 
 [Table("THONG_BAO")]
 public class ThongBao
 {
@@ -17,4 +17,5 @@ public class ThongBao
 
     [ForeignKey("MaAdmin")]
     public Admin Admin { get; set; }
+}
 }

@@ -1,9 +1,10 @@
-﻿using System;
-using System.Windows.Forms;
-using Data;
+﻿using Data;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Forms;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Piggy_Admin
 {
@@ -17,18 +18,18 @@ namespace Piggy_Admin
             InitializeComponent();
             _dbFactory = dbFactory;
 
-            // Ẩn phần chọn vai trò đi vì mặc định là User
+            // Yêu cầu 2: Không cho chỉnh quyền (ẩn UI)
             lblVaiTro.Visible = false;
             cboVaiTro.Visible = false;
         }
-
-        // Không cần LoadRoles nữa
 
         public void LoadDataForEdit(int maTaiKhoan)
         {
             _maTaiKhoanHienTai = maTaiKhoan;
             lblTitle.Text = "CẬP NHẬT NGƯỜI DÙNG";
-            txtEmail.Enabled = false;
+            lblNote.Text = "(Để trống nếu không đổi mật khẩu)";
+            this.Text= "Cập nhật tài khoản";
+            txtEmail.Enabled = false; // Email không được sửa
 
             using (var db = _dbFactory.CreateDbContext())
             {
@@ -39,7 +40,6 @@ namespace Piggy_Admin
                 if (tk != null)
                 {
                     txtEmail.Text = tk.Email;
-                    // Chỉ load thông tin người dùng
                     if (tk.NguoiDung != null)
                         txtHoTen.Text = tk.NguoiDung.HoTen;
                 }
@@ -64,9 +64,8 @@ namespace Piggy_Admin
                 {
                     try
                     {
-                        // Lấy ID vai trò không phải Admin (Giả sử tên trong DB là "người dùng")
-                        var userRole = db.Set<VaiTro>()
-                                         .FirstOrDefault(r => r.TenVaiTro != "Admin");
+                        // Luôn lấy vai trò User (chặn việc set thành Admin)
+                        var userRole = db.Set<VaiTro>().FirstOrDefault(r => r.TenVaiTro != "Admin");
 
                         if (userRole == null)
                         {
@@ -96,11 +95,12 @@ namespace Piggy_Admin
                                 MessageBox.Show("Mật khẩu phải có ít nhất 6 ký tự.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                 return;
                             }
+
                             taiKhoan = new TaiKhoan
                             {
                                 Email = email,
                                 MatKhau = password,
-                                MaVaiTro = userRole.MaVaiTro // LUÔN LÀ USER
+                                MaVaiTro = userRole.MaVaiTro // Yêu cầu 2: Luôn gán là User
                             };
                             db.Set<TaiKhoan>().Add(taiKhoan);
                             db.SaveChanges();
@@ -111,15 +111,17 @@ namespace Piggy_Admin
                             taiKhoan = db.Set<TaiKhoan>().Find(_maTaiKhoanHienTai);
                             if (taiKhoan == null) return;
 
+                            // Chỉ cập nhật mật khẩu nếu có nhập
                             if (!string.IsNullOrEmpty(password))
                             {
+                                if (password.Length < 6)
+                                {
+                                    MessageBox.Show("Mật khẩu mới phải có ít nhất 6 ký tự.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    return;
+                                }
                                 taiKhoan.MatKhau = password;
                             }
-                            if (password.Length < 6)
-                            {
-                                MessageBox.Show("Mật khẩu mới phải có ít nhất 6 ký tự.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                                return;
-                            }
+                            // Không cập nhật MaVaiTro -> Đảm bảo không bị chuyển sang Admin
                             db.SaveChanges();
                         }
 

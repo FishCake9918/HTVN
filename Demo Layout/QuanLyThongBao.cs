@@ -18,19 +18,9 @@ namespace Demo_Layout
             // Tìm kiếm tự động khi gõ
             txtTimKiem.TextChanged += txtTimKiem_TextChanged;
 
-            KhoiTaoDuLieuMau();
             HienThiDanhSach();
         }
 
-        private void KhoiTaoDuLieuMau()
-        {
-            danh_sach_thong_bao = new List<ThongBao>
-            {
-                new ThongBao { MaThongBao = 1, TieuDe = "Khuyến mãi lớn", NoiDung = "Giảm giá 50% toàn bộ sản phẩm.", NgayTao = DateTime.Now.AddDays(-5), RoleTao = "Super Admin" },
-                new ThongBao { MaThongBao = 2, TieuDe = "Bảo trì hệ thống", NoiDung = "Hệ thống sẽ bảo trì vào 10/11.", NgayTao = DateTime.Now.AddDays(-2), RoleTao = "Moderator" },
-                new ThongBao { MaThongBao = 3, TieuDe = "Thông báo mới nhất", NoiDung = "Cập nhật ứng dụng phiên bản 2.0.", NgayTao = DateTime.Now, RoleTao = "Admin" }
-            };
-        }
 
         // HÀM HIỂN THỊ HỖ TRỢ TÌM KIẾM
         private void HienThiDanhSach(string tu_khoa_tim_kiem = null)
