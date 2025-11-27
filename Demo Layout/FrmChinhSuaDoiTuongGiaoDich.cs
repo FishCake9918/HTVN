@@ -9,19 +9,19 @@ namespace Demo_Layout
 {
     public partial class FrmChinhSuaDoiTuongGiaoDich : Form
     {
-        // 1. THÊM ACTION CALLBACK
         public Action OnDataSaved;
-
         private readonly IDbContextFactory<QLTCCNContext> _dbFactory;
+        private readonly CurrentUserContext _userContext; // <-- Inject
         private int _idDoiTuong = 0;
-        private const int MA_NGUOI_DUNG_HIEN_TAI = 1;
 
-        public FrmChinhSuaDoiTuongGiaoDich(IDbContextFactory<QLTCCNContext> dbFactory)
+        public FrmChinhSuaDoiTuongGiaoDich(
+            IDbContextFactory<QLTCCNContext> dbFactory,
+            CurrentUserContext userContext) // <-- Inject
         {
             InitializeComponent();
             _dbFactory = dbFactory;
+            _userContext = userContext;
 
-            this.Load += FrmChinhSuaDoiTuongGiaoDich_Load;
             this.btnLuu.Click += btnLuu_Click;
             this.btnHuy.Click += btnHuy_Click;
         }
@@ -29,21 +29,9 @@ namespace Demo_Layout
         public void SetId(int id)
         {
             _idDoiTuong = id;
-            this.Text = (id == 0) ? "Thêm Đối Tượng Giao Dịch Mới" : "Chỉnh Sửa Đối Tượng Giao Dịch";
-
-            if (_idDoiTuong > 0)
-            {
-                LoadDataForEdit(_idDoiTuong);
-            }
-            else
-            {
-                txtTen.Text = string.Empty;
-                txtGhiChu.Text = string.Empty;
-            }
-        }
-
-        private void FrmChinhSuaDoiTuongGiaoDich_Load(object sender, EventArgs e)
-        {
+            this.Text = (id == 0) ? "Thêm Đối Tượng" : "Sửa Đối Tượng";
+            if (_idDoiTuong > 0) LoadDataForEdit(_idDoiTuong);
+            else { txtTen.Text = ""; txtGhiChu.Text = ""; }
         }
 
         private void LoadDataForEdit(int id)
@@ -53,85 +41,51 @@ namespace Demo_Layout
                 using (var db = _dbFactory.CreateDbContext())
                 {
                     var obj = db.DoiTuongGiaoDichs.AsNoTracking().FirstOrDefault(d => d.MaDoiTuongGiaoDich == id);
-                    if (obj != null)
-                    {
-                        txtTen.Text = obj.TenDoiTuong;
-                        txtGhiChu.Text = obj.GhiChu;
-                    }
+                    if (obj != null) { txtTen.Text = obj.TenDoiTuong; txtGhiChu.Text = obj.GhiChu; }
                 }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Lỗi tải dữ liệu chỉnh sửa: {ex.Message}", "Lỗi Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            catch (Exception ex) { MessageBox.Show("Lỗi: " + ex.Message); }
         }
 
-        private void btnHuy_Click(object sender, EventArgs e)
-        {
-            this.DialogResult = DialogResult.Cancel;
-            this.Close();
-        }
+        private void btnHuy_Click(object sender, EventArgs e) { this.DialogResult = DialogResult.Cancel; this.Close(); }
 
         private void btnLuu_Click(object sender, EventArgs e)
         {
+            if (_userContext.MaNguoiDung == null) return;
             string tenDoiTuong = txtTen.Text.Trim();
             string ghiChu = txtGhiChu.Text.Trim();
 
-            if (string.IsNullOrEmpty(tenDoiTuong))
-            {
-                MessageBox.Show("Tên đối tượng không được để trống.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                txtTen.Focus();
-                return;
-            }
+            if (string.IsNullOrEmpty(tenDoiTuong)) { MessageBox.Show("Tên trống."); return; }
 
             using (var db = _dbFactory.CreateDbContext())
             {
-                bool isDuplicate = db.DoiTuongGiaoDichs.Any(p =>
-                    p.TenDoiTuong.Equals(tenDoiTuong) &&
-                    p.MaNguoiDung == MA_NGUOI_DUNG_HIEN_TAI &&
-                    p.MaDoiTuongGiaoDich != _idDoiTuong);
-
-                if (isDuplicate)
-                {
-                    MessageBox.Show("Đã tồn tại đối tượng này.", "Trùng lặp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtTen.Focus();
-                    return;
-                }
+                // SỬA: Check trùng theo User hiện tại
+                bool isDuplicate = db.DoiTuongGiaoDichs.Any(p => p.TenDoiTuong.Equals(tenDoiTuong) && p.MaNguoiDung == _userContext.MaNguoiDung && p.MaDoiTuongGiaoDich != _idDoiTuong);
+                if (isDuplicate) { MessageBox.Show("Trùng tên."); return; }
 
                 try
                 {
-                    if (_idDoiTuong == 0) // THÊM MỚI
+                    if (_idDoiTuong == 0)
                     {
                         var newObj = new DoiTuongGiaoDich
                         {
                             TenDoiTuong = tenDoiTuong,
                             GhiChu = ghiChu,
-                            MaNguoiDung = MA_NGUOI_DUNG_HIEN_TAI
+                            MaNguoiDung = _userContext.MaNguoiDung.Value // <-- ID thật
                         };
                         db.DoiTuongGiaoDichs.Add(newObj);
                     }
-                    else // CẬP NHẬT
+                    else
                     {
                         var objToUpdate = db.DoiTuongGiaoDichs.FirstOrDefault(d => d.MaDoiTuongGiaoDich == _idDoiTuong);
-                        if (objToUpdate != null)
-                        {
-                            objToUpdate.TenDoiTuong = tenDoiTuong;
-                            objToUpdate.GhiChu = ghiChu;
-                        }
+                        if (objToUpdate != null) { objToUpdate.TenDoiTuong = tenDoiTuong; objToUpdate.GhiChu = ghiChu; }
                     }
-
                     db.SaveChanges();
-
-                    // 2. GỌI CALLBACK TRƯỚC KHI ĐÓNG FORM
                     OnDataSaved?.Invoke();
-
                     this.DialogResult = DialogResult.OK;
                     this.Close();
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Lỗi khi lưu dữ liệu: " + ex.Message, "Lỗi Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                catch (Exception ex) { MessageBox.Show("Lỗi: " + ex.Message); }
             }
         }
     }

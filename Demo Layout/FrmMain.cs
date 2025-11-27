@@ -6,9 +6,10 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
-using Data; // QUAN TRỌNG
+using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Piggy_Admin; // Để dùng ListThongBao, ItemThongBao
 
 namespace Demo_Layout
 {
@@ -19,12 +20,14 @@ namespace Demo_Layout
         public event Action LogoutRequested;
         private readonly CurrentUserContext _userContext;
 
+        // --- CÁC BIẾN CHO THÔNG BÁO ---
         private ToolStripDropDown _popupThongBao;
         private ListThongBao _ucListThongBao;
         private bool _coThongBaoMoi = false;
         private DateTime _lastCheckTime;
-        private Color _dotColor = ColorTranslator.FromHtml("#CC0000");
+        private Color _dotColor = ColorTranslator.FromHtml("#FF0000"); // Đỏ tươi
         private string _timestampFile = "last_check.txt";
+        // -------------------------------
 
         private bool _isShaking = false;
 
@@ -43,8 +46,10 @@ namespace Demo_Layout
             _dbFactory = dbFactory;
             _serviceProvider = serviceProvider;
             _userContext = userContext;
+
             LoadUserInfo();
 
+            // Đăng ký sự kiện chuông
             icoBell.Click += IcoBell_Click;
             icoBell.Paint += IcoBell_Paint;
 
@@ -65,6 +70,9 @@ namespace Demo_Layout
             }
         }
 
+        // =================================================================================
+        // PHẦN 1: LOGIC THÔNG BÁO (GIỮ NGUYÊN)
+        // =================================================================================
         private void CheckNewNotifications()
         {
             try
@@ -72,37 +80,26 @@ namespace Demo_Layout
                 if (File.Exists(_timestampFile))
                 {
                     string content = File.ReadAllText(_timestampFile);
-                    if (DateTime.TryParse(content, out DateTime savedTime))
-                    {
-                        _lastCheckTime = savedTime;
-                    }
+                    if (DateTime.TryParse(content, out DateTime savedTime)) _lastCheckTime = savedTime;
                     else _lastCheckTime = DateTime.Now.AddDays(-7);
                 }
-                else
-                {
-                    _lastCheckTime = DateTime.Now.AddDays(-7);
-                }
+                else _lastCheckTime = DateTime.Now.AddDays(-7);
             }
             catch { _lastCheckTime = DateTime.Now.AddDays(-7); }
 
-                LogHelper.GhiLog(_dbFactory, "Đăng nhập", _userContext.MaNguoiDung); // ghi log
-
-                // Logic đổi hình đại diện nếu có (ví dụ)
-                // if (_userContext.IsAdmin) picUserProfile.Image = ...
             try
             {
+                // Ghi log đăng nhập (nếu cần)
+                // LogHelper.GhiLog(_dbFactory, "Đăng nhập", _userContext.MaNguoiDung ?? 0);
+
                 using (var db = _dbFactory.CreateDbContext())
                 {
-                    // FIX LỖI: So sánh trực tiếp, không cần HasValue
                     int countNew = db.ThongBaos.Count(t => t.NgayTao > _lastCheckTime);
                     _coThongBaoMoi = countNew > 0;
                     icoBell.Invalidate();
                 }
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Lỗi check thông báo: " + ex.Message);
-            }
+            catch (Exception ex) { Console.WriteLine("Lỗi check thông báo: " + ex.Message); }
         }
 
         private void IcoBell_Paint(object sender, PaintEventArgs e)
@@ -110,7 +107,7 @@ namespace Demo_Layout
             if (_coThongBaoMoi)
             {
                 e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-                Rectangle rect = new Rectangle(icoBell.Width - 14, 2, 12, 12);
+                Rectangle rect = new Rectangle(icoBell.Width - 12, 0, 10, 10);
                 using (Brush brush = new SolidBrush(_dotColor))
                 {
                     e.Graphics.FillEllipse(brush, rect);
@@ -122,7 +119,6 @@ namespace Demo_Layout
         {
             _coThongBaoMoi = false;
             icoBell.Invalidate();
-
             _lastCheckTime = DateTime.Now;
             try { File.WriteAllText(_timestampFile, _lastCheckTime.ToString()); } catch { }
 
@@ -130,11 +126,7 @@ namespace Demo_Layout
             {
                 using (var db = _dbFactory.CreateDbContext())
                 {
-                    // Lấy dữ liệu Data.ThongBao
-                    var listThongBao = db.ThongBaos
-                        .OrderByDescending(t => t.NgayTao)
-                        .Take(20)
-                        .ToList();
+                    var listThongBao = db.ThongBaos.OrderByDescending(t => t.NgayTao).Take(20).ToList();
 
                     if (_popupThongBao == null)
                     {
@@ -148,193 +140,98 @@ namespace Demo_Layout
                         _popupThongBao.Items.Add(host);
                         _popupThongBao.Margin = Padding.Empty;
                         _popupThongBao.Padding = Padding.Empty;
-
                         _popupThongBao.BackColor = Color.White;
                     }
 
                     _ucListThongBao.LoadData(listThongBao, _lastCheckTime);
-
                     _popupThongBao.Show(icoBell, new Point(-310 + icoBell.Width, icoBell.Height + 5));
                 }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi tải thông báo: " + ex.Message);
-            }
+            catch (Exception ex) { MessageBox.Show("Lỗi tải thông báo: " + ex.Message); }
         }
 
-        // --- CÁC PHẦN CÒN LẠI CỦA MAIN FORM ---
+        // =================================================================================
+        // PHẦN 2: LOGIC ĐIỀU HƯỚNG MENU (ĐÃ LÀM SẠCH)
+        // =================================================================================
 
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             System.Windows.Forms.Application.Exit();
         }
 
+        // --- BUTTON 1: BÁO CÁO ---
         private void button1_Click(object sender, EventArgs e)
         {
             HieuUngRungLac();
             pnlHienThi.Controls.Clear();
-            UserControlBaoCao userControlMoi = _serviceProvider.GetRequiredService<UserControlBaoCao>();
-            userControlMoi.Dock = DockStyle.Fill;
-            pnlHienThi.Controls.Add(userControlMoi);
+            UserControlBaoCao uc = _serviceProvider.GetRequiredService<UserControlBaoCao>();
+            uc.Dock = DockStyle.Fill;
+            pnlHienThi.Controls.Add(uc);
         }
 
+        // --- BUTTON 2: QUẢN LÝ GIAO DỊCH ---
         private void button2_Click(object sender, EventArgs e)
         {
             HieuUngRungLac();
             pnlHienThi.Controls.Clear();
-            UserControlQuanLyGiaoDich userControlMoi = _serviceProvider.GetRequiredService<UserControlQuanLyGiaoDich>();
-            userControlMoi.Dock = DockStyle.Fill;
-            pnlHienThi.Controls.Add(userControlMoi);
+            UserControlQuanLyGiaoDich uc = _serviceProvider.GetRequiredService<UserControlQuanLyGiaoDich>();
+            uc.Dock = DockStyle.Fill;
+            pnlHienThi.Controls.Add(uc);
         }
 
+        // --- BUTTON 3: NGÂN SÁCH (ĐÃ SỬA GỌN) ---
         private void button3_Click(object sender, EventArgs e)
         {
             HieuUngRungLac();
             pnlHienThi.Controls.Clear();
-
-            // 1. Khởi tạo UserControl qua DI
-            UserControlNganSach userControlMoi = _serviceProvider.GetRequiredService<UserControlNganSach>();
-
-            // 2. PHẢI THÊM: Đăng ký sự kiện mở form Thêm/Sửa
-            userControlMoi.OnOpenEditForm += NganSachControl_OnOpenEditForm; // <-- DÒNG QUAN TRỌNG
-
-            userControlMoi.Dock = DockStyle.Fill;
-            pnlHienThi.Controls.Add(userControlMoi);
-        }
-        private void NganSachControl_OnOpenEditForm(object sender, int nganSachId)
-        {
-            // Tạo Form Thêm/Sửa Ngân sách thông qua DI
-            using (var frmEdit = _serviceProvider.GetRequiredService<LapNganSach>())
-            {
-                // Thiết lập ID (0 cho Thêm mới, >0 cho Sửa)
-                frmEdit.SetId(nganSachId);
-
-                if (frmEdit.ShowDialog() == DialogResult.OK)
-                {
-                    // Nếu Lưu thành công, tải lại danh sách
-                    if (sender is UserControlNganSach control)
-                    {
-                        control.LoadDanhSach();
-                    }
-                }
-            }
+            // UserControl tự lo việc mở form, Main không cần đăng ký event nữa
+            UserControlNganSach uc = _serviceProvider.GetRequiredService<UserControlNganSach>();
+            uc.Dock = DockStyle.Fill;
+            pnlHienThi.Controls.Add(uc);
         }
 
-
+        // --- BUTTON 4: DANH MỤC CHI TIÊU ---
         private void button4_Click(object sender, EventArgs e)
         {
             HieuUngRungLac();
             pnlHienThi.Controls.Clear();
-            UserControlDanhMucChiTieu userControlMoi = _serviceProvider.GetRequiredService<UserControlDanhMucChiTieu>();
-            userControlMoi.Dock = DockStyle.Fill;
-            pnlHienThi.Controls.Add(userControlMoi);
+            UserControlDanhMucChiTieu uc = _serviceProvider.GetRequiredService<UserControlDanhMucChiTieu>();
+            uc.Dock = DockStyle.Fill;
+            pnlHienThi.Controls.Add(uc);
         }
 
+        // --- BUTTON 5: ĐỐI TƯỢNG GIAO DỊCH (ĐÃ SỬA GỌN) ---
         private void button5_Click(object sender, EventArgs e)
         {
             HieuUngRungLac();
             pnlHienThi.Controls.Clear();
-
-            // 1. Tạo UserControl mới thông qua DI
-            UserControlDoiTuongGiaoDich userControlMoi = _serviceProvider.GetRequiredService<UserControlDoiTuongGiaoDich>();
-
-            // 2. PHẢI THÊM: LẮNG NGHE SỰ KIỆN TỪ USER CONTROL
-            // Gán Event của User Control vào phương thức xử lý của Form Main
-            userControlMoi.OnOpenEditForm += DoiTuongControl_OnOpenEditForm;
-
-            // 3. Nhúng vào Panel
-            userControlMoi.Dock = DockStyle.Fill;
-            pnlHienThi.Controls.Add(userControlMoi);
+            // Code gọn gàng, logic xử lý form nằm trong UserControl
+            UserControlDoiTuongGiaoDich uc = _serviceProvider.GetRequiredService<UserControlDoiTuongGiaoDich>();
+            uc.Dock = DockStyle.Fill;
+            pnlHienThi.Controls.Add(uc);
         }
 
-        // KHÔNG ĐƯỢC THIẾU PHƯƠNG THỨC XỬ LÝ SỰ KIỆN NÀY (Đã đúng)
-        private void DoiTuongControl_OnOpenEditForm(object sender, int doiTuongId)
-        {
-            // Tạo form chỉnh sửa thông qua DI (khắc phục lỗi 'No service for type...')
-            using (var frmEdit = _serviceProvider.GetRequiredService<FrmChinhSuaDoiTuongGiaoDich>())
-            {
-                frmEdit.SetId(doiTuongId);
-
-                if (frmEdit.ShowDialog() == DialogResult.OK)
-                {
-                    if (sender is UserControlDoiTuongGiaoDich control)
-                    {
-                        // Tải lại dữ liệu sau khi Thêm/Sửa thành công
-                        control.LoadDanhSach();
-                    }
-                }
-            }
-        }
-
-
+        // --- BUTTON 6: TÀI KHOẢN THANH TOÁN (ĐÃ SỬA GỌN) ---
         private void button6_Click(object sender, EventArgs e)
         {
             HieuUngRungLac();
             pnlHienThi.Controls.Clear();
-
-            // 1. Tạo UserControl mới thông qua DI
-            UserControlTaiKhoanThanhToan userControlMoi = _serviceProvider.GetRequiredService<UserControlTaiKhoanThanhToan>();
-
-            // 2. PHẢI THÊM: LẮNG NGHE SỰ KIỆN TỪ USER CONTROL
-            // Gán Event Thêm tài khoản
-            userControlMoi.OnOpenThemTaiKhoan += TaiKhoan_OnOpenThemTaiKhoan;
-            // Gán Event Đóng tài khoản
-            userControlMoi.OnOpenDongTaiKhoan += TaiKhoan_OnOpenDongTaiKhoan;
-
-            // 3. Nhúng vào Panel
-            userControlMoi.Dock = DockStyle.Fill;
-            pnlHienThi.Controls.Add(userControlMoi);
-        }
-        // Thêm 2 phương thức này vào FrmMain.cs
-
-        private void TaiKhoan_OnOpenThemTaiKhoan(object sender, int taiKhoanId)
-        {
-            // Tạo Form Thêm thông qua DI
-            using (var frmThem = _serviceProvider.GetRequiredService<FormThemTaiKhoanThanhToan>())
-            {
-                if (frmThem.ShowDialog() == DialogResult.OK)
-                {
-                    // Nếu thêm thành công, tải lại danh sách
-                    if (sender is UserControlTaiKhoanThanhToan uc)
-                    {
-                        uc.LoadDanhSach();
-                    }
-                }
-            }
-        }
-        private void TaiKhoan_OnOpenDongTaiKhoan(object sender, int taiKhoanId)
-        {
-            // Tạo Form Đóng thông qua DI
-            using (var frmDong = _serviceProvider.GetRequiredService<FormDongTaiKhoan>())
-            {
-                // Thiết lập ID Tài khoản cần đóng
-                frmDong.SetTaiKhoanId(taiKhoanId);
-
-                if (frmDong.ShowDialog() == DialogResult.OK)
-                {
-                    // Nếu đóng thành công, tải lại danh sách
-                    if (sender is UserControlTaiKhoanThanhToan uc)
-                    {
-                        uc.LoadDanhSach();
-                    }
-                }
-            }
+            // Code gọn gàng
+            UserControlTaiKhoanThanhToan uc = _serviceProvider.GetRequiredService<UserControlTaiKhoanThanhToan>();
+            uc.Dock = DockStyle.Fill;
+            pnlHienThi.Controls.Add(uc);
         }
 
-
+        // --- CÁC NÚT ĐIỀU KHIỂN CỬA SỔ ---
         private void button8_Click(object sender, EventArgs e) => System.Windows.Forms.Application.Exit();
         private void button9_Click(object sender, EventArgs e) => this.WindowState = FormWindowState.Minimized;
         private void button7_Click(object sender, EventArgs e)
         {
-            // Chuyển từ trạng thái Normal sang Maximized
             if (this.WindowState == FormWindowState.Normal)
             {
-                // Sử dụng WorkingArea để Maximized mà không che Taskbar
                 this.MaximumSize = Screen.PrimaryScreen.WorkingArea.Size;
                 this.WindowState = FormWindowState.Maximized;
             }
-            // Chuyển từ trạng thái Maximized về Normal
             else
             {
                 this.WindowState = FormWindowState.Normal;
@@ -364,10 +261,8 @@ namespace Demo_Layout
         {
             if (_isShaking) return;
             _isShaking = true;
-
             Point originalPos = icoPiggy.Location;
             Random rnd = new Random();
-
             try
             {
                 for (int i = 0; i < 8; i++)

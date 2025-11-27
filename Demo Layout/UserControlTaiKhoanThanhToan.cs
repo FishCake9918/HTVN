@@ -7,35 +7,34 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Drawing;
 using Krypton.Toolkit;
+using Microsoft.Extensions.DependencyInjection; // Cần cho DI
 
 namespace Demo_Layout
 {
-    // Delegate để mở Form Thêm/Đóng tài khoản
-    public delegate void OpenFormHandler(object sender, int taiKhoanId);
-
-    // UserControl quản lý danh sách
     public partial class UserControlTaiKhoanThanhToan : UserControl
     {
         private readonly IDbContextFactory<QLTCCNContext> _dbFactory;
+        private readonly IServiceProvider _serviceProvider; // <-- Thêm ServiceProvider
+        private readonly CurrentUserContext _userContext;   // <-- Thêm Context
         private BindingSource bsTaiKhoan = new BindingSource();
-        private const int MA_NGUOI_DUNG_HIEN_TAI = 1;
-
-        public event OpenFormHandler OnOpenThemTaiKhoan;
-        public event OpenFormHandler OnOpenDongTaiKhoan;
 
         private List<TaiKhoanDisplayModel> _displayList = new List<TaiKhoanDisplayModel>();
-        private List<TaiKhoanFullModel> _fullAccountsList = new List<TaiKhoanFullModel>(); // Để lưu trữ dữ liệu gốc
+        private List<TaiKhoanFullModel> _fullAccountsList = new List<TaiKhoanFullModel>();
 
-        // KHAI BÁO CONTROLS CẦN CÓ Ở CUỐI TRANG (Giả định bạn đã thêm vào panel3)
         public KryptonComboBox cmbLocTaiKhoan;
-        public KryptonLabel lblSoDuBanDauDetail; // Label hiển thị SD ban đầu
-        public KryptonLabel lblSoDuKhaDungDetail; // Label hiển thị SD khả dụng
+        public KryptonLabel lblSoDuBanDauDetail;
+        public KryptonLabel lblSoDuKhaDungDetail;
 
-
-        public UserControlTaiKhoanThanhToan(IDbContextFactory<QLTCCNContext> dbFactory)
+        // Constructor nhận DI
+        public UserControlTaiKhoanThanhToan(
+            IDbContextFactory<QLTCCNContext> dbFactory,
+            IServiceProvider serviceProvider,
+            CurrentUserContext userContext)
         {
             InitializeComponent();
             _dbFactory = dbFactory;
+            _serviceProvider = serviceProvider;
+            _userContext = userContext;
 
             kryptonDataGridView1.DataSource = bsTaiKhoan;
 
@@ -47,7 +46,6 @@ namespace Demo_Layout
             this.btnDong.Click += BtnDong_Click;
             this.kryptonDataGridView1.DoubleClick += KryptonDataGridView1_DoubleClick;
 
-            // Đăng ký sự kiện cho ComboBox lọc mới
             if (cmbLocTaiKhoan != null)
             {
                 this.cmbLocTaiKhoan.SelectedIndexChanged += CmbLocTaiKhoan_SelectedIndexChanged;
@@ -56,29 +54,26 @@ namespace Demo_Layout
             ConfigureGridView();
         }
 
-        private void KryptonDataGridView1_DoubleClick(object sender, EventArgs e)
-        {
-            if (bsTaiKhoan.Current != null)
-            {
-                int selectedId = ((TaiKhoanDisplayModel)bsTaiKhoan.Current).MaTaiKhoanThanhToan;
-                OnOpenThemTaiKhoan?.Invoke(this, selectedId);
-            }
-        }
-
         private void UserControlTaiKhoanThanhToan_Load(object sender, EventArgs e)
         {
+            if (_userContext.MaNguoiDung == null) return; // Check an toàn
+
             txtTimKiem.Text = string.Empty;
             txtTimKiem.ForeColor = Color.Black;
-            LogHelper.GhiLog(_dbFactory, "Quản lý tài khoản thanh toán", MA_NGUOI_DUNG_HIEN_TAI); // ghi log
             LoadDanhSach();
-            // Load ComboBox lọc tài khoản sau khi LoadDanhSach để có dữ liệu
+
             if (cmbLocTaiKhoan != null)
             {
                 LoadComboBoxLocTaiKhoan();
             }
         }
 
-        // --- Cấu hình DataGridView ---
+        private void KryptonDataGridView1_DoubleClick(object sender, EventArgs e)
+        {
+            // Logic cũ: Mở form thêm nhưng ở chế độ xem (nếu cần) hoặc bỏ qua
+            // Hiện tại nút Thêm mở form thêm mới, double click có thể để trống hoặc mở form sửa nếu có
+        }
+
         private void ConfigureGridView()
         {
             kryptonDataGridView1.AllowUserToAddRows = false;
@@ -89,38 +84,26 @@ namespace Demo_Layout
             kryptonDataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
             kryptonDataGridView1.Columns.Clear();
-
             kryptonDataGridView1.Columns.Add(new DataGridViewTextBoxColumn { Name = "TenTaiKhoan", HeaderText = "Tên Tài Khoản", DataPropertyName = "TenTaiKhoan" });
             kryptonDataGridView1.Columns.Add(new DataGridViewTextBoxColumn { Name = "LoaiTaiKhoan", HeaderText = "Loại Tài Khoản", DataPropertyName = "TenLoaiTaiKhoan" });
-
-            // CỘT MỚI: Số dư Ban đầu
             kryptonDataGridView1.Columns.Add(new DataGridViewTextBoxColumn { Name = "SoDuBanDau", HeaderText = "Số dư Ban đầu", DataPropertyName = "SoDuBanDau", DefaultCellStyle = { Format = "N0", Alignment = DataGridViewContentAlignment.MiddleRight } });
-
-            // Số dư Khả dụng
             kryptonDataGridView1.Columns.Add(new DataGridViewTextBoxColumn { Name = "SoDuHienTai", HeaderText = "Số dư Khả dụng", DataPropertyName = "SoDuHienTai", DefaultCellStyle = { Format = "N0", Alignment = DataGridViewContentAlignment.MiddleRight } });
-
             kryptonDataGridView1.Columns.Add(new DataGridViewTextBoxColumn { Name = "MaTaiKhoan", HeaderText = "ID", DataPropertyName = "MaTaiKhoanThanhToan", Visible = false });
         }
 
-        // --- LOGIC LỌC MỚI: Load ComboBox Tài khoản ---
         private void LoadComboBoxLocTaiKhoan()
         {
             try
             {
                 using (var db = _dbFactory.CreateDbContext())
                 {
+                    // SỬA: Lọc theo _userContext.MaNguoiDung
                     var taiKhoanList = db.TaiKhoanThanhToans
-                                         .Where(t => t.MaNguoiDung == MA_NGUOI_DUNG_HIEN_TAI)
-                                         .Select(t => new
-                                         {
-                                             t.MaTaiKhoanThanhToan,
-                                             t.TenTaiKhoan,
-                                             t.SoDuBanDau
-                                         })
+                                         .Where(t => t.MaNguoiDung == _userContext.MaNguoiDung)
+                                         .Select(t => new { t.MaTaiKhoanThanhToan, t.TenTaiKhoan, t.SoDuBanDau })
                                          .OrderBy(t => t.TenTaiKhoan)
                                          .ToList();
 
-                    // Thêm mục "Tất cả" (ID = 0)
                     var allItem = new { MaTaiKhoanThanhToan = 0, TenTaiKhoan = "(Chọn Tài khoản)", SoDuBanDau = 0M };
                     taiKhoanList.Insert(0, allItem);
 
@@ -129,13 +112,9 @@ namespace Demo_Layout
                     cmbLocTaiKhoan.ValueMember = "MaTaiKhoanThanhToan";
                 }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Lỗi tải danh sách tài khoản: {ex.Message}", "Lỗi Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            catch (Exception ex) { MessageBox.Show("Lỗi tải danh sách tài khoản: " + ex.Message); }
         }
 
-        // --- Logic Tính Số Dư Hiện Tại (Khả dụng) ---
         private decimal CalculateCurrentBalance(int maTaiKhoan, decimal soDuBanDau)
         {
             using (var db = _dbFactory.CreateDbContext())
@@ -148,57 +127,45 @@ namespace Demo_Layout
                     .Where(g => g.MaTaiKhoanThanhToan == maTaiKhoan && g.MaLoaiGiaoDich == 2)
                     .Sum(g => (decimal?)g.SoTien) ?? 0;
 
-                // Công thức: Số dư Khả dụng = Số dư Ban đầu + Thu - Chi
                 return soDuBanDau + totalThu - totalChi;
             }
         }
 
-        // --- Load dữ liệu (Read) ---
         public void LoadDanhSach()
         {
             try
             {
                 using (var db = _dbFactory.CreateDbContext())
                 {
+                    // SỬA: Lọc theo _userContext.MaNguoiDung
                     var taiKhoanList = db.TaiKhoanThanhToans
                                          .Include(t => t.LoaiTaiKhoan)
-                                         .Where(t => t.MaNguoiDung == MA_NGUOI_DUNG_HIEN_TAI && t.TrangThai == "Đang hoạt động")
+                                         .Where(t => t.MaNguoiDung == _userContext.MaNguoiDung && t.TrangThai == "Đang hoạt động")
                                          .OrderBy(t => t.TenTaiKhoan)
                                          .ToList();
 
-                    // Lưu trữ dữ liệu full để tính số dư ban đầu cho bộ lọc
-                    _fullAccountsList = taiKhoanList.Select(t => new TaiKhoanFullModel
-                    {
-                        MaTaiKhoanThanhToan = t.MaTaiKhoanThanhToan,
-                        SoDuBanDau = t.SoDuBanDau
-                    }).ToList();
+                    _fullAccountsList = taiKhoanList.Select(t => new TaiKhoanFullModel { MaTaiKhoanThanhToan = t.MaTaiKhoanThanhToan, SoDuBanDau = t.SoDuBanDau }).ToList();
 
-                    // Map dữ liệu và tính số dư
                     _displayList = taiKhoanList.Select(t => new TaiKhoanDisplayModel
                     {
                         MaTaiKhoanThanhToan = t.MaTaiKhoanThanhToan,
                         TenTaiKhoan = t.TenTaiKhoan,
                         TenLoaiTaiKhoan = t.LoaiTaiKhoan != null ? t.LoaiTaiKhoan.TenLoaiTaiKhoan : "N/A",
-                        SoDuBanDau = t.SoDuBanDau, // Thêm Số dư ban đầu
-                        SoDuHienTai = CalculateCurrentBalance(t.MaTaiKhoanThanhToan, t.SoDuBanDau) // Số dư Khả dụng
+                        SoDuBanDau = t.SoDuBanDau,
+                        SoDuHienTai = CalculateCurrentBalance(t.MaTaiKhoanThanhToan, t.SoDuBanDau)
                     }).ToList();
 
                     TimKiemVaLoc();
                 }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Lỗi tải dữ liệu: {ex.Message}", "Lỗi Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            catch (Exception ex) { MessageBox.Show("Lỗi tải dữ liệu: " + ex.Message); }
         }
 
-        // --- Logic Lọc chính (Không áp dụng lọc ComboBox ở đây) ---
         private void TimKiemVaLoc()
         {
             string tuKhoa = txtTimKiem.Text.Trim();
             var danhSachLoc = _displayList.AsEnumerable();
 
-            // Lọc theo TextBox
             if (!string.IsNullOrEmpty(tuKhoa))
             {
                 danhSachLoc = danhSachLoc.Where(p =>
@@ -206,77 +173,56 @@ namespace Demo_Layout
                     (p.TenLoaiTaiKhoan != null && p.TenLoaiTaiKhoan.Contains(tuKhoa, StringComparison.OrdinalIgnoreCase))
                 );
             }
-
             bsTaiKhoan.DataSource = danhSachLoc.ToList();
             bsTaiKhoan.ResetBindings(false);
         }
 
-        // --- LOGIC: Xử lý thay đổi ComboBox lọc ---
         private void CmbLocTaiKhoan_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Lấy ID tài khoản được chọn
             int selectedTaiKhoanId = (cmbLocTaiKhoan.SelectedValue is int id) ? id : 0;
-
-            UpdateSoDuChiTiet(selectedTaiKhoanId); // Cập nhật labels chi tiết
-
-            // Nếu người dùng chọn một tài khoản, hiển thị chỉ tài khoản đó trong Grid
+            UpdateSoDuChiTiet(selectedTaiKhoanId);
             if (selectedTaiKhoanId != 0)
-            {
                 bsTaiKhoan.DataSource = _displayList.Where(t => t.MaTaiKhoanThanhToan == selectedTaiKhoanId).ToList();
-            }
             else
-            {
-                // Nếu chọn "(Chọn Tài khoản)", hiển thị toàn bộ danh sách
                 bsTaiKhoan.DataSource = _displayList;
-            }
             bsTaiKhoan.ResetBindings(false);
         }
 
-        // --- LOGIC: Cập nhật Labels Số dư chi tiết ---
         private void UpdateSoDuChiTiet(int selectedTaiKhoanId)
         {
             if (lblSoDuBanDauDetail == null || lblSoDuKhaDungDetail == null) return;
-
             if (selectedTaiKhoanId == 0)
             {
-                // Hiển thị trạng thái chờ chọn
                 lblSoDuBanDauDetail.Text = "Số dư Ban đầu: --";
                 lblSoDuKhaDungDetail.Text = "Số dư Khả dụng: --";
                 return;
             }
-
-            // Tìm kiếm thông tin số dư ban đầu từ list đã lưu
             var accountFromDb = _fullAccountsList.FirstOrDefault(t => t.MaTaiKhoanThanhToan == selectedTaiKhoanId);
-            // Tìm kiếm số dư khả dụng đã tính toán từ list hiển thị
             var accountFromDisplayList = _displayList.FirstOrDefault(t => t.MaTaiKhoanThanhToan == selectedTaiKhoanId);
 
             if (accountFromDb != null && accountFromDisplayList != null)
             {
-                decimal soDuBanDau = accountFromDb.SoDuBanDau;
-                decimal soDuKhaDung = accountFromDisplayList.SoDuHienTai;
-
-                lblSoDuBanDauDetail.Text = $"Số dư Ban đầu: {soDuBanDau:N0} VND";
-                lblSoDuKhaDungDetail.Text = $"Số dư Khả dụng: {soDuKhaDung:N0} VND";
+                lblSoDuBanDauDetail.Text = $"Số dư Ban đầu: {accountFromDb.SoDuBanDau:N0} VND";
+                lblSoDuKhaDungDetail.Text = $"Số dư Khả dụng: {accountFromDisplayList.SoDuHienTai:N0} VND";
             }
         }
 
         private void TxtTimKiem_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!char.IsLetterOrDigit(e.KeyChar) && !char.IsControl(e.KeyChar) && e.KeyChar != ' ')
-            {
-                e.Handled = true;
-            }
+            if (!char.IsLetterOrDigit(e.KeyChar) && !char.IsControl(e.KeyChar) && e.KeyChar != ' ') e.Handled = true;
         }
+        private void TxtTimKiem_TextChanged(object sender, EventArgs e) => TimKiemVaLoc();
 
-        private void TxtTimKiem_TextChanged(object sender, EventArgs e)
-        {
-            TimKiemVaLoc();
-        }
-
-        // --- Nút Thêm/Đóng (Logic giữ nguyên) ---
+        // --- XỬ LÝ MỞ FORM TRỰC TIẾP TẠI ĐÂY ---
         private void BtnThem_Click(object sender, EventArgs e)
         {
-            OnOpenThemTaiKhoan?.Invoke(this, 0);
+            // Tự mở form, không cần gọi Event ra Main
+            var frm = ActivatorUtilities.CreateInstance<FormThemTaiKhoanThanhToan>(_serviceProvider);
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                LoadDanhSach();
+                if (cmbLocTaiKhoan != null) LoadComboBoxLocTaiKhoan();
+            }
         }
 
         private void BtnDong_Click(object sender, EventArgs e)
@@ -288,21 +234,26 @@ namespace Demo_Layout
             }
 
             int selectedId = ((TaiKhoanDisplayModel)bsTaiKhoan.Current).MaTaiKhoanThanhToan;
-            OnOpenDongTaiKhoan?.Invoke(this, selectedId);
+
+            // Tự mở form đóng
+            var frm = ActivatorUtilities.CreateInstance<FormDongTaiKhoan>(_serviceProvider);
+            frm.SetTaiKhoanId(selectedId);
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                LoadDanhSach();
+                if (cmbLocTaiKhoan != null) LoadComboBoxLocTaiKhoan();
+            }
         }
     }
 
-    // --- CLASS ĐỂ HIỂN THỊ DỮ LIỆU ĐÃ TÍNH TOÁN ---
     public class TaiKhoanDisplayModel
     {
         public int MaTaiKhoanThanhToan { get; set; }
         public string TenTaiKhoan { get; set; }
         public string TenLoaiTaiKhoan { get; set; }
-        public decimal SoDuBanDau { get; set; } // Số dư ban đầu
-        public decimal SoDuHienTai { get; set; } // Số dư Khả dụng
+        public decimal SoDuBanDau { get; set; }
+        public decimal SoDuHienTai { get; set; }
     }
-
-    // --- MODEL ĐỂ LƯU TRỮ SỐ DƯ BAN ĐẦU (Dùng cho logic bộ lọc) ---
     public class TaiKhoanFullModel
     {
         public int MaTaiKhoanThanhToan { get; set; }
