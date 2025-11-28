@@ -69,6 +69,8 @@ namespace Demo_Layout
         private void FrmMain_Load(object sender, EventArgs e)
         {
             this.MaximumSize = Screen.PrimaryScreen.WorkingArea.Size;
+            LogHelper.GhiLog(_dbFactory, "Đăng nhập", _userContext.MaNguoiDung); // Giả định LogHelper tồn tại
+
         }
 
         private void LoadUserInfo()
@@ -97,12 +99,10 @@ namespace Demo_Layout
             }
             catch { _lastCheckTime = DateTime.Now.AddDays(-7); }
 
-            // LogHelper.GhiLog(_dbFactory, "Đăng nhập", _userContext.MaNguoiDung); // Giả định LogHelper tồn tại
 
             try
             {
-                // Ghi log đăng nhập (nếu cần)
-                // LogHelper.GhiLog(_dbFactory, "Đăng nhập", _userContext.MaNguoiDung ?? 0);
+
 
                 using (var db = _dbFactory.CreateDbContext())
                 {
@@ -268,7 +268,8 @@ namespace Demo_Layout
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             player.Play(); // ⭐ PHÁT ÂM THANH ⭐
-            Piggy_Admin.FormTaiKhoan f = _serviceProvider.GetRequiredService<Piggy_Admin.FormTaiKhoan>();
+
+            Piggy_Admin.FrmTaiKhoan f = _serviceProvider.GetRequiredService<Piggy_Admin.FrmTaiKhoan>();
             Point pos = picUserProfile.PointToScreen(new Point(50, picUserProfile.Height - 350));
             f.StartPosition = FormStartPosition.Manual;
             f.Location = pos;
@@ -296,6 +297,11 @@ namespace Demo_Layout
                 icoPiggy.Location = originalPos;
                 _isShaking = false;
             }
+        }
+
+        private void FrmMain_FormClosed(object sender, FormClosedEventArgs e) // Nam mới thêm :))
+        {
+            LogHelper.GhiLog(_dbFactory, "Đăng xuất", _userContext.MaNguoiDung); 
         }
     }
 }

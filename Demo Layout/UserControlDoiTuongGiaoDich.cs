@@ -42,6 +42,9 @@ namespace Demo_Layout
         private void UserControlDoiTuongGiaoDich_Load(object sender, EventArgs e)
         {
             if (_userContext.MaNguoiDung == null) return;
+
+            LogHelper.GhiLog(_dbFactory, "Quản lý đối tượng giao dịch", _userContext.MaNguoiDung); // ghi log
+
             txtTimKiem.Text = string.Empty;
             txtTimKiem.ForeColor = Color.Black;
             LoadDanhSach();
@@ -107,7 +110,7 @@ namespace Demo_Layout
         // --- XỬ LÝ MỞ FORM TRỰC TIẾP ---
         private void BtnThem_Click(object sender, EventArgs e)
         {
-            var frm = ActivatorUtilities.CreateInstance<FrmChinhSuaDoiTuongGiaoDich>(_serviceProvider);
+            var frm = ActivatorUtilities.CreateInstance<FrmThemSuaDoiTuongGiaoDich>(_serviceProvider);
             frm.SetId(0);
             frm.OnDataSaved = LoadDanhSach;
             frm.ShowDialog();
@@ -118,7 +121,7 @@ namespace Demo_Layout
             if (bsDoiTuong.Current == null) { MessageBox.Show("Vui lòng chọn đối tượng."); return; }
             int selectedId = ((DoiTuongGiaoDich)bsDoiTuong.Current).MaDoiTuongGiaoDich;
 
-            var frm = ActivatorUtilities.CreateInstance<FrmChinhSuaDoiTuongGiaoDich>(_serviceProvider);
+            var frm = ActivatorUtilities.CreateInstance<FrmThemSuaDoiTuongGiaoDich>(_serviceProvider);
             frm.SetId(selectedId);
             frm.OnDataSaved = LoadDanhSach;
             frm.ShowDialog();

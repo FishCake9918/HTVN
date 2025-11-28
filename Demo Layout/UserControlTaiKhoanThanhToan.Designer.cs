@@ -100,6 +100,8 @@
             txtTimKiem.Size = new Size(212, 27);
             txtTimKiem.TabIndex = 1;
             txtTimKiem.Text = "  Tìm kiếm...";
+            txtTimKiem.TextChanged += TxtTimKiem_TextChanged;
+            txtTimKiem.KeyPress += TxtTimKiem_KeyPress;
             // 
             // label1
             // 
@@ -158,6 +160,7 @@
             kryptonDataGridView1.RowHeadersWidth = 51;
             kryptonDataGridView1.Size = new Size(722, 442);
             kryptonDataGridView1.TabIndex = 14;
+           
             // 
             // UserControlTaiKhoanThanhToan
             // 
@@ -171,6 +174,7 @@
             Controls.Add(panel4);
             Name = "UserControlTaiKhoanThanhToan";
             Size = new Size(922, 611);
+            Load += UserControlTaiKhoanThanhToan_Load;
             panel4.ResumeLayout(false);
             panel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)kryptonDataGridView1).EndInit();

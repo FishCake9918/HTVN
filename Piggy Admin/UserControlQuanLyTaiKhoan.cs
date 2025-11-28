@@ -100,7 +100,7 @@ namespace Piggy_Admin
         {
             if (!_userContext.IsAdmin) return;
 
-            using (var frm = _serviceProvider.GetRequiredService<FormTaoCapNhatTaiKhoan>())
+            using (var frm = _serviceProvider.GetRequiredService<FrmThemSuaTaiKhoan>())
             {
                 if (frm.ShowDialog() == DialogResult.OK)
                 {
@@ -123,7 +123,7 @@ namespace Piggy_Admin
             // Lấy ID từ dòng đã chọn (dù cột này bị ẩn nhưng vẫn lấy được giá trị)
             int maTK = (int)kryptonDataGridView1.SelectedRows[0].Cells["MaTaiKhoan"].Value;
 
-            using (var frm = _serviceProvider.GetRequiredService<FormTaoCapNhatTaiKhoan>())
+            using (var frm = _serviceProvider.GetRequiredService<FrmThemSuaTaiKhoan>())
             {
                 frm.LoadDataForEdit(maTK);
                 if (frm.ShowDialog() == DialogResult.OK)

@@ -29,12 +29,12 @@ namespace Piggy_Admin
 
                     // 2. Đăng ký Form chính và UserControl/Form phụ
                     services.AddTransient<FrmMainAdmin>();
-                    services.AddTransient<FormTaiKhoan>();
+                    services.AddTransient<FrmTaiKhoan>();
                     services.AddTransient<UserControlBaoCaoHeThong>();
                     services.AddTransient<UserControlQuanLyTaiKhoan>();
                     services.AddTransient<UserControlQuanLyThongBao>();
-                    services.AddTransient<TaoCapNhatThongBao>();
-                    services.AddTransient<FormTaiKhoan>();
+                    services.AddTransient<FrmThemSuaThongBao>();
+                    services.AddTransient<FrmTaiKhoan>();
 
                 })
                 .Build();

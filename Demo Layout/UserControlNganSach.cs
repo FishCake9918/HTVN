@@ -56,6 +56,7 @@ namespace Demo_Layout
 
         private void UserControlNganSach_Load(object sender, EventArgs e)
         {
+            LogHelper.GhiLog(_dbFactory, "Quản lý ngân sách", _userContext.MaNguoiDung); // ghi log
             if (_userContext.MaNguoiDung == null) return;
             if (txtTimKiem != null) this.txtTimKiem.Text = string.Empty;
             if (txtLocNam != null) this.txtLocNam.Text = DateTime.Today.Year.ToString();
@@ -186,7 +187,7 @@ namespace Demo_Layout
         // --- XỬ LÝ MỞ FORM TRỰC TIẾP ---
         private void BtnThem_Click(object sender, EventArgs e)
         {
-            var frm = ActivatorUtilities.CreateInstance<LapNganSach>(_serviceProvider);
+            var frm = ActivatorUtilities.CreateInstance<FrmThemSuaNganSach>(_serviceProvider);
             frm.SetId(0);
             if (frm.ShowDialog() == DialogResult.OK) LoadDanhSach();
         }
@@ -196,7 +197,7 @@ namespace Demo_Layout
             if (bsNganSach.Current == null) { MessageBox.Show("Vui lòng chọn ngân sách."); return; }
             int selectedId = ((NganSachViewModel)bsNganSach.Current).MaNganSach;
 
-            var frm = ActivatorUtilities.CreateInstance<LapNganSach>(_serviceProvider);
+            var frm = ActivatorUtilities.CreateInstance<FrmThemSuaNganSach>(_serviceProvider);
             frm.SetId(selectedId);
             if (frm.ShowDialog() == DialogResult.OK) LoadDanhSach();
         }

@@ -100,7 +100,7 @@ namespace Piggy_Admin
                 return;
             }
 
-            using (var taoCapNhatForm = _serviceProvider.GetRequiredService<TaoCapNhatThongBao>())
+            using (var taoCapNhatForm = _serviceProvider.GetRequiredService<FrmThemSuaThongBao>())
             {
                 // Form tự lấy MaAdmin từ Context khi khởi tạo chế độ Thêm mới
                 if (taoCapNhatForm.ShowDialog() == DialogResult.OK)
@@ -138,7 +138,7 @@ namespace Piggy_Admin
                 var tbCanSua = dbContext.ThongBaos.FirstOrDefault(tb => tb.MaThongBao == maTB);
                 if (tbCanSua != null)
                 {
-                    using (var frm = _serviceProvider.GetRequiredService<TaoCapNhatThongBao>())
+                    using (var frm = _serviceProvider.GetRequiredService<FrmThemSuaThongBao>())
                     {
                         // Load dữ liệu vào form
                         frm.LoadDataForUpdate(tbCanSua);

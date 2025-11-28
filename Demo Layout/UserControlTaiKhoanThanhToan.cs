@@ -38,13 +38,6 @@ namespace Demo_Layout
 
             kryptonDataGridView1.DataSource = bsTaiKhoan;
 
-            this.Load += UserControlTaiKhoanThanhToan_Load;
-            this.txtTimKiem.TextChanged += TxtTimKiem_TextChanged;
-            this.txtTimKiem.KeyPress += TxtTimKiem_KeyPress;
-
-            this.btnThem.Click += BtnThem_Click;
-            this.btnDong.Click += BtnDong_Click;
-            this.kryptonDataGridView1.DoubleClick += KryptonDataGridView1_DoubleClick;
 
             if (cmbLocTaiKhoan != null)
             {
@@ -58,6 +51,8 @@ namespace Demo_Layout
         {
             if (_userContext.MaNguoiDung == null) return; // Check an toàn
 
+            LogHelper.GhiLog(_dbFactory, "Quản lý tài khoản thanh toán", _userContext.MaNguoiDung); // ghi log
+            
             txtTimKiem.Text = string.Empty;
             txtTimKiem.ForeColor = Color.Black;
             LoadDanhSach();
@@ -66,12 +61,6 @@ namespace Demo_Layout
             {
                 LoadComboBoxLocTaiKhoan();
             }
-        }
-
-        private void KryptonDataGridView1_DoubleClick(object sender, EventArgs e)
-        {
-            // Logic cũ: Mở form thêm nhưng ở chế độ xem (nếu cần) hoặc bỏ qua
-            // Hiện tại nút Thêm mở form thêm mới, double click có thể để trống hoặc mở form sửa nếu có
         }
 
         private void ConfigureGridView()
@@ -217,7 +206,7 @@ namespace Demo_Layout
         private void BtnThem_Click(object sender, EventArgs e)
         {
             // Tự mở form, không cần gọi Event ra Main
-            var frm = ActivatorUtilities.CreateInstance<FormThemTaiKhoanThanhToan>(_serviceProvider);
+            var frm = ActivatorUtilities.CreateInstance<FrmThemTaiKhoanThanhToan>(_serviceProvider);
             if (frm.ShowDialog() == DialogResult.OK)
             {
                 LoadDanhSach();
@@ -236,7 +225,7 @@ namespace Demo_Layout
             int selectedId = ((TaiKhoanDisplayModel)bsTaiKhoan.Current).MaTaiKhoanThanhToan;
 
             // Tự mở form đóng
-            var frm = ActivatorUtilities.CreateInstance<FormDongTaiKhoan>(_serviceProvider);
+            var frm = ActivatorUtilities.CreateInstance<FrmDongTaiKhoanThanhToan>(_serviceProvider);
             frm.SetTaiKhoanId(selectedId);
             if (frm.ShowDialog() == DialogResult.OK)
             {

@@ -263,7 +263,7 @@ namespace Demo_Layout
         /// </summary>
         private void btnThem_Click(object sender, EventArgs e)
         {
-            frmThemDanhMuc frm = new frmThemDanhMuc(_dbFactory, _userContext);
+            FrmThemSuaDanhMuc frm = new FrmThemSuaDanhMuc(_dbFactory, _userContext);
 
             if (frm.ShowDialog() == DialogResult.OK)
             {
@@ -293,7 +293,7 @@ namespace Demo_Layout
             int maDanhMuc = (int)tvDanhMuc.SelectedNode.Tag;
 
             // Truyền UserContext sang form con
-            frmThemDanhMuc frm = new frmThemDanhMuc(_dbFactory, _userContext);
+            FrmThemSuaDanhMuc frm = new FrmThemSuaDanhMuc(_dbFactory, _userContext);
 
             // Kích hoạt chế độ Sửa
             frm.CheDoSua(maDanhMuc);

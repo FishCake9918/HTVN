@@ -40,14 +40,14 @@ namespace Demo_Layout
                     services.AddTransient<UserControlDoiTuongGiaoDich>();
                     services.AddTransient<UserControlDanhMucChiTieu>();
                     services.AddTransient<UserControlTaiKhoanThanhToan>();
-                    services.AddTransient<FormDongTaiKhoan>();
-                    services.AddTransient<FormThemTaiKhoanThanhToan>();
+                    services.AddTransient<FrmDongTaiKhoanThanhToan>();
+                    services.AddTransient<FrmThemTaiKhoanThanhToan>();
                     services.AddTransient<UserControlDoiTuongGiaoDich>();
-                    services.AddTransient<FrmChinhSuaDoiTuongGiaoDich>();
+                    services.AddTransient<FrmThemSuaDoiTuongGiaoDich>();
                     services.AddTransient<UserControlNganSach>();
-                    services.AddTransient<LapNganSach>();
+                    services.AddTransient<FrmThemSuaNganSach>();
                     services.AddTransient<FrmThemGiaoDich>();
-                    services.AddTransient<frmThemDanhMuc>();
+                    services.AddTransient<FrmThemSuaDanhMuc>();
                 })
                 .Build();
 

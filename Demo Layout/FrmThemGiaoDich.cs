@@ -287,8 +287,10 @@ namespace Demo_Layout
             if (_serviceProvider == null) return;
             try
             {
-                var frm = _serviceProvider.GetRequiredService<FrmChinhSuaDoiTuongGiaoDich>();
+                var frm = _serviceProvider.GetRequiredService<FrmThemSuaDoiTuongGiaoDich>();
+                frm.SetId(0);
                 frm.OnDataSaved = LoadComboBoxes;
+
                 frm.ShowDialog();
             }
             catch (Exception ex)
@@ -302,8 +304,7 @@ namespace Demo_Layout
             if (_serviceProvider == null) return;
             try
             {
-                var frm = _serviceProvider.GetRequiredService<frmThemDanhMuc>();
-                frm.CheDoSua(0);
+                var frm = _serviceProvider.GetRequiredService<FrmThemSuaDanhMuc>();
                 frm.ShowDialog();
                 LoadComboBoxes();
             }

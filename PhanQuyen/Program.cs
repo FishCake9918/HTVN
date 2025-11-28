@@ -30,7 +30,7 @@ namespace PhanQuyen
                     try
                     {
                         // 1. Mở Form Đăng Nhập
-                        var loginForm = Services.GetRequiredService<LoginForm>();
+                        var loginForm = Services.GetRequiredService<FrmDangNhap>();
                         Application.Run(loginForm);
 
                         // 2. Kiểm tra kết quả trả về từ LoginForm
@@ -86,16 +86,16 @@ namespace PhanQuyen
                     });
 
                     // ĐĂNG KÝ CÁC FORM (Tất cả là Transient để tạo mới mỗi lần)
-                    services.AddTransient<LoginForm>();
-                    services.AddTransient<DangKy>();
+                    services.AddTransient<FrmDangNhap>();
+                    services.AddTransient<FrmDangKy>();
 
                     services.AddTransient<FrmMainAdmin>();
                     services.AddTransient<UserControlQuanLyThongBao>();
-                    services.AddTransient<Piggy_Admin.TaoCapNhatThongBao>();
-                    services.AddTransient<Piggy_Admin.FormTaiKhoan>();
-                    services.AddTransient<Piggy_Admin.FormDoiMatKhau>();
+                    services.AddTransient<Piggy_Admin.FrmThemSuaThongBao>();
+                    services.AddTransient<Piggy_Admin.FrmTaiKhoan>();
+                    services.AddTransient<Piggy_Admin.FrmDoiMatKhau>();
                     services.AddTransient<Piggy_Admin.UserControlQuanLyTaiKhoan>();
-                    services.AddTransient<FormTaoCapNhatTaiKhoan>();           
+                    services.AddTransient<FrmThemSuaTaiKhoan>();           
                     services.AddTransient<UserControlBaoCaoHeThong>();
 
                     services.AddTransient<FrmMain>();
@@ -108,14 +108,12 @@ namespace PhanQuyen
                     services.AddTransient<UserControlDoiTuongGiaoDich>();
                     services.AddTransient<UserControlDanhMucChiTieu>();
                     services.AddTransient<UserControlTaiKhoanThanhToan>();
-                    services.AddTransient<FormDongTaiKhoan>();
-                    services.AddTransient<FormThemTaiKhoanThanhToan>();
-                    services.AddTransient<FrmThemGiaoDich>();
+                    services.AddTransient<FrmDongTaiKhoanThanhToan>();
+                    services.AddTransient<FrmThemTaiKhoanThanhToan>();
                     services.AddTransient<UserControlDoiTuongGiaoDich>();
-                    services.AddTransient<FrmChinhSuaDoiTuongGiaoDich>();
+                    services.AddTransient<FrmThemSuaDoiTuongGiaoDich>();
                     services.AddTransient<UserControlNganSach>();
-                    services.AddTransient<LapNganSach>();
-                    services.AddTransient<frmThemDanhMuc>();
+                    services.AddTransient<FrmThemSuaNganSach>();
 
                     services.AddSingleton<CurrentUserContext>();
                     services.AddTransient<IEmailService, EmailService>();

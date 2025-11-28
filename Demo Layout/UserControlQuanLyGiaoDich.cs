@@ -52,8 +52,8 @@ namespace Demo_Layout
             poisonDataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             poisonDataGridView1.MultiSelect = false;
             poisonDataGridView1.ReadOnly = true;
-            // Giả định LogHelper tồn tại
-            // LogHelper.GhiLog(_dbFactory, "Quản lý giao dịch", CURRENT_USER_ID); 
+            
+            LogHelper.GhiLog(_dbFactory, "Quản lý giao dịch", _userContext.MaNguoiDung); // ghi log
 
             LoadComboBoxTaiKhoan();
             LoadData();

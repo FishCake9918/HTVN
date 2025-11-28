@@ -81,7 +81,7 @@ namespace Piggy_Admin
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             // 1. Lấy instance mới
-            FormTaiKhoan f = _serviceProvider.GetRequiredService<FormTaiKhoan>();
+            FrmTaiKhoan f = _serviceProvider.GetRequiredService<FrmTaiKhoan>();
 
             // 2. Đặt vị trí
             Point pos = picUserProfile.PointToScreen(new Point(50, picUserProfile.Height - 500));
