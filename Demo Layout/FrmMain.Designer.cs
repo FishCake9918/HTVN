@@ -496,6 +496,7 @@
             icoBell.SizeMode = PictureBoxSizeMode.Zoom;
             icoBell.TabIndex = 6;
             icoBell.TabStop = false;
+            icoBell.Click += IcoBell_Click;
             // 
             // icoPiggy
             // 
@@ -587,12 +588,9 @@
             Controls.Add(panel2);
             FormBorderStyle = FormBorderStyle.None;
             MainMenuStrip = menuStrip1;
-            MaximumSize = new Size(1232, 696);
-            MinimumSize = new Size(1232, 696);
             Name = "FrmMain";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Trang chủ";
-            //FormClosed += FrmMain_FormClosed;
             Load += FrmMain_Load;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();

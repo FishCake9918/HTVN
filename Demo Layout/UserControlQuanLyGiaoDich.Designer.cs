@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserControlQuanLyGiaoDich));
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             panel2 = new Panel();
             panel3 = new Panel();
             cbTaiKhoan = new ComboBox();
@@ -40,13 +43,13 @@
             txtTimKiem = new TextBox();
             label1 = new Label();
             panel5 = new Panel();
-            kryptonDataGridView1 = new DataGridView();
+            poisonDataGridView1 = new ReaLTaiizor.Controls.PoisonDataGridView();
             panel6 = new Panel();
             panel1 = new Panel();
             panel3.SuspendLayout();
             panel4.SuspendLayout();
             panel5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)kryptonDataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)poisonDataGridView1).BeginInit();
             SuspendLayout();
             // 
             // panel2
@@ -180,7 +183,7 @@
             // 
             // panel5
             // 
-            panel5.Controls.Add(kryptonDataGridView1);
+            panel5.Controls.Add(poisonDataGridView1);
             panel5.Controls.Add(panel6);
             panel5.Dock = DockStyle.Fill;
             panel5.Location = new Point(100, 69);
@@ -188,19 +191,52 @@
             panel5.Size = new Size(722, 492);
             panel5.TabIndex = 4;
             // 
-            // kryptonDataGridView1
+            // poisonDataGridView1
             // 
-            kryptonDataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            kryptonDataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            kryptonDataGridView1.BorderStyle = BorderStyle.None;
-            kryptonDataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            kryptonDataGridView1.Location = new Point(0, 50);
-            kryptonDataGridView1.Name = "kryptonDataGridView1";
-            kryptonDataGridView1.RowHeadersWidth = 51;
-            kryptonDataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            kryptonDataGridView1.Size = new Size(722, 442);
-            kryptonDataGridView1.TabIndex = 2;
-            kryptonDataGridView1.DoubleClick += btnSua_Click;
+            poisonDataGridView1.AllowUserToResizeRows = false;
+            poisonDataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            poisonDataGridView1.BackgroundColor = Color.FromArgb(255, 255, 255);
+            poisonDataGridView1.BorderStyle = BorderStyle.None;
+            poisonDataGridView1.CellBorderStyle = DataGridViewCellBorderStyle.Sunken;
+            poisonDataGridView1.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(243, 119, 53);
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Pixel);
+            dataGridViewCellStyle1.ForeColor = Color.FromArgb(255, 255, 255);
+            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(244, 133, 72);
+            dataGridViewCellStyle1.SelectionForeColor = Color.FromArgb(17, 17, 17);
+            poisonDataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            poisonDataGridView1.ColumnHeadersHeight = 50;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(255, 255, 255);
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
+            dataGridViewCellStyle2.ForeColor = Color.Black;
+            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(244, 133, 72);
+            dataGridViewCellStyle2.SelectionForeColor = Color.FromArgb(17, 17, 17);
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            poisonDataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
+            poisonDataGridView1.Dock = DockStyle.Fill;
+            poisonDataGridView1.EnableHeadersVisualStyles = false;
+            poisonDataGridView1.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Pixel);
+            poisonDataGridView1.GridColor = Color.FromArgb(255, 255, 255);
+            poisonDataGridView1.Location = new Point(0, 50);
+            poisonDataGridView1.Name = "poisonDataGridView1";
+            poisonDataGridView1.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.FromArgb(243, 119, 53);
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 20F, FontStyle.Regular, GraphicsUnit.Pixel);
+            dataGridViewCellStyle3.ForeColor = Color.FromArgb(255, 255, 255);
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(244, 133, 72);
+            dataGridViewCellStyle3.SelectionForeColor = Color.FromArgb(17, 17, 17);
+            poisonDataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            poisonDataGridView1.RowHeadersVisible = false;
+            poisonDataGridView1.RowHeadersWidth = 51;
+            poisonDataGridView1.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            poisonDataGridView1.RowTemplate.Height = 60;
+            poisonDataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            poisonDataGridView1.Size = new Size(722, 442);
+            poisonDataGridView1.Style = ReaLTaiizor.Enum.Poison.ColorStyle.Orange;
+            poisonDataGridView1.TabIndex = 3;
             // 
             // panel6
             // 
@@ -236,7 +272,7 @@
             panel4.ResumeLayout(false);
             panel4.PerformLayout();
             panel5.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)kryptonDataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)poisonDataGridView1).EndInit();
             ResumeLayout(false);
         }
 
@@ -253,8 +289,8 @@
         private Button btnSua;
         private Button btnXoa;
         private Button btnThem;
-        private DataGridView kryptonDataGridView1;
         private Label lblTongThuChi;
         private ComboBox cbTaiKhoan;
+        private ReaLTaiizor.Controls.PoisonDataGridView poisonDataGridView1;
     }
 }

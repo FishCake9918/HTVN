@@ -28,8 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             lblHeader = new Label();
             flowPanel = new FlowLayoutPanel();
+            timer1 = new System.Windows.Forms.Timer(components);
             SuspendLayout();
             // 
             // lblHeader
@@ -79,5 +81,6 @@
 
         private System.Windows.Forms.Label lblHeader;
         private System.Windows.Forms.FlowLayoutPanel flowPanel;
+        private System.Windows.Forms.Timer timer1;
     }
 }

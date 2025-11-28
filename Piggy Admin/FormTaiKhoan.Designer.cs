@@ -24,6 +24,7 @@ namespace Piggy_Admin
 
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             lblTitle = new Label();
             lblRole = new Label();
             lblName = new Label();
@@ -33,6 +34,7 @@ namespace Piggy_Admin
             btnDangXuat = new Button();
             picAvatar = new PictureBox();
             panelMain = new Panel();
+            timer1 = new System.Windows.Forms.Timer(components);
             ((System.ComponentModel.ISupportInitialize)picAvatar).BeginInit();
             panelMain.SuspendLayout();
             SuspendLayout();
@@ -42,10 +44,9 @@ namespace Piggy_Admin
             lblTitle.AutoSize = true;
             lblTitle.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
             lblTitle.ForeColor = Color.DarkBlue;
-            lblTitle.Location = new Point(190, 20);
-            lblTitle.Margin = new Padding(4, 0, 4, 0);
+            lblTitle.Location = new Point(152, 16);
             lblTitle.Name = "lblTitle";
-            lblTitle.Size = new Size(121, 45);
+            lblTitle.Size = new Size(101, 37);
             lblTitle.TabIndex = 0;
             lblTitle.Text = "HỒ SƠ";
             // 
@@ -54,10 +55,9 @@ namespace Piggy_Admin
             lblRole.AutoSize = true;
             lblRole.Font = new Font("Segoe UI", 10F, FontStyle.Italic);
             lblRole.ForeColor = Color.Gray;
-            lblRole.Location = new Point(188, 225);
-            lblRole.Margin = new Padding(4, 0, 4, 0);
+            lblRole.Location = new Point(150, 180);
             lblRole.Name = "lblRole";
-            lblRole.Size = new Size(138, 28);
+            lblRole.Size = new Size(118, 23);
             lblRole.TabIndex = 2;
             lblRole.Text = "Vai trò: Admin";
             lblRole.TextAlign = ContentAlignment.MiddleCenter;
@@ -66,10 +66,9 @@ namespace Piggy_Admin
             // 
             lblName.AutoSize = true;
             lblName.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            lblName.Location = new Point(62, 262);
-            lblName.Margin = new Padding(4, 0, 4, 0);
+            lblName.Location = new Point(50, 210);
             lblName.Name = "lblName";
-            lblName.Size = new Size(137, 32);
+            lblName.Size = new Size(113, 28);
             lblName.TabIndex = 3;
             lblName.Text = "Tên Admin";
             lblName.TextAlign = ContentAlignment.MiddleCenter;
@@ -78,10 +77,9 @@ namespace Piggy_Admin
             // 
             lblEmail.AutoSize = true;
             lblEmail.Font = new Font("Segoe UI", 10F);
-            lblEmail.Location = new Point(62, 300);
-            lblEmail.Margin = new Padding(4, 0, 4, 0);
+            lblEmail.Location = new Point(50, 240);
             lblEmail.Name = "lblEmail";
-            lblEmail.Size = new Size(201, 28);
+            lblEmail.Size = new Size(175, 23);
             lblEmail.TabIndex = 4;
             lblEmail.Text = "admin@example.com";
             lblEmail.TextAlign = ContentAlignment.MiddleCenter;
@@ -91,10 +89,9 @@ namespace Piggy_Admin
             btnDoiMatKhau.BackColor = Color.FromArgb(89, 105, 223);
             btnDoiMatKhau.FlatStyle = FlatStyle.Flat;
             btnDoiMatKhau.ForeColor = Color.White;
-            btnDoiMatKhau.Location = new Point(62, 362);
-            btnDoiMatKhau.Margin = new Padding(4, 4, 4, 4);
+            btnDoiMatKhau.Location = new Point(50, 290);
             btnDoiMatKhau.Name = "btnDoiMatKhau";
-            btnDoiMatKhau.Size = new Size(375, 50);
+            btnDoiMatKhau.Size = new Size(300, 40);
             btnDoiMatKhau.TabIndex = 5;
             btnDoiMatKhau.Text = "Đổi Mật Khẩu";
             btnDoiMatKhau.UseVisualStyleBackColor = false;
@@ -105,10 +102,9 @@ namespace Piggy_Admin
             btnXoaTaiKhoan.BackColor = Color.IndianRed;
             btnXoaTaiKhoan.FlatStyle = FlatStyle.Flat;
             btnXoaTaiKhoan.ForeColor = Color.White;
-            btnXoaTaiKhoan.Location = new Point(62, 425);
-            btnXoaTaiKhoan.Margin = new Padding(4, 4, 4, 4);
+            btnXoaTaiKhoan.Location = new Point(50, 340);
             btnXoaTaiKhoan.Name = "btnXoaTaiKhoan";
-            btnXoaTaiKhoan.Size = new Size(375, 50);
+            btnXoaTaiKhoan.Size = new Size(300, 40);
             btnXoaTaiKhoan.TabIndex = 6;
             btnXoaTaiKhoan.Text = "Xóa Tài Khoản";
             btnXoaTaiKhoan.UseVisualStyleBackColor = false;
@@ -119,10 +115,9 @@ namespace Piggy_Admin
             btnDangXuat.BackColor = Color.Gray;
             btnDangXuat.FlatStyle = FlatStyle.Flat;
             btnDangXuat.ForeColor = Color.White;
-            btnDangXuat.Location = new Point(62, 488);
-            btnDangXuat.Margin = new Padding(4, 4, 4, 4);
+            btnDangXuat.Location = new Point(50, 390);
             btnDangXuat.Name = "btnDangXuat";
-            btnDangXuat.Size = new Size(375, 50);
+            btnDangXuat.Size = new Size(300, 40);
             btnDangXuat.TabIndex = 7;
             btnDangXuat.Text = "Đăng Xuất";
             btnDangXuat.UseVisualStyleBackColor = false;
@@ -131,10 +126,9 @@ namespace Piggy_Admin
             // picAvatar
             // 
             picAvatar.BackColor = Color.LightGray;
-            picAvatar.Location = new Point(188, 88);
-            picAvatar.Margin = new Padding(4, 4, 4, 4);
+            picAvatar.Location = new Point(150, 70);
             picAvatar.Name = "picAvatar";
-            picAvatar.Size = new Size(125, 125);
+            picAvatar.Size = new Size(100, 100);
             picAvatar.SizeMode = PictureBoxSizeMode.StretchImage;
             picAvatar.TabIndex = 1;
             picAvatar.TabStop = false;
@@ -152,19 +146,21 @@ namespace Piggy_Admin
             panelMain.Controls.Add(btnDangXuat);
             panelMain.Dock = DockStyle.Fill;
             panelMain.Location = new Point(0, 0);
-            panelMain.Margin = new Padding(4, 4, 4, 4);
             panelMain.Name = "panelMain";
-            panelMain.Size = new Size(500, 625);
+            panelMain.Size = new Size(395, 452);
             panelMain.TabIndex = 0;
+            // 
+            // timer1
+            // 
+            timer1.Interval = 10;
             // 
             // FormTaiKhoan
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(500, 625);
+            ClientSize = new Size(395, 452);
             Controls.Add(panelMain);
-            FormBorderStyle = FormBorderStyle.FixedDialog;
-            Margin = new Padding(4, 4, 4, 4);
+            FormBorderStyle = FormBorderStyle.None;
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "FormTaiKhoan";
@@ -175,5 +171,6 @@ namespace Piggy_Admin
             panelMain.PerformLayout();
             ResumeLayout(false);
         }
+        private System.Windows.Forms.Timer timer1;
     }
 }

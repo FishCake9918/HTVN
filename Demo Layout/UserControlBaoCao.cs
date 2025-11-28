@@ -543,6 +543,9 @@ namespace Demo_Layout
             // Gọi hàm load dữ liệu chính
             LoadDashboardData();
         }
+        // Trong UserControlBaoCao.cs (file code-behind)
+        // ...
+        // Thêm phương thức này vào cuối class UserControlBaoCao
     }
 }
 

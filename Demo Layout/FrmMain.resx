@@ -1285,7 +1285,7 @@
   <data name="icoBell.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        vQAADr0BR/uQrQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAADhTSURBVHhe7d0J
+        vAAADrwBlbxySQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAADhTSURBVHhe7d0J
         lFxXeeDxK8n97mst3ndbXsA2eMfG4BXvqyzJDIRxMiFkIJkEiNkJDu5uIwiQAOEkkISMJ2C1zJYomRBi
         42BsU/Vet1pSqyW1Wq2QDCEEAmZxvKtbsrZvzqtWwHzfs6zuelV1X9X/f87vTE5Oxlfqevd+6u6q95wj
         orZKlrnZ23rdyVt73Y2TPe6dEz3uLyZ63T9O9LrhiT63ZaLX/ftEr3t8otftmuh1z9b+5x73nYleNzbR
@@ -2062,6 +2062,6 @@
 </value>
   </data>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>25</value>
+    <value>99</value>
   </metadata>
 </root>
