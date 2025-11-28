@@ -29,7 +29,6 @@ namespace Demo_Layout
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelMain;
         private System.Windows.Forms.Panel panelRightContainer;
-        private System.Windows.Forms.DataGridView dataGridView1; // KryptonDataGridView -> DataGridView
 
         protected override void Dispose(bool disposing)
         {
@@ -53,7 +52,6 @@ namespace Demo_Layout
             btnThem = new Button();
             txtTimKiem = new TextBox();
             label1 = new Label();
-            dataGridView1 = new DataGridView();
             panelLeftContainer = new Panel();
             pieChartNganSach = new PieChart();
             lblValueTongConLai = new Label();
@@ -62,11 +60,13 @@ namespace Demo_Layout
             labelTongNS = new Label();
             tableLayoutPanelMain = new TableLayoutPanel();
             panelRightContainer = new Panel();
+            panel2 = new Panel();
+            dataGridView1 = new Krypton.Toolkit.KryptonDataGridView();
             panel4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panelLeftContainer.SuspendLayout();
             tableLayoutPanelMain.SuspendLayout();
             panelRightContainer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // panel4
@@ -81,24 +81,27 @@ namespace Demo_Layout
             panel4.Controls.Add(label1);
             panel4.Dock = DockStyle.Top;
             panel4.Location = new Point(0, 0);
+            panel4.Margin = new Padding(4);
             panel4.Name = "panel4";
-            panel4.Size = new Size(922, 69);
+            panel4.Size = new Size(1152, 86);
             panel4.TabIndex = 8;
             // 
             // cmbLocThang
             // 
             cmbLocThang.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbLocThang.Location = new Point(311, 20);
+            cmbLocThang.Location = new Point(389, 25);
+            cmbLocThang.Margin = new Padding(4);
             cmbLocThang.Name = "cmbLocThang";
-            cmbLocThang.Size = new Size(128, 28);
+            cmbLocThang.Size = new Size(159, 33);
             cmbLocThang.TabIndex = 1;
             // 
             // txtLocNam
             // 
             txtLocNam.ForeColor = SystemColors.InactiveCaption;
-            txtLocNam.Location = new Point(445, 20);
+            txtLocNam.Location = new Point(556, 25);
+            txtLocNam.Margin = new Padding(4);
             txtLocNam.Name = "txtLocNam";
-            txtLocNam.Size = new Size(100, 27);
+            txtLocNam.Size = new Size(124, 31);
             txtLocNam.TabIndex = 2;
             txtLocNam.Text = "Năm (YYYY)";
             // 
@@ -111,9 +114,10 @@ namespace Demo_Layout
             btnSua.ForeColor = Color.White;
             btnSua.Image = (Image)resources.GetObject("btnSua.Image");
             btnSua.ImageAlign = ContentAlignment.MiddleLeft;
-            btnSua.Location = new Point(844, 14);
+            btnSua.Location = new Point(1055, 18);
+            btnSua.Margin = new Padding(4);
             btnSua.Name = "btnSua";
-            btnSua.Size = new Size(75, 43);
+            btnSua.Size = new Size(94, 54);
             btnSua.TabIndex = 6;
             btnSua.Text = "Sửa";
             btnSua.TextAlign = ContentAlignment.MiddleRight;
@@ -128,9 +132,10 @@ namespace Demo_Layout
             btnXoa.ForeColor = Color.White;
             btnXoa.Image = (Image)resources.GetObject("btnXoa.Image");
             btnXoa.ImageAlign = ContentAlignment.MiddleLeft;
-            btnXoa.Location = new Point(763, 15);
+            btnXoa.Location = new Point(954, 19);
+            btnXoa.Margin = new Padding(4);
             btnXoa.Name = "btnXoa";
-            btnXoa.Size = new Size(75, 41);
+            btnXoa.Size = new Size(94, 51);
             btnXoa.TabIndex = 5;
             btnXoa.Text = "Xoá";
             btnXoa.TextAlign = ContentAlignment.MiddleRight;
@@ -145,9 +150,10 @@ namespace Demo_Layout
             btnThem.ForeColor = Color.White;
             btnThem.Image = (Image)resources.GetObject("btnThem.Image");
             btnThem.ImageAlign = ContentAlignment.MiddleLeft;
-            btnThem.Location = new Point(682, 14);
+            btnThem.Location = new Point(852, 18);
+            btnThem.Margin = new Padding(4);
             btnThem.Name = "btnThem";
-            btnThem.Size = new Size(75, 43);
+            btnThem.Size = new Size(94, 54);
             btnThem.TabIndex = 4;
             btnThem.Text = "Thêm";
             btnThem.TextAlign = ContentAlignment.MiddleRight;
@@ -156,31 +162,22 @@ namespace Demo_Layout
             // txtTimKiem
             // 
             txtTimKiem.ForeColor = SystemColors.InactiveCaption;
-            txtTimKiem.Location = new Point(551, 20);
+            txtTimKiem.Location = new Point(689, 25);
+            txtTimKiem.Margin = new Padding(4);
             txtTimKiem.Name = "txtTimKiem";
-            txtTimKiem.Size = new Size(100, 27);
+            txtTimKiem.Size = new Size(124, 31);
             txtTimKiem.TabIndex = 3;
             // 
             // label1
             // 
             label1.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
-            label1.ForeColor = Color.Cyan;
-            label1.Location = new Point(3, 11);
+            label1.ForeColor = Color.FromArgb(220, 220, 187);
+            label1.Location = new Point(4, 14);
+            label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(306, 37);
+            label1.Size = new Size(382, 46);
             label1.TabIndex = 0;
             label1.Text = "QUẢN LÝ NGÂN SÁCH";
-            // 
-            // dataGridView1
-            // 
-            dataGridView1.BorderStyle = BorderStyle.None;
-            dataGridView1.ColumnHeadersHeight = 36;
-            dataGridView1.Dock = DockStyle.Fill;
-            dataGridView1.Location = new Point(0, 0);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(502, 536);
-            dataGridView1.TabIndex = 0;
             // 
             // panelLeftContainer
             // 
@@ -190,27 +187,30 @@ namespace Demo_Layout
             panelLeftContainer.Controls.Add(lblValueTongNS);
             panelLeftContainer.Controls.Add(labelTongNS);
             panelLeftContainer.Dock = DockStyle.Fill;
-            panelLeftContainer.Location = new Point(3, 3);
+            panelLeftContainer.Location = new Point(4, 4);
+            panelLeftContainer.Margin = new Padding(4);
             panelLeftContainer.Name = "panelLeftContainer";
-            panelLeftContainer.Size = new Size(408, 536);
+            panelLeftContainer.Size = new Size(510, 670);
             panelLeftContainer.TabIndex = 0;
             // 
             // pieChartNganSach
             // 
             pieChartNganSach.BackgroundImage = Properties.Resources.blank_default_pfp_wue0zko1dfxs9z2c;
             pieChartNganSach.ForeColor = SystemColors.ButtonHighlight;
-            pieChartNganSach.Location = new Point(5, 185);
+            pieChartNganSach.Location = new Point(6, 231);
+            pieChartNganSach.Margin = new Padding(4);
             pieChartNganSach.Name = "pieChartNganSach";
-            pieChartNganSach.Size = new Size(400, 348);
+            pieChartNganSach.Size = new Size(500, 435);
             pieChartNganSach.TabIndex = 1;
             // 
             // lblValueTongConLai
             // 
             lblValueTongConLai.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
             lblValueTongConLai.ForeColor = Color.DarkGreen;
-            lblValueTongConLai.Location = new Point(25, 136);
+            lblValueTongConLai.Location = new Point(31, 170);
+            lblValueTongConLai.Margin = new Padding(4, 0, 4, 0);
             lblValueTongConLai.Name = "lblValueTongConLai";
-            lblValueTongConLai.Size = new Size(363, 46);
+            lblValueTongConLai.Size = new Size(454, 58);
             lblValueTongConLai.TabIndex = 2;
             lblValueTongConLai.Text = "TỔNG CÒN LẠI: {0} VNĐ";
             // 
@@ -218,18 +218,20 @@ namespace Demo_Layout
             // 
             lblValueTongDaChi.Font = new Font("Segoe UI", 12F);
             lblValueTongDaChi.ForeColor = Color.Firebrick;
-            lblValueTongDaChi.Location = new Point(5, 89);
+            lblValueTongDaChi.Location = new Point(6, 111);
+            lblValueTongDaChi.Margin = new Padding(4, 0, 4, 0);
             lblValueTongDaChi.Name = "lblValueTongDaChi";
-            lblValueTongDaChi.Size = new Size(201, 32);
+            lblValueTongDaChi.Size = new Size(251, 40);
             lblValueTongDaChi.TabIndex = 3;
             lblValueTongDaChi.Text = "Tổng Đã chi: {0} VNĐ";
             // 
             // lblValueTongNS
             // 
             lblValueTongNS.Font = new Font("Segoe UI", 12F);
-            lblValueTongNS.Location = new Point(5, 57);
+            lblValueTongNS.Location = new Point(6, 71);
+            lblValueTongNS.Margin = new Padding(4, 0, 4, 0);
             lblValueTongNS.Name = "lblValueTongNS";
-            lblValueTongNS.Size = new Size(243, 32);
+            lblValueTongNS.Size = new Size(304, 40);
             lblValueTongNS.TabIndex = 4;
             lblValueTongNS.Text = "Tổng Ngân sách: {0} VNĐ";
             // 
@@ -237,9 +239,10 @@ namespace Demo_Layout
             // 
             labelTongNS.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
             labelTongNS.ForeColor = Color.FromArgb(82, 108, 91);
-            labelTongNS.Location = new Point(0, 11);
+            labelTongNS.Location = new Point(0, 14);
+            labelTongNS.Margin = new Padding(4, 0, 4, 0);
             labelTongNS.Name = "labelTongNS";
-            labelTongNS.Size = new Size(405, 37);
+            labelTongNS.Size = new Size(506, 46);
             labelTongNS.TabIndex = 0;
             labelTongNS.Text = "TỔNG QUAN NGÂN SÁCH ĐÃ LỌC";
             // 
@@ -251,39 +254,69 @@ namespace Demo_Layout
             tableLayoutPanelMain.Controls.Add(panelLeftContainer, 0, 0);
             tableLayoutPanelMain.Controls.Add(panelRightContainer, 1, 0);
             tableLayoutPanelMain.Dock = DockStyle.Fill;
-            tableLayoutPanelMain.Location = new Point(0, 69);
+            tableLayoutPanelMain.Location = new Point(0, 86);
+            tableLayoutPanelMain.Margin = new Padding(4);
             tableLayoutPanelMain.Name = "tableLayoutPanelMain";
             tableLayoutPanelMain.RowCount = 1;
             tableLayoutPanelMain.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanelMain.Size = new Size(922, 542);
+            tableLayoutPanelMain.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanelMain.Size = new Size(1152, 678);
             tableLayoutPanelMain.TabIndex = 9;
             // 
             // panelRightContainer
             // 
             panelRightContainer.Controls.Add(dataGridView1);
+            panelRightContainer.Controls.Add(panel2);
             panelRightContainer.Dock = DockStyle.Fill;
-            panelRightContainer.Location = new Point(417, 3);
+            panelRightContainer.Location = new Point(522, 4);
+            panelRightContainer.Margin = new Padding(4);
             panelRightContainer.Name = "panelRightContainer";
-            panelRightContainer.Size = new Size(502, 536);
+            panelRightContainer.Size = new Size(626, 670);
             panelRightContainer.TabIndex = 1;
+            // 
+            // panel2
+            // 
+            panel2.BackColor = Color.FromArgb(220, 220, 187);
+            panel2.Dock = DockStyle.Right;
+            panel2.Location = new Point(596, 0);
+            panel2.Margin = new Padding(4);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(30, 670);
+            panel2.TabIndex = 17;
+            // 
+            // dataGridView1
+            // 
+            dataGridView1.BorderStyle = BorderStyle.None;
+            dataGridView1.ColumnHeadersHeight = 36;
+            dataGridView1.Dock = DockStyle.Fill;
+            dataGridView1.Location = new Point(0, 0);
+            dataGridView1.Margin = new Padding(4);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.RowHeadersWidth = 51;
+            dataGridView1.Size = new Size(596, 670);
+            dataGridView1.TabIndex = 18;
             // 
             // UserControlNganSach
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(tableLayoutPanelMain);
             Controls.Add(panel4);
+            Margin = new Padding(4);
             Name = "UserControlNganSach";
-            Size = new Size(922, 611);
+            Size = new Size(1152, 764);
             panel4.ResumeLayout(false);
             panel4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             panelLeftContainer.ResumeLayout(false);
             tableLayoutPanelMain.ResumeLayout(false);
             panelRightContainer.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
+
+        private Panel panel2;
+        private Krypton.Toolkit.KryptonDataGridView dataGridView1;
     }
 }

@@ -100,7 +100,7 @@
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Padding = new Padding(7, 1, 0, 1);
             menuStrip1.RenderMode = ToolStripRenderMode.Professional;
-            menuStrip1.Size = new Size(252, 26);
+            menuStrip1.Size = new Size(299, 31);
             menuStrip1.TabIndex = 0;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -109,25 +109,25 @@
             accountToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { signInToolStripMenuItem, signOutToolStripMenuItem, exitToolStripMenuItem });
             accountToolStripMenuItem.ForeColor = SystemColors.ControlLightLight;
             accountToolStripMenuItem.Name = "accountToolStripMenuItem";
-            accountToolStripMenuItem.Size = new Size(81, 24);
+            accountToolStripMenuItem.Size = new Size(98, 29);
             accountToolStripMenuItem.Text = "Account ";
             // 
             // signInToolStripMenuItem
             // 
             signInToolStripMenuItem.Name = "signInToolStripMenuItem";
-            signInToolStripMenuItem.Size = new Size(147, 26);
+            signInToolStripMenuItem.Size = new Size(181, 34);
             signInToolStripMenuItem.Text = "Sign in ";
             // 
             // signOutToolStripMenuItem
             // 
             signOutToolStripMenuItem.Name = "signOutToolStripMenuItem";
-            signOutToolStripMenuItem.Size = new Size(147, 26);
+            signOutToolStripMenuItem.Size = new Size(181, 34);
             signOutToolStripMenuItem.Text = "Sign out";
             // 
             // exitToolStripMenuItem
             // 
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new Size(147, 26);
+            exitToolStripMenuItem.Size = new Size(181, 34);
             exitToolStripMenuItem.Text = "Exit";
             // 
             // editToolStripMenuItem
@@ -135,19 +135,19 @@
             editToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { undoToolStripMenuItem1, redoToolStripMenuItem1 });
             editToolStripMenuItem.ForeColor = SystemColors.ButtonHighlight;
             editToolStripMenuItem.Name = "editToolStripMenuItem";
-            editToolStripMenuItem.Size = new Size(49, 24);
+            editToolStripMenuItem.Size = new Size(58, 29);
             editToolStripMenuItem.Text = "Edit";
             // 
             // undoToolStripMenuItem1
             // 
             undoToolStripMenuItem1.Name = "undoToolStripMenuItem1";
-            undoToolStripMenuItem1.Size = new Size(128, 26);
+            undoToolStripMenuItem1.Size = new Size(158, 34);
             undoToolStripMenuItem1.Text = "Undo";
             // 
             // redoToolStripMenuItem1
             // 
             redoToolStripMenuItem1.Name = "redoToolStripMenuItem1";
-            redoToolStripMenuItem1.Size = new Size(128, 26);
+            redoToolStripMenuItem1.Size = new Size(158, 34);
             redoToolStripMenuItem1.Text = "Redo";
             // 
             // toolsToolStripMenuItem
@@ -155,19 +155,19 @@
             toolsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { findSchedulesToolStripMenuItem1, minimizeToolStripMenuItem1 });
             toolsToolStripMenuItem.ForeColor = SystemColors.ButtonHighlight;
             toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            toolsToolStripMenuItem.Size = new Size(58, 24);
+            toolsToolStripMenuItem.Size = new Size(69, 29);
             toolsToolStripMenuItem.Text = "Tools";
             // 
             // findSchedulesToolStripMenuItem1
             // 
             findSchedulesToolStripMenuItem1.Name = "findSchedulesToolStripMenuItem1";
-            findSchedulesToolStripMenuItem1.Size = new Size(188, 44);
+            findSchedulesToolStripMenuItem1.Size = new Size(230, 58);
             findSchedulesToolStripMenuItem1.Text = "Find schedules";
             // 
             // minimizeToolStripMenuItem1
             // 
             minimizeToolStripMenuItem1.Name = "minimizeToolStripMenuItem1";
-            minimizeToolStripMenuItem1.Size = new Size(188, 44);
+            minimizeToolStripMenuItem1.Size = new Size(230, 58);
             minimizeToolStripMenuItem1.Text = "Minimize\n";
             // 
             // helpToolStripMenuItem
@@ -175,19 +175,19 @@
             helpToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { documentationToolStripMenuItem1, keyboardShortcutsToolStripMenuItem1 });
             helpToolStripMenuItem.ForeColor = SystemColors.Control;
             helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            helpToolStripMenuItem.Size = new Size(55, 24);
+            helpToolStripMenuItem.Size = new Size(65, 29);
             helpToolStripMenuItem.Text = "Help";
             // 
             // documentationToolStripMenuItem1
             // 
             documentationToolStripMenuItem1.Name = "documentationToolStripMenuItem1";
-            documentationToolStripMenuItem1.Size = new Size(221, 26);
+            documentationToolStripMenuItem1.Size = new Size(270, 34);
             documentationToolStripMenuItem1.Text = "Documentation";
             // 
             // keyboardShortcutsToolStripMenuItem1
             // 
             keyboardShortcutsToolStripMenuItem1.Name = "keyboardShortcutsToolStripMenuItem1";
-            keyboardShortcutsToolStripMenuItem1.Size = new Size(221, 26);
+            keyboardShortcutsToolStripMenuItem1.Size = new Size(270, 34);
             keyboardShortcutsToolStripMenuItem1.Text = "Keyboard Shortcuts";
             // 
             // đăngNhậpToolStripMenuItem
@@ -250,10 +250,10 @@
             button1.FlatAppearance.BorderSize = 0;
             button1.FlatStyle = FlatStyle.Flat;
             button1.Font = new Font("Segoe UI Semibold", 13F, FontStyle.Bold);
-            button1.ForeColor = Color.Cyan;
+            button1.ForeColor = Color.FromArgb(220, 220, 187);
             button1.Image = (Image)resources.GetObject("button1.Image");
             button1.ImageAlign = ContentAlignment.MiddleLeft;
-            button1.Location = new Point(9, 6);
+            button1.Location = new Point(3, -1);
             button1.Name = "button1";
             button1.Size = new Size(301, 70);
             button1.TabIndex = 0;
@@ -267,7 +267,7 @@
             button2.FlatAppearance.BorderSize = 0;
             button2.FlatStyle = FlatStyle.Flat;
             button2.Font = new Font("Segoe UI Semibold", 13F, FontStyle.Bold);
-            button2.ForeColor = Color.Cyan;
+            button2.ForeColor = Color.FromArgb(220, 220, 187);
             button2.Image = (Image)resources.GetObject("button2.Image");
             button2.ImageAlign = ContentAlignment.MiddleLeft;
             button2.Location = new Point(9, 82);
@@ -284,7 +284,7 @@
             button3.FlatAppearance.BorderSize = 0;
             button3.FlatStyle = FlatStyle.Flat;
             button3.Font = new Font("Segoe UI Semibold", 13F, FontStyle.Bold);
-            button3.ForeColor = Color.Cyan;
+            button3.ForeColor = Color.FromArgb(220, 220, 187);
             button3.Image = (Image)resources.GetObject("button3.Image");
             button3.ImageAlign = ContentAlignment.MiddleLeft;
             button3.Location = new Point(9, 158);
@@ -301,7 +301,7 @@
             button4.FlatAppearance.BorderSize = 0;
             button4.FlatStyle = FlatStyle.Flat;
             button4.Font = new Font("Segoe UI Semibold", 13F, FontStyle.Bold);
-            button4.ForeColor = Color.Cyan;
+            button4.ForeColor = Color.FromArgb(220, 220, 187);
             button4.Image = (Image)resources.GetObject("button4.Image");
             button4.ImageAlign = ContentAlignment.MiddleLeft;
             button4.Location = new Point(9, 234);
@@ -318,7 +318,7 @@
             button5.FlatAppearance.BorderSize = 0;
             button5.FlatStyle = FlatStyle.Flat;
             button5.Font = new Font("Segoe UI Semibold", 13F, FontStyle.Bold);
-            button5.ForeColor = Color.Cyan;
+            button5.ForeColor = Color.FromArgb(220, 220, 187);
             button5.Image = (Image)resources.GetObject("button5.Image");
             button5.ImageAlign = ContentAlignment.MiddleLeft;
             button5.Location = new Point(9, 310);
@@ -335,7 +335,7 @@
             button6.FlatAppearance.BorderSize = 0;
             button6.FlatStyle = FlatStyle.Flat;
             button6.Font = new Font("Segoe UI Semibold", 13F, FontStyle.Bold);
-            button6.ForeColor = Color.Cyan;
+            button6.ForeColor = Color.FromArgb(220, 220, 187);
             button6.Image = (Image)resources.GetObject("button6.Image");
             button6.ImageAlign = ContentAlignment.MiddleLeft;
             button6.Location = new Point(9, 386);
@@ -381,7 +381,7 @@
             lblVaiTro.ForeColor = Color.DimGray;
             lblVaiTro.Location = new Point(80, 40);
             lblVaiTro.Name = "lblVaiTro";
-            lblVaiTro.Size = new Size(52, 20);
+            lblVaiTro.Size = new Size(65, 25);
             lblVaiTro.TabIndex = 5;
             lblVaiTro.Text = "Vai trò";
             // 
@@ -389,10 +389,10 @@
             // 
             lblTenHienThi.AutoSize = true;
             lblTenHienThi.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            lblTenHienThi.ForeColor = Color.FromArgb(47, 67, 215);
+            lblTenHienThi.ForeColor = Color.Navy;
             lblTenHienThi.Location = new Point(80, 15);
             lblTenHienThi.Name = "lblTenHienThi";
-            lblTenHienThi.Size = new Size(142, 23);
+            lblTenHienThi.Size = new Size(168, 28);
             lblTenHienThi.TabIndex = 4;
             lblTenHienThi.Text = "Tên Người Dùng";
             // 
@@ -514,7 +514,7 @@
             button13.FlatAppearance.BorderSize = 0;
             button13.FlatStyle = FlatStyle.Flat;
             button13.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            button13.ForeColor = Color.Cyan;
+            button13.ForeColor = Color.FromArgb(220, 220, 187);
             button13.Image = (Image)resources.GetObject("button13.Image");
             button13.ImageAlign = ContentAlignment.MiddleLeft;
             button13.Location = new Point(583, 7);
@@ -530,7 +530,7 @@
             button12.FlatAppearance.BorderSize = 0;
             button12.FlatStyle = FlatStyle.Flat;
             button12.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            button12.ForeColor = Color.Cyan;
+            button12.ForeColor = Color.FromArgb(220, 220, 187);
             button12.Image = (Image)resources.GetObject("button12.Image");
             button12.ImageAlign = ContentAlignment.MiddleLeft;
             button12.Location = new Point(416, 7);
@@ -546,7 +546,7 @@
             button11.FlatAppearance.BorderSize = 0;
             button11.FlatStyle = FlatStyle.Flat;
             button11.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            button11.ForeColor = Color.Cyan;
+            button11.ForeColor = Color.FromArgb(220, 220, 187);
             button11.Image = (Image)resources.GetObject("button11.Image");
             button11.ImageAlign = ContentAlignment.MiddleLeft;
             button11.Location = new Point(255, 7);
@@ -562,7 +562,7 @@
             scThemTaiKhoan.FlatAppearance.BorderSize = 0;
             scThemTaiKhoan.FlatStyle = FlatStyle.Flat;
             scThemTaiKhoan.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            scThemTaiKhoan.ForeColor = Color.Cyan;
+            scThemTaiKhoan.ForeColor = Color.FromArgb(220, 220, 187);
             scThemTaiKhoan.Image = (Image)resources.GetObject("scThemTaiKhoan.Image");
             scThemTaiKhoan.ImageAlign = ContentAlignment.MiddleLeft;
             scThemTaiKhoan.Location = new Point(12, 6);

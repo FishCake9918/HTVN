@@ -365,10 +365,6 @@ namespace Demo_Layout
             }
         }
 
-        private void tvDanhMuc_NodeMouseDoubleClick_1(object sender, TreeNodeMouseClickEventArgs e)
-        {
-            ThucHienSua();
-        }
 
     }
 }

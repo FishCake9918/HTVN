@@ -1,12 +1,14 @@
-﻿using System;
+﻿using Data; // Namespace chứa Context và Entity
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection; // Cần thiết cho DI
+using Piggy_Admin;
+using ReaLTaiizor.Controls;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection; // Cần thiết cho DI
-using Data; // Namespace chứa Context và Entity
 
 namespace Demo_Layout
 {
@@ -24,22 +26,22 @@ namespace Demo_Layout
         // --- CONSTRUCTOR NHẬN DI ---
         // 2. Inject CurrentUserContext vào đây
         public UserControlQuanLyGiaoDich(
-            IDbContextFactory<QLTCCNContext> dbFactory, 
+            IDbContextFactory<QLTCCNContext> dbFactory,
             IServiceProvider serviceProvider,
-            CurrentUserContext userContext) 
+            CurrentUserContext userContext)
         {
             InitializeComponent();
 
             _dbFactory = dbFactory;
             _serviceProvider = serviceProvider;
             _userContext = userContext; // Gán giá trị
-
+            Dinhdangluoi.DinhDangLuoiNguoiDung(kryptonDataGridView1);
             // Đăng ký các sự kiện
             this.Load += UserControlQuanLyGiaoDich_Load;
             cbTaiKhoan.SelectedIndexChanged += cbTaiKhoan_SelectedIndexChanged;
 
             // ⭐ 1. THÊM SỰ KIỆN DOUBLE CLICK VÀO poisonDataGridView1 ⭐
-            poisonDataGridView1.DoubleClick += poisonDataGridView1_DoubleClick;
+            kryptonDataGridView1.DoubleClick += poisonDataGridView1_DoubleClick;
 
             txtTimKiem.Enter += txtTimKiem_Enter;
             txtTimKiem.Leave += txtTimKiem_Leave;
@@ -49,10 +51,10 @@ namespace Demo_Layout
         private void UserControlQuanLyGiaoDich_Load(object sender, EventArgs e)
         {
             // ⭐ Đã đổi từ DataGridView1 sang poisonDataGridView1 ⭐
-            poisonDataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            poisonDataGridView1.MultiSelect = false;
-            poisonDataGridView1.ReadOnly = true;
-            
+            kryptonDataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            kryptonDataGridView1.MultiSelect = false;
+            kryptonDataGridView1.ReadOnly = true;
+
             LogHelper.GhiLog(_dbFactory, "Quản lý giao dịch", _userContext.MaNguoiDung); // ghi log
 
             LoadComboBoxTaiKhoan();
@@ -63,7 +65,7 @@ namespace Demo_Layout
         private void poisonDataGridView1_DoubleClick(object sender, EventArgs e)
         {
             // Kiểm tra xem có dòng nào được chọn không (sự kiện DoubleClick đôi khi bị kích hoạt ngay cả khi click vào header)
-            if (poisonDataGridView1.SelectedRows.Count > 0)
+            if (kryptonDataGridView1.SelectedRows.Count > 0)
             {
                 // Gọi lại hàm btnSua_Click để thực hiện logic chỉnh sửa đã có
                 btnSua_Click(sender, e);
@@ -126,7 +128,7 @@ namespace Demo_Layout
                         .Include(g => g.DoiTuongGiaoDich)
                         .Include(g => g.TaiKhoanThanhToan)
                         .Include(g => g.DanhMucChiTieu)
-                        .Where(g => g.MaNguoiDung == _userContext.MaNguoiDung); 
+                        .Where(g => g.MaNguoiDung == _userContext.MaNguoiDung);
 
                     if (maTaiKhoanLoc > 0)
                     {
@@ -154,7 +156,7 @@ namespace Demo_Layout
 
                     dtGiaoDich = ConvertToDataTable(dataList);
                     // ⭐ Đã đổi từ DataGridView1 sang poisonDataGridView1 ⭐
-                    poisonDataGridView1.DataSource = dtGiaoDich;
+                    kryptonDataGridView1.DataSource = dtGiaoDich;
 
                     FormatGrid();
                     CalculateTotal(query);
@@ -181,31 +183,31 @@ namespace Demo_Layout
             string[] hiddenColumns = { "MaGiaoDich", "MaDoiTuongGiaoDich", "MaTaiKhoanThanhToan", "MaDanhMuc", "MaLoaiGiaoDich" };
             foreach (var col in hiddenColumns)
             {
-                if (poisonDataGridView1.Columns.Contains(col))
-                    poisonDataGridView1.Columns[col].Visible = false;
+                if (kryptonDataGridView1.Columns.Contains(col))
+                    kryptonDataGridView1.Columns[col].Visible = false;
             }
-            poisonDataGridView1.CellBorderStyle = DataGridViewCellBorderStyle.Single;
-            poisonDataGridView1.GridColor = Color.LightGray;
+            kryptonDataGridView1.CellBorderStyle = DataGridViewCellBorderStyle.Single;
+            kryptonDataGridView1.GridColor = Color.LightGray;
 
-            if (poisonDataGridView1.Columns.Contains("TenGiaoDich")) poisonDataGridView1.Columns["TenGiaoDich"].HeaderText = "Giao Dịch";
-            if (poisonDataGridView1.Columns.Contains("TenDoiTuong")) poisonDataGridView1.Columns["TenDoiTuong"].HeaderText = "Đối Tượng";
-            if (poisonDataGridView1.Columns.Contains("TenTaiKhoan")) poisonDataGridView1.Columns["TenTaiKhoan"].HeaderText = "Tài Khoản";
-            if (poisonDataGridView1.Columns.Contains("DanhMucChiTieu")) poisonDataGridView1.Columns["DanhMucChiTieu"].HeaderText = "Danh Mục";
-            if (poisonDataGridView1.Columns.Contains("GhiChu")) poisonDataGridView1.Columns["GhiChu"].HeaderText = "Ghi Chú";
-            if (poisonDataGridView1.Columns.Contains("TenLoaiGiaoDich")) poisonDataGridView1.Columns["TenLoaiGiaoDich"].HeaderText = "Loại GD";
+            if (kryptonDataGridView1.Columns.Contains("TenGiaoDich")) kryptonDataGridView1.Columns["TenGiaoDich"].HeaderText = "Giao Dịch";
+            if (kryptonDataGridView1.Columns.Contains("TenDoiTuong")) kryptonDataGridView1.Columns["TenDoiTuong"].HeaderText = "Đối Tượng";
+            if (kryptonDataGridView1.Columns.Contains("TenTaiKhoan")) kryptonDataGridView1.Columns["TenTaiKhoan"].HeaderText = "Tài Khoản";
+            if (kryptonDataGridView1.Columns.Contains("DanhMucChiTieu")) kryptonDataGridView1.Columns["DanhMucChiTieu"].HeaderText = "Danh Mục";
+            if (kryptonDataGridView1.Columns.Contains("GhiChu")) kryptonDataGridView1.Columns["GhiChu"].HeaderText = "Ghi Chú";
+            if (kryptonDataGridView1.Columns.Contains("TenLoaiGiaoDich")) kryptonDataGridView1.Columns["TenLoaiGiaoDich"].HeaderText = "Loại GD";
 
-            if (poisonDataGridView1.Columns.Contains("SoTien"))
+            if (kryptonDataGridView1.Columns.Contains("SoTien"))
             {
-                poisonDataGridView1.Columns["SoTien"].HeaderText = "Số Tiền";
-                poisonDataGridView1.Columns["SoTien"].DefaultCellStyle.Format = "N0";
-                poisonDataGridView1.Columns["SoTien"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                kryptonDataGridView1.Columns["SoTien"].HeaderText = "Số Tiền";
+                kryptonDataGridView1.Columns["SoTien"].DefaultCellStyle.Format = "N0";
+                kryptonDataGridView1.Columns["SoTien"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
             }
 
-            if (poisonDataGridView1.Columns.Contains("NgayGiaoDich"))
+            if (kryptonDataGridView1.Columns.Contains("NgayGiaoDich"))
             {
-                poisonDataGridView1.Columns["NgayGiaoDich"].HeaderText = "Ngày GD";
-                poisonDataGridView1.Columns["NgayGiaoDich"].DefaultCellStyle.Format = "dd/MM/yyyy";
-                poisonDataGridView1.Columns["NgayGiaoDich"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                kryptonDataGridView1.Columns["NgayGiaoDich"].HeaderText = "Ngày GD";
+                kryptonDataGridView1.Columns["NgayGiaoDich"].DefaultCellStyle.Format = "dd/MM/yyyy";
+                kryptonDataGridView1.Columns["NgayGiaoDich"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             }
         }
 
@@ -224,13 +226,13 @@ namespace Demo_Layout
         private void btnSua_Click(object sender, EventArgs e)
         {
             // ⭐ Đã đổi từ DataGridView1 sang poisonDataGridView1 ⭐
-            if (poisonDataGridView1.SelectedRows.Count == 0)
+            if (kryptonDataGridView1.SelectedRows.Count == 0)
             {
                 MessageBox.Show("Vui lòng chọn một giao dịch để sửa.", "Thông báo");
                 return;
             }
 
-            var row = poisonDataGridView1.SelectedRows[0];
+            var row = kryptonDataGridView1.SelectedRows[0];
 
             int maGiaoDich = Convert.ToInt32(row.Cells["MaGiaoDich"].Value);
             string tenGiaoDich = row.Cells["TenGiaoDich"].Value?.ToString() ?? "";
@@ -246,8 +248,8 @@ namespace Demo_Layout
             // ActivatorUtilities sẽ tự lấy DbContext, ServiceProvider và CurrentUserContext từ DI
             FrmThemGiaoDich frm = ActivatorUtilities.CreateInstance<FrmThemGiaoDich>(
                 _serviceProvider,
-                maGiaoDich,           
-                tenGiaoDich,          
+                maGiaoDich,
+                tenGiaoDich,
                 ghiChu,
                 soTien,
                 ngayGiaoDich,
@@ -262,13 +264,13 @@ namespace Demo_Layout
         private void btnXoa_Click(object sender, EventArgs e)
         {
             // ⭐ Đã đổi từ DataGridView1 sang poisonDataGridView1 ⭐
-            if (poisonDataGridView1.SelectedRows.Count == 0)
+            if (kryptonDataGridView1.SelectedRows.Count == 0)
             {
                 MessageBox.Show("Vui lòng chọn một giao dịch để xóa.");
                 return;
             }
 
-            int maGiaoDich = Convert.ToInt32(poisonDataGridView1.SelectedRows[0].Cells["MaGiaoDich"].Value);
+            int maGiaoDich = Convert.ToInt32(kryptonDataGridView1.SelectedRows[0].Cells["MaGiaoDich"].Value);
 
             if (MessageBox.Show("Bạn có chắc muốn xóa giao dịch này?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No) return;
 
@@ -282,8 +284,8 @@ namespace Demo_Layout
                         // Kiểm tra quyền (optional): Chỉ xóa của chính mình
                         if (gd.MaNguoiDung != _userContext.MaNguoiDung)
                         {
-                             MessageBox.Show("Bạn không có quyền xóa giao dịch này.");
-                             return;
+                            MessageBox.Show("Bạn không có quyền xóa giao dịch này.");
+                            return;
                         }
 
                         context.GiaoDichs.Remove(gd);

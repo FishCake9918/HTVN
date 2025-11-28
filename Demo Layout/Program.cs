@@ -33,7 +33,6 @@ namespace Demo_Layout
 
                     // 2. Đăng ký Form và UserControl là Transient (vòng đời ngắn)
                     services.AddTransient<FrmMain>();
-                    services.AddTransient<FormTaiKhoan>();
                     services.AddTransient<UserControlBaoCao>();
                     services.AddTransient<UserControlQuanLyGiaoDich>();
                     services.AddTransient<UserControlNganSach>();

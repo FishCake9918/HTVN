@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using LiveCharts;
 using LiveCharts.Wpf;
 using Microsoft.Extensions.DependencyInjection;
+using Piggy_Admin;
 
 namespace Demo_Layout
 {
@@ -30,7 +31,7 @@ namespace Demo_Layout
             _dbFactory = dbFactory;
             _serviceProvider = serviceProvider;
             _userContext = userContext;
-
+            Dinhdangluoi.DinhDangLuoiNguoiDung(dataGridView1);
             ConfigCharts();
             if (dataGridView1 != null) { dataGridView1.DataSource = bsNganSach; dataGridView1.DoubleClick += KryptonDataGridView1_DoubleClick; }
 

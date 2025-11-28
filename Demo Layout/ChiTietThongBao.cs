@@ -89,7 +89,7 @@ namespace Demo_Layout
         }
         public static class PiggyMessageBox
         {
-            private static Color colorPrimary = ColorTranslator.FromHtml("#526c5b");
+            private static Color colorPrimary = ColorTranslator.FromHtml("#425e6a");
             private static Color colorAccent = ColorTranslator.FromHtml("#f07055");
 
             public static void Show(string title, string content, string dateInfo)

@@ -68,8 +68,9 @@
             panel4.Controls.Add(label1);
             panel4.Dock = DockStyle.Top;
             panel4.Location = new Point(0, 0);
+            panel4.Margin = new Padding(4);
             panel4.Name = "panel4";
-            panel4.Size = new Size(922, 147);
+            panel4.Size = new Size(1152, 184);
             panel4.TabIndex = 9;
             // 
             // panelFilter
@@ -85,9 +86,10 @@
             panelFilter.Controls.Add(label7);
             panelFilter.Dock = DockStyle.Bottom;
             panelFilter.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            panelFilter.Location = new Point(0, 87);
+            panelFilter.Location = new Point(0, 109);
+            panelFilter.Margin = new Padding(4);
             panelFilter.Name = "panelFilter";
-            panelFilter.Size = new Size(922, 60);
+            panelFilter.Size = new Size(1152, 75);
             panelFilter.TabIndex = 15;
             // 
             // btnIn
@@ -97,9 +99,10 @@
             btnIn.FlatStyle = FlatStyle.Popup;
             btnIn.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnIn.ForeColor = Color.White;
-            btnIn.Location = new Point(837, 15);
+            btnIn.Location = new Point(1028, 14);
+            btnIn.Margin = new Padding(4);
             btnIn.Name = "btnIn";
-            btnIn.Size = new Size(81, 32);
+            btnIn.Size = new Size(101, 40);
             btnIn.TabIndex = 7;
             btnIn.Text = "In";
             btnIn.UseVisualStyleBackColor = false;
@@ -112,9 +115,10 @@
             button1.FlatStyle = FlatStyle.Popup;
             button1.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button1.ForeColor = Color.White;
-            button1.Location = new Point(686, 15);
+            button1.Location = new Point(919, 14);
+            button1.Margin = new Padding(4);
             button1.Name = "button1";
-            button1.Size = new Size(81, 32);
+            button1.Size = new Size(101, 40);
             button1.TabIndex = 6;
             button1.Text = "Xem";
             button1.UseVisualStyleBackColor = false;
@@ -126,9 +130,10 @@
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI Black", 9F, FontStyle.Bold);
             label5.ForeColor = Color.FromArgb(66, 94, 106);
-            label5.Location = new Point(405, 20);
+            label5.Location = new Point(506, 25);
+            label5.Margin = new Padding(4, 0, 4, 0);
             label5.Name = "label5";
-            label5.Size = new Size(86, 20);
+            label5.Size = new Size(104, 25);
             label5.TabIndex = 5;
             label5.Text = "Tài khoản:";
             // 
@@ -138,9 +143,10 @@
             cboTaiKhoan.DropDownStyle = ComboBoxStyle.DropDownList;
             cboTaiKhoan.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             cboTaiKhoan.FormattingEnabled = true;
-            cboTaiKhoan.Location = new Point(497, 17);
+            cboTaiKhoan.Location = new Point(621, 21);
+            cboTaiKhoan.Margin = new Padding(4);
             cboTaiKhoan.Name = "cboTaiKhoan";
-            cboTaiKhoan.Size = new Size(160, 28);
+            cboTaiKhoan.Size = new Size(199, 33);
             cboTaiKhoan.TabIndex = 4;
             cboTaiKhoan.SelectedIndexChanged += cboTaiKhoan_SelectedIndexChanged;
             // 
@@ -156,9 +162,10 @@
             dtpDenNgay.CustomFormat = "dd/MM/yyyy";
             dtpDenNgay.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             dtpDenNgay.Format = DateTimePickerFormat.Custom;
-            dtpDenNgay.Location = new Point(264, 17);
+            dtpDenNgay.Location = new Point(330, 21);
+            dtpDenNgay.Margin = new Padding(4);
             dtpDenNgay.Name = "dtpDenNgay";
-            dtpDenNgay.Size = new Size(120, 27);
+            dtpDenNgay.Size = new Size(149, 31);
             dtpDenNgay.TabIndex = 3;
             // 
             // label6
@@ -167,9 +174,10 @@
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI Black", 9F, FontStyle.Bold);
             label6.ForeColor = Color.FromArgb(66, 94, 106);
-            label6.Location = new Point(216, 20);
+            label6.Location = new Point(270, 25);
+            label6.Margin = new Padding(4, 0, 4, 0);
             label6.Name = "label6";
-            label6.Size = new Size(42, 20);
+            label6.Size = new Size(53, 25);
             label6.TabIndex = 2;
             label6.Text = "Đến:";
             // 
@@ -185,10 +193,12 @@
             dtpTuNgay.CustomFormat = "dd/MM/yyyy";
             dtpTuNgay.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             dtpTuNgay.Format = DateTimePickerFormat.Custom;
-            dtpTuNgay.Location = new Point(84, 18);
+            dtpTuNgay.Location = new Point(105, 22);
+            dtpTuNgay.Margin = new Padding(4);
             dtpTuNgay.Name = "dtpTuNgay";
-            dtpTuNgay.Size = new Size(120, 27);
+            dtpTuNgay.Size = new Size(149, 31);
             dtpTuNgay.TabIndex = 1;
+            dtpTuNgay.Value = new DateTime(2025, 11, 28, 23, 50, 0, 0);
             // 
             // label7
             // 
@@ -196,9 +206,10 @@
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI Black", 9F, FontStyle.Bold);
             label7.ForeColor = Color.FromArgb(66, 94, 106);
-            label7.Location = new Point(4, 22);
+            label7.Location = new Point(5, 28);
+            label7.Margin = new Padding(4, 0, 4, 0);
             label7.Name = "label7";
-            label7.Size = new Size(75, 20);
+            label7.Size = new Size(90, 25);
             label7.TabIndex = 0;
             label7.Text = "Từ ngày:";
             // 
@@ -206,10 +217,11 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
-            label1.ForeColor = Color.Cyan;
-            label1.Location = new Point(30, 19);
+            label1.ForeColor = Color.FromArgb(220, 220, 187);
+            label1.Location = new Point(21, 30);
+            label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(136, 37);
+            label1.Size = new Size(164, 45);
             label1.TabIndex = 0;
             label1.Text = "BÁO CÁO";
             // 
@@ -223,12 +235,13 @@
             tableLayoutPanel1.Controls.Add(panel3, 1, 0);
             tableLayoutPanel1.Controls.Add(panel1, 0, 1);
             tableLayoutPanel1.Dock = DockStyle.Fill;
-            tableLayoutPanel1.Location = new Point(0, 147);
+            tableLayoutPanel1.Location = new Point(0, 184);
+            tableLayoutPanel1.Margin = new Padding(4);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 2;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 40F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 60F));
-            tableLayoutPanel1.Size = new Size(922, 464);
+            tableLayoutPanel1.Size = new Size(1152, 580);
             tableLayoutPanel1.TabIndex = 10;
             // 
             // panel5
@@ -237,17 +250,19 @@
             panel5.Controls.Add(cartesianChartXuHuong);
             panel5.Controls.Add(lblTitle3);
             panel5.Dock = DockStyle.Fill;
-            panel5.Location = new Point(450, 188);
+            panel5.Location = new Point(562, 236);
+            panel5.Margin = new Padding(4);
             panel5.Name = "panel5";
-            panel5.Size = new Size(469, 273);
+            panel5.Size = new Size(586, 340);
             panel5.TabIndex = 5;
             // 
             // cartesianChartXuHuong
             // 
             cartesianChartXuHuong.Dock = DockStyle.Fill;
-            cartesianChartXuHuong.Location = new Point(0, 41);
+            cartesianChartXuHuong.Location = new Point(0, 51);
+            cartesianChartXuHuong.Margin = new Padding(4);
             cartesianChartXuHuong.Name = "cartesianChartXuHuong";
-            cartesianChartXuHuong.Size = new Size(467, 230);
+            cartesianChartXuHuong.Size = new Size(584, 287);
             cartesianChartXuHuong.TabIndex = 1;
             // 
             // lblTitle3
@@ -255,8 +270,9 @@
             lblTitle3.Dock = DockStyle.Top;
             lblTitle3.Font = new Font("Segoe UI Semibold", 10.8F, FontStyle.Bold);
             lblTitle3.Location = new Point(0, 0);
+            lblTitle3.Margin = new Padding(4, 0, 4, 0);
             lblTitle3.Name = "lblTitle3";
-            lblTitle3.Size = new Size(467, 41);
+            lblTitle3.Size = new Size(584, 51);
             lblTitle3.TabIndex = 0;
             lblTitle3.Text = "XU HƯỚNG CHI TIÊU";
             lblTitle3.TextAlign = ContentAlignment.MiddleCenter;
@@ -267,9 +283,10 @@
             panel2.Controls.Add(lblTongChiTieu);
             panel2.Controls.Add(lblTitle2);
             panel2.Dock = DockStyle.Fill;
-            panel2.Location = new Point(3, 3);
+            panel2.Location = new Point(4, 4);
+            panel2.Margin = new Padding(4);
             panel2.Name = "panel2";
-            panel2.Size = new Size(441, 179);
+            panel2.Size = new Size(550, 224);
             panel2.TabIndex = 2;
             // 
             // lblTongChiTieu
@@ -277,9 +294,10 @@
             lblTongChiTieu.Dock = DockStyle.Fill;
             lblTongChiTieu.Font = new Font("Segoe UI", 28F, FontStyle.Bold);
             lblTongChiTieu.ForeColor = Color.SeaGreen;
-            lblTongChiTieu.Location = new Point(0, 42);
+            lblTongChiTieu.Location = new Point(0, 52);
+            lblTongChiTieu.Margin = new Padding(4, 0, 4, 0);
             lblTongChiTieu.Name = "lblTongChiTieu";
-            lblTongChiTieu.Size = new Size(439, 135);
+            lblTongChiTieu.Size = new Size(548, 170);
             lblTongChiTieu.TabIndex = 1;
             lblTongChiTieu.Text = "0 đ";
             lblTongChiTieu.TextAlign = ContentAlignment.MiddleCenter;
@@ -289,8 +307,9 @@
             lblTitle2.Dock = DockStyle.Top;
             lblTitle2.Font = new Font("Segoe UI Semibold", 10.8F, FontStyle.Bold);
             lblTitle2.Location = new Point(0, 0);
+            lblTitle2.Margin = new Padding(4, 0, 4, 0);
             lblTitle2.Name = "lblTitle2";
-            lblTitle2.Size = new Size(439, 42);
+            lblTitle2.Size = new Size(548, 52);
             lblTitle2.TabIndex = 0;
             lblTitle2.Text = "TỔNG CHI TIÊU";
             lblTitle2.TextAlign = ContentAlignment.MiddleCenter;
@@ -301,17 +320,19 @@
             panel3.Controls.Add(cartesianChartThuChi);
             panel3.Controls.Add(lblTitle4);
             panel3.Dock = DockStyle.Fill;
-            panel3.Location = new Point(450, 3);
+            panel3.Location = new Point(562, 4);
+            panel3.Margin = new Padding(4);
             panel3.Name = "panel3";
-            panel3.Size = new Size(469, 179);
+            panel3.Size = new Size(586, 224);
             panel3.TabIndex = 4;
             // 
             // cartesianChartThuChi
             // 
             cartesianChartThuChi.Dock = DockStyle.Fill;
-            cartesianChartThuChi.Location = new Point(0, 41);
+            cartesianChartThuChi.Location = new Point(0, 51);
+            cartesianChartThuChi.Margin = new Padding(4);
             cartesianChartThuChi.Name = "cartesianChartThuChi";
-            cartesianChartThuChi.Size = new Size(467, 136);
+            cartesianChartThuChi.Size = new Size(584, 171);
             cartesianChartThuChi.TabIndex = 1;
             // 
             // lblTitle4
@@ -319,8 +340,9 @@
             lblTitle4.Dock = DockStyle.Top;
             lblTitle4.Font = new Font("Segoe UI Semibold", 10.8F, FontStyle.Bold);
             lblTitle4.Location = new Point(0, 0);
+            lblTitle4.Margin = new Padding(4, 0, 4, 0);
             lblTitle4.Name = "lblTitle4";
-            lblTitle4.Size = new Size(467, 41);
+            lblTitle4.Size = new Size(584, 51);
             lblTitle4.TabIndex = 0;
             lblTitle4.Text = "TỔNG QUAN";
             lblTitle4.TextAlign = ContentAlignment.MiddleCenter;
@@ -331,17 +353,19 @@
             panel1.Controls.Add(pieChartChiTieu);
             panel1.Controls.Add(lblTitle1);
             panel1.Dock = DockStyle.Fill;
-            panel1.Location = new Point(3, 188);
+            panel1.Location = new Point(4, 236);
+            panel1.Margin = new Padding(4);
             panel1.Name = "panel1";
-            panel1.Size = new Size(441, 273);
+            panel1.Size = new Size(550, 340);
             panel1.TabIndex = 3;
             // 
             // pieChartChiTieu
             // 
             pieChartChiTieu.Dock = DockStyle.Fill;
-            pieChartChiTieu.Location = new Point(0, 42);
+            pieChartChiTieu.Location = new Point(0, 52);
+            pieChartChiTieu.Margin = new Padding(4);
             pieChartChiTieu.Name = "pieChartChiTieu";
-            pieChartChiTieu.Size = new Size(439, 229);
+            pieChartChiTieu.Size = new Size(548, 286);
             pieChartChiTieu.TabIndex = 1;
             // 
             // lblTitle1
@@ -349,20 +373,22 @@
             lblTitle1.Dock = DockStyle.Top;
             lblTitle1.Font = new Font("Segoe UI Semibold", 10.8F, FontStyle.Bold);
             lblTitle1.Location = new Point(0, 0);
+            lblTitle1.Margin = new Padding(4, 0, 4, 0);
             lblTitle1.Name = "lblTitle1";
-            lblTitle1.Size = new Size(439, 42);
+            lblTitle1.Size = new Size(548, 52);
             lblTitle1.TabIndex = 0;
             lblTitle1.Text = "CƠ CẤU CHI TIÊU";
             lblTitle1.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // UserControlBaoCao
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(tableLayoutPanel1);
             Controls.Add(panel4);
+            Margin = new Padding(4);
             Name = "UserControlBaoCao";
-            Size = new Size(922, 611);
+            Size = new Size(1152, 764);
             Load += UserControlBaoCao_Load;
             panel4.ResumeLayout(false);
             panel4.PerformLayout();

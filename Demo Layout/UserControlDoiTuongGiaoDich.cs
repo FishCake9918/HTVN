@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using Krypton.Toolkit;
 using System.Drawing;
 using Microsoft.Extensions.DependencyInjection;
+using Piggy_Admin;
 
 namespace Demo_Layout
 {
@@ -35,6 +36,7 @@ namespace Demo_Layout
             this.btnThem.Click += BtnThem_Click;
             this.btnSua.Click += BtnSua_Click;
             this.btnXoa.Click += BtnXoa_Click;
+            Dinhdangluoi.DinhDangLuoiNguoiDung(kryptonDataGridView1);
             this.kryptonDataGridView1.DoubleClick += KryptonDataGridView1_DoubleClick;
             ConfigureGridView();
         }

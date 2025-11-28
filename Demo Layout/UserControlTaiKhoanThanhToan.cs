@@ -7,7 +7,8 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Drawing;
 using Krypton.Toolkit;
-using Microsoft.Extensions.DependencyInjection; // Cần cho DI
+using Microsoft.Extensions.DependencyInjection;
+using Piggy_Admin; // Cần cho DI
 
 namespace Demo_Layout
 {
@@ -35,7 +36,7 @@ namespace Demo_Layout
             _dbFactory = dbFactory;
             _serviceProvider = serviceProvider;
             _userContext = userContext;
-
+            Dinhdangluoi.DinhDangLuoiNguoiDung(kryptonDataGridView1);
             kryptonDataGridView1.DataSource = bsTaiKhoan;
 
 
