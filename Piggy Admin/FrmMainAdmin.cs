@@ -2,6 +2,11 @@
 using Data;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using System.Windows.Forms; 
+using System.Media;        
+using System;               
+using System.IO;            
+using System.Drawing;       
 
 namespace Piggy_Admin
 {
@@ -11,7 +16,12 @@ namespace Piggy_Admin
         private readonly IServiceProvider _serviceProvider;
         private readonly CurrentUserContext _userContext; // <-- INJECT CONTEXT
 
-        // Code API Win32
+        // KHAI BÁO BIẾN ÂM THANH
+        private SoundPlayer player;
+        private string soundFilePath = Path.Combine(Application.StartupPath, "Click.wav");
+        // ------------------------
+
+        // Code API Win32 (Giữ nguyên)
         public const int WM_NCLBUTTONDOWN = 0xA1;
         public const int HT_CAPTION = 0x2;
         [DllImport("user32.dll")]
@@ -24,18 +34,42 @@ namespace Piggy_Admin
             InitializeComponent();
             _dbFactory = dbFactory;
             _serviceProvider = serviceProvider;
-            _userContext = userContext; // Lưu context để sử dụng
-            // GỌI HÀM HIỂN THỊ THÔNG TIN NGAY KHI FORM MỞ
+            _userContext = userContext;
+
+            // KHỞI TẠO SoundPlayer
+            if (File.Exists(soundFilePath))
+            {
+                player = new SoundPlayer(soundFilePath);
+            }
+            else
+            {
+                // Xử lý nếu file không tồn tại (ví dụ: gán null hoặc tạo SoundPlayer rỗng)
+                player = new SoundPlayer();
+            }
+            // ------------------------
+
             LoadUserInfo();
         }
-        // Inject CurrentUserContext từ project Data
-        // Hàm hiển thị thông tin người dùng lên Panel 1
+
+        private void PlayClickSound()
+        {
+            try
+            {
+                player.Play();
+            }
+            catch (Exception ex)
+            {
+                // Xử lý lỗi nếu không thể phát (ví dụ: file bị khóa hoặc bị hỏng)
+                System.Diagnostics.Debug.WriteLine($"Lỗi phát âm thanh: {ex.Message}");
+            }
+        }
+
         private void LoadUserInfo()
         {
             if (_userContext.IsLoggedIn)
             {
                 lblTenHienThi.Text = _userContext.DisplayName; // Hiện tên
-                lblVaiTro.Text = _userContext.TenVaiTro;     // Hiện vai trò
+                lblVaiTro.Text = _userContext.TenVaiTro;      // Hiện vai trò
 
             }
         }
@@ -53,54 +87,57 @@ namespace Piggy_Admin
             }
         }
 
+        // --- NÚT BÁO CÁO HỆ THỐNG ---
         private void button1_Click(object sender, EventArgs e)
         {
+            PlayClickSound(); // ⭐ PHÁT ÂM THANH ⭐
             pnlHienThi.Controls.Clear();
             UserControlBaoCaoHeThong uc = _serviceProvider.GetRequiredService<UserControlBaoCaoHeThong>();
             uc.Dock = DockStyle.Fill;
             pnlHienThi.Controls.Add(uc);
         }
 
+        // --- NÚT QUẢN LÝ TÀI KHOẢN ---
         private void button2_Click(object sender, EventArgs e)
         {
+            PlayClickSound(); // ⭐ PHÁT ÂM THANH ⭐
             pnlHienThi.Controls.Clear();
             UserControlQuanLyTaiKhoan uc = _serviceProvider.GetRequiredService<UserControlQuanLyTaiKhoan>();
             uc.Dock = DockStyle.Fill;
             pnlHienThi.Controls.Add(uc);
         }
 
+        // --- NÚT QUẢN LÝ THÔNG BÁO ---
         private void button5_Click(object sender, EventArgs e)
         {
+            PlayClickSound(); // ⭐ PHÁT ÂM THANH ⭐
             pnlHienThi.Controls.Clear();
             UserControlQuanLyThongBao userControlMoi = _serviceProvider.GetRequiredService<UserControlQuanLyThongBao>();
             userControlMoi.Dock = DockStyle.Fill;
             pnlHienThi.Controls.Add(userControlMoi);
         }
 
-        // --- SỬA LỖI Ở ĐÂY ---
+        // --- NÚT HỒ SƠ (PIC BOX) ---
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            // 1. Lấy instance mới
+            PlayClickSound(); // ⭐ PHÁT ÂM THANH ⭐
+
+            // Đảm bảo PicUserProfile được khai báo trong Designer để dùng PointToScreen
+            // Giả định picUserProfile là tên của PictureBox/Control
+            Control picUserProfile = (Control)sender;
+
             FrmTaiKhoan f = _serviceProvider.GetRequiredService<FrmTaiKhoan>();
 
-            // 2. Đặt vị trí
-            Point pos = picUserProfile.PointToScreen(new Point(50, picUserProfile.Height - 500));
+            // Điều chỉnh vị trí popup cho phù hợp
+            Point pos = picUserProfile.PointToScreen(new Point(50, picUserProfile.Height));
             f.StartPosition = FormStartPosition.Manual;
             f.Location = pos;
 
-            // 3. Đăng ký sự kiện: Nếu Form con yêu cầu Logout -> Form cha (MainAdmin) tự đóng
             f.LogoutRequested += () =>
             {
                 this.Close(); // Đóng Admin Main -> Program.cs sẽ mở lại Login
             };
-
-            // 4. Hiển thị Form Tài khoản
             f.Show();
-
-            // ⚠️ ĐÃ XÓA SỰ KIỆN Deactivate ĐỂ TRÁNH LỖI MESSAGE BOX TẮT FORM
-            // Bây giờ Form Tài khoản sẽ hoạt động như một cửa sổ bình thường.
-            // Người dùng phải tự bấm nút tắt hoặc click ra ngoài (nếu muốn logic phức tạp hơn).
-            // Nhưng ít nhất code này đảm bảo MessageBox hiện lên đàng hoàng.
         }
     }
 }

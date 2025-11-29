@@ -49,6 +49,7 @@
             label7 = new Label();
             btnThemDoiTuongGiaoDich = new Button();
             btnThemDanhMucChiTieu = new Button();
+            lblForm = new Label();
             SuspendLayout();
             // 
             // txtTenGiaoDich
@@ -260,11 +261,23 @@
             btnThemDanhMucChiTieu.UseVisualStyleBackColor = true;
             btnThemDanhMucChiTieu.Click += btnThemDanhMucChiTieu_Click;
             // 
+            // lblForm
+            // 
+            lblForm.AutoSize = true;
+            lblForm.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            lblForm.ForeColor = Color.White;
+            lblForm.Location = new Point(12, 9);
+            lblForm.Name = "lblForm";
+            lblForm.Size = new Size(37, 20);
+            lblForm.TabIndex = 20;
+            lblForm.Text = "title";
+            // 
             // FrmThemGiaoDich
             // 
             AutoScaleMode = AutoScaleMode.Inherit;
             BackColor = Color.FromArgb(66, 94, 106);
             ClientSize = new Size(698, 270);
+            Controls.Add(lblForm);
             Controls.Add(btnThemDanhMucChiTieu);
             Controls.Add(btnThemDoiTuongGiaoDich);
             Controls.Add(label7);
@@ -316,5 +329,6 @@
         private Label label7;
         private Button btnThemDoiTuongGiaoDich;
         private Button btnThemDanhMucChiTieu;
+        private Label lblForm;
     }
 }

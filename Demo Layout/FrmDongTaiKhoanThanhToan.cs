@@ -4,21 +4,21 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Windows.Forms;
-using Krypton.Toolkit;
+using System.Drawing; // Cần thiết cho các thuộc tính Font, Color
 using System.Globalization;
 
 namespace Demo_Layout
 {
-    public partial class FrmDongTaiKhoanThanhToan : KryptonForm
+    public partial class FrmDongTaiKhoanThanhToan : Form
     {
         private readonly IDbContextFactory<QLTCCNContext> _dbFactory;
-        private readonly CurrentUserContext _userContext; // <-- Inject
+        private readonly CurrentUserContext _userContext;
         private int _maTaiKhoanDong;
         private decimal _currentBalance = 0;
 
         public FrmDongTaiKhoanThanhToan(
             IDbContextFactory<QLTCCNContext> dbFactory,
-            CurrentUserContext userContext) // <-- Inject
+            CurrentUserContext userContext)
         {
             InitializeComponent();
             _dbFactory = dbFactory;
@@ -38,9 +38,20 @@ namespace Demo_Layout
         {
             using (var db = _dbFactory.CreateDbContext())
             {
-                decimal soDuBanDau = db.TaiKhoanThanhToans.Where(t => t.MaTaiKhoanThanhToan == maTaiKhoan).Select(t => t.SoDuBanDau).FirstOrDefault();
-                decimal totalThu = db.GiaoDichs.Where(g => g.MaTaiKhoanThanhToan == maTaiKhoan && g.MaLoaiGiaoDich == 1).Sum(g => (decimal?)g.SoTien) ?? 0;
-                decimal totalChi = db.GiaoDichs.Where(g => g.MaTaiKhoanThanhToan == maTaiKhoan && g.MaLoaiGiaoDich == 2).Sum(g => (decimal?)g.SoTien) ?? 0;
+                // Sử dụng 'decimal?' cho Sum để xử lý trường hợp không có giao dịch
+                decimal soDuBanDau = db.TaiKhoanThanhToans
+                    .Where(t => t.MaTaiKhoanThanhToan == maTaiKhoan)
+                    .Select(t => t.SoDuBanDau)
+                    .FirstOrDefault();
+
+                decimal totalThu = db.GiaoDichs
+                    .Where(g => g.MaTaiKhoanThanhToan == maTaiKhoan && g.MaLoaiGiaoDich == 1)
+                    .Sum(g => (decimal?)g.SoTien) ?? 0;
+
+                decimal totalChi = db.GiaoDichs
+                    .Where(g => g.MaTaiKhoanThanhToan == maTaiKhoan && g.MaLoaiGiaoDich == 2)
+                    .Sum(g => (decimal?)g.SoTien) ?? 0;
+
                 return soDuBanDau + totalThu - totalChi;
             }
         }
@@ -57,10 +68,11 @@ namespace Demo_Layout
                     if (taiKhoanDong != null)
                     {
                         lblTenTaiKhoan.Text = taiKhoanDong.TenTaiKhoan;
-                        lblSoDuHienTai.Text = _currentBalance.ToString("N0", CultureInfo.CurrentCulture);
+                        // Định dạng tiền tệ
+                        lblSoDuHienTai.Text = _currentBalance.ToString("N0", CultureInfo.CurrentCulture) + " đ";
                     }
 
-                    // SỬA: Lọc tài khoản chuyển tiền theo User hiện tại
+                    // Lọc tài khoản chuyển tiền theo User hiện tại
                     var taiKhoanChuyenList = db.TaiKhoanThanhToans
                         .Where(t => t.MaNguoiDung == _userContext.MaNguoiDung &&
                                     t.MaTaiKhoanThanhToan != _maTaiKhoanDong &&
@@ -89,16 +101,27 @@ namespace Demo_Layout
 
         private void BtnDong_Click(object sender, EventArgs e)
         {
-            if (_currentBalance != 0 && cmbTaiKhoanChuyen.SelectedValue == null) { MessageBox.Show("Vui lòng chọn tài khoản nhận."); return; }
-            if (_currentBalance < 0) { MessageBox.Show("Tài khoản đang âm."); return; }
+            if (_currentBalance != 0 && cmbTaiKhoanChuyen.SelectedValue == null)
+            {
+                MessageBox.Show("Vui lòng chọn tài khoản nhận số dư còn lại.");
+                return;
+            }
+            if (_currentBalance < 0)
+            {
+                MessageBox.Show("Tài khoản đang âm. Vui lòng nạp tiền để số dư bằng 0 hoặc dương trước khi đóng.");
+                return;
+            }
 
+            // Ép kiểu SelectedValue sang int? và gán 0 nếu null
             int maTaiKhoanNhan = cmbTaiKhoanChuyen.SelectedValue as int? ?? 0;
+
             PerformChuyenTienVaDongTaiKhoan(maTaiKhoanNhan, _currentBalance);
         }
 
         private void PerformChuyenTienVaDongTaiKhoan(int maTaiKhoanNhan, decimal soTien)
         {
-            if (soTien != 0 && maTaiKhoanNhan == 0) return;
+            // Nếu số dư = 0, không cần tài khoản nhận. Nếu số dư > 0, bắt buộc phải có tài khoản nhận (maTaiKhoanNhan > 0)
+            if (soTien > 0 && maTaiKhoanNhan == 0) return;
 
             using (var db = _dbFactory.CreateDbContext())
             using (var transaction = db.Database.BeginTransaction())
@@ -106,28 +129,39 @@ namespace Demo_Layout
                 try
                 {
                     var taiKhoanDong = db.TaiKhoanThanhToans.FirstOrDefault(t => t.MaTaiKhoanThanhToan == _maTaiKhoanDong);
-                    if (taiKhoanDong == null) throw new Exception("Không tìm thấy tài khoản.");
+                    if (taiKhoanDong == null) throw new Exception("Không tìm thấy tài khoản cần đóng.");
 
                     if (soTien > 0)
                     {
                         var taiKhoanNhan = db.TaiKhoanThanhToans.FirstOrDefault(t => t.MaTaiKhoanThanhToan == maTaiKhoanNhan);
-                        if (taiKhoanNhan == null) throw new Exception("Không tìm thấy tài khoản nhận.");
+                        if (taiKhoanNhan == null) throw new Exception("Không tìm thấy tài khoản nhận số dư.");
+
+                        // Chuyển số dư bằng cách cộng vào SoDuBanDau của tài khoản nhận
                         taiKhoanNhan.SoDuBanDau += soTien;
                     }
+
+                    // Đặt lại SoDuBanDau của tài khoản đóng về 0 và cập nhật trạng thái
                     taiKhoanDong.SoDuBanDau = 0;
                     taiKhoanDong.TrangThai = "Đóng";
+
                     db.SaveChanges();
                     transaction.Commit();
-                    MessageBox.Show("Đóng tài khoản thành công!");
+
+                    MessageBox.Show("Đóng tài khoản thành công! Số dư đã được chuyển đi.");
                     this.DialogResult = DialogResult.OK;
                     this.Close();
                 }
                 catch (Exception ex)
                 {
                     transaction.Rollback();
-                    MessageBox.Show("Lỗi: " + ex.Message);
+                    MessageBox.Show("Lỗi khi đóng tài khoản: " + ex.Message);
                 }
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

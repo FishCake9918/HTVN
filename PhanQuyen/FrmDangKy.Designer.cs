@@ -36,224 +36,255 @@ namespace PhanQuyen
 
         private void InitializeComponent()
         {
-            this.panelMain = new System.Windows.Forms.Panel();
-            this.dtpNgaySinh = new System.Windows.Forms.DateTimePicker();
-            this.lblNgaySinh = new System.Windows.Forms.Label();
-            this.cbGioiTinh = new System.Windows.Forms.ComboBox();
-            this.lblGioiTinh = new System.Windows.Forms.Label();
-            this.txtHoTen = new System.Windows.Forms.TextBox();
-            this.lblHoTen = new System.Windows.Forms.Label();
-            this.btnHuy = new System.Windows.Forms.Button();
-            this.btnDangKy = new System.Windows.Forms.Button();
-            this.txtConfirmPassword = new System.Windows.Forms.TextBox();
-            this.lblConfirmPassword = new System.Windows.Forms.Label();
-            this.txtPassword = new System.Windows.Forms.TextBox();
-            this.lblPassword = new System.Windows.Forms.Label();
-            this.txtEmail = new System.Windows.Forms.TextBox();
-            this.lblEmail = new System.Windows.Forms.Label();
-            this.lblTitle = new System.Windows.Forms.Label();
-            this.panelMain.SuspendLayout();
-            this.SuspendLayout();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmDangKy));
+            panelMain = new Panel();
+            dtpNgaySinh = new DateTimePicker();
+            lblNgaySinh = new Label();
+            cbGioiTinh = new ComboBox();
+            lblGioiTinh = new Label();
+            txtHoTen = new TextBox();
+            lblHoTen = new Label();
+            btnHuy = new Button();
+            btnDangKy = new Button();
+            txtConfirmPassword = new TextBox();
+            lblConfirmPassword = new Label();
+            txtPassword = new TextBox();
+            lblPassword = new Label();
+            txtEmail = new TextBox();
+            lblEmail = new Label();
+            lblTitle = new Label();
+            button1 = new Button();
+            panelMain.SuspendLayout();
+            SuspendLayout();
             // 
             // panelMain
             // 
-            this.panelMain.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(235)))), ((int)(((byte)(255)))));
-            this.panelMain.Controls.Add(this.dtpNgaySinh);
-            this.panelMain.Controls.Add(this.lblNgaySinh);
-            this.panelMain.Controls.Add(this.cbGioiTinh);
-            this.panelMain.Controls.Add(this.lblGioiTinh);
-            this.panelMain.Controls.Add(this.txtHoTen);
-            this.panelMain.Controls.Add(this.lblHoTen);
-            this.panelMain.Controls.Add(this.btnHuy);
-            this.panelMain.Controls.Add(this.btnDangKy);
-            this.panelMain.Controls.Add(this.txtConfirmPassword);
-            this.panelMain.Controls.Add(this.lblConfirmPassword);
-            this.panelMain.Controls.Add(this.txtPassword);
-            this.panelMain.Controls.Add(this.lblPassword);
-            this.panelMain.Controls.Add(this.txtEmail);
-            this.panelMain.Controls.Add(this.lblEmail);
-            this.panelMain.Controls.Add(this.lblTitle);
-            this.panelMain.Location = new System.Drawing.Point(20, 20);
-            this.panelMain.Name = "panelMain";
-            this.panelMain.Size = new System.Drawing.Size(460, 680); // Kích thước lớn hơn
-            this.panelMain.TabIndex = 0;
+            panelMain.BackColor = Color.FromArgb(230, 235, 255);
+            panelMain.Controls.Add(button1);
+            panelMain.Controls.Add(dtpNgaySinh);
+            panelMain.Controls.Add(lblNgaySinh);
+            panelMain.Controls.Add(cbGioiTinh);
+            panelMain.Controls.Add(lblGioiTinh);
+            panelMain.Controls.Add(txtHoTen);
+            panelMain.Controls.Add(lblHoTen);
+            panelMain.Controls.Add(btnHuy);
+            panelMain.Controls.Add(btnDangKy);
+            panelMain.Controls.Add(txtConfirmPassword);
+            panelMain.Controls.Add(lblConfirmPassword);
+            panelMain.Controls.Add(txtPassword);
+            panelMain.Controls.Add(lblPassword);
+            panelMain.Controls.Add(txtEmail);
+            panelMain.Controls.Add(lblEmail);
+            panelMain.Controls.Add(lblTitle);
+            panelMain.Location = new Point(16, 16);
+            panelMain.Margin = new Padding(2, 2, 2, 2);
+            panelMain.Name = "panelMain";
+            panelMain.Size = new Size(368, 544);
+            panelMain.TabIndex = 0;
             // 
             // dtpNgaySinh
             // 
-            this.dtpNgaySinh.CustomFormat = "dd/MM/yyyy";
-            this.dtpNgaySinh.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpNgaySinh.Location = new System.Drawing.Point(50, 480);
-            this.dtpNgaySinh.Name = "dtpNgaySinh";
-            this.dtpNgaySinh.Size = new System.Drawing.Size(360, 34);
-            this.dtpNgaySinh.TabIndex = 6;
+            dtpNgaySinh.CustomFormat = "dd/MM/yyyy";
+            dtpNgaySinh.Format = DateTimePickerFormat.Custom;
+            dtpNgaySinh.Location = new Point(40, 409);
+            dtpNgaySinh.Margin = new Padding(2, 2, 2, 2);
+            dtpNgaySinh.Name = "dtpNgaySinh";
+            dtpNgaySinh.Size = new Size(289, 27);
+            dtpNgaySinh.TabIndex = 6;
             // 
             // lblNgaySinh
             // 
-            this.lblNgaySinh.AutoSize = true;
-            this.lblNgaySinh.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.lblNgaySinh.Location = new System.Drawing.Point(46, 445);
-            this.lblNgaySinh.Name = "lblNgaySinh";
-            this.lblNgaySinh.Size = new System.Drawing.Size(110, 28);
-            this.lblNgaySinh.TabIndex = 14;
-            this.lblNgaySinh.Text = "Ngày sinh:";
+            lblNgaySinh.AutoSize = true;
+            lblNgaySinh.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            lblNgaySinh.Location = new Point(37, 381);
+            lblNgaySinh.Margin = new Padding(2, 0, 2, 0);
+            lblNgaySinh.Name = "lblNgaySinh";
+            lblNgaySinh.Size = new Size(89, 23);
+            lblNgaySinh.TabIndex = 14;
+            lblNgaySinh.Text = "Ngày sinh";
             // 
             // cbGioiTinh
             // 
-            this.cbGioiTinh.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbGioiTinh.FormattingEnabled = true;
-            this.cbGioiTinh.Items.AddRange(new object[] {
-            "Nam",
-            "Nữ",
-            "Khác"});
-            this.cbGioiTinh.Location = new System.Drawing.Point(220, 395);
-            this.cbGioiTinh.Name = "cbGioiTinh";
-            this.cbGioiTinh.Size = new System.Drawing.Size(190, 36);
-            this.cbGioiTinh.TabIndex = 5;
+            cbGioiTinh.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbGioiTinh.FormattingEnabled = true;
+            cbGioiTinh.Items.AddRange(new object[] { "Nam", "Nữ", "Khác" });
+            cbGioiTinh.Location = new Point(175, 344);
+            cbGioiTinh.Margin = new Padding(2, 2, 2, 2);
+            cbGioiTinh.Name = "cbGioiTinh";
+            cbGioiTinh.Size = new Size(153, 28);
+            cbGioiTinh.TabIndex = 5;
             // 
             // lblGioiTinh
             // 
-            this.lblGioiTinh.AutoSize = true;
-            this.lblGioiTinh.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.lblGioiTinh.Location = new System.Drawing.Point(46, 395);
-            this.lblGioiTinh.Name = "lblGioiTinh";
-            this.lblGioiTinh.Size = new System.Drawing.Size(99, 28);
-            this.lblGioiTinh.TabIndex = 12;
-            this.lblGioiTinh.Text = "Giới tính:";
+            lblGioiTinh.AutoSize = true;
+            lblGioiTinh.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            lblGioiTinh.Location = new Point(36, 344);
+            lblGioiTinh.Margin = new Padding(2, 0, 2, 0);
+            lblGioiTinh.Name = "lblGioiTinh";
+            lblGioiTinh.Size = new Size(80, 23);
+            lblGioiTinh.TabIndex = 12;
+            lblGioiTinh.Text = "Giới tính";
             // 
             // txtHoTen
             // 
-            this.txtHoTen.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtHoTen.Location = new System.Drawing.Point(50, 355);
-            this.txtHoTen.Name = "txtHoTen";
-            this.txtHoTen.Size = new System.Drawing.Size(360, 34);
-            this.txtHoTen.TabIndex = 4;
+            txtHoTen.Font = new Font("Segoe UI", 10F);
+            txtHoTen.Location = new Point(40, 300);
+            txtHoTen.Margin = new Padding(2, 2, 2, 2);
+            txtHoTen.Name = "txtHoTen";
+            txtHoTen.Size = new Size(289, 30);
+            txtHoTen.TabIndex = 4;
             // 
             // lblHoTen
             // 
-            this.lblHoTen.AutoSize = true;
-            this.lblHoTen.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.lblHoTen.Location = new System.Drawing.Point(46, 320);
-            this.lblHoTen.Name = "lblHoTen";
-            this.lblHoTen.Size = new System.Drawing.Size(81, 28);
-            this.lblHoTen.TabIndex = 10;
-            this.lblHoTen.Text = "Họ Tên:";
+            lblHoTen.AutoSize = true;
+            lblHoTen.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            lblHoTen.Location = new Point(37, 272);
+            lblHoTen.Margin = new Padding(2, 0, 2, 0);
+            lblHoTen.Name = "lblHoTen";
+            lblHoTen.Size = new Size(65, 23);
+            lblHoTen.TabIndex = 10;
+            lblHoTen.Text = "Họ Tên";
             // 
             // btnHuy
             // 
-            this.btnHuy.BackColor = System.Drawing.Color.LightGray;
-            this.btnHuy.FlatAppearance.BorderSize = 0;
-            this.btnHuy.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnHuy.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this.btnHuy.ForeColor = System.Drawing.Color.Black;
-            this.btnHuy.Location = new System.Drawing.Point(50, 580);
-            this.btnHuy.Name = "btnHuy";
-            this.btnHuy.Size = new System.Drawing.Size(160, 50);
-            this.btnHuy.TabIndex = 8;
-            this.btnHuy.Text = "Hủy";
-            this.btnHuy.UseVisualStyleBackColor = false;
-            this.btnHuy.Click += new System.EventHandler(this.btnHuy_Click);
+            btnHuy.BackColor = Color.LightGray;
+            btnHuy.FlatAppearance.BorderSize = 0;
+            btnHuy.FlatStyle = FlatStyle.Flat;
+            btnHuy.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnHuy.ForeColor = Color.Black;
+            btnHuy.Location = new Point(40, 464);
+            btnHuy.Margin = new Padding(2, 2, 2, 2);
+            btnHuy.Name = "btnHuy";
+            btnHuy.Size = new Size(128, 40);
+            btnHuy.TabIndex = 8;
+            btnHuy.Text = "Hủy";
+            btnHuy.UseVisualStyleBackColor = false;
+            btnHuy.Click += btnHuy_Click;
             // 
             // btnDangKy
             // 
-            this.btnDangKy.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(105)))), ((int)(((byte)(223)))));
-            this.btnDangKy.FlatAppearance.BorderSize = 0;
-            this.btnDangKy.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDangKy.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this.btnDangKy.ForeColor = System.Drawing.Color.White;
-            this.btnDangKy.Location = new System.Drawing.Point(250, 580);
-            this.btnDangKy.Name = "btnDangKy";
-            this.btnDangKy.Size = new System.Drawing.Size(160, 50);
-            this.btnDangKy.TabIndex = 7;
-            this.btnDangKy.Text = "Đăng Ký";
-            this.btnDangKy.UseVisualStyleBackColor = false;
-            this.btnDangKy.Click += new System.EventHandler(this.btnDangKy_Click);
+            btnDangKy.BackColor = Color.FromArgb(89, 105, 223);
+            btnDangKy.FlatAppearance.BorderSize = 0;
+            btnDangKy.FlatStyle = FlatStyle.Flat;
+            btnDangKy.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnDangKy.ForeColor = Color.White;
+            btnDangKy.Location = new Point(200, 464);
+            btnDangKy.Margin = new Padding(2, 2, 2, 2);
+            btnDangKy.Name = "btnDangKy";
+            btnDangKy.Size = new Size(128, 40);
+            btnDangKy.TabIndex = 7;
+            btnDangKy.Text = "Đăng Ký";
+            btnDangKy.UseVisualStyleBackColor = false;
+            btnDangKy.Click += btnDangKy_Click;
             // 
             // txtConfirmPassword
             // 
-            this.txtConfirmPassword.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtConfirmPassword.Location = new System.Drawing.Point(50, 275);
-            this.txtConfirmPassword.Name = "txtConfirmPassword";
-            this.txtConfirmPassword.PasswordChar = '•';
-            this.txtConfirmPassword.Size = new System.Drawing.Size(360, 34);
-            this.txtConfirmPassword.TabIndex = 3;
+            txtConfirmPassword.Font = new Font("Segoe UI", 10F);
+            txtConfirmPassword.Location = new Point(40, 240);
+            txtConfirmPassword.Margin = new Padding(2, 2, 2, 2);
+            txtConfirmPassword.Name = "txtConfirmPassword";
+            txtConfirmPassword.PasswordChar = '•';
+            txtConfirmPassword.Size = new Size(289, 30);
+            txtConfirmPassword.TabIndex = 3;
             // 
             // lblConfirmPassword
             // 
-            this.lblConfirmPassword.AutoSize = true;
-            this.lblConfirmPassword.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.lblConfirmPassword.Location = new System.Drawing.Point(46, 240);
-            this.lblConfirmPassword.Name = "lblConfirmPassword";
-            this.lblConfirmPassword.Size = new System.Drawing.Size(193, 28);
-            this.lblConfirmPassword.TabIndex = 5;
-            this.lblConfirmPassword.Text = "Xác nhận mật khẩu:";
+            lblConfirmPassword.AutoSize = true;
+            lblConfirmPassword.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            lblConfirmPassword.Location = new Point(37, 212);
+            lblConfirmPassword.Margin = new Padding(2, 0, 2, 0);
+            lblConfirmPassword.Name = "lblConfirmPassword";
+            lblConfirmPassword.Size = new Size(163, 23);
+            lblConfirmPassword.TabIndex = 5;
+            lblConfirmPassword.Text = "Xác nhận mật khẩu";
             // 
             // txtPassword
             // 
-            this.txtPassword.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtPassword.Location = new System.Drawing.Point(50, 205);
-            this.txtPassword.Name = "txtPassword";
-            this.txtPassword.PasswordChar = '•';
-            this.txtPassword.Size = new System.Drawing.Size(360, 34);
-            this.txtPassword.TabIndex = 2;
+            txtPassword.Font = new Font("Segoe UI", 10F);
+            txtPassword.Location = new Point(40, 171);
+            txtPassword.Margin = new Padding(2, 2, 2, 2);
+            txtPassword.Name = "txtPassword";
+            txtPassword.PasswordChar = '•';
+            txtPassword.Size = new Size(289, 30);
+            txtPassword.TabIndex = 2;
             // 
             // lblPassword
             // 
-            this.lblPassword.AutoSize = true;
-            this.lblPassword.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.lblPassword.Location = new System.Drawing.Point(46, 170);
-            this.lblPassword.Name = "lblPassword";
-            this.lblPassword.Size = new System.Drawing.Size(100, 28);
-            this.lblPassword.TabIndex = 3;
-            this.lblPassword.Text = "Mật khẩu:";
+            lblPassword.AutoSize = true;
+            lblPassword.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            lblPassword.Location = new Point(37, 143);
+            lblPassword.Margin = new Padding(2, 0, 2, 0);
+            lblPassword.Name = "lblPassword";
+            lblPassword.Size = new Size(86, 23);
+            lblPassword.TabIndex = 3;
+            lblPassword.Text = "Mật khẩu";
             // 
             // txtEmail
             // 
-            this.txtEmail.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtEmail.Location = new System.Drawing.Point(50, 135);
-            this.txtEmail.Name = "txtEmail";
-            this.txtEmail.Size = new System.Drawing.Size(360, 34);
-            this.txtEmail.TabIndex = 1;
+            txtEmail.Font = new Font("Segoe UI", 10F);
+            txtEmail.Location = new Point(40, 104);
+            txtEmail.Margin = new Padding(2, 2, 2, 2);
+            txtEmail.Name = "txtEmail";
+            txtEmail.Size = new Size(289, 30);
+            txtEmail.TabIndex = 1;
             // 
             // lblEmail
             // 
-            this.lblEmail.AutoSize = true;
-            this.lblEmail.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.lblEmail.Location = new System.Drawing.Point(46, 100);
-            this.lblEmail.Name = "lblEmail";
-            this.lblEmail.Size = new System.Drawing.Size(65, 28);
-            this.lblEmail.TabIndex = 1;
-            this.lblEmail.Text = "Email:";
+            lblEmail.AutoSize = true;
+            lblEmail.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            lblEmail.Location = new Point(37, 76);
+            lblEmail.Margin = new Padding(2, 0, 2, 0);
+            lblEmail.Name = "lblEmail";
+            lblEmail.Size = new Size(54, 23);
+            lblEmail.TabIndex = 1;
+            lblEmail.Text = "Email";
             // 
             // lblTitle
             // 
-            this.lblTitle.AutoSize = true;
-            this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
-            this.lblTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(67)))), ((int)(((byte)(215)))));
-            this.lblTitle.Location = new System.Drawing.Point(140, 30);
-            this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(186, 45);
-            this.lblTitle.TabIndex = 0;
-            this.lblTitle.Text = "ĐĂNG KÝ";
+            lblTitle.AutoSize = true;
+            lblTitle.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
+            lblTitle.ForeColor = Color.FromArgb(47, 67, 215);
+            lblTitle.Location = new Point(112, 24);
+            lblTitle.Margin = new Padding(2, 0, 2, 0);
+            lblTitle.Name = "lblTitle";
+            lblTitle.Size = new Size(137, 37);
+            lblTitle.TabIndex = 0;
+            lblTitle.Text = "ĐĂNG KÝ";
             // 
-            // RegistrationForm
+            // button1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(172)))), ((int)(((byte)(180)))), ((int)(((byte)(239)))));
-            this.ClientSize = new System.Drawing.Size(500, 720); // Kích thước mới
-            this.Controls.Add(this.panelMain);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "RegistrationForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Đăng Ký Tài Khoản Mới";
-            this.panelMain.ResumeLayout(false);
-            this.panelMain.PerformLayout();
-            this.ResumeLayout(false);
+            button1.FlatAppearance.BorderSize = 0;
+            button1.FlatStyle = FlatStyle.Flat;
+            button1.Image = (Image)resources.GetObject("button1.Image");
+            button1.Location = new Point(324, 15);
+            button1.Name = "button1";
+            button1.Size = new Size(29, 29);
+            button1.TabIndex = 15;
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
+            // FrmDangKy
+            // 
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(172, 180, 239);
+            ClientSize = new Size(400, 576);
+            Controls.Add(panelMain);
+            FormBorderStyle = FormBorderStyle.None;
+            Margin = new Padding(2, 2, 2, 2);
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "FrmDangKy";
+            StartPosition = FormStartPosition.CenterParent;
+            Text = "Đăng Ký Tài Khoản Mới";
+            panelMain.ResumeLayout(false);
+            panelMain.PerformLayout();
+            ResumeLayout(false);
 
         }
 
         #endregion
+
+        private Button button1;
     }
 }

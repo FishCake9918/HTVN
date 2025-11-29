@@ -17,97 +17,141 @@
 
         private void InitializeComponent()
         {
-            this.lblTen = new System.Windows.Forms.Label();
-            this.txtTenDanhMuc = new System.Windows.Forms.TextBox();
-            this.lblCha = new System.Windows.Forms.Label();
-            this.cboDanhMucCha = new System.Windows.Forms.ComboBox();
-            this.btnLuu = new System.Windows.Forms.Button();
-            this.btnHuy = new System.Windows.Forms.Button();
-            this.SuspendLayout();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmThemSuaDanhMuc));
+            lblTen = new Label();
+            txtTenDanhMuc = new TextBox();
+            lblCha = new Label();
+            cboDanhMucCha = new ComboBox();
+            btnLuu = new Button();
+            btnHuy = new Button();
+            button1 = new Button();
+            lblForm = new Label();
+            SuspendLayout();
             // 
             // lblTen
             // 
-            this.lblTen.AutoSize = true;
-            this.lblTen.Font = new System.Drawing.Font("Segoe UI", 10.2F);
-            this.lblTen.Location = new System.Drawing.Point(25, 30);
-            this.lblTen.Name = "lblTen";
-            this.lblTen.Size = new System.Drawing.Size(123, 23);
-            this.lblTen.TabIndex = 0;
-            this.lblTen.Text = "Tên danh mục:";
+            lblTen.AutoSize = true;
+            lblTen.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            lblTen.ForeColor = Color.White;
+            lblTen.Location = new Point(25, 69);
+            lblTen.Name = "lblTen";
+            lblTen.Size = new Size(107, 20);
+            lblTen.TabIndex = 0;
+            lblTen.Text = "Tên danh mục";
             // 
             // txtTenDanhMuc
             // 
-            this.txtTenDanhMuc.Font = new System.Drawing.Font("Segoe UI", 10.2F);
-            this.txtTenDanhMuc.Location = new System.Drawing.Point(160, 27);
-            this.txtTenDanhMuc.Name = "txtTenDanhMuc";
-            this.txtTenDanhMuc.Size = new System.Drawing.Size(300, 30);
-            this.txtTenDanhMuc.TabIndex = 1;
+            txtTenDanhMuc.Font = new Font("Segoe UI", 9F);
+            txtTenDanhMuc.Location = new Point(160, 65);
+            txtTenDanhMuc.Margin = new Padding(3, 4, 3, 4);
+            txtTenDanhMuc.Name = "txtTenDanhMuc";
+            txtTenDanhMuc.Size = new Size(300, 27);
+            txtTenDanhMuc.TabIndex = 1;
             // 
             // lblCha
             // 
-            this.lblCha.AutoSize = true;
-            this.lblCha.Font = new System.Drawing.Font("Segoe UI", 10.2F);
-            this.lblCha.Location = new System.Drawing.Point(25, 75);
-            this.lblCha.Name = "lblCha";
-            this.lblCha.Size = new System.Drawing.Size(129, 23);
-            this.lblCha.TabIndex = 2;
-            this.lblCha.Text = "Danh mục cha:";
+            lblCha.AutoSize = true;
+            lblCha.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            lblCha.ForeColor = Color.White;
+            lblCha.Location = new Point(25, 125);
+            lblCha.Name = "lblCha";
+            lblCha.Size = new Size(108, 20);
+            lblCha.TabIndex = 2;
+            lblCha.Text = "Danh mục cha";
             // 
             // cboDanhMucCha
             // 
-            this.cboDanhMucCha.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboDanhMucCha.Font = new System.Drawing.Font("Segoe UI", 10.2F);
-            this.cboDanhMucCha.FormattingEnabled = true;
-            this.cboDanhMucCha.Location = new System.Drawing.Point(160, 72);
-            this.cboDanhMucCha.Name = "cboDanhMucCha";
-            this.cboDanhMucCha.Size = new System.Drawing.Size(300, 31);
-            this.cboDanhMucCha.TabIndex = 2;
+            cboDanhMucCha.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboDanhMucCha.Font = new Font("Segoe UI", 9F);
+            cboDanhMucCha.FormattingEnabled = true;
+            cboDanhMucCha.Location = new Point(160, 121);
+            cboDanhMucCha.Margin = new Padding(3, 4, 3, 4);
+            cboDanhMucCha.Name = "cboDanhMucCha";
+            cboDanhMucCha.Size = new Size(300, 28);
+            cboDanhMucCha.TabIndex = 2;
             // 
             // btnLuu
             // 
-            this.btnLuu.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold);
-            this.btnLuu.Location = new System.Drawing.Point(250, 130);
-            this.btnLuu.Name = "btnLuu";
-            this.btnLuu.Size = new System.Drawing.Size(100, 35);
-            this.btnLuu.TabIndex = 3;
-            this.btnLuu.Text = "Lưu";
-            this.btnLuu.UseVisualStyleBackColor = true;
-            this.btnLuu.Click += new System.EventHandler(this.btnLuu_Click);
+            btnLuu.BackColor = Color.FromArgb(250, 110, 6);
+            btnLuu.FlatAppearance.BorderSize = 0;
+            btnLuu.FlatStyle = FlatStyle.Flat;
+            btnLuu.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnLuu.ForeColor = Color.White;
+            btnLuu.Location = new Point(250, 167);
+            btnLuu.Margin = new Padding(3, 4, 3, 4);
+            btnLuu.Name = "btnLuu";
+            btnLuu.Size = new Size(100, 30);
+            btnLuu.TabIndex = 3;
+            btnLuu.Text = "Lưu";
+            btnLuu.UseVisualStyleBackColor = false;
+            btnLuu.Click += btnLuu_Click;
             // 
             // btnHuy
             // 
-            this.btnHuy.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnHuy.Font = new System.Drawing.Font("Segoe UI", 10.2F);
-            this.btnHuy.Location = new System.Drawing.Point(360, 130);
-            this.btnHuy.Name = "btnHuy";
-            this.btnHuy.Size = new System.Drawing.Size(100, 35);
-            this.btnHuy.TabIndex = 4;
-            this.btnHuy.Text = "Hủy";
-            this.btnHuy.UseVisualStyleBackColor = true;
-            this.btnHuy.Click += new System.EventHandler(this.btnHuy_Click);
+            btnHuy.BackColor = Color.FromArgb(250, 110, 6);
+            btnHuy.DialogResult = DialogResult.Cancel;
+            btnHuy.FlatAppearance.BorderSize = 0;
+            btnHuy.FlatStyle = FlatStyle.Flat;
+            btnHuy.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnHuy.ForeColor = Color.White;
+            btnHuy.Location = new Point(360, 167);
+            btnHuy.Margin = new Padding(3, 4, 3, 4);
+            btnHuy.Name = "btnHuy";
+            btnHuy.Size = new Size(100, 30);
+            btnHuy.TabIndex = 4;
+            btnHuy.Text = "Hủy";
+            btnHuy.UseVisualStyleBackColor = false;
+            btnHuy.Click += btnHuy_Click;
             // 
-            // frmThemDanhMuc
+            // button1
             // 
-            this.AcceptButton = this.btnLuu;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.btnHuy;
-            this.ClientSize = new System.Drawing.Size(482, 183);
-            this.Controls.Add(this.btnHuy);
-            this.Controls.Add(this.btnLuu);
-            this.Controls.Add(this.cboDanhMucCha);
-            this.Controls.Add(this.lblCha);
-            this.Controls.Add(this.txtTenDanhMuc);
-            this.Controls.Add(this.lblTen);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "frmThemDanhMuc";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Thêm Danh mục Chi tiêu";
-            this.Load += new System.EventHandler(this.frmThemDanhMuc_Load);
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            button1.FlatAppearance.BorderSize = 0;
+            button1.FlatStyle = FlatStyle.Flat;
+            button1.Image = (Image)resources.GetObject("button1.Image");
+            button1.Location = new Point(441, 12);
+            button1.Name = "button1";
+            button1.Size = new Size(29, 29);
+            button1.TabIndex = 14;
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
+            // lblForm
+            // 
+            lblForm.AutoSize = true;
+            lblForm.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            lblForm.ForeColor = Color.White;
+            lblForm.Location = new Point(25, 16);
+            lblForm.Name = "lblForm";
+            lblForm.Size = new Size(42, 20);
+            lblForm.TabIndex = 15;
+            lblForm.Text = "label";
+            // 
+            // FrmThemSuaDanhMuc
+            // 
+            AcceptButton = btnLuu;
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(66, 94, 106);
+            CancelButton = btnHuy;
+            ClientSize = new Size(482, 210);
+            Controls.Add(lblForm);
+            Controls.Add(button1);
+            Controls.Add(btnHuy);
+            Controls.Add(btnLuu);
+            Controls.Add(cboDanhMucCha);
+            Controls.Add(lblCha);
+            Controls.Add(txtTenDanhMuc);
+            Controls.Add(lblTen);
+            FormBorderStyle = FormBorderStyle.None;
+            Margin = new Padding(3, 4, 3, 4);
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "FrmThemSuaDanhMuc";
+            StartPosition = FormStartPosition.CenterParent;
+            Text = "Thêm Danh mục Chi tiêu";
+            Load += frmThemDanhMuc_Load;
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -118,6 +162,8 @@
         private System.Windows.Forms.ComboBox cboDanhMucCha;
         private System.Windows.Forms.Button btnLuu;
         private System.Windows.Forms.Button btnHuy;
+        private Button button1;
+        private Label lblForm;
     }
 }
 

@@ -54,7 +54,7 @@ namespace PhanQuyen
                 MessageBox.Show("Bạn phải từ 16 tuổi trở lên để đăng ký.", "Lỗi Tuổi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-           
+
             if (password.Length < 6)
             {
                 MessageBox.Show("Mật khẩu mới phải có ít nhất 6 ký tự.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -138,6 +138,11 @@ namespace PhanQuyen
         }
 
         private void btnHuy_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
         {
             this.Close();
         }

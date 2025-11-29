@@ -6,11 +6,18 @@
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
-        public Krypton.Toolkit.KryptonLabel lblTenTaiKhoan;
-        public Krypton.Toolkit.KryptonLabel lblSoDuHienTai;
-        public Krypton.Toolkit.KryptonComboBox cmbTaiKhoanChuyen;
-        public Krypton.Toolkit.KryptonButton btnDong;
-        public Krypton.Toolkit.KryptonButton btnHuy;
+        // KHAI BÁO CÁC CONTROL CƠ BẢN CỦA WINFORMS
+        public Label lblTenTaiKhoan;
+        public Label lblSoDuHienTai;
+        public ComboBox cmbTaiKhoanChuyen;
+        public Button btnDong;
+        public Button btnHuy;
+
+        // Các Label phụ trợ
+        private Label label1;
+        private Label label2;
+        private Label label3;
+
 
         /// <summary>
         /// Clean up any resources being used.
@@ -33,90 +40,135 @@
         /// </summary>
         private void InitializeComponent()
         {
-            lblTenTaiKhoan = new Krypton.Toolkit.KryptonLabel();
-            lblSoDuHienTai = new Krypton.Toolkit.KryptonLabel();
-            cmbTaiKhoanChuyen = new Krypton.Toolkit.KryptonComboBox();
-            btnDong = new Krypton.Toolkit.KryptonButton();
-            btnHuy = new Krypton.Toolkit.KryptonButton();
-            label1 = new Krypton.Toolkit.KryptonLabel();
-            label2 = new Krypton.Toolkit.KryptonLabel();
-            label3 = new Krypton.Toolkit.KryptonLabel();
-            ((System.ComponentModel.ISupportInitialize)cmbTaiKhoanChuyen).BeginInit();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmDongTaiKhoanThanhToan));
+            lblTenTaiKhoan = new Label();
+            lblSoDuHienTai = new Label();
+            cmbTaiKhoanChuyen = new ComboBox();
+            btnDong = new Button();
+            btnHuy = new Button();
+            label1 = new Label();
+            label2 = new Label();
+            label3 = new Label();
+            button1 = new Button();
+            lblForm = new Label();
             SuspendLayout();
             // 
             // lblTenTaiKhoan
             // 
-            lblTenTaiKhoan.Location = new Point(300, 20);
+            lblTenTaiKhoan.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            lblTenTaiKhoan.ForeColor = Color.White;
+            lblTenTaiKhoan.Location = new Point(279, 46);
             lblTenTaiKhoan.Name = "lblTenTaiKhoan";
             lblTenTaiKhoan.Size = new Size(115, 24);
-            lblTenTaiKhoan.StateCommon.ShortText.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             lblTenTaiKhoan.TabIndex = 6;
-            lblTenTaiKhoan.Values.Text = "Tên Tài Khoản";
+            lblTenTaiKhoan.Text = "Tên Tài Khoản";
             // 
             // lblSoDuHienTai
             // 
-            lblSoDuHienTai.Location = new Point(280, 60);
+            lblSoDuHienTai.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            lblSoDuHienTai.ForeColor = Color.Snow;
+            lblSoDuHienTai.Location = new Point(256, 86);
             lblSoDuHienTai.Name = "lblSoDuHienTai";
-            lblSoDuHienTai.Size = new Size(34, 24);
-            lblSoDuHienTai.StateCommon.ShortText.Color1 = Color.Red;
-            lblSoDuHienTai.StateCommon.ShortText.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            lblSoDuHienTai.Size = new Size(120, 24);
             lblSoDuHienTai.TabIndex = 4;
-            lblSoDuHienTai.Values.Text = "0 đ";
+            lblSoDuHienTai.Text = "0 đ";
+            lblSoDuHienTai.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // cmbTaiKhoanChuyen
             // 
             cmbTaiKhoanChuyen.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbTaiKhoanChuyen.DropDownWidth = 370;
-            cmbTaiKhoanChuyen.Location = new Point(30, 130);
+            cmbTaiKhoanChuyen.Location = new Point(29, 156);
             cmbTaiKhoanChuyen.Name = "cmbTaiKhoanChuyen";
-            cmbTaiKhoanChuyen.Size = new Size(370, 26);
+            cmbTaiKhoanChuyen.Size = new Size(370, 28);
             cmbTaiKhoanChuyen.TabIndex = 0;
             // 
             // btnDong
             // 
-            btnDong.Location = new Point(315, 200);
+            btnDong.BackColor = Color.FromArgb(250, 110, 6);
+            btnDong.FlatAppearance.BorderSize = 0;
+            btnDong.FlatStyle = FlatStyle.Flat;
+            btnDong.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnDong.ForeColor = Color.White;
+            btnDong.Location = new Point(309, 203);
             btnDong.Name = "btnDong";
             btnDong.Size = new Size(90, 30);
             btnDong.TabIndex = 2;
-            btnDong.Values.DropDownArrowColor = Color.Empty;
-            btnDong.Values.Text = "Xác nhận";
+            btnDong.Text = "Xác nhận";
+            btnDong.UseVisualStyleBackColor = false;
             // 
             // btnHuy
             // 
-            btnHuy.Location = new Point(207, 200);
+            btnHuy.BackColor = Color.FromArgb(250, 110, 6);
+            btnHuy.FlatAppearance.BorderSize = 0;
+            btnHuy.FlatStyle = FlatStyle.Flat;
+            btnHuy.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnHuy.ForeColor = Color.White;
+            btnHuy.Location = new Point(208, 203);
             btnHuy.Name = "btnHuy";
             btnHuy.Size = new Size(90, 30);
             btnHuy.TabIndex = 1;
-            btnHuy.Values.DropDownArrowColor = Color.Empty;
-            btnHuy.Values.Text = "Hủy";
+            btnHuy.Text = "Hủy";
+            btnHuy.UseVisualStyleBackColor = false;
             // 
             // label1
             // 
-            label1.Location = new Point(30, 20);
+            label1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            label1.ForeColor = Color.White;
+            label1.Location = new Point(29, 46);
             label1.Name = "label1";
             label1.Size = new Size(284, 24);
             label1.TabIndex = 7;
-            label1.Values.Text = "Bạn có chắc chắn muốn đóng tài khoản:";
+            label1.Text = "Bạn có chắc chắn muốn đóng tài khoản:";
             // 
             // label2
             // 
-            label2.Location = new Point(30, 60);
+            label2.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            label2.ForeColor = Color.White;
+            label2.Location = new Point(29, 86);
             label2.Name = "label2";
             label2.Size = new Size(221, 24);
             label2.TabIndex = 5;
-            label2.Values.Text = "Tài khoản này hiện có số dư là:";
+            label2.Text = "Tài khoản này hiện có số dư là:";
             // 
             // label3
             // 
-            label3.Location = new Point(30, 100);
+            label3.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            label3.ForeColor = Color.White;
+            label3.Location = new Point(29, 126);
             label3.Name = "label3";
-            label3.Size = new Size(336, 24);
+            label3.Size = new Size(370, 24);
             label3.TabIndex = 3;
-            label3.Values.Text = "Chọn tài khoản khác để chuyển số dư này sang:";
+            label3.Text = "Chọn tài khoản khác để chuyển số dư này sang:";
             // 
-            // FormDongTaiKhoan
+            // button1
             // 
-            ClientSize = new Size(434, 236);
+            button1.FlatAppearance.BorderSize = 0;
+            button1.FlatStyle = FlatStyle.Flat;
+            button1.Image = (Image)resources.GetObject("button1.Image");
+            button1.Location = new Point(400, 12);
+            button1.Name = "button1";
+            button1.Size = new Size(29, 29);
+            button1.TabIndex = 8;
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
+            // lblForm
+            // 
+            lblForm.AutoSize = true;
+            lblForm.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            lblForm.ForeColor = Color.White;
+            lblForm.Location = new Point(29, 12);
+            lblForm.Name = "lblForm";
+            lblForm.Size = new Size(141, 20);
+            lblForm.TabIndex = 9;
+            lblForm.Text = "ĐÓNG TÀI KHOẢN";
+            // 
+            // FrmDongTaiKhoanThanhToan
+            // 
+            BackColor = Color.FromArgb(66, 94, 106);
+            ClientSize = new Size(442, 250);
+            Controls.Add(lblForm);
+            Controls.Add(button1);
             Controls.Add(btnDong);
             Controls.Add(btnHuy);
             Controls.Add(cmbTaiKhoanChuyen);
@@ -126,19 +178,20 @@
             Controls.Add(lblTenTaiKhoan);
             Controls.Add(label1);
             Font = new Font("Segoe UI", 9F);
-            Location = new Point(0, 0);
-            Name = "FormDongTaiKhoan";
+            FormBorderStyle = FormBorderStyle.None;
+            Name = "FrmDongTaiKhoanThanhToan";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Đóng Tài Khoản";
-            ((System.ComponentModel.ISupportInitialize)cmbTaiKhoanChuyen).EndInit();
             ResumeLayout(false);
             PerformLayout();
 
         }
+        private Button button1;
+        private Label lblForm;
 
         #endregion
 
-        private Krypton.Toolkit.KryptonLabel label1;
-        private Krypton.Toolkit.KryptonLabel label2;
-        private Krypton.Toolkit.KryptonLabel label3;
+        // Khai báo lại các control phụ trợ
+        // Đã được khai báo phía trên
     }
 }

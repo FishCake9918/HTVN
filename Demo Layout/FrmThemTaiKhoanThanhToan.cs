@@ -4,7 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Windows.Forms;
-using Krypton.Toolkit;
+using System.Globalization;
+using System.Drawing;
+using Krypton.Toolkit; // Giữ lại vì control vẫn được sử dụng trong designer (chưa thấy chuyển đổi hết)
 using System.Data;
 
 namespace Demo_Layout
@@ -13,7 +15,6 @@ namespace Demo_Layout
     {
         private readonly IDbContextFactory<QLTCCNContext> _dbFactory;
         private readonly CurrentUserContext _userContext; // <-- Inject Context
-
         public FrmThemTaiKhoanThanhToan(
             IDbContextFactory<QLTCCNContext> dbFactory,
             CurrentUserContext userContext) // <-- Inject
@@ -21,6 +22,13 @@ namespace Demo_Layout
             InitializeComponent();
             _dbFactory = dbFactory;
             _userContext = userContext;
+
+            // CẬP NHẬT: Đặt tiêu đề cho lblForm
+            if (lblForm != null)
+            {
+                lblForm.Text = "THÊM TÀI KHOẢN THANH TOÁN";
+            }
+            this.Text = "Thêm Tài Khoản"; // Tiêu đề Form
 
             this.Load += FormThemTaiKhoan_Load;
             this.btnTao.Click += BtnTao_Click;
@@ -52,13 +60,14 @@ namespace Demo_Layout
         private void BtnTao_Click(object sender, EventArgs e)
         {
             btnTao.Enabled = false;
-            if (_userContext.MaNguoiDung == null) { MessageBox.Show("Lỗi xác thực user."); return; }
+            if (_userContext.MaNguoiDung == null) { MessageBox.Show("Lỗi xác thực user."); btnTao.Enabled = true; return; }
 
             string ten = tbTenTaiKhoan.Text.Trim();
+            // MaLoai có thể là int? nếu cmbLoaiTaiKhoan là KryptonComboBox
             int? maLoai = cmbLoaiTaiKhoan.SelectedValue as int?;
             decimal soDuBanDau = 0;
 
-            if (string.IsNullOrEmpty(ten) || maLoai == null || maLoai == -1)
+            if (string.IsNullOrEmpty(ten) || maLoai == null || maLoai.Value <= 0) // Kiểm tra maLoai
             {
                 MessageBox.Show("Vui lòng nhập đủ thông tin.");
                 btnTao.Enabled = true; return;
@@ -66,7 +75,7 @@ namespace Demo_Layout
             if (!string.IsNullOrEmpty(txtSoDu.Text.Trim()))
             {
                 string cleanSoDu = txtSoDu.Text.Replace(".", "").Replace(",", "");
-                if (!decimal.TryParse(cleanSoDu, out soDuBanDau) || soDuBanDau < 0)
+                if (!decimal.TryParse(cleanSoDu, NumberStyles.Currency, CultureInfo.CurrentCulture, out soDuBanDau) || soDuBanDau < 0)
                 {
                     MessageBox.Show("Số dư không hợp lệ.");
                     btnTao.Enabled = true; return;
@@ -75,16 +84,17 @@ namespace Demo_Layout
 
             using (var db = _dbFactory.CreateDbContext())
             {
-                // SỬA: Check trùng tên theo User hiện tại
-                var userAccounts = db.TaiKhoanThanhToans.Where(t => t.MaNguoiDung == _userContext.MaNguoiDung).ToList();
-                if (userAccounts.Any(t => t.TenTaiKhoan.Equals(ten, StringComparison.OrdinalIgnoreCase)))
-                {
-                    MessageBox.Show("Tên tài khoản đã tồn tại.");
-                    btnTao.Enabled = true; return;
-                }
-
                 try
                 {
+                    // SỬA: Check trùng tên theo User hiện tại (Case-Insensitive)
+                    var userAccounts = db.TaiKhoanThanhToans.Where(t => t.MaNguoiDung == _userContext.MaNguoiDung).ToList();
+                    if (userAccounts.Any(t => t.TenTaiKhoan.Equals(ten, StringComparison.OrdinalIgnoreCase)))
+                    {
+                        MessageBox.Show($"Tên tài khoản '{ten}' đã tồn tại. Vui lòng chọn tên khác.");
+                        btnTao.Enabled = true; return;
+                    }
+
+
                     var newTaiKhoan = new TaiKhoanThanhToan
                     {
                         TenTaiKhoan = ten,
@@ -95,22 +105,6 @@ namespace Demo_Layout
                     };
                     db.TaiKhoanThanhToans.Add(newTaiKhoan);
                     db.SaveChanges();
-
-                    //if (soDuBanDau > 0)
-                    //{
-                    //    var initialTransaction = new GiaoDich
-                    //    {
-                    //        MaTaiKhoanThanhToan = newTaiKhoan.MaTaiKhoanThanhToan,
-                    //        SoTien = soDuBanDau,
-                    //        NgayGiaoDich = DateTime.Now,
-                    //        TenGiaoDich = "Số dư ban đầu",
-                    //        GhiChu = "Số dư ban đầu",
-                    //        MaLoaiGiaoDich = 1, // Thu
-                    //        MaNguoiDung = _userContext.MaNguoiDung.Value, // <-- Dùng ID thật
-                    //    };
-                    //    db.GiaoDichs.Add(initialTransaction);
-                    //    db.SaveChanges();
-                    //}
 
                     MessageBox.Show("Thêm tài khoản thành công!");
                     this.DialogResult = DialogResult.OK;
@@ -123,8 +117,22 @@ namespace Demo_Layout
 
         private void TxtSoDu_KeyPress(object sender, KeyPressEventArgs e)
         {
+            // Logic cho phép nhập số, dấu thập phân (dấu chấm hoặc dấu phẩy) và chỉ cho phép một dấu thập phân.
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.') && (e.KeyChar != ',')) e.Handled = true;
-            if ((e.KeyChar == '.') || (e.KeyChar == ',')) if (((TextBox)sender).Text.Contains('.') || ((TextBox)sender).Text.Contains(',')) e.Handled = true;
+
+            if ((e.KeyChar == '.') || (e.KeyChar == ','))
+            {
+                // Cho phép chỉ một dấu thập phân
+                if (((TextBox)sender).Text.Contains('.') || ((TextBox)sender).Text.Contains(','))
+                {
+                    e.Handled = true;
+                }
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

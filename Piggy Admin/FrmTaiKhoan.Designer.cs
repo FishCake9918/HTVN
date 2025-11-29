@@ -66,6 +66,7 @@ namespace Piggy_Admin
             // 
             lblName.AutoSize = true;
             lblName.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            lblName.ForeColor = SystemColors.ControlDarkDark;
             lblName.Location = new Point(50, 210);
             lblName.Name = "lblName";
             lblName.Size = new Size(113, 28);
@@ -88,6 +89,7 @@ namespace Piggy_Admin
             // 
             btnDoiMatKhau.BackColor = Color.FromArgb(89, 105, 223);
             btnDoiMatKhau.FlatStyle = FlatStyle.Flat;
+            btnDoiMatKhau.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnDoiMatKhau.ForeColor = Color.White;
             btnDoiMatKhau.Location = new Point(50, 290);
             btnDoiMatKhau.Name = "btnDoiMatKhau";
@@ -101,6 +103,7 @@ namespace Piggy_Admin
             // 
             btnXoaTaiKhoan.BackColor = Color.IndianRed;
             btnXoaTaiKhoan.FlatStyle = FlatStyle.Flat;
+            btnXoaTaiKhoan.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnXoaTaiKhoan.ForeColor = Color.White;
             btnXoaTaiKhoan.Location = new Point(50, 340);
             btnXoaTaiKhoan.Name = "btnXoaTaiKhoan";
@@ -114,6 +117,7 @@ namespace Piggy_Admin
             // 
             btnDangXuat.BackColor = Color.Gray;
             btnDangXuat.FlatStyle = FlatStyle.Flat;
+            btnDangXuat.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnDangXuat.ForeColor = Color.White;
             btnDangXuat.Location = new Point(50, 390);
             btnDangXuat.Name = "btnDangXuat";
@@ -135,7 +139,7 @@ namespace Piggy_Admin
             // 
             // panelMain
             // 
-            panelMain.BackColor = Color.White;
+            panelMain.BackColor = Color.FromArgb(213, 217, 247);
             panelMain.Controls.Add(lblTitle);
             panelMain.Controls.Add(picAvatar);
             panelMain.Controls.Add(lblRole);
@@ -154,7 +158,7 @@ namespace Piggy_Admin
             // 
             timer1.Interval = 10;
             // 
-            // FormTaiKhoan
+            // FrmTaiKhoan
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -163,7 +167,7 @@ namespace Piggy_Admin
             FormBorderStyle = FormBorderStyle.None;
             MaximizeBox = false;
             MinimizeBox = false;
-            Name = "FormTaiKhoan";
+            Name = "FrmTaiKhoan";
             StartPosition = FormStartPosition.CenterParent;
             Text = "Thông Tin Tài Khoản";
             ((System.ComponentModel.ISupportInitialize)picAvatar).EndInit();

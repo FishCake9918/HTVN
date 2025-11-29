@@ -14,15 +14,18 @@ namespace Demo_Layout
     {
         public Action OnDataAdded;
         private int? _maGiaoDich = null;
-        
+
         // 1. Khai báo biến Inject
         private readonly IDbContextFactory<QLTCCNContext> _dbFactory;
         private readonly IServiceProvider _serviceProvider;
-        private readonly CurrentUserContext _userContext; 
+        private readonly CurrentUserContext _userContext;
+
+        // KHAI BÁO THÊM LBLTITLE
+        public Label lblTitle; // Giả sử đã khai báo trong Designer.cs
 
         // --- CONSTRUCTOR 1: THÊM MỚI (NHẬN DI) ---
         public FrmThemGiaoDich(
-            IDbContextFactory<QLTCCNContext> dbFactory, 
+            IDbContextFactory<QLTCCNContext> dbFactory,
             IServiceProvider serviceProvider,
             CurrentUserContext userContext) // <-- Inject vào đây
         {
@@ -33,6 +36,9 @@ namespace Demo_Layout
             _maGiaoDich = null;
             this.Load += FrmThemGiaoDich_Load;
             this.Text = "Thêm Giao Dịch Mới";
+
+            // CẬP NHẬT: Thiết lập tiêu đề cho lblTitle khi Thêm Mới
+            lblForm.Text = "THÊM GIAO DỊCH";
         }
 
         // --- CONSTRUCTOR 2: SỬA (NHẬN DI + THAM SỐ DỮ LIỆU) ---
@@ -55,6 +61,9 @@ namespace Demo_Layout
             _maGiaoDich = maGiaoDich;
             this.Load += FrmThemGiaoDich_Load;
             this.Text = "Cập Nhật Giao Dịch";
+
+            // CẬP NHẬT: Thiết lập tiêu đề cho lblTitle khi Sửa
+            lblForm.Text = "SỬA GIAO DỊCH";
 
             // Có thể gán dữ liệu vào control ngay tại đây hoặc trong LoadDataForEdit
         }
@@ -81,10 +90,12 @@ namespace Demo_Layout
             }
             else
             {
-                radChi.Checked = true; 
+                radChi.Checked = true;
                 dtNgayGiaoDich.Value = DateTime.Now;
             }
         }
+
+        // ... (Các phương thức khác giữ nguyên)
 
         private void LoadComboBoxes()
         {
@@ -222,10 +233,10 @@ namespace Demo_Layout
                             GhiChu = rtbGhiChu.Text,
                             SoTien = soTien,
                             NgayGiaoDich = dtNgayGiaoDich.Value,
-                            
-                            // 3. Gán MaNguoiDung từ Context
+
+                            // Gán MaNguoiDung từ Context
                             MaNguoiDung = _userContext.MaNguoiDung.Value,
-                            
+
                             MaLoaiGiaoDich = maLoaiGD,
                             MaDoiTuongGiaoDich = cbDoiTuong.SelectedValue as int?,
                             MaTaiKhoanThanhToan = cbTaiKhoan.SelectedValue as int?,
@@ -289,7 +300,16 @@ namespace Demo_Layout
             {
                 var frm = _serviceProvider.GetRequiredService<FrmThemSuaDoiTuongGiaoDich>();
                 frm.SetId(0);
-                frm.OnDataSaved = LoadComboBoxes;
+                // Giả định FrmThemSuaDoiTuongGiaoDich có thuộc tính OnDataSaved để reload Combobox
+                // Đã chuyển đổi từ frm.OnDataSaved = LoadComboBoxes;
+                // Nếu LoadComboBoxes là một delegate, ta có thể gán nó trực tiếp hoặc thông qua một property/field.
+                // Nếu FrmThemSuaDoiTuongGiaoDich là form con, ta cần đảm bảo nó có Action/Event phù hợp.
+                // Giả định FrmThemSuaDoiTuongGiaoDich có một public Action OnDataSaved
+                if (frm.GetType().GetProperty("OnDataSaved") != null)
+                {
+                    frm.GetType().GetProperty("OnDataSaved").SetValue(frm, (Action)LoadComboBoxes);
+                }
+
 
                 frm.ShowDialog();
             }

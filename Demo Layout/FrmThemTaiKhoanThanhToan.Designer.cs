@@ -17,6 +17,7 @@
 
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmThemTaiKhoanThanhToan));
             lbTenTaiKhoan = new Label();
             lbSoDu = new Label();
             tbTenTaiKhoan = new TextBox();
@@ -25,87 +26,127 @@
             btnQuayLai = new Button();
             lbLoaiTaiKhoan = new Label();
             cmbLoaiTaiKhoan = new ComboBox();
+            button1 = new Button();
+            lblForm = new Label();
             SuspendLayout();
             // 
             // lbTenTaiKhoan
             // 
             lbTenTaiKhoan.AutoSize = true;
-            lbTenTaiKhoan.Font = new Font("Segoe UI", 12F);
-            lbTenTaiKhoan.Location = new Point(7, 37);
+            lbTenTaiKhoan.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            lbTenTaiKhoan.ForeColor = Color.White;
+            lbTenTaiKhoan.Location = new Point(29, 69);
             lbTenTaiKhoan.Name = "lbTenTaiKhoan";
-            lbTenTaiKhoan.Size = new Size(127, 28);
+            lbTenTaiKhoan.Size = new Size(103, 20);
             lbTenTaiKhoan.TabIndex = 0;
             lbTenTaiKhoan.Text = "Tên tài khoản";
             // 
             // lbSoDu
             // 
             lbSoDu.AutoSize = true;
-            lbSoDu.Font = new Font("Segoe UI", 12F);
-            lbSoDu.Location = new Point(12, 141);
+            lbSoDu.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            lbSoDu.ForeColor = Color.White;
+            lbSoDu.Location = new Point(29, 163);
             lbSoDu.Name = "lbSoDu";
-            lbSoDu.Size = new Size(64, 28);
+            lbSoDu.Size = new Size(49, 20);
             lbSoDu.TabIndex = 1;
             lbSoDu.Text = "Số dư";
             // 
             // tbTenTaiKhoan
             // 
-            tbTenTaiKhoan.Font = new Font("Segoe UI", 12F);
-            tbTenTaiKhoan.Location = new Point(163, 37);
+            tbTenTaiKhoan.Font = new Font("Segoe UI", 9F);
+            tbTenTaiKhoan.Location = new Point(163, 62);
             tbTenTaiKhoan.Name = "tbTenTaiKhoan";
-            tbTenTaiKhoan.Size = new Size(321, 34);
+            tbTenTaiKhoan.Size = new Size(321, 27);
             tbTenTaiKhoan.TabIndex = 2;
             // 
             // txtSoDu
             // 
-            txtSoDu.Font = new Font("Segoe UI", 12F);
-            txtSoDu.Location = new Point(163, 135);
+            txtSoDu.Font = new Font("Segoe UI", 9F);
+            txtSoDu.Location = new Point(163, 160);
             txtSoDu.Name = "txtSoDu";
-            txtSoDu.Size = new Size(180, 34);
+            txtSoDu.Size = new Size(180, 27);
             txtSoDu.TabIndex = 3;
             // 
             // btnTao
             // 
-            btnTao.Location = new Point(390, 195);
+            btnTao.BackColor = Color.FromArgb(250, 110, 6);
+            btnTao.FlatAppearance.BorderSize = 0;
+            btnTao.FlatStyle = FlatStyle.Flat;
+            btnTao.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnTao.ForeColor = Color.White;
+            btnTao.Location = new Point(269, 207);
             btnTao.Name = "btnTao";
-            btnTao.Size = new Size(94, 40);
+            btnTao.Size = new Size(100, 30);
             btnTao.TabIndex = 5;
             btnTao.Text = "Tạo";
-            btnTao.UseVisualStyleBackColor = true;
+            btnTao.UseVisualStyleBackColor = false;
             // 
             // btnQuayLai
             // 
-            btnQuayLai.Location = new Point(254, 195);
+            btnQuayLai.BackColor = Color.FromArgb(250, 110, 6);
+            btnQuayLai.FlatAppearance.BorderSize = 0;
+            btnQuayLai.FlatStyle = FlatStyle.Flat;
+            btnQuayLai.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnQuayLai.ForeColor = Color.White;
+            btnQuayLai.Location = new Point(377, 207);
             btnQuayLai.Name = "btnQuayLai";
-            btnQuayLai.Size = new Size(107, 40);
+            btnQuayLai.Size = new Size(100, 30);
             btnQuayLai.TabIndex = 6;
-            btnQuayLai.Text = "Quay trở lại";
-            btnQuayLai.UseVisualStyleBackColor = true;
+            btnQuayLai.Text = "Huỷ";
+            btnQuayLai.UseVisualStyleBackColor = false;
             // 
             // lbLoaiTaiKhoan
             // 
             lbLoaiTaiKhoan.AutoSize = true;
-            lbLoaiTaiKhoan.Font = new Font("Segoe UI", 12F);
-            lbLoaiTaiKhoan.Location = new Point(12, 92);
+            lbLoaiTaiKhoan.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            lbLoaiTaiKhoan.ForeColor = Color.White;
+            lbLoaiTaiKhoan.Location = new Point(29, 117);
             lbLoaiTaiKhoan.Name = "lbLoaiTaiKhoan";
-            lbLoaiTaiKhoan.Size = new Size(134, 28);
+            lbLoaiTaiKhoan.Size = new Size(107, 20);
             lbLoaiTaiKhoan.TabIndex = 7;
             lbLoaiTaiKhoan.Text = "Loại tài khoản";
             // 
             // cmbLoaiTaiKhoan
             // 
-            cmbLoaiTaiKhoan.Font = new Font("Segoe UI", 12F);
+            cmbLoaiTaiKhoan.Font = new Font("Segoe UI", 9F);
             cmbLoaiTaiKhoan.FormattingEnabled = true;
-            cmbLoaiTaiKhoan.Location = new Point(163, 84);
+            cmbLoaiTaiKhoan.Location = new Point(163, 109);
             cmbLoaiTaiKhoan.Name = "cmbLoaiTaiKhoan";
-            cmbLoaiTaiKhoan.Size = new Size(321, 36);
+            cmbLoaiTaiKhoan.Size = new Size(321, 28);
             cmbLoaiTaiKhoan.TabIndex = 8;
             // 
-            // FormThemTaiKhoanThanhToan
+            // button1
+            // 
+            button1.FlatAppearance.BorderSize = 0;
+            button1.FlatStyle = FlatStyle.Flat;
+            button1.Image = (Image)resources.GetObject("button1.Image");
+            button1.Location = new Point(467, 12);
+            button1.Name = "button1";
+            button1.Size = new Size(29, 29);
+            button1.TabIndex = 15;
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
+            // lblForm
+            // 
+            lblForm.AutoSize = true;
+            lblForm.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            lblForm.ForeColor = Color.White;
+            lblForm.Location = new Point(29, 16);
+            lblForm.Name = "lblForm";
+            lblForm.Size = new Size(42, 20);
+            lblForm.TabIndex = 16;
+            lblForm.Text = "label";
+            // 
+            // FrmThemTaiKhoanThanhToan
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.Honeydew;
-            ClientSize = new Size(527, 258);
+            BackColor = Color.FromArgb(66, 94, 106);
+            ClientSize = new Size(513, 258);
+            Controls.Add(lblForm);
+            Controls.Add(button1);
             Controls.Add(cmbLoaiTaiKhoan);
             Controls.Add(lbLoaiTaiKhoan);
             Controls.Add(btnQuayLai);
@@ -114,7 +155,9 @@
             Controls.Add(tbTenTaiKhoan);
             Controls.Add(lbSoDu);
             Controls.Add(lbTenTaiKhoan);
-            Name = "FormThemTaiKhoanThanhToan";
+            FormBorderStyle = FormBorderStyle.None;
+            Name = "FrmThemTaiKhoanThanhToan";
+            StartPosition = FormStartPosition.CenterParent;
             Text = "Thêm tài khoản";
             ResumeLayout(false);
             PerformLayout();
@@ -131,5 +174,7 @@
         private Button btnQuayLai;
         private Label lbLoaiTaiKhoan;
         private ComboBox cmbLoaiTaiKhoan;
+        private Button button1;
+        private Label lblForm;
     }
 }
