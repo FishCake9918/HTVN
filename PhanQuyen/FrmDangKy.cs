@@ -146,5 +146,6 @@ namespace PhanQuyen
         {
             this.Close();
         }
+
     }
 }
