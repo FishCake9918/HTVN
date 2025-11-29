@@ -14,14 +14,11 @@ namespace Piggy_Admin
     {
         private readonly IDbContextFactory<QLTCCNContext> _dbFactory;
         private readonly IServiceProvider _serviceProvider;
-        private readonly CurrentUserContext _userContext; // <-- INJECT CONTEXT
+        private readonly CurrentUserContext _userContext;
 
-        // KHAI BÁO BIẾN ÂM THANH
         private SoundPlayer player;
         private string soundFilePath = Path.Combine(Application.StartupPath, "Click.wav");
-        // ------------------------
 
-        // Code API Win32 (Giữ nguyên)
         public const int WM_NCLBUTTONDOWN = 0xA1;
         public const int HT_CAPTION = 0x2;
         [DllImport("user32.dll")]
@@ -36,17 +33,14 @@ namespace Piggy_Admin
             _serviceProvider = serviceProvider;
             _userContext = userContext;
 
-            // KHỞI TẠO SoundPlayer
             if (File.Exists(soundFilePath))
             {
                 player = new SoundPlayer(soundFilePath);
             }
             else
             {
-                // Xử lý nếu file không tồn tại (ví dụ: gán null hoặc tạo SoundPlayer rỗng)
                 player = new SoundPlayer();
             }
-            // ------------------------
 
             LoadUserInfo();
         }
@@ -59,7 +53,6 @@ namespace Piggy_Admin
             }
             catch (Exception ex)
             {
-                // Xử lý lỗi nếu không thể phát (ví dụ: file bị khóa hoặc bị hỏng)
                 System.Diagnostics.Debug.WriteLine($"Lỗi phát âm thanh: {ex.Message}");
             }
         }
@@ -68,8 +61,8 @@ namespace Piggy_Admin
         {
             if (_userContext.IsLoggedIn)
             {
-                lblTenHienThi.Text = _userContext.DisplayName; // Hiện tên
-                lblVaiTro.Text = _userContext.TenVaiTro;      // Hiện vai trò
+                lblTenHienThi.Text = _userContext.DisplayName; 
+                lblVaiTro.Text = _userContext.TenVaiTro;      
 
             }
         }
@@ -90,7 +83,7 @@ namespace Piggy_Admin
         // --- NÚT BÁO CÁO HỆ THỐNG ---
         private void button1_Click(object sender, EventArgs e)
         {
-            PlayClickSound(); // ⭐ PHÁT ÂM THANH ⭐
+            PlayClickSound(); 
             pnlHienThi.Controls.Clear();
             UserControlBaoCaoHeThong uc = _serviceProvider.GetRequiredService<UserControlBaoCaoHeThong>();
             uc.Dock = DockStyle.Fill;
@@ -100,7 +93,7 @@ namespace Piggy_Admin
         // --- NÚT QUẢN LÝ TÀI KHOẢN ---
         private void button2_Click(object sender, EventArgs e)
         {
-            PlayClickSound(); // ⭐ PHÁT ÂM THANH ⭐
+            PlayClickSound(); 
             pnlHienThi.Controls.Clear();
             UserControlQuanLyTaiKhoan uc = _serviceProvider.GetRequiredService<UserControlQuanLyTaiKhoan>();
             uc.Dock = DockStyle.Fill;
@@ -110,14 +103,13 @@ namespace Piggy_Admin
         // --- NÚT QUẢN LÝ THÔNG BÁO ---
         private void button5_Click(object sender, EventArgs e)
         {
-            PlayClickSound(); // ⭐ PHÁT ÂM THANH ⭐
+            PlayClickSound(); 
             pnlHienThi.Controls.Clear();
             UserControlQuanLyThongBao userControlMoi = _serviceProvider.GetRequiredService<UserControlQuanLyThongBao>();
             userControlMoi.Dock = DockStyle.Fill;
             pnlHienThi.Controls.Add(userControlMoi);
         }
 
-        // --- NÚT HỒ SƠ (PIC BOX) ---
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             PlayClickSound();

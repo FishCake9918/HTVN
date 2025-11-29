@@ -26,7 +26,7 @@ namespace Demo_Layout
         private ListThongBao _ucListThongBao;
         private bool _coThongBaoMoi = false;
         private DateTime _lastCheckTime;
-        private Color _dotColor = ColorTranslator.FromHtml("#FF0000"); // Đỏ tươi
+        private Color _dotColor = ColorTranslator.FromHtml("#FF0000"); 
         private string _timestampFile = "last_check.txt";
         // -------------------------------
 
@@ -63,9 +63,6 @@ namespace Demo_Layout
 
             CheckNewNotifications();
         }
-
-        // --------------------------------------------------------
-
         private void FrmMain_Load(object sender, EventArgs e)
         {
             this.MaximumSize = Screen.PrimaryScreen.WorkingArea.Size;
@@ -81,10 +78,6 @@ namespace Demo_Layout
                 lblVaiTro.Text = _userContext.TenVaiTro;
             }
         }
-
-        // =================================================================================
-        // PHẦN 1: LOGIC THÔNG BÁO (GIỮ NGUYÊN)
-        // =================================================================================
         private void CheckNewNotifications()
         {
             try
@@ -161,11 +154,6 @@ namespace Demo_Layout
             }
             catch (Exception ex) { MessageBox.Show("Lỗi tải thông báo: " + ex.Message); }
         }
-
-        // =================================================================================
-        // PHẦN 2: LOGIC ĐIỀU HƯỚNG MENU (ĐÃ LÀM SẠCH)
-        // =================================================================================
-
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             System.Windows.Forms.Application.Exit();
@@ -174,7 +162,7 @@ namespace Demo_Layout
         // --- BUTTON 1: BÁO CÁO ---
         private void button1_Click(object sender, EventArgs e)
         {
-            player.Play(); // ⭐ PHÁT ÂM THANH ⭐
+            player.Play(); 
             HieuUngRungLac();
             pnlHienThi.Controls.Clear();
             UserControlBaoCao uc = _serviceProvider.GetRequiredService<UserControlBaoCao>();
@@ -185,7 +173,7 @@ namespace Demo_Layout
         // --- BUTTON 2: QUẢN LÝ GIAO DỊCH ---
         private void button2_Click(object sender, EventArgs e)
         {
-            player.Play(); // ⭐ PHÁT ÂM THANH ⭐
+            player.Play(); 
             HieuUngRungLac();
             pnlHienThi.Controls.Clear();
             UserControlQuanLyGiaoDich uc = _serviceProvider.GetRequiredService<UserControlQuanLyGiaoDich>();
@@ -196,7 +184,7 @@ namespace Demo_Layout
         // --- BUTTON 3: NGÂN SÁCH (ĐÃ SỬA GỌN) ---
         private void button3_Click(object sender, EventArgs e)
         {
-            player.Play(); // ⭐ PHÁT ÂM THANH ⭐
+            player.Play();
             HieuUngRungLac();
             pnlHienThi.Controls.Clear();
             // UserControl tự lo việc mở form, Main không cần đăng ký event nữa
@@ -208,7 +196,7 @@ namespace Demo_Layout
         // --- BUTTON 4: DANH MỤC CHI TIÊU ---
         private void button4_Click(object sender, EventArgs e)
         {
-            player.Play(); // ⭐ PHÁT ÂM THANH ⭐                                         
+            player.Play();                                     
             HieuUngRungLac();
             pnlHienThi.Controls.Clear();
             UserControlDanhMucChiTieu uc = _serviceProvider.GetRequiredService<UserControlDanhMucChiTieu>();
@@ -219,7 +207,7 @@ namespace Demo_Layout
         // --- BUTTON 5: ĐỐI TƯỢNG GIAO DỊCH (ĐÃ SỬA GỌN) ---
         private void button5_Click(object sender, EventArgs e)
         {
-            player.Play(); // ⭐ PHÁT ÂM THANH ⭐
+            player.Play(); 
             HieuUngRungLac();
             pnlHienThi.Controls.Clear();
             // Code gọn gàng, logic xử lý form nằm trong UserControl
@@ -231,7 +219,7 @@ namespace Demo_Layout
         // --- BUTTON 6: TÀI KHOẢN THANH TOÁN (ĐÃ SỬA GỌN) ---
         private void button6_Click(object sender, EventArgs e)
         {
-            player.Play(); // ⭐ PHÁT ÂM THANH ⭐
+            player.Play(); 
             HieuUngRungLac();
             pnlHienThi.Controls.Clear();
             // Code gọn gàng
@@ -267,7 +255,7 @@ namespace Demo_Layout
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            player.Play(); // ⭐ PHÁT ÂM THANH ⭐
+            player.Play(); 
 
             Piggy_Admin.FrmTaiKhoan f = _serviceProvider.GetRequiredService<Piggy_Admin.FrmTaiKhoan>();
             Point pos = picUserProfile.PointToScreen(new Point(50, picUserProfile.Height - 350));
@@ -306,7 +294,7 @@ namespace Demo_Layout
 
         private void scThemTaiKhoan_Click(object sender, EventArgs e)
         {
-            player.Play(); // ⭐ PHÁT ÂM THANH ⭐                                         
+            player.Play();                                    
             HieuUngRungLac();
             pnlHienThi.Controls.Clear();
             UserControlTaiKhoanThanhToan uc = _serviceProvider.GetRequiredService<UserControlTaiKhoanThanhToan>();
@@ -317,7 +305,7 @@ namespace Demo_Layout
 
         private void button11_Click(object sender, EventArgs e)
         {
-            player.Play(); // ⭐ PHÁT ÂM THANH ⭐                                         
+            player.Play();                                     
             HieuUngRungLac();
             pnlHienThi.Controls.Clear();
             UserControlQuanLyGiaoDich uc = _serviceProvider.GetRequiredService<UserControlQuanLyGiaoDich>();
@@ -328,7 +316,7 @@ namespace Demo_Layout
 
         private void button12_Click(object sender, EventArgs e)
         {
-            player.Play(); // ⭐ PHÁT ÂM THANH ⭐                                         
+            player.Play();                                      
             HieuUngRungLac();
             pnlHienThi.Controls.Clear();
             UserControlDoiTuongGiaoDich uc = _serviceProvider.GetRequiredService<UserControlDoiTuongGiaoDich>();
@@ -339,7 +327,7 @@ namespace Demo_Layout
 
         private void button13_Click(object sender, EventArgs e)
         {
-            player.Play(); // ⭐ PHÁT ÂM THANH ⭐                                         
+            player.Play();                                     
             HieuUngRungLac();
             pnlHienThi.Controls.Clear();
             UserControlNganSach uc = _serviceProvider.GetRequiredService<UserControlNganSach>();
