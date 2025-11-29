@@ -120,19 +120,12 @@ namespace Piggy_Admin
         // --- NÚT HỒ SƠ (PIC BOX) ---
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            PlayClickSound(); // ⭐ PHÁT ÂM THANH ⭐
-
-            // Đảm bảo PicUserProfile được khai báo trong Designer để dùng PointToScreen
-            // Giả định picUserProfile là tên của PictureBox/Control
+            PlayClickSound();
             Control picUserProfile = (Control)sender;
-
             FrmTaiKhoan f = _serviceProvider.GetRequiredService<FrmTaiKhoan>();
-
-            // Điều chỉnh vị trí popup cho phù hợp
-            Point pos = picUserProfile.PointToScreen(new Point(50, picUserProfile.Height));
+            Point pos = picUserProfile.PointToScreen(new Point(50, picUserProfile.Height - 350));
             f.StartPosition = FormStartPosition.Manual;
             f.Location = pos;
-
             f.LogoutRequested += () =>
             {
                 this.Close(); // Đóng Admin Main -> Program.cs sẽ mở lại Login
