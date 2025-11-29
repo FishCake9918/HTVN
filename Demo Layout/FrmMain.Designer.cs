@@ -30,20 +30,6 @@
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
-            menuStrip1 = new MenuStrip();
-            accountToolStripMenuItem = new ToolStripMenuItem();
-            signInToolStripMenuItem = new ToolStripMenuItem();
-            signOutToolStripMenuItem = new ToolStripMenuItem();
-            exitToolStripMenuItem = new ToolStripMenuItem();
-            editToolStripMenuItem = new ToolStripMenuItem();
-            undoToolStripMenuItem1 = new ToolStripMenuItem();
-            redoToolStripMenuItem1 = new ToolStripMenuItem();
-            toolsToolStripMenuItem = new ToolStripMenuItem();
-            findSchedulesToolStripMenuItem1 = new ToolStripMenuItem();
-            minimizeToolStripMenuItem1 = new ToolStripMenuItem();
-            helpToolStripMenuItem = new ToolStripMenuItem();
-            documentationToolStripMenuItem1 = new ToolStripMenuItem();
-            keyboardShortcutsToolStripMenuItem1 = new ToolStripMenuItem();
             đăngNhậpToolStripMenuItem = new ToolStripMenuItem();
             đăngXuấtToolStripMenuItem = new ToolStripMenuItem();
             toolStripMenuItem1 = new ToolStripSeparator();
@@ -67,6 +53,8 @@
             lblTenHienThi = new Label();
             picUserProfile = new PictureBox();
             panel2 = new Panel();
+            icon = new PictureBox();
+            label1 = new Label();
             button9 = new Button();
             button7 = new Button();
             button8 = new Button();
@@ -79,116 +67,15 @@
             button11 = new Button();
             scThemTaiKhoan = new Button();
             notifyIcon = new NotifyIcon(components);
-            menuStrip1.SuspendLayout();
             pnlMenu.SuspendLayout();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picUserProfile).BeginInit();
             panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)icon).BeginInit();
             panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)icoBell).BeginInit();
             ((System.ComponentModel.ISupportInitialize)icoPiggy).BeginInit();
             SuspendLayout();
-            // 
-            // menuStrip1
-            // 
-            menuStrip1.BackColor = Color.FromArgb(250, 110, 6);
-            menuStrip1.Dock = DockStyle.None;
-            menuStrip1.Font = new Font("Segoe UI", 9F);
-            menuStrip1.ImageScalingSize = new Size(20, 20);
-            menuStrip1.Items.AddRange(new ToolStripItem[] { accountToolStripMenuItem, editToolStripMenuItem, toolsToolStripMenuItem, helpToolStripMenuItem });
-            menuStrip1.Location = new Point(9, 5);
-            menuStrip1.Name = "menuStrip1";
-            menuStrip1.Padding = new Padding(7, 1, 0, 1);
-            menuStrip1.RenderMode = ToolStripRenderMode.Professional;
-            menuStrip1.Size = new Size(299, 31);
-            menuStrip1.TabIndex = 0;
-            menuStrip1.Text = "menuStrip1";
-            // 
-            // accountToolStripMenuItem
-            // 
-            accountToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { signInToolStripMenuItem, signOutToolStripMenuItem, exitToolStripMenuItem });
-            accountToolStripMenuItem.ForeColor = SystemColors.ControlLightLight;
-            accountToolStripMenuItem.Name = "accountToolStripMenuItem";
-            accountToolStripMenuItem.Size = new Size(98, 29);
-            accountToolStripMenuItem.Text = "Account ";
-            // 
-            // signInToolStripMenuItem
-            // 
-            signInToolStripMenuItem.Name = "signInToolStripMenuItem";
-            signInToolStripMenuItem.Size = new Size(181, 34);
-            signInToolStripMenuItem.Text = "Sign in ";
-            // 
-            // signOutToolStripMenuItem
-            // 
-            signOutToolStripMenuItem.Name = "signOutToolStripMenuItem";
-            signOutToolStripMenuItem.Size = new Size(181, 34);
-            signOutToolStripMenuItem.Text = "Sign out";
-            // 
-            // exitToolStripMenuItem
-            // 
-            exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new Size(181, 34);
-            exitToolStripMenuItem.Text = "Exit";
-            // 
-            // editToolStripMenuItem
-            // 
-            editToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { undoToolStripMenuItem1, redoToolStripMenuItem1 });
-            editToolStripMenuItem.ForeColor = SystemColors.ButtonHighlight;
-            editToolStripMenuItem.Name = "editToolStripMenuItem";
-            editToolStripMenuItem.Size = new Size(58, 29);
-            editToolStripMenuItem.Text = "Edit";
-            // 
-            // undoToolStripMenuItem1
-            // 
-            undoToolStripMenuItem1.Name = "undoToolStripMenuItem1";
-            undoToolStripMenuItem1.Size = new Size(158, 34);
-            undoToolStripMenuItem1.Text = "Undo";
-            // 
-            // redoToolStripMenuItem1
-            // 
-            redoToolStripMenuItem1.Name = "redoToolStripMenuItem1";
-            redoToolStripMenuItem1.Size = new Size(158, 34);
-            redoToolStripMenuItem1.Text = "Redo";
-            // 
-            // toolsToolStripMenuItem
-            // 
-            toolsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { findSchedulesToolStripMenuItem1, minimizeToolStripMenuItem1 });
-            toolsToolStripMenuItem.ForeColor = SystemColors.ButtonHighlight;
-            toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            toolsToolStripMenuItem.Size = new Size(69, 29);
-            toolsToolStripMenuItem.Text = "Tools";
-            // 
-            // findSchedulesToolStripMenuItem1
-            // 
-            findSchedulesToolStripMenuItem1.Name = "findSchedulesToolStripMenuItem1";
-            findSchedulesToolStripMenuItem1.Size = new Size(230, 58);
-            findSchedulesToolStripMenuItem1.Text = "Find schedules";
-            // 
-            // minimizeToolStripMenuItem1
-            // 
-            minimizeToolStripMenuItem1.Name = "minimizeToolStripMenuItem1";
-            minimizeToolStripMenuItem1.Size = new Size(230, 58);
-            minimizeToolStripMenuItem1.Text = "Minimize\n";
-            // 
-            // helpToolStripMenuItem
-            // 
-            helpToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { documentationToolStripMenuItem1, keyboardShortcutsToolStripMenuItem1 });
-            helpToolStripMenuItem.ForeColor = SystemColors.Control;
-            helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            helpToolStripMenuItem.Size = new Size(65, 29);
-            helpToolStripMenuItem.Text = "Help";
-            // 
-            // documentationToolStripMenuItem1
-            // 
-            documentationToolStripMenuItem1.Name = "documentationToolStripMenuItem1";
-            documentationToolStripMenuItem1.Size = new Size(270, 34);
-            documentationToolStripMenuItem1.Text = "Documentation";
-            // 
-            // keyboardShortcutsToolStripMenuItem1
-            // 
-            keyboardShortcutsToolStripMenuItem1.Name = "keyboardShortcutsToolStripMenuItem1";
-            keyboardShortcutsToolStripMenuItem1.Size = new Size(270, 34);
-            keyboardShortcutsToolStripMenuItem1.Text = "Keyboard Shortcuts";
             // 
             // đăngNhậpToolStripMenuItem
             // 
@@ -381,7 +268,7 @@
             lblVaiTro.ForeColor = Color.DimGray;
             lblVaiTro.Location = new Point(80, 40);
             lblVaiTro.Name = "lblVaiTro";
-            lblVaiTro.Size = new Size(65, 25);
+            lblVaiTro.Size = new Size(52, 20);
             lblVaiTro.TabIndex = 5;
             lblVaiTro.Text = "Vai trò";
             // 
@@ -392,7 +279,7 @@
             lblTenHienThi.ForeColor = Color.Navy;
             lblTenHienThi.Location = new Point(80, 15);
             lblTenHienThi.Name = "lblTenHienThi";
-            lblTenHienThi.Size = new Size(168, 28);
+            lblTenHienThi.Size = new Size(142, 23);
             lblTenHienThi.TabIndex = 4;
             lblTenHienThi.Text = "Tên Người Dùng";
             // 
@@ -411,7 +298,8 @@
             // panel2
             // 
             panel2.BackColor = Color.FromArgb(250, 110, 6);
-            panel2.Controls.Add(menuStrip1);
+            panel2.Controls.Add(icon);
+            panel2.Controls.Add(label1);
             panel2.Controls.Add(button9);
             panel2.Controls.Add(button7);
             panel2.Controls.Add(button8);
@@ -421,6 +309,27 @@
             panel2.Size = new Size(1232, 34);
             panel2.TabIndex = 0;
             panel2.MouseDown += panel2_MouseDown;
+            // 
+            // icon
+            // 
+            icon.Image = (Image)resources.GetObject("icon.Image");
+            icon.Location = new Point(12, 3);
+            icon.Name = "icon";
+            icon.Size = new Size(29, 29);
+            icon.SizeMode = PictureBoxSizeMode.Zoom;
+            icon.TabIndex = 3;
+            icon.TabStop = false;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            label1.ForeColor = Color.White;
+            label1.Location = new Point(47, 7);
+            label1.Name = "label1";
+            label1.Size = new Size(101, 20);
+            label1.TabIndex = 0;
+            label1.Text = "PIGGY BANK";
             // 
             // button9
             // 
@@ -591,20 +500,19 @@
             Controls.Add(panel3);
             Controls.Add(panel2);
             FormBorderStyle = FormBorderStyle.None;
-            MainMenuStrip = menuStrip1;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "FrmMain";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Trang chủ";
             FormClosed += FrmMain_FormClosed;
             Load += FrmMain_Load;
-            menuStrip1.ResumeLayout(false);
-            menuStrip1.PerformLayout();
             pnlMenu.ResumeLayout(false);
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)picUserProfile).EndInit();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)icon).EndInit();
             panel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)icoBell).EndInit();
             ((System.ComponentModel.ISupportInitialize)icoPiggy).EndInit();
@@ -612,8 +520,6 @@
         }
 
         #endregion
-
-        private MenuStrip menuStrip1;
         private ToolStripMenuItem đăngNhậpToolStripMenuItem;
         private ToolStripMenuItem đăngXuấtToolStripMenuItem;
         private ToolStripSeparator toolStripMenuItem1;
@@ -624,19 +530,6 @@
         private ToolStripMenuItem keyboardShortcutsToolStripMenuItem;
         private ToolStripMenuItem undoToolStripMenuItem;
         private ToolStripMenuItem redoToolStripMenuItem;
-        private ToolStripMenuItem accountToolStripMenuItem;
-        private ToolStripMenuItem signInToolStripMenuItem;
-        private ToolStripMenuItem signOutToolStripMenuItem;
-        private ToolStripMenuItem exitToolStripMenuItem;
-        private ToolStripMenuItem editToolStripMenuItem;
-        private ToolStripMenuItem undoToolStripMenuItem1;
-        private ToolStripMenuItem redoToolStripMenuItem1;
-        private ToolStripMenuItem toolsToolStripMenuItem;
-        private ToolStripMenuItem findSchedulesToolStripMenuItem1;
-        private ToolStripMenuItem minimizeToolStripMenuItem1;
-        private ToolStripMenuItem helpToolStripMenuItem;
-        private ToolStripMenuItem documentationToolStripMenuItem1;
-        private ToolStripMenuItem keyboardShortcutsToolStripMenuItem1;
         private Krypton.Toolkit.KryptonCustomPaletteBase kryptonCustomPaletteBase1;
         private Button button1;
         private Button button2;
@@ -662,5 +555,7 @@
         private PictureBox icoBell;
         private Label lblTenHienThi;
         private Label lblVaiTro;
+        private PictureBox icon;
+        private Label label1;
     }
 }

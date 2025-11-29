@@ -52,7 +52,7 @@ namespace Demo_Layout
         {
             txtTimKiem.Text = string.Empty;
             txtTimKiem.ForeColor = Color.Black;
-            if (pieChartNganSach != null) { pieChartNganSach.LegendLocation = LiveCharts.LegendLocation.Right; pieChartNganSach.InnerRadius = 50; }
+            if (pieChartNganSach != null) { pieChartNganSach.InnerRadius = 50; }
         }
 
         private void UserControlNganSach_Load(object sender, EventArgs e)
@@ -136,7 +136,7 @@ namespace Demo_Layout
             decimal tongSoTien = hienThiList.Sum(n => n.SoTienNganSach);
             decimal tongDaChi = hienThiList.Sum(n => n.SoTienDaChi);
             decimal tongConLai = tongSoTien - tongDaChi;
-            if (labelTongNS != null) labelTongNS.Text = $"TỔNG QUAN NGÂN SÁCH ĐÃ LỌC";
+            if (labelTongNS != null) labelTongNS.Text = $"TỔNG QUAN";
             if (lblValueTongNS != null) lblValueTongNS.Text = string.Format("Tổng Ngân sách: {0:N0} VNĐ", tongSoTien);
             if (lblValueTongDaChi != null) lblValueTongDaChi.Text = string.Format("Tổng Đã chi: {0:N0} VNĐ", tongDaChi);
             if (lblValueTongConLai != null) lblValueTongConLai.Text = string.Format("TỔNG CÒN LẠI: {0:N0} VNĐ", tongConLai);
@@ -167,7 +167,7 @@ namespace Demo_Layout
             {
                 pieSeries.Add(new PieSeries { Title = "Khác", Values = new ChartValues<double> { (double)otherTotal }, DataLabels = true, LabelPoint = point => string.Format("{0:N0} VNĐ ({1:P0})", (decimal)point.Y, point.Participation), Fill = new System.Windows.Media.SolidColorBrush(_chartColors[colorIndex % _chartColors.Length]), Stroke = System.Windows.Media.Brushes.Transparent, });
             }
-            pieChartNganSach.Series = pieSeries; pieChartNganSach.LegendLocation = LiveCharts.LegendLocation.Right; pieChartNganSach.Update();
+            pieChartNganSach.Series = pieSeries; pieChartNganSach.Update();
         }
         private void ConfigureGridView()
         {
