@@ -187,7 +187,6 @@ namespace Piggy_Admin
             pnlLine.Name = "pnlLine";
             pnlLine.Size = new Size(433, 2);
             pnlLine.TabIndex = 0;
-            pnlLine.Paint += pnlLine_Paint;
             // 
             // FrmDoiMatKhau
             // 

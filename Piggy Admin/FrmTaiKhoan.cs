@@ -3,7 +3,7 @@ using System.Windows.Forms;
 using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using System.Drawing; // Thêm namespace này cho Color
+using System.Drawing;
 
 namespace Piggy_Admin
 {
@@ -13,14 +13,11 @@ namespace Piggy_Admin
         private readonly IDbContextFactory<QLTCCNContext> _dbFactory;
         private readonly IServiceProvider _serviceProvider;
 
-        // Sự kiện báo hiệu đăng xuất
         public event Action LogoutRequested;
 
-        private bool _isShowingDialog = false; // Biến chặn sự kiện Deactivate
-
-        // --- KHAI BÁO BIẾN CHO HIỆU ỨNG FADE ---
-        private System.Windows.Forms.Timer _fadeTimer; // Biến cục bộ để quản lý Timer
-        private bool _isClosing = false; // Biến cờ để kiểm soát việc đóng form
+        private bool _isShowingDialog = false; // Cờ chặn sự kiện đóng form
+        private System.Windows.Forms.Timer _fadeTimer;
+        private bool _isClosing = false;
 
         public FrmTaiKhoan(CurrentUserContext userContext, IDbContextFactory<QLTCCNContext> dbFactory, IServiceProvider serviceProvider)
         {
@@ -29,85 +26,63 @@ namespace Piggy_Admin
             _dbFactory = dbFactory;
             _serviceProvider = serviceProvider;
 
-
-            // Khởi tạo Timer và thiết lập (Sử dụng timer1 đã kéo thả)
-            _fadeTimer = timer1; // Gán Timer đã kéo thả (timer1) vào biến cục bộ
-            _fadeTimer.Interval = 20; // Tốc độ fade (20ms/bước)
+            // 1. Cấu hình hiệu ứng Fade In/Out
+            _fadeTimer = timer1;
+            _fadeTimer.Interval = 20;
             _fadeTimer.Tick += new EventHandler(FadeTimer_Tick);
 
-            // 1. CHUẨN BỊ CHO FADE IN (Form bắt đầu với độ mờ = 0)
-            this.Opacity = 0;
-            this.Load += FormTaiKhoan_Load; // Đăng ký sự kiện Load để bắt đầu Fade In
-
-            // 2. TỰ ĐÓNG KHI MẤT FOCUS 
-            this.Deactivate += FormTaiKhoan_Deactivate;
+            this.Opacity = 0; // Bắt đầu ẩn
+            this.Load += FormTaiKhoan_Load;
+            this.Deactivate += FormTaiKhoan_Deactivate; // Tự đóng khi mất focus
 
             LoadUserData();
         }
 
-        // --- PHƯƠNG THỨC HỖ TRỢ HIỆU ỨNG FADE ---
-
+        // --- HIỆU ỨNG FADE ---
         private void FormTaiKhoan_Load(object sender, EventArgs e)
         {
-            // Bắt đầu Fade In khi Form được tải
-            _fadeTimer.Start();
+            _fadeTimer.Start(); // Bắt đầu hiện dần
         }
 
         private void FadeTimer_Tick(object sender, EventArgs e)
         {
             if (_isClosing)
             {
-                // HIỆU ỨNG FADE OUT
-                if (this.Opacity > 0)
-                {
-                    this.Opacity -= 0.1; // Giảm độ mờ (Tốc độ 5%)
-                }
+                // Đang đóng -> Giảm độ mờ
+                if (this.Opacity > 0) this.Opacity -= 0.1;
                 else
                 {
-                    _fadeTimer.Stop(); // Dừng Timer
-                    // Đóng Form thực sự
-                    base.Close();
+                    _fadeTimer.Stop();
+                    base.Close(); // Đóng thật sự
                 }
             }
             else
             {
-                // HIỆU ỨNG FADE IN
-                if (this.Opacity < 1)
-                {
-                    this.Opacity += 0.1; // Tăng độ mờ (Tốc độ 5%)
-                }
-                else
-                {
-                    _fadeTimer.Stop(); // Dừng Timer khi Form đã hiển thị hoàn toàn
-                }
+                // Đang mở -> Tăng độ mờ
+                if (this.Opacity < 1) this.Opacity += 0.1;
+                else _fadeTimer.Stop();
             }
         }
 
-        // Ghi đè phương thức Close để bắt đầu Fade Out
         public new void Close()
         {
             if (!_isClosing)
             {
-                // Thay vì đóng ngay, ta bắt đầu Fade Out
-                _isClosing = true;
+                _isClosing = true; // Kích hoạt cờ đóng để Timer xử lý Fade Out
                 _fadeTimer.Start();
             }
         }
 
-        // --- PHƯƠNG THỨC TỰ ĐÓNG KHI MẤT FOCUS (POPUP BEHAVIOR) ---
         private void FormTaiKhoan_Deactivate(object sender, EventArgs e)
         {
+            // Nếu đang hiện Dialog con (như xác nhận xóa) thì không tự đóng
             if (_isShowingDialog) return;
-            // Nếu đã bắt đầu đóng (do click button hoặc đã gọi Close()), bỏ qua
             if (_isClosing) return;
 
-            // Bắt đầu quá trình Fade Out khi Form mất focus
-            // Điều này áp dụng khi người dùng click ra ngoài FormTaiKhoan
-            Close();
+            Close(); // Tự đóng khi click ra ngoài
         }
 
-        // --- CÁC PHƯƠNG THỨC KHÁC ---
-
+        // --- TẢI DỮ LIỆU NGƯỜI DÙNG ---
         private void LoadUserData()
         {
             if (_userContext.IsLoggedIn)
@@ -116,6 +91,7 @@ namespace Piggy_Admin
                 if (lblEmail != null) lblEmail.Text = _userContext.Email;
                 if (lblRole != null) lblRole.Text = $"Vai trò: {_userContext.TenVaiTro}";
 
+                // Giao diện khác nhau giữa Admin và User
                 if (_userContext.IsAdmin)
                 {
                     if (lblTitle != null) lblTitle.Text = "HỒ SƠ QUẢN TRỊ VIÊN";
@@ -146,42 +122,43 @@ namespace Piggy_Admin
             lbl.Location = new System.Drawing.Point(x, lbl.Location.Y);
         }
 
+        // --- CÁC NÚT CHỨC NĂNG ---
+
+        // Chức năng Đổi mật khẩu
         private void btnDoiMatKhau_Click(object sender, EventArgs e)
         {
-            // QUAN TRỌNG: GỠ BỎ sự kiện Deactivate để Form không tự đóng khi mở FormDoiMatKhau
+            // Tạm gỡ sự kiện Deactivate để form không tự đóng khi mở form con
             this.Deactivate -= FormTaiKhoan_Deactivate;
 
             try
             {
-                // Sử dụng 'using' để đảm bảo form được hủy đúng cách
                 using (var frmChangePass = _serviceProvider.GetRequiredService<FrmDoiMatKhau>())
                 {
-                    // FormDoiMatKhau mở dưới dạng dialog, chặn FormTaiKhoan nhưng không kích hoạt Deactivate sau khi gỡ
                     frmChangePass.ShowDialog();
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Không thể mở form đổi mật khẩu: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Lỗi mở form đổi mật khẩu: " + ex.Message);
             }
             finally
             {
-                // ĐĂNG KÝ LẠI sự kiện Deactivate sau khi Form con đóng
-                this.Deactivate += FormTaiKhoan_Deactivate;
+                this.Deactivate += FormTaiKhoan_Deactivate; // Gán lại sau khi xong
             }
         }
 
+        // Chức năng Xóa tài khoản
         private void btnXoaTaiKhoan_Click(object sender, EventArgs e)
         {
-            _isShowingDialog = true; // 1. Bật cờ chặn
+            _isShowingDialog = true;
 
             var confirmResult = MessageBox.Show(
-                "Bạn có chắc chắn muốn xóa tài khoản này vĩnh viễn? Hành động này không thể hoàn tác!",
+                "Bạn có chắc chắn muốn xóa tài khoản này vĩnh viễn? Không thể hoàn tác!",
                 "Cảnh báo Xóa Tài Khoản",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Error);
 
-            _isShowingDialog = false; // Tắt cờ
+            _isShowingDialog = false;
 
             if (confirmResult == DialogResult.Yes)
             {
@@ -196,13 +173,9 @@ namespace Piggy_Admin
                             db.SaveChanges();
 
                             _isShowingDialog = true;
-
-                            MessageBox.Show("Tài khoản đã được xóa thành công. Ứng dụng sẽ đăng xuất.",
-                                            "Thành công",
-                                            MessageBoxButtons.OK,
-                                            MessageBoxIcon.Information);
-
+                            MessageBox.Show("Xóa tài khoản thành công. Ứng dụng sẽ đăng xuất.", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             _isShowingDialog = false;
+
                             PerformLogout();
                         }
                         else
@@ -219,12 +192,12 @@ namespace Piggy_Admin
             }
         }
 
+        // Chức năng Đăng xuất
         private void btnDangXuat_Click(object sender, EventArgs e)
         {
-            _isShowingDialog = true; // 1. Bật cờ chặn
+            _isShowingDialog = true;
             var result = MessageBox.Show("Bạn muốn đăng xuất?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            _isShowingDialog = false; // 2. Tắt cờ sau khi người dùng bấm xong
+            _isShowingDialog = false;
 
             if (result == DialogResult.Yes)
             {
@@ -232,41 +205,15 @@ namespace Piggy_Admin
             }
             else
             {
-                // Quan trọng: Vì lúc này Form đã mất focus rồi, nên khi tắt MessageBox, ta cần Focus lại Form
-                // Nếu không, sự kiện Deactivate có thể chạy lại ngay lập tức
-                this.Focus();
+                this.Focus(); // Focus lại để tránh bị đóng
             }
         }
 
         private void PerformLogout()
         {
-            // Xóa dữ liệu phiên
-            _userContext.ClearUser();
-
-            // Kích hoạt Fade Out (gọi phương thức Close() đã ghi đè)
-            Close();
-
-            // Kích hoạt sự kiện đăng xuất 
-            LogoutRequested?.Invoke();
-        }
-
-        // Xử lý nút [X] hoặc Alt+F4
-        private void FormTaiKhoan_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            // Nếu đang đóng (do gọi Close() đã ghi đè) và Opacity vẫn > 0, 
-            // thì hủy việc đóng mặc định để Timer hoàn thành hiệu ứng Fade Out.
-            if (_isClosing && Opacity > 0)
-            {
-                e.Cancel = true;
-            }
-            // Xử lý trường hợp người dùng đóng bằng nút [X] mà chưa gọi Close()
-            else if (Opacity == 1 && e.CloseReason == CloseReason.UserClosing && !_isClosing)
-            {
-                e.Cancel = true; // Hủy việc đóng mặc định
-                // Bắt đầu quá trình Fade Out
-                _isClosing = true;
-                _fadeTimer.Start();
-            }
+            _userContext.ClearUser(); // Xóa phiên đăng nhập
+            Close(); // Đóng form hồ sơ
+            LogoutRequested?.Invoke(); // Thông báo ra ngoài để đóng form chính
         }
     }
 }

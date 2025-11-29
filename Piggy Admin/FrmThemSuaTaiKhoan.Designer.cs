@@ -61,7 +61,7 @@ namespace Piggy_Admin
             cboVaiTro = new ComboBox();
             nightControlBox1 = new ReaLTaiizor.Controls.NightControlBox();
             label1 = new Label();
-            textBox1 = new TextBox();
+            txtEmail = new TextBox();
             label2 = new Label();
             pnlHeader.SuspendLayout();
             SuspendLayout();
@@ -286,14 +286,14 @@ namespace Piggy_Admin
             label1.TabIndex = 1;
             label1.Text = "Email:";
             // 
-            // textBox1
+            // txtEmail
             // 
-            textBox1.Font = new Font("Segoe UI", 11F);
-            textBox1.Location = new Point(51, 112);
-            textBox1.Margin = new Padding(4);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(434, 37);
-            textBox1.TabIndex = 2;
+            txtEmail.Font = new Font("Segoe UI", 11F);
+            txtEmail.Location = new Point(51, 112);
+            txtEmail.Margin = new Padding(4);
+            txtEmail.Name = "txtEmail";
+            txtEmail.Size = new Size(434, 37);
+            txtEmail.TabIndex = 2;
             // 
             // label2
             // 
@@ -324,7 +324,7 @@ namespace Piggy_Admin
             Controls.Add(lblNote);
             Controls.Add(txtPassword);
             Controls.Add(label2);
-            Controls.Add(textBox1);
+            Controls.Add(txtEmail);
             Controls.Add(label1);
             Controls.Add(pnlHeader);
             Controls.Add(lblVaiTro);
@@ -343,7 +343,7 @@ namespace Piggy_Admin
         #endregion
 
         private Label label1;
-        private TextBox textBox1;
+        private TextBox txtEmail;
         private Label label2;
     }
 }

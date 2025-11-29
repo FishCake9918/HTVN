@@ -11,11 +11,17 @@ namespace Piggy_Admin
 {
     public partial class UserControlQuanLyTaiKhoan : UserControl
     {
+        // ==================================================================================
+        // 1. KHAI BÁO BIẾN & DI SERVICE
+        // ==================================================================================
         private readonly IDbContextFactory<QLTCCNContext> _dbFactory;
         private readonly IServiceProvider _serviceProvider;
         private readonly CurrentUserContext _userContext;
 
-        public UserControlQuanLyTaiKhoan(IDbContextFactory<QLTCCNContext> dbFactory, IServiceProvider serviceProvider, CurrentUserContext userContext)
+        public UserControlQuanLyTaiKhoan(
+            IDbContextFactory<QLTCCNContext> dbFactory,
+            IServiceProvider serviceProvider,
+            CurrentUserContext userContext)
         {
             InitializeComponent();
             _dbFactory = dbFactory;
@@ -23,29 +29,34 @@ namespace Piggy_Admin
             _userContext = userContext;
 
             this.Load += UserControlQuanLyTaiKhoan_Load;
+
+            // Áp dụng giao diện lưới 
             Dinhdangluoi.DinhDangLuoiAdmin(kryptonDataGridView1);
 
+            // Đăng ký các sự kiện
             kryptonDataGridView1.CellDoubleClick += KryptonDataGridView1_CellDoubleClick;
             txtTimKiem.TextChanged += TxtTimKiem_TextChanged;
             txtTimKiem.GotFocus += TxtTimKiem_GotFocus;
             txtTimKiem.LostFocus += TxtTimKiem_LostFocus;
+
             btnThem.Click += btnThem_Click;
             btnSua.Click += btnSua_Click;
             btnXoa.Click += btnXoa_Click;
         }
 
+        // ==================================================================================
+        // 2. TẢI DỮ LIỆU
+        // ==================================================================================
         private void UserControlQuanLyTaiKhoan_Load(object sender, EventArgs e)
         {
             LoadData();
         }
 
-        // Sự kiện click đúp chuột (Yêu cầu 6)
         private void KryptonDataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            // Tránh click vào header
             if (e.RowIndex >= 0)
             {
-                btnSua.PerformClick(); // Gọi lại hàm sửa
+                btnSua.PerformClick(); // Mở form sửa khi click đúp
             }
         }
 
@@ -53,13 +64,14 @@ namespace Piggy_Admin
         {
             using (var db = _dbFactory.CreateDbContext())
             {
-                // Yêu cầu 1: Chỉ lấy tài khoản User (Khác Admin)
+                // Chỉ lấy tài khoản người dùng  
                 var query = db.Set<TaiKhoan>()
                     .Include(t => t.VaiTro)
                     .Include(t => t.NguoiDung)
                     .Where(t => t.VaiTro.TenVaiTro != "Admin")
                     .AsQueryable();
 
+                // Lọc theo từ khóa (Email hoặc Họ tên)
                 if (!string.IsNullOrEmpty(keyword) && keyword != "  Tìm kiếm...")
                 {
                     string k = keyword.ToLower();
@@ -67,6 +79,7 @@ namespace Piggy_Admin
                                              (t.NguoiDung != null && t.NguoiDung.HoTen.ToLower().Contains(k)));
                 }
 
+                // Chuyển đổi dữ liệu hiển thị
                 var list = query.Select(t => new
                 {
                     MaTaiKhoan = t.MaTaiKhoan,
@@ -77,26 +90,23 @@ namespace Piggy_Admin
 
                 kryptonDataGridView1.DataSource = list;
 
-                // Yêu cầu 3: Ẩn cột Mã Tài Khoản
+                // Cấu hình cột hiển thị
                 if (kryptonDataGridView1.Columns["MaTaiKhoan"] != null)
-                    kryptonDataGridView1.Columns["MaTaiKhoan"].Visible = false;
+                    kryptonDataGridView1.Columns["MaTaiKhoan"].Visible = false; // Ẩn cột ID
 
                 if (kryptonDataGridView1.Columns["HoTen"] != null) kryptonDataGridView1.Columns["HoTen"].HeaderText = "Họ Tên";
                 if (kryptonDataGridView1.Columns["VaiTro"] != null) kryptonDataGridView1.Columns["VaiTro"].HeaderText = "Vai Trò";
                 if (kryptonDataGridView1.Columns["Email"] != null) kryptonDataGridView1.Columns["Email"].HeaderText = "Email";
 
-                // Tự động giãn cột cho đẹp
                 kryptonDataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             }
         }
 
-        // ... (Các hàm tìm kiếm giữ nguyên)
-        private void TxtTimKiem_TextChanged(object sender, EventArgs e) => LoadData(txtTimKiem.Text);
-        private void TxtTimKiem_GotFocus(object sender, EventArgs e) { if (txtTimKiem.Text == "  Tìm kiếm...") { txtTimKiem.Text = ""; txtTimKiem.ForeColor = Color.Black; } }
-        private void TxtTimKiem_LostFocus(object sender, EventArgs e) { if (string.IsNullOrWhiteSpace(txtTimKiem.Text)) { txtTimKiem.Text = "  Tìm kiếm..."; txtTimKiem.ForeColor = SystemColors.InactiveCaption; LoadData(); } }
+        // ==================================================================================
+        // 3. CHỨC NĂNG THÊM - SỬA - XÓA
+        // ==================================================================================
 
-        // --- CRUD ---
-
+        //Chức năng Thêm
         public void btnThem_Click(object sender, EventArgs e)
         {
             if (!_userContext.IsAdmin) return;
@@ -105,12 +115,13 @@ namespace Piggy_Admin
             {
                 if (frm.ShowDialog() == DialogResult.OK)
                 {
-                    LoadData();
+                    LoadData(); // Refresh sau khi thêm
                     MessageBox.Show("Thêm người dùng thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
         }
 
+        //Chức năng Sửa
         private void btnSua_Click(object sender, EventArgs e)
         {
             if (!_userContext.IsAdmin) return;
@@ -121,12 +132,11 @@ namespace Piggy_Admin
                 return;
             }
 
-            // Lấy ID từ dòng đã chọn (dù cột này bị ẩn nhưng vẫn lấy được giá trị)
             int maTK = (int)kryptonDataGridView1.SelectedRows[0].Cells["MaTaiKhoan"].Value;
 
             using (var frm = _serviceProvider.GetRequiredService<FrmThemSuaTaiKhoan>())
             {
-                frm.LoadDataForEdit(maTK);
+                frm.LoadDataForEdit(maTK); // Load dữ liệu cũ
                 if (frm.ShowDialog() == DialogResult.OK)
                 {
                     LoadData();
@@ -135,6 +145,7 @@ namespace Piggy_Admin
             }
         }
 
+        //Chức năng Xóa
         private void btnXoa_Click(object sender, EventArgs e)
         {
             if (!_userContext.IsAdmin) return;
@@ -160,6 +171,7 @@ namespace Piggy_Admin
                         {
                             db.Set<TaiKhoan>().Remove(tk);
                             db.SaveChanges();
+
                             LoadData();
                             MessageBox.Show("Đã xóa tài khoản thành công.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
@@ -169,6 +181,31 @@ namespace Piggy_Admin
                 {
                     MessageBox.Show($"Lỗi khi xóa: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+            }
+        }
+
+        // ==================================================================================
+        // 4. TÌM KIẾM và SỰ KIỆN TIỆN ÍCH 
+        // ==================================================================================
+        private void TxtTimKiem_TextChanged(object sender, EventArgs e) => LoadData(txtTimKiem.Text);
+
+        // Xử lý "Tìm kiếm..."
+        private void TxtTimKiem_GotFocus(object sender, EventArgs e)
+        {
+            if (txtTimKiem.Text == "  Tìm kiếm...")
+            {
+                txtTimKiem.Text = "";
+                txtTimKiem.ForeColor = Color.Black;
+            }
+        }
+
+        private void TxtTimKiem_LostFocus(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtTimKiem.Text))
+            {
+                txtTimKiem.Text = "  Tìm kiếm...";
+                txtTimKiem.ForeColor = SystemColors.InactiveCaption;
+                LoadData();
             }
         }
     }

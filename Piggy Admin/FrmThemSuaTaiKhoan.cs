@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Drawing; // Cần cho việc vẽ khung
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -21,34 +21,30 @@ namespace Piggy_Admin
             // Chọn mặc định giới tính
             if (cboGioiTinh.Items.Count > 0) cboGioiTinh.SelectedIndex = 0;
 
-            // --- 1. KẺ KHUNG VIỀN MỎNG (UI) ---
-            // Đăng ký sự kiện vẽ để tạo viền
+            // Đăng ký sự kiện vẽ viền
             this.Paint += Vien_Paint;
         }
 
-        // Hàm vẽ viền thủ công cho Form không viền
+        // Hàm vẽ viền thủ công
         private void Vien_Paint(object sender, PaintEventArgs e)
         {
-            // Màu viền lấy từ Palette của bạn (Xám xanh: 124, 144, 160)
             Color borderColor = Color.Black;
-
-            // Vẽ hình chữ nhật bao quanh form
-            // Trừ đi 1px để viền nằm trọn bên trong
             Rectangle rect = new Rectangle(0, 0, this.Width - 1, this.Height - 1);
 
-            using (Pen pen = new Pen(borderColor, 3)) // Độ dày 1px
+            using (Pen pen = new Pen(borderColor, 3))
             {
                 e.Graphics.DrawRectangle(pen, rect);
             }
         }
 
+        // Hàm load dữ liệu khi ở chế độ Sửa
         public void LoadDataForEdit(int maTaiKhoan)
         {
             _maTaiKhoanHienTai = maTaiKhoan;
             lblTitle.Text = "CẬP NHẬT TÀI KHOẢN";
             lblNote.Text = "(Để trống nếu không đổi mật khẩu)";
             this.Text = "Cập nhật tài khoản";
-            textBox1.Enabled = false;
+            txtEmail.Enabled = false; // Không được sửa Email
 
             using (var db = _dbFactory.CreateDbContext())
             {
@@ -58,7 +54,7 @@ namespace Piggy_Admin
 
                 if (tk != null)
                 {
-                    textBox1.Text = tk.Email;
+                    txtEmail.Text = tk.Email;
                     if (tk.NguoiDung != null)
                     {
                         txtHoTen.Text = tk.NguoiDung.HoTen;
@@ -71,15 +67,17 @@ namespace Piggy_Admin
             }
         }
 
+        // Xử lý sự kiện nút Lưu
         private void btnLuu_Click(object sender, EventArgs e)
         {
-            string email = textBox1.Text.Trim();
+            // 1. Lấy dữ liệu
+            string email = txtEmail.Text.Trim();
             string password = txtPassword.Text.Trim();
             string hoTen = txtHoTen.Text.Trim();
             string gioiTinh = cboGioiTinh.SelectedItem?.ToString() ?? "Khác";
             DateTime ngaySinh = dtpNgaySinh.Value;
 
-            // Validate Họ tên
+            // 2. Kiểm tra dữ liệu bắt buộc
             if (string.IsNullOrEmpty(hoTen))
             {
                 MessageBox.Show("Vui lòng nhập Họ tên.", "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -87,20 +85,18 @@ namespace Piggy_Admin
                 return;
             }
 
-            // --- 2. KIỂM TRA ĐỘ TUỔI (LOGIC MỚI) ---
-            // Tính tuổi chính xác
+            // 3. Kiểm tra độ tuổi (>= 16)
             DateTime today = DateTime.Today;
             int age = today.Year - ngaySinh.Year;
-            // Nếu chưa đến sinh nhật trong năm nay thì trừ 1 tuổi
-            if (ngaySinh.Date > today.AddYears(-age)) age--;
+            if (ngaySinh.Date > today.AddYears(-age)) age--; // Trừ 1 nếu chưa tới sinh nhật
 
             if (age < 16)
             {
                 MessageBox.Show($"Người dùng mới {age} tuổi. Quy định phải từ 16 tuổi trở lên.", "Chưa đủ tuổi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return; // Dừng lại, không lưu
+                return;
             }
-            // ---------------------------------------
 
+            // 4. Xử lý lưu vào cơ sở dữ liệu
             using (var db = _dbFactory.CreateDbContext())
             {
                 using (var transaction = db.Database.BeginTransaction())
@@ -116,7 +112,7 @@ namespace Piggy_Admin
 
                         TaiKhoan taiKhoan;
 
-                        // THÊM MỚI
+                        // --- TRƯỜNG HỢP THÊM MỚI ---
                         if (_maTaiKhoanHienTai == null)
                         {
                             if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
@@ -146,12 +142,13 @@ namespace Piggy_Admin
                             db.Set<TaiKhoan>().Add(taiKhoan);
                             db.SaveChanges();
                         }
-                        // CẬP NHẬT
+                        // --- TRƯỜNG HỢP CẬP NHẬT ---
                         else
                         {
                             taiKhoan = db.Set<TaiKhoan>().Find(_maTaiKhoanHienTai);
                             if (taiKhoan == null) return;
 
+                            // Chỉ cập nhật mật khẩu nếu có nhập mới
                             if (!string.IsNullOrEmpty(password))
                             {
                                 if (password.Length < 6)
@@ -164,7 +161,7 @@ namespace Piggy_Admin
                             db.SaveChanges();
                         }
 
-                        // CẬP NHẬT THÔNG TIN CÁ NHÂN
+                        // --- CẬP NHẬT BẢNG NGƯỜI DÙNG ---
                         var nguoiDung = db.Set<NguoiDung>().FirstOrDefault(n => n.MaTaiKhoan == taiKhoan.MaTaiKhoan);
                         if (nguoiDung == null)
                         {
@@ -192,6 +189,5 @@ namespace Piggy_Admin
         }
 
         private void btnHuy_Click(object sender, EventArgs e) => this.Close();
-
     }
 }
