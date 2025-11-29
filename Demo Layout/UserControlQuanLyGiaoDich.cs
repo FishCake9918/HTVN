@@ -1,7 +1,6 @@
-﻿using Data; // Namespace chứa Context và Entity
+﻿using Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection; // Cần thiết cho DI
-using Piggy_Admin;
+using Microsoft.Extensions.DependencyInjection; 
 using ReaLTaiizor.Controls;
 using System;
 using System.Collections.Generic;
@@ -16,31 +15,31 @@ namespace Demo_Layout
     {
         // --- DI SERVICES ---
         private readonly IDbContextFactory<QLTCCNContext> _dbFactory;
-        private readonly IServiceProvider _serviceProvider;
-        private readonly CurrentUserContext _userContext; // <-- 1. Thêm biến Context
+        private readonly IServiceProvider _serviceProvider; 
+        private readonly CurrentUserContext _userContext; 
 
         // Biến toàn cục
-        private DataTable dtGiaoDich;
-        private bool isPlaceholderActive = true;
+        private DataTable dtGiaoDich; 
+        private bool isPlaceholderActive = true; 
 
         // --- CONSTRUCTOR NHẬN DI ---
-        // 2. Inject CurrentUserContext vào đây
         public UserControlQuanLyGiaoDich(
             IDbContextFactory<QLTCCNContext> dbFactory,
             IServiceProvider serviceProvider,
-            CurrentUserContext userContext)
+            CurrentUserContext userContext) 
         {
             InitializeComponent();
 
             _dbFactory = dbFactory;
             _serviceProvider = serviceProvider;
-            _userContext = userContext; // Gán giá trị
-            Dinhdangluoi.DinhDangLuoiNguoiDung(kryptonDataGridView1);
+            _userContext = userContext; 
+            Dinhdangluoi.DinhDangLuoiNguoiDung(kryptonDataGridView1); 
+
             // Đăng ký các sự kiện
             this.Load += UserControlQuanLyGiaoDich_Load;
             cbTaiKhoan.SelectedIndexChanged += cbTaiKhoan_SelectedIndexChanged;
 
-            // ⭐ 1. THÊM SỰ KIỆN DOUBLE CLICK VÀO poisonDataGridView1 ⭐
+            // ⭐ 1. THÊM SỰ KIỆN DOUBLE CLICK: Dùng để Sửa nhanh giao dịch ⭐
             kryptonDataGridView1.DoubleClick += poisonDataGridView1_DoubleClick;
 
             txtTimKiem.Enter += txtTimKiem_Enter;
@@ -50,29 +49,23 @@ namespace Demo_Layout
 
         private void UserControlQuanLyGiaoDich_Load(object sender, EventArgs e)
         {
-            // ⭐ Đã đổi từ DataGridView1 sang poisonDataGridView1 ⭐
+            // Cấu hình DataGridView
             kryptonDataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             kryptonDataGridView1.MultiSelect = false;
             kryptonDataGridView1.ReadOnly = true;
 
-            LogHelper.GhiLog(_dbFactory, "Quản lý giao dịch", _userContext.MaNguoiDung); // ghi log
+            LogHelper.GhiLog(_dbFactory, "Quản lý giao dịch", _userContext.MaNguoiDung);
 
-            LoadComboBoxTaiKhoan();
-            LoadData();
+            LoadComboBoxTaiKhoan(); 
+            LoadData(); 
         }
-
-        // ⭐ 2. HÀM XỬ LÝ DOUBLE CLICK: Kích hoạt nút Sửa ⭐
         private void poisonDataGridView1_DoubleClick(object sender, EventArgs e)
         {
-            // Kiểm tra xem có dòng nào được chọn không (sự kiện DoubleClick đôi khi bị kích hoạt ngay cả khi click vào header)
             if (kryptonDataGridView1.SelectedRows.Count > 0)
             {
-                // Gọi lại hàm btnSua_Click để thực hiện logic chỉnh sửa đã có
-                btnSua_Click(sender, e);
+                btnSua_Click(sender, e); // Gọi lại logic chỉnh sửa
             }
         }
-
-
         // --- 1. LOAD DANH SÁCH TÀI KHOẢN ---
         private void LoadComboBoxTaiKhoan()
         {
@@ -80,20 +73,21 @@ namespace Demo_Layout
             {
                 using (var context = _dbFactory.CreateDbContext())
                 {
-                    // 3. Thay CURRENT_USER_ID bằng _userContext.MaNguoiDung
+                    // Lọc Tài khoản theo User đang đăng nhập và trạng thái "Đang hoạt động"
                     var listTK = context.TaiKhoanThanhToans
-                                         .Where(t => t.MaNguoiDung == _userContext.MaNguoiDung && t.TrangThai == "Đang hoạt động")
-                                         .Select(t => new { t.MaTaiKhoanThanhToan, t.TenTaiKhoan })
-                                         .ToList();
+                                             .Where(t => t.MaNguoiDung == _userContext.MaNguoiDung && t.TrangThai == "Đang hoạt động")
+                                             .Select(t => new { t.MaTaiKhoanThanhToan, t.TenTaiKhoan })
+                                             .ToList();
 
+                    // Thêm tùy chọn "Tất cả tài khoản"
                     listTK.Insert(0, new { MaTaiKhoanThanhToan = 0, TenTaiKhoan = "--- Tất cả tài khoản ---" });
 
-                    cbTaiKhoan.SelectedIndexChanged -= cbTaiKhoan_SelectedIndexChanged;
+                    cbTaiKhoan.SelectedIndexChanged -= cbTaiKhoan_SelectedIndexChanged; 
 
                     cbTaiKhoan.DataSource = listTK;
                     cbTaiKhoan.DisplayMember = "TenTaiKhoan";
                     cbTaiKhoan.ValueMember = "MaTaiKhoanThanhToan";
-                    cbTaiKhoan.SelectedIndex = 0;
+                    cbTaiKhoan.SelectedIndex = 0; // Chọn "Tất cả"
 
                     cbTaiKhoan.SelectedIndexChanged += cbTaiKhoan_SelectedIndexChanged;
                 }
@@ -106,7 +100,7 @@ namespace Demo_Layout
 
         private void cbTaiKhoan_SelectedIndexChanged(object sender, EventArgs e)
         {
-            LoadData();
+            LoadData(); // Tải lại dữ liệu khi đổi Tài khoản
         }
 
         // --- 2. LOAD DỮ LIỆU CHÍNH & TÍNH TỔNG ---
@@ -122,19 +116,18 @@ namespace Demo_Layout
 
                 using (var context = _dbFactory.CreateDbContext())
                 {
-                    // 4. Lọc theo User đang đăng nhập
+                    // Truy vấn chính: Lấy Giao dịch của User hiện tại
                     var query = context.GiaoDichs
-                        .Include(g => g.LoaiGiaoDich)
+                        .Include(g => g.LoaiGiaoDich) // Include các bảng liên quan
                         .Include(g => g.DoiTuongGiaoDich)
                         .Include(g => g.TaiKhoanThanhToan)
                         .Include(g => g.DanhMucChiTieu)
                         .Where(g => g.MaNguoiDung == _userContext.MaNguoiDung);
-
+                    // Lọc theo Tài khoản (nếu không phải "Tất cả")
                     if (maTaiKhoanLoc > 0)
                     {
                         query = query.Where(g => g.MaTaiKhoanThanhToan == maTaiKhoanLoc);
                     }
-
                     var dataList = query.Select(gd => new
                     {
                         gd.MaGiaoDich,
@@ -154,12 +147,11 @@ namespace Demo_Layout
                     .OrderByDescending(x => x.NgayGiaoDich)
                     .ToList();
 
-                    dtGiaoDich = ConvertToDataTable(dataList);
-                    // ⭐ Đã đổi từ DataGridView1 sang poisonDataGridView1 ⭐
-                    kryptonDataGridView1.DataSource = dtGiaoDich;
+                    dtGiaoDich = ConvertToDataTable(dataList); 
+                    kryptonDataGridView1.DataSource = dtGiaoDich; 
 
-                    FormatGrid();
-                    CalculateTotal(query);
+                    FormatGrid(); 
+                    CalculateTotal(query); 
                 }
             }
             catch (Exception ex)
@@ -168,10 +160,12 @@ namespace Demo_Layout
             }
         }
 
-        // --- 3. LOGIC TÍNH TỔNG THU & TỔNG CHI MỚI ---
+        // --- 3. LOGIC TÍNH TỔNG THU & TỔNG CHI ---
         private void CalculateTotal(IQueryable<GiaoDich> filteredTransactions)
         {
+            // Tính tổng Thu (MaLoaiGiaoDich == 1)
             decimal tongThu = filteredTransactions.Where(g => g.MaLoaiGiaoDich == 1).Sum(g => g.SoTien);
+            // Tính tổng Chi (MaLoaiGiaoDich == 2)
             decimal tongChi = filteredTransactions.Where(g => g.MaLoaiGiaoDich == 2).Sum(g => g.SoTien);
 
             lblTongThuChi.Text = string.Format("💰 Tổng thu: {0:N0} đ | 💸 Tổng chi: {1:N0} đ", tongThu, tongChi);
@@ -184,11 +178,12 @@ namespace Demo_Layout
             foreach (var col in hiddenColumns)
             {
                 if (kryptonDataGridView1.Columns.Contains(col))
-                    kryptonDataGridView1.Columns[col].Visible = false;
+                    kryptonDataGridView1.Columns[col].Visible = false; // Ẩn các cột ID
             }
             kryptonDataGridView1.CellBorderStyle = DataGridViewCellBorderStyle.Single;
             kryptonDataGridView1.GridColor = Color.LightGray;
 
+            // Đặt tên tiêu đề
             if (kryptonDataGridView1.Columns.Contains("TenGiaoDich")) kryptonDataGridView1.Columns["TenGiaoDich"].HeaderText = "Giao Dịch";
             if (kryptonDataGridView1.Columns.Contains("TenDoiTuong")) kryptonDataGridView1.Columns["TenDoiTuong"].HeaderText = "Đối Tượng";
             if (kryptonDataGridView1.Columns.Contains("TenTaiKhoan")) kryptonDataGridView1.Columns["TenTaiKhoan"].HeaderText = "Tài Khoản";
@@ -196,6 +191,7 @@ namespace Demo_Layout
             if (kryptonDataGridView1.Columns.Contains("GhiChu")) kryptonDataGridView1.Columns["GhiChu"].HeaderText = "Ghi Chú";
             if (kryptonDataGridView1.Columns.Contains("TenLoaiGiaoDich")) kryptonDataGridView1.Columns["TenLoaiGiaoDich"].HeaderText = "Loại GD";
 
+            // Định dạng cột Số Tiền
             if (kryptonDataGridView1.Columns.Contains("SoTien"))
             {
                 kryptonDataGridView1.Columns["SoTien"].HeaderText = "Số Tiền";
@@ -203,6 +199,7 @@ namespace Demo_Layout
                 kryptonDataGridView1.Columns["SoTien"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
             }
 
+            // Định dạng cột Ngày Giao Dịch
             if (kryptonDataGridView1.Columns.Contains("NgayGiaoDich"))
             {
                 kryptonDataGridView1.Columns["NgayGiaoDich"].HeaderText = "Ngày GD";
@@ -214,18 +211,18 @@ namespace Demo_Layout
         // --- 5. CHỨC NĂNG THÊM / SỬA / XÓA ---
         public void btnThem_Click(object sender, EventArgs e)
         {
+            // Tạo form Thêm Giao Dịch mới qua DI
             FrmThemGiaoDich frm = ActivatorUtilities.CreateInstance<FrmThemGiaoDich>(
-                _serviceProvider,
+                _serviceProvider, // Sử dụng service provider để tự Inject các DI service vào constructor
                 _dbFactory,
                 _serviceProvider
             );
-            frm.OnDataAdded = LoadData;
+            frm.OnDataAdded = LoadData; // Đăng ký sự kiện: sau khi thêm xong thì tải lại dữ liệu
             frm.ShowDialog();
         }
 
         private void btnSua_Click(object sender, EventArgs e)
         {
-            // ⭐ Đã đổi từ DataGridView1 sang poisonDataGridView1 ⭐
             if (kryptonDataGridView1.SelectedRows.Count == 0)
             {
                 MessageBox.Show("Vui lòng chọn một giao dịch để sửa.", "Thông báo");
@@ -234,6 +231,7 @@ namespace Demo_Layout
 
             var row = kryptonDataGridView1.SelectedRows[0];
 
+            // Lấy dữ liệu từ dòng được chọn
             int maGiaoDich = Convert.ToInt32(row.Cells["MaGiaoDich"].Value);
             string tenGiaoDich = row.Cells["TenGiaoDich"].Value?.ToString() ?? "";
             string ghiChu = row.Cells["GhiChu"].Value?.ToString() ?? "";
@@ -244,11 +242,12 @@ namespace Demo_Layout
             int maDoiTuong = row.Cells["MaDoiTuongGiaoDich"].Value != DBNull.Value ? Convert.ToInt32(row.Cells["MaDoiTuongGiaoDich"].Value) : 0;
             int maTaiKhoan = row.Cells["MaTaiKhoanThanhToan"].Value != DBNull.Value ? Convert.ToInt32(row.Cells["MaTaiKhoanThanhToan"].Value) : 0;
 
-            // 6. Truyền các tham số KHÔNG phải là Service (Dữ liệu cần sửa)
-            // ActivatorUtilities sẽ tự lấy DbContext, ServiceProvider và CurrentUserContext từ DI
+            // Tạo form Sửa Giao Dịch
+            // ActivatorUtilities sẽ tự inject các service (DbFactory, ServiceProvider, UserContext)
+            // và truyền các tham số còn lại (dữ liệu cần sửa)
             FrmThemGiaoDich frm = ActivatorUtilities.CreateInstance<FrmThemGiaoDich>(
                 _serviceProvider,
-                maGiaoDich,
+                maGiaoDich, // Tham số constructor 2
                 tenGiaoDich,
                 ghiChu,
                 soTien,
@@ -257,13 +256,12 @@ namespace Demo_Layout
                 maTaiKhoan
             );
 
-            frm.OnDataAdded = LoadData;
+            frm.OnDataAdded = LoadData; // Đăng ký sự kiện tải lại dữ liệu
             frm.ShowDialog();
         }
 
         private void btnXoa_Click(object sender, EventArgs e)
         {
-            // ⭐ Đã đổi từ DataGridView1 sang poisonDataGridView1 ⭐
             if (kryptonDataGridView1.SelectedRows.Count == 0)
             {
                 MessageBox.Show("Vui lòng chọn một giao dịch để xóa.");
@@ -281,7 +279,7 @@ namespace Demo_Layout
                     var gd = context.GiaoDichs.Find(maGiaoDich);
                     if (gd != null)
                     {
-                        // Kiểm tra quyền (optional): Chỉ xóa của chính mình
+                        // Kiểm tra quyền: Chỉ xóa giao dịch của chính mình
                         if (gd.MaNguoiDung != _userContext.MaNguoiDung)
                         {
                             MessageBox.Show("Bạn không có quyền xóa giao dịch này.");
@@ -306,9 +304,10 @@ namespace Demo_Layout
             }
         }
 
-        // ... (Các hàm tìm kiếm và helper giữ nguyên) ...
+        // --- CÁC HÀM XỬ LÝ TÌM KIẾM VÀ HELPER ---
         private void txtTimKiem_Leave(object sender, EventArgs e)
         {
+            // Xử lý Placeholder khi rời khỏi ô tìm kiếm
             if (string.IsNullOrWhiteSpace(txtTimKiem.Text))
             {
                 isPlaceholderActive = true;
@@ -319,6 +318,7 @@ namespace Demo_Layout
 
         private void txtTimKiem_Enter(object sender, EventArgs e)
         {
+            // Xử lý Placeholder khi vào ô tìm kiếm
             if (isPlaceholderActive)
             {
                 isPlaceholderActive = false;
@@ -329,8 +329,9 @@ namespace Demo_Layout
 
         private void txtTimKiem_TextChanged(object sender, EventArgs e)
         {
+            // Lọc dữ liệu trên DataTable khi text thay đổi
             if (dtGiaoDich == null) return;
-            string filter = txtTimKiem.Text.Trim().Replace("'", "''");
+            string filter = txtTimKiem.Text.Trim().Replace("'", "''"); // Tránh SQL Injection cơ bản
 
             if (!isPlaceholderActive && !string.IsNullOrEmpty(filter) && txtTimKiem.Text != " Tìm kiếm...")
             {
@@ -346,15 +347,14 @@ namespace Demo_Layout
                 }
                 catch (Exception)
                 {
-                    dtGiaoDich.DefaultView.RowFilter = "";
+                    dtGiaoDich.DefaultView.RowFilter = ""; 
                 }
             }
             else
             {
-                dtGiaoDich.DefaultView.RowFilter = "";
+                dtGiaoDich.DefaultView.RowFilter = ""; 
             }
         }
-
         private DataTable ConvertToDataTable<T>(List<T> items)
         {
             DataTable dataTable = new DataTable(typeof(T).Name);
