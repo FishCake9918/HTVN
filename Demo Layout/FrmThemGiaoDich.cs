@@ -293,45 +293,6 @@ namespace Demo_Layout
         private void radChi_CheckedChanged(object sender, EventArgs e) { }
         private void radThu_CheckedChanged(object sender, EventArgs e) { }
 
-        private void btnThemDoiTuongGiaoDich_Click(object sender, EventArgs e)
-        {
-            if (_serviceProvider == null) return;
-            try
-            {
-                var frm = _serviceProvider.GetRequiredService<FrmThemSuaDoiTuongGiaoDich>();
-                frm.SetId(0);
-                // Giả định FrmThemSuaDoiTuongGiaoDich có thuộc tính OnDataSaved để reload Combobox
-                // Đã chuyển đổi từ frm.OnDataSaved = LoadComboBoxes;
-                // Nếu LoadComboBoxes là một delegate, ta có thể gán nó trực tiếp hoặc thông qua một property/field.
-                // Nếu FrmThemSuaDoiTuongGiaoDich là form con, ta cần đảm bảo nó có Action/Event phù hợp.
-                // Giả định FrmThemSuaDoiTuongGiaoDich có một public Action OnDataSaved
-                if (frm.GetType().GetProperty("OnDataSaved") != null)
-                {
-                    frm.GetType().GetProperty("OnDataSaved").SetValue(frm, (Action)LoadComboBoxes);
-                }
-
-
-                frm.ShowDialog();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi: " + ex.Message);
-            }
-        }
-
-        private void btnThemDanhMucChiTieu_Click(object sender, EventArgs e)
-        {
-            if (_serviceProvider == null) return;
-            try
-            {
-                var frm = _serviceProvider.GetRequiredService<FrmThemSuaDanhMuc>();
-                frm.ShowDialog();
-                LoadComboBoxes();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi: " + ex.Message);
-            }
-        }
+     
     }
 }

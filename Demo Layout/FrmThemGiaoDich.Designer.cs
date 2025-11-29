@@ -47,8 +47,6 @@
             radChi = new RadioButton();
             cbDanhMuc = new ComboBox();
             label7 = new Label();
-            btnThemDoiTuongGiaoDich = new Button();
-            btnThemDanhMucChiTieu = new Button();
             lblForm = new Label();
             SuspendLayout();
             // 
@@ -237,30 +235,6 @@
             label7.TabIndex = 17;
             label7.Text = "Danh mục chi tiêu";
             // 
-            // btnThemDoiTuongGiaoDich
-            // 
-            btnThemDoiTuongGiaoDich.FlatAppearance.BorderSize = 0;
-            btnThemDoiTuongGiaoDich.FlatStyle = FlatStyle.Flat;
-            btnThemDoiTuongGiaoDich.Image = (Image)resources.GetObject("btnThemDoiTuongGiaoDich.Image");
-            btnThemDoiTuongGiaoDich.Location = new Point(657, 46);
-            btnThemDoiTuongGiaoDich.Name = "btnThemDoiTuongGiaoDich";
-            btnThemDoiTuongGiaoDich.Size = new Size(29, 29);
-            btnThemDoiTuongGiaoDich.TabIndex = 18;
-            btnThemDoiTuongGiaoDich.UseVisualStyleBackColor = true;
-            btnThemDoiTuongGiaoDich.Click += btnThemDoiTuongGiaoDich_Click;
-            // 
-            // btnThemDanhMucChiTieu
-            // 
-            btnThemDanhMucChiTieu.FlatAppearance.BorderSize = 0;
-            btnThemDanhMucChiTieu.FlatStyle = FlatStyle.Flat;
-            btnThemDanhMucChiTieu.Image = (Image)resources.GetObject("btnThemDanhMucChiTieu.Image");
-            btnThemDanhMucChiTieu.Location = new Point(657, 170);
-            btnThemDanhMucChiTieu.Name = "btnThemDanhMucChiTieu";
-            btnThemDanhMucChiTieu.Size = new Size(29, 29);
-            btnThemDanhMucChiTieu.TabIndex = 19;
-            btnThemDanhMucChiTieu.UseVisualStyleBackColor = true;
-            btnThemDanhMucChiTieu.Click += btnThemDanhMucChiTieu_Click;
-            // 
             // lblForm
             // 
             lblForm.AutoSize = true;
@@ -278,8 +252,6 @@
             BackColor = Color.FromArgb(66, 94, 106);
             ClientSize = new Size(698, 270);
             Controls.Add(lblForm);
-            Controls.Add(btnThemDanhMucChiTieu);
-            Controls.Add(btnThemDoiTuongGiaoDich);
             Controls.Add(label7);
             Controls.Add(cbDanhMuc);
             Controls.Add(radChi);
@@ -327,8 +299,6 @@
         private RadioButton radChi;
         private ComboBox cbDanhMuc;
         private Label label7;
-        private Button btnThemDoiTuongGiaoDich;
-        private Button btnThemDanhMucChiTieu;
         private Label lblForm;
     }
 }
