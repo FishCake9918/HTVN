@@ -1,45 +1,41 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Data; // Namespace chứa QLTCCNContext và Model NhatKyHoatDong
-using Microsoft.EntityFrameworkCore; // Cần thiết cho IDbContextFactory
+using Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Demo_Layout
 {
+    // Lớp tiện ích hỗ trợ ghi lại lịch sử hoạt động (Log) của người dùng
     public static class LogHelper
     {
-        /// <summary>
-        /// Ghi nhật ký hoạt động vào Database (Chạy ngầm không ảnh hưởng UI)
-        /// </summary>
-        /// <param name="dbFactory">Nhà máy tạo kết nối DB</param>
-        /// <param name="hanhDong">Mã hành động (VD: THEM_GIAO_DICH)</param>
-        /// <param name="userId">ID người thực hiện (Có thể null nếu lỗi hệ thống)</param>
-        /// <param name="moTa">Mô tả chi tiết (Tùy chọn)</param>
         public static void GhiLog(IDbContextFactory<QLTCCNContext> dbFactory, string hanhDong, int? userId)
         {
-            // Chạy trên luồng phụ (Background Thread) để không làm đơ giao diện User
+            // 1. KỸ THUẬT CHẠY NGẦM (BACKGROUND THREAD)
+            // Đẩy việc ghi dữ liệu sang luồng phụ để giao diện chính không bị đơ (lag) khi bấm nút.
             Task.Run(() =>
             {
                 try
                 {
+                    // 2. TẠO KẾT NỐI RIÊNG BIỆT
+                    // Tạo một kết nối CSDL mới hoàn toàn để đảm bảo an toàn, không xung đột với các màn hình đang mở.
                     using (var db = dbFactory.CreateDbContext())
                     {
                         var log = new NhatKyHoatDong
                         {
                             MaNguoiDung = userId,
                             HanhDong = hanhDong,
-                            ThoiGian = DateTime.Now // Tự lấy giờ hiện tại
+                            ThoiGian = DateTime.Now
                         };
 
                         db.NhatKyHoatDongs.Add(log);
-                        db.SaveChanges();
+                        db.SaveChanges(); // Lưu vào Database
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    // Nếu ghi log thất bại (mất mạng, lỗi DB...) thì bỏ qua.
-                    // Không được để lỗi ghi log làm crash ứng dụng của người dùng.
-                    // Có thể ghi tạm ra file text debug nếu cần: 
-                    // System.IO.File.AppendAllText("error_log.txt", ex.Message);
+                    // 3. CƠ CHẾ AN TOÀN (FAIL-SAFE)
+                    // Nếu việc ghi log bị lỗi (do mất mạng, lỗi DB...), hệ thống sẽ tự động bỏ qua.
+                    // Mục đích: Không để lỗi phụ này làm crash ứng dụng của người dùng.
                 }
             });
         }

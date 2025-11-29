@@ -66,7 +66,7 @@ namespace Demo_Layout
         private void FrmMain_Load(object sender, EventArgs e)
         {
             this.MaximumSize = Screen.PrimaryScreen.WorkingArea.Size;
-            LogHelper.GhiLog(_dbFactory, "Đăng nhập", _userContext.MaNguoiDung); // Giả định LogHelper tồn tại
+            LogHelper.GhiLog(_dbFactory, "Đăng nhập", _userContext.MaNguoiDung); // Ghi log
 
         }
 

@@ -8,21 +8,21 @@ using Microsoft.EntityFrameworkCore;
 using LiveCharts;
 using LiveCharts.Wpf; // Cần thiết cho ColumnSeries, PieSeries
 using System.Windows.Media; // Dùng cho LiveCharts (Brushes)
-using QuestPDF.Fluent;
-using QuestPDF.Helpers;
-using QuestPDF.Infrastructure;
 using System.Drawing; // Cần cho Bitmap
 using System.Drawing.Imaging; // Cần cho ImageFormat
 using System.IO; // Cần cho MemoryStream
-using MiniExcelLibs; // <--- NHỚ THÊM DÒNG NÀY
+using MiniExcelLibs; // <--- Thư viện xử lý Excel siêu nhanh
 
 namespace Piggy_Admin
 {
     public partial class UserControlBaoCaoHeThong : UserControl
     {
+        // ==================================================================================
+        // 1. KHAI BÁO BIẾN & CẤU HÌNH BAN ĐẦU
+        // ==================================================================================
         private readonly IDbContextFactory<QLTCCNContext> _dbFactory;
 
-        // Các hành động được coi là "Tính năng" để vẽ biểu đồ tròn
+        // Danh sách các tính năng quan trọng cần theo dõi trên biểu đồ tròn
         private readonly string[] _danhSachTinhNang =
         {
             "Quản lý danh mục chi tiêu", "Quản lý giao dịch", "Quản lý báo cáo",
@@ -34,30 +34,33 @@ namespace Piggy_Admin
             InitializeComponent();
             _dbFactory = dbFactory;
 
-            // Cấu hình mặc định cho biểu đồ
+            // Thiết lập giao diện biểu đồ ngay khi khởi tạo
             ConfigCharts();
         }
 
         private void ConfigCharts()
         {
-            // Legend bên phải cho đẹp
+            // Đặt chú thích (Legend) bên phải cho gọn
             chartTinhNang.LegendLocation = LegendLocation.Right;
 
-            // Tắt hiệu ứng zoom để tránh rối khi ít dữ liệu
+            // Tắt tooltip mặc định nếu cần (hoặc tùy chỉnh lại)
             chartTanSuatDangNhap.DataTooltip = new DefaultTooltip();
         }
 
+        // ==================================================================================
+        // 2. SỰ KIỆN LOAD & ĐIỀU KHIỂN THỜI GIAN
+        // ==================================================================================
         private void UserControlBaoCaoHeThong_Load(object sender, EventArgs e)
         {
-            // Mặc định lấy dữ liệu 7 ngày qua
+            // 1. Đổ dữ liệu vào ComboBox chọn thời gian (Hôm nay, Tuần này...)
             KhoiTaoMocThoiGian();
 
+            // 2. Tải toàn bộ dữ liệu báo cáo lần đầu
             LoadAllReports();
         }
 
         private void KhoiTaoMocThoiGian()
         {
-            // Thêm các mục vào ComboBox
             cboMocThoiGian.Items.Clear();
             cboMocThoiGian.Items.Add("Hôm nay");
             cboMocThoiGian.Items.Add("7 ngày qua");
@@ -65,7 +68,7 @@ namespace Piggy_Admin
             cboMocThoiGian.Items.Add("30 ngày qua");
             cboMocThoiGian.Items.Add("Tháng này");
 
-            // Mặc định chọn "Tháng này" (Index = 4)
+            // Mặc định chọn "Hôm nay" (Index = 0)
             cboMocThoiGian.SelectedIndex = 0;
         }
 
@@ -79,7 +82,7 @@ namespace Piggy_Admin
             LoadAllReports();
         }
 
-        // --- HÀM LOGIC TÍNH NGÀY (CORE) ---
+        // --- HÀM CORE: TÍNH TOÁN NGÀY BẮT ĐẦU & KẾT THÚC ---
         private void LayKhoangThoiGian(out DateTime tuNgay, out DateTime denNgay)
         {
             DateTime now = DateTime.Now;
@@ -93,17 +96,17 @@ namespace Piggy_Admin
                     break;
 
                 case "7 ngày qua":
-                    tuNgay = now.AddDays(-6); // Tính cả hôm nay là 7 ngày
+                    tuNgay = now.AddDays(-6); // Lùi lại 6 ngày + hôm nay = 7 ngày
                     denNgay = now;
                     break;
 
                 case "Tuần này":
-                    // Tính ngày Thứ 2 đầu tuần
+                    // Tìm ngày Thứ 2 của tuần hiện tại
                     int delta = DayOfWeek.Monday - now.DayOfWeek;
-                    if (delta > 0) delta -= 7; // Nếu hôm nay là CN, delta sẽ sai nên cần trừ 7
+                    if (delta > 0) delta -= 7; // Fix lỗi nếu hôm nay là Chủ Nhật
 
-                    tuNgay = now.AddDays(delta); // Thứ 2 tuần này
-                    denNgay = tuNgay.AddDays(6); // Chủ nhật tuần này
+                    tuNgay = now.AddDays(delta); // Thứ 2
+                    denNgay = tuNgay.AddDays(6); // Chủ Nhật
                     break;
 
                 case "30 ngày qua":
@@ -112,9 +115,9 @@ namespace Piggy_Admin
                     break;
 
                 case "Tháng này":
-                    // Ngày 1 của tháng hiện tại
+                    // Ngày 1 đầu tháng
                     tuNgay = new DateTime(now.Year, now.Month, 1);
-                    // Ngày cuối của tháng hiện tại
+                    // Ngày cuối tháng = Ngày 1 tháng sau trừ đi 1 ngày
                     denNgay = tuNgay.AddMonths(1).AddDays(-1);
                     break;
 
@@ -125,31 +128,38 @@ namespace Piggy_Admin
             }
         }
 
+        // ==================================================================================
+        // 3. HÀM ĐIỀU PHỐI DỮ LIỆU (LoadAllReports)
+        // ==================================================================================
         private void LoadAllReports()
         {
             DateTime fromDate, toDate;
             LayKhoangThoiGian(out fromDate, out toDate);
 
-            // Xử lý lấy cuối ngày cho toDate (23:59:59)
+            // [QUAN TRỌNG] Chốt thời gian:
+            // fromDate: 00:00:00
+            // toDate: 23:59:59 (Để không bị sót dữ liệu của ngày cuối cùng)
             toDate = toDate.Date.AddDays(1).AddTicks(-1);
-            fromDate = fromDate.Date; // Reset về 00:00:00
+            fromDate = fromDate.Date;
 
             try
             {
                 using (var db = _dbFactory.CreateDbContext())
                 {
-                    // Lấy dữ liệu thô 1 lần để xử lý
+                    // 1. Tải dữ liệu thô (Raw Data) từ DB về RAM một lần duy nhất
+                    // Giúp giảm số lần kết nối DB khi vẽ nhiều biểu đồ
                     var logs = db.NhatKyHoatDongs
                         .Where(x => x.ThoiGian >= fromDate && x.ThoiGian <= toDate)
-                        .Select(x => new { x.HanhDong, x.ThoiGian, x.MaNguoiDung })
+                        .Select(x => new { x.HanhDong, x.ThoiGian, x.MaNguoiDung }) // Chỉ lấy cột cần thiết
                         .ToList();
 
-                    // GỌI 4 HÀM XỬ LÝ 4 YÊU CẦU
-                    VeBieuDoTanSuatDangNhap(logs);
-                    VeBieuDoTinhNang(logs);
-                    HienThiSoNguoiDungTruyCap(db);
-                    HienThiThoiGianSuDungTB(logs);
+                    // 2. Phân phối dữ liệu cho các hàm xử lý hiển thị
+                    VeBieuDoTanSuatDangNhap(logs);       // Biểu đồ cột
+                    VeBieuDoTinhNang(logs);              // Biểu đồ tròn
+                    HienThiSoNguoiDungTruyCap(db);       // Chỉ số DAU (Truy vấn riêng vì cần Distinct)
+                    HienThiThoiGianSuDungTB(logs);       // Chỉ số KPI thời gian
 
+                    // 3. Cập nhật lại giao diện biểu đồ (Force Update)
                     chartTanSuatDangNhap.Update(true, true);
                     chartTinhNang.Update(true, true);
                 }
@@ -160,13 +170,16 @@ namespace Piggy_Admin
             }
         }
 
-        // ========================================================================
-        // CÁC HÀM VẼ BIỂU ĐỒ (GIỮ NGUYÊN)
-        // ========================================================================
+        // ==================================================================================
+        // 4. CÁC HÀM VẼ BIỂU ĐỒ & TÍNH KPI
+        // ==================================================================================
+
+        // --- Biểu đồ Cột: Tần suất đăng nhập theo ngày ---
         private void VeBieuDoTanSuatDangNhap(dynamic logs)
         {
             var dataLogs = (IEnumerable<dynamic>)logs;
 
+            // Group by Ngày -> Đếm số lượt
             var loginData = dataLogs
                 .Where(x => x.HanhDong == "Đăng nhập")
                 .GroupBy(x => ((DateTime)x.ThoiGian).Date)
@@ -178,6 +191,7 @@ namespace Piggy_Admin
             chartTanSuatDangNhap.AxisX.Clear();
             chartTanSuatDangNhap.AxisY.Clear();
 
+            // Tạo cột
             var columnSeries = new ColumnSeries
             {
                 Title = "Lượt đăng nhập",
@@ -187,6 +201,7 @@ namespace Piggy_Admin
 
             chartTanSuatDangNhap.Series = new SeriesCollection { columnSeries };
 
+            // Trục X hiển thị ngày tháng
             chartTanSuatDangNhap.AxisX.Add(new Axis
             {
                 Title = "Ngày",
@@ -200,10 +215,12 @@ namespace Piggy_Admin
             });
         }
 
+        // --- Biểu đồ Tròn: Tỷ lệ sử dụng tính năng ---
         private void VeBieuDoTinhNang(dynamic logs)
         {
             var dataLogs = (IEnumerable<dynamic>)logs;
 
+            // Lọc các hành động nằm trong danh sách tính năng quan tâm -> Group by Tên -> Đếm
             var featureData = dataLogs
                 .Where(x => _danhSachTinhNang.Contains((string)x.HanhDong))
                 .GroupBy(x => (string)x.HanhDong)
@@ -220,6 +237,7 @@ namespace Piggy_Admin
                     Title = item.TenTinhNang,
                     Values = new ChartValues<int> { item.SoLan },
                     DataLabels = true,
+                    // Format hiển thị: Giá trị (Phần trăm)
                     LabelPoint = chartPoint => string.Format("{1:P}", chartPoint.Y, chartPoint.Participation)
                 });
             }
@@ -227,9 +245,11 @@ namespace Piggy_Admin
             chartTinhNang.Series = pieSeries;
         }
 
+        // --- Chỉ số: Số người dùng duy nhất truy cập trong ngày (DAU) ---
         private void HienThiSoNguoiDungTruyCap(QLTCCNContext db)
         {
             DateTime today = DateTime.Now.Date;
+            // Đếm số User ID khác nhau đã đăng nhập hôm nay
             int uniqueUsers = db.NhatKyHoatDongs
                 .Where(x => x.HanhDong == "Đăng nhập" && x.ThoiGian.Date == today)
                 .Select(x => x.MaNguoiDung)
@@ -239,9 +259,12 @@ namespace Piggy_Admin
             lblDAU.Text = uniqueUsers.ToString();
         }
 
+        // --- Chỉ số: Thời gian sử dụng trung bình (Session Duration) ---
         private void HienThiThoiGianSuDungTB(dynamic logs)
         {
             var dataLogs = (IEnumerable<dynamic>)logs;
+
+            // Lấy danh sách Log In/Out và sắp xếp theo User và Thời gian
             var sessions = dataLogs
                 .Where(x => x.HanhDong == "Đăng nhập" || x.HanhDong == "Đăng xuất")
                 .OrderBy(x => x.MaNguoiDung).ThenBy(x => x.ThoiGian)
@@ -250,6 +273,7 @@ namespace Piggy_Admin
             double tongPhut = 0;
             int soPhien = 0;
 
+            // Thuật toán: Duyệt tuần tự, nếu gặp cặp (Login -> Logout) của cùng 1 user thì tính thời gian
             for (int i = 0; i < sessions.Count - 1; i++)
             {
                 var hienTai = sessions[i];
@@ -260,6 +284,8 @@ namespace Piggy_Admin
                     keTiep.HanhDong == "Đăng xuất")
                 {
                     TimeSpan duration = ((DateTime)keTiep.ThoiGian) - ((DateTime)hienTai.ThoiGian);
+
+                    // Lọc rác: Chỉ tính các phiên > 10s và < 24h (tránh lỗi treo máy)
                     if (duration.TotalSeconds > 10 && duration.TotalHours < 24)
                     {
                         tongPhut += duration.TotalMinutes;
@@ -272,42 +298,33 @@ namespace Piggy_Admin
             lblThoiGianTrungBinh.Text = $"{Math.Round(trungBinh, 1)} phút";
         }
 
-        // ========================================================================
-        // TÍNH NĂNG 1: IN NGUYÊN DASHBOARD (CHỤP ẢNH DÁN VÀO PDF)
-        // ========================================================================
-
-        // ========================================================================
-        // TÍNH NĂNG 2: IN NHẬT KÝ HOẠT ĐỘNG
-        // ========================================================================
+        // ==================================================================================
+        // 5. CHỨC NĂNG XUẤT EXCEL (Sử dụng MiniExcel)
+        // ==================================================================================
         private void btnInLog_Click(object sender, EventArgs e)
         {
-
-
-            // 1. Lấy khoảng thời gian (Logic cũ giữ nguyên)
+            // 1. Lấy lại khoảng thời gian cần xuất
             DateTime fromDate, toDate;
             LayKhoangThoiGian(out fromDate, out toDate);
-            toDate = toDate.Date.AddDays(1).AddTicks(-1); // Lấy đến 23:59:59
+            toDate = toDate.Date.AddDays(1).AddTicks(-1);
             fromDate = fromDate.Date;
 
-            // 2. Mở hộp thoại cho người dùng chọn nơi lưu file Excel
+            // 2. Cấu hình hộp thoại lưu file
             SaveFileDialog saveDialog = new SaveFileDialog();
             saveDialog.Filter = "Excel Files|*.xlsx";
-            saveDialog.FileName = $"NhatKy_{DateTime.Now:yyyyMMdd_HHmmss}.xlsx"; // Tên file mặc định
+            saveDialog.FileName = $"NhatKy_{DateTime.Now:yyyyMMdd_HHmmss}.xlsx";
             saveDialog.Title = "Chọn nơi lưu báo cáo Excel";
 
-            if (saveDialog.ShowDialog() != DialogResult.OK)
-            {
-                return; // Người dùng bấm Hủy thì thoát
-            }
+            if (saveDialog.ShowDialog() != DialogResult.OK) return;
 
             try
             {
                 using (var db = _dbFactory.CreateDbContext())
                 {
-                    // 3. Lấy dữ liệu từ DB
+                    // 3. Truy vấn dữ liệu cần xuất
                     var logs = db.NhatKyHoatDongs
                         .Where(x => x.ThoiGian >= fromDate && x.ThoiGian <= toDate)
-                        .Include(x => x.NguoiDung)
+                        .Include(x => x.NguoiDung) // Join bảng User để lấy tên
                         .OrderByDescending(x => x.ThoiGian)
                         .ToList();
 
@@ -317,21 +334,21 @@ namespace Piggy_Admin
                         return;
                     }
 
-                    // 4. CHUẨN BỊ DỮ LIỆU XUẤT EXCEL (Quan trọng)
-                    // MiniExcel sẽ lấy tên thuộc tính ở đây làm Tiêu đề cột trong Excel
+                    // 4. CHUẨN BỊ DỮ LIỆU (Projection)
+                    // MiniExcel sẽ dùng tên thuộc tính của Anonymous Object này làm Header cột Excel
                     var dataToExport = logs.Select((x, index) => new
                     {
                         STT = index + 1,
                         ThoiGian = x.ThoiGian.ToString("dd/MM/yyyy HH:mm:ss"),
                         NguoiDung = x.NguoiDung != null ? x.NguoiDung.HoTen : "Hệ thống/Đã xóa",
                         HanhDong = x.HanhDong
-
+                        // Bạn có thể thêm cột MoTa nếu cần
                     });
 
-                    // 5. GHI FILE EXCEL (Chỉ 1 dòng code duy nhất!)
+                    // 5. GHI FILE (Chỉ 1 dòng lệnh)
                     MiniExcel.SaveAs(saveDialog.FileName, dataToExport);
 
-                    // 6. Mở file lên cho user xem
+                    // 6. Mở file ngay sau khi xuất
                     var p = new System.Diagnostics.Process();
                     p.StartInfo = new System.Diagnostics.ProcessStartInfo(saveDialog.FileName) { UseShellExecute = true };
                     p.Start();
@@ -342,120 +359,6 @@ namespace Piggy_Admin
             catch (Exception ex)
             {
                 MessageBox.Show("Lỗi xuất Excel: " + ex.Message);
-            }
-        }
-
-        // Lưu ý: Đổi tham số từ 'dynamic' sang 'List<NhatKyHoatDong>'
-        private void XuatPdfNhatKy(List<NhatKyHoatDong> logs)
-        {
-            try
-            {
-                var document = Document.Create(container =>
-                {
-                    container.Page(page =>
-                    {
-                        page.Size(PageSizes.A4);
-                        page.Margin(2, Unit.Centimetre);
-                        page.PageColor(QuestPDF.Helpers.Colors.White);
-
-                        // Cài đặt Font chữ mặc định
-                        page.DefaultTextStyle(x => x.FontSize(10));
-
-                        // --- HEADER ---
-                        page.Header().Row(row =>
-                        {
-                            row.RelativeItem().Column(col =>
-                            {
-                                col.Item().Text("BÁO CÁO NHẬT KÝ HOẠT ĐỘNG")
-                                   .FontSize(16).Bold().FontColor(QuestPDF.Helpers.Colors.Blue.Medium);
-                                col.Item().Text($"Thời gian xuất: {DateTime.Now:dd/MM/yyyy HH:mm}");
-                            });
-                        });
-
-                        // --- CONTENT ---
-                        page.Content().PaddingVertical(10).Table(table =>
-                        {
-                            // Định nghĩa cột
-                            table.ColumnsDefinition(columns =>
-                            {
-                                columns.ConstantColumn(30);  // STT
-                                columns.ConstantColumn(100); // Thời gian
-                                columns.ConstantColumn(100); // Người dùng
-                                columns.ConstantColumn(120); // Hành động
-                                columns.RelativeColumn();    // Chi tiết
-                            });
-
-                            // Tiêu đề bảng
-                            table.Header(header =>
-                            {
-                                header.Cell().Element(CellStyle).Text("#");
-                                header.Cell().Element(CellStyle).Text("Thời gian");
-                                header.Cell().Element(CellStyle).Text("Người dùng");
-                                header.Cell().Element(CellStyle).Text("Hành động");
-                                header.Cell().Element(CellStyle).Text("Chi tiết");
-
-                                static IContainer CellStyle(IContainer container)
-                                {
-                                    return container.DefaultTextStyle(x => x.SemiBold())
-                                                    .PaddingVertical(5)
-                                                    .BorderBottom(1)
-                                                    .BorderColor(QuestPDF.Helpers.Colors.Black);
-                                }
-                            });
-
-                            // Dữ liệu dòng
-                            int stt = 1;
-                            foreach (var item in logs)
-                            {
-                                // 1. Số thứ tự
-                                table.Cell().Element(BlockStyle).Text(stt++.ToString());
-
-                                // 2. Thời gian (Convert sang String)
-                                table.Cell().Element(BlockStyle).Text(item.ThoiGian.ToString("dd/MM/yyyy HH:mm"));
-
-                                // 3. Người dùng (Kiểm tra null an toàn)
-                                string tenUser = item.NguoiDung != null ? item.NguoiDung.HoTen : "Hệ thống/Đã xóa";
-                                table.Cell().Element(BlockStyle).Text(tenUser);
-
-                                // 4. Hành động (Đảm bảo không null)
-                                table.Cell().Element(BlockStyle).Text(item.HanhDong ?? "");
-
-                                // 5. Mô tả (Đảm bảo không null)
-                                table.Cell().Element(BlockStyle).Text(item.MoTa ?? "");
-
-                                // Style kẻ dòng mờ
-                                static IContainer BlockStyle(IContainer container)
-                                {
-                                    return container.BorderBottom(1)
-                                                    // [ĐÃ SỬA LỖI MÀU SẮC TẠI ĐÂY]
-                                                    .BorderColor(QuestPDF.Helpers.Colors.Grey.Lighten2)
-                                                    .PaddingVertical(5);
-                                }
-                            }
-                        });
-
-                        // --- FOOTER ---
-                        page.Footer().AlignCenter().Text(x =>
-                        {
-                            x.Span("Trang ");
-                            x.CurrentPageNumber();
-                            x.Span(" / ");
-                            x.TotalPages();
-                        });
-                    });
-                });
-
-                // Xuất file và mở
-                string fileName = $"LogBook_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
-                document.GeneratePdf(fileName);
-
-                var p = new System.Diagnostics.Process();
-                p.StartInfo = new System.Diagnostics.ProcessStartInfo(fileName) { UseShellExecute = true };
-                p.Start();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi: " + ex.Message);
             }
         }
     }

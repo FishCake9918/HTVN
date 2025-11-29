@@ -1,53 +1,62 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Forms;
-using System.Collections.Generic; // Cần cho List
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using Data; // Cần thiết cho IDbContextFactory
-using System.Drawing; // Cần thiết cho Label
+using Data;
+using System.Drawing;
 
 namespace Demo_Layout
 {
     public partial class FrmThemSuaDanhMuc : Form
     {
-        private readonly IDbContextFactory<QLTCCNContext> _dbFactory;
-        private readonly CurrentUserContext _userContext;
+        // ==================================================================================
+        // 1. KHAI BÁO BIẾN & TRẠNG THÁI FORM
+        // ==================================================================================
+        private readonly IDbContextFactory<QLTCCNContext> _dbFactory; // Nhà máy tạo kết nối
+        private readonly CurrentUserContext _userContext;             // Thông tin người dùng hiện tại
+
+        // Biến quan trọng: 
+        // - Nếu null: Form đang ở chế độ THÊM MỚI
+        // - Nếu có giá trị (int): Form đang ở chế độ SỬA (lưu ID của danh mục đang sửa)
         private int? _maDanhMucCanSua = null;
 
-
-        // 2. Sửa Constructor nhận thêm userContext
+        // Constructor nhận các dependency (Dependency Injection)
         public FrmThemSuaDanhMuc(IDbContextFactory<QLTCCNContext> dbFactory, CurrentUserContext userContext)
         {
             InitializeComponent();
             _dbFactory = dbFactory;
             _userContext = userContext;
 
-            // THÊM: Đặt tiêu đề mặc định cho lblForm khi MỚI
+            // Mặc định giao diện là "THÊM MỚI"
             if (lblForm != null)
             {
                 lblForm.Text = "THÊM DANH MỤC";
             }
             this.Text = "Thêm Danh mục mới";
 
-            // Đăng ký sự kiện Load cho Form
+            // Đăng ký sự kiện (Event wiring)
             this.Load += frmThemDanhMuc_Load;
-            // Đăng ký sự kiện cho các nút
             this.btnLuu.Click += btnLuu_Click;
             this.btnHuy.Click += btnHuy_Click;
         }
 
+        // ==================================================================================
+        // 2. CHUYỂN ĐỔI CHẾ ĐỘ: TỪ THÊM -> SỬA
+        // ==================================================================================
         public void CheDoSua(int maDanhMuc)
         {
-            _maDanhMucCanSua = maDanhMuc;
+            _maDanhMucCanSua = maDanhMuc; // Gán ID để hệ thống biết đang sửa ai
 
-            // CẬP NHẬT: Đặt tiêu đề cho lblForm khi SỬA
+            // Cập nhật lại giao diện (Tiêu đề, Tên nút)
             if (lblForm != null)
             {
                 lblForm.Text = "SỬA DANH MỤC";
             }
-            this.Text = "Cập nhật Danh mục"; // Đổi tên Form
-            btnLuu.Text = "Cập nhật";       // Đổi tên nút
+            this.Text = "Cập nhật Danh mục";
+            btnLuu.Text = "Cập nhật";
 
+            // Tải dữ liệu cũ lên Form để người dùng nhìn thấy
             try
             {
                 using (var db = _dbFactory.CreateDbContext())
@@ -57,10 +66,11 @@ namespace Demo_Layout
                     {
                         txtTenDanhMuc.Text = dm.TenDanhMuc;
 
-                        // Load ComboBox trước để gán giá trị
-                        LoadComboBoxDanhMucCha(dm.MaDanhMuc); // Truyền ID hiện tại để tránh chọn chính nó làm cha
+                        // Load ComboBox danh mục cha
+                        // Quan trọng: Truyền ID hiện tại vào để loại trừ (tránh chọn chính mình làm cha)
+                        LoadComboBoxDanhMucCha(dm.MaDanhMuc);
 
-                        // Gán giá trị cha hiện tại
+                        // Chọn đúng cha hiện tại của nó (nếu không có cha thì chọn 0 - Gốc)
                         cboDanhMucCha.SelectedValue = dm.DanhMucCha ?? 0;
                     }
                 }
@@ -71,24 +81,28 @@ namespace Demo_Layout
             }
         }
 
+        // ==================================================================================
+        // 3. LOAD FORM & DỮ LIỆU COMBOBOX
+        // ==================================================================================
         private void frmThemDanhMuc_Load(object sender, EventArgs e)
         {
-            if (_maDanhMucCanSua == null) // Chỉ load mặc định nếu đang là Thêm mới
+            // Nếu đang là Thêm mới thì load ComboBox bình thường (không cần loại trừ ai)
+            if (_maDanhMucCanSua == null)
             {
                 LoadComboBoxDanhMucCha(null);
             }
         }
 
         /// <summary>
-        /// Tải danh sách các danh mục hiện có vào ComboBox
+        /// Tải danh sách các danh mục có thể làm Cha vào ComboBox
         /// </summary>
+        /// <param name="excludeId">ID cần loại bỏ (dùng khi Sửa để tránh vòng lặp cha-con)</param>
         private void LoadComboBoxDanhMucCha(int? excludeId)
         {
             try
             {
                 using (var db = _dbFactory.CreateDbContext())
                 {
-                    // Đảm bảo MaNguoiDung không null trước khi sử dụng
                     if (_userContext.MaNguoiDung == null)
                     {
                         MessageBox.Show("Lỗi: Không xác định được người dùng hiện tại.");
@@ -96,25 +110,27 @@ namespace Demo_Layout
                     }
                     var currentUserId = _userContext.MaNguoiDung.Value;
 
-                    // Lấy tất cả danh mục GỐC (DanhMucCha == null) của người dùng hiện tại
+                    // Logic lọc:
+                    // 1. Phải là của User hiện tại
+                    // 2. Phải là danh mục Gốc (Cha == null) -> Chỉ cho phép 2 cấp (Cha -> Con)
+                    // 3. Không được là chính nó (excludeId)
                     var danhSachCha = db.DanhMucChiTieus
-                                             .Where(dm => dm.MaNguoiDung == currentUserId && dm.DanhMucCha == null && dm.MaDanhMuc != excludeId)
-                                             .Select(dm => new { dm.MaDanhMuc, dm.TenDanhMuc })
-                                             .ToList();
+                                         .Where(dm => dm.MaNguoiDung == currentUserId && dm.DanhMucCha == null && dm.MaDanhMuc != excludeId)
+                                         .Select(dm => new { dm.MaDanhMuc, dm.TenDanhMuc })
+                                         .ToList();
 
-                    // Tạo một danh sách mới để thêm mục "Gốc"
+                    // Thêm tùy chọn "Là danh mục gốc" vào đầu danh sách
                     var dataSource = new List<object>
                     {
-                        // Mục này đại diện cho giá trị NULL (hoặc 0)
                         new { MaDanhMuc = 0, TenDanhMuc = "(Là danh mục gốc)" }
                     };
 
                     dataSource.AddRange(danhSachCha);
 
-                    // Gán vào ComboBox
+                    // Đổ dữ liệu vào ComboBox
                     cboDanhMucCha.DataSource = dataSource;
-                    cboDanhMucCha.DisplayMember = "TenDanhMuc"; // Hiển thị Tên
-                    cboDanhMucCha.ValueMember = "MaDanhMuc";   // Lấy giá trị Mã
+                    cboDanhMucCha.DisplayMember = "TenDanhMuc"; // Hiển thị tên
+                    cboDanhMucCha.ValueMember = "MaDanhMuc";    // Giá trị ngầm là ID
                 }
             }
             catch (Exception ex)
@@ -123,12 +139,13 @@ namespace Demo_Layout
             }
         }
 
-        /// <summary>
-        /// Xử lý khi nhấn nút Lưu
-        /// </summary>
+        // ==================================================================================
+        // 4. XỬ LÝ LƯU (THÊM HOẶC CẬP NHẬT)
+        // ==================================================================================
+
         private void btnLuu_Click(object sender, EventArgs e)
         {
-            // 1. Validate cơ bản
+            // BƯỚC 1: Validate dữ liệu đầu vào (Không được để trống tên)
             string tenNhapVao = txtTenDanhMuc.Text.Trim();
             if (string.IsNullOrWhiteSpace(tenNhapVao))
             {
@@ -143,44 +160,43 @@ namespace Demo_Layout
                 {
                     int currentUserId = _userContext.MaNguoiDung.Value;
 
-                    // [QUAN TRỌNG] 2. KIỂM TRA TRÙNG TÊN (Case-Insensitive)
-                    // Logic: Tìm xem có danh mục nào của User này có tên giống tên nhập vào không
+                    // BƯỚC 2: KIỂM TRA TRÙNG TÊN (QUAN TRỌNG)
+                    // Logic: Tìm xem User này đã có danh mục nào tên giống vậy chưa?
                     var danhMucTrung = db.DanhMucChiTieus
                         .Where(dm => dm.MaNguoiDung == currentUserId)
-                        .ToList() // Tải về bộ nhớ để so sánh chuỗi chính xác nhất
+                        .ToList() 
                         .FirstOrDefault(dm =>
-                            string.Equals(dm.TenDanhMuc, tenNhapVao, StringComparison.OrdinalIgnoreCase) // So sánh bỏ qua hoa thường
+                            string.Equals(dm.TenDanhMuc, tenNhapVao, StringComparison.OrdinalIgnoreCase) // Bỏ qua hoa/thường
                         );
 
-                    // Nếu tìm thấy danh mục trùng tên
+                    // Nếu tìm thấy tên trùng
                     if (danhMucTrung != null)
                     {
-                        // Kiểm tra kỹ hơn:
-                        // - Nếu đang THÊM MỚI: Cứ trùng là chặn.
-                        // - Nếu đang SỬA: Trùng với chính nó thì OK, trùng với đứa khác thì chặn.
+                        // TH1: Đang Thêm mới -> Chặn luôn.
+                        // TH2: Đang Sửa -> Nếu trùng với tên của người khác thì chặn. (Trùng với chính nó thì OK)
                         if (_maDanhMucCanSua == null || (_maDanhMucCanSua != null && danhMucTrung.MaDanhMuc != _maDanhMucCanSua))
                         {
                             MessageBox.Show($"Tên danh mục '{tenNhapVao}' đã tồn tại.\nVui lòng chọn tên khác.",
                                 "Trùng dữ liệu", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             txtTenDanhMuc.SelectAll();
                             txtTenDanhMuc.Focus();
-                            return; // Dừng lại, không lưu
+                            return; // Dừng, không lưu
                         }
                     }
 
-                    // 3. Tiến hành Lưu nếu không trùng
+                    // BƯỚC 3: TIẾN HÀNH LƯU
                     DanhMucChiTieu danhMuc;
 
                     if (_maDanhMucCanSua == null)
                     {
-                        // Thêm mới
+                        // --- Logic THÊM MỚI ---
                         danhMuc = new DanhMucChiTieu();
                         danhMuc.MaNguoiDung = currentUserId;
-                        db.DanhMucChiTieus.Add(danhMuc);
+                        db.DanhMucChiTieus.Add(danhMuc); // Đánh dấu là Add
                     }
                     else
                     {
-                        // Sửa
+                        // --- Logic CẬP NHẬT ---
                         danhMuc = db.DanhMucChiTieus.Find(_maDanhMucCanSua);
                         if (danhMuc == null)
                         {
@@ -189,25 +205,28 @@ namespace Demo_Layout
                         }
                     }
 
-                    danhMuc.TenDanhMuc = tenNhapVao; // Lưu tên đã trim
+                    // Gán các giá trị mới
+                    danhMuc.TenDanhMuc = tenNhapVao;
 
                     // Xử lý Danh mục cha
                     int maCha = 0;
                     if (cboDanhMucCha.SelectedValue != null)
                         int.TryParse(cboDanhMucCha.SelectedValue.ToString(), out maCha);
 
-                    // Ngăn chặn việc chọn chính nó làm cha của nó (Logic vòng lặp)
+                    // Kiểm tra an toàn: Không cho phép chọn chính nó làm cha
                     if (_maDanhMucCanSua.HasValue && maCha == _maDanhMucCanSua.Value)
                     {
                         MessageBox.Show("Một danh mục không thể là cha của chính nó.", "Lỗi Logic", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
 
+                    // Nếu maCha = 0 tức là chọn "Gốc" -> Lưu null vào DB
                     danhMuc.DanhMucCha = (maCha == 0) ? null : maCha;
 
-                    db.SaveChanges();
+                    db.SaveChanges(); // Thực thi xuống SQL
                 }
 
+                // Đóng form và báo OK để form cha cập nhật lại cây
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
@@ -217,7 +236,7 @@ namespace Demo_Layout
             }
         }
 
-
+        // Nút Hủy: Đóng form không làm gì cả
         private void btnHuy_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;

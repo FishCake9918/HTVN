@@ -1,6 +1,7 @@
 ﻿using Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection; 
+using Microsoft.Extensions.DependencyInjection;
+using Piggy_Admin;
 using ReaLTaiizor.Controls;
 using System;
 using System.Collections.Generic;
@@ -32,8 +33,8 @@ namespace Demo_Layout
 
             _dbFactory = dbFactory;
             _serviceProvider = serviceProvider;
-            _userContext = userContext; 
-            Dinhdangluoi.DinhDangLuoiNguoiDung(kryptonDataGridView1); 
+            _userContext = userContext;
+            Dinhdangluoi.DinhDangLuoiNguoiDung(kryptonDataGridView1);
 
             // Đăng ký các sự kiện
             this.Load += UserControlQuanLyGiaoDich_Load;
